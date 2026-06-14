@@ -1,0 +1,162 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+import { Lock, Mail } from "lucide-react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { FieldValues } from "react-hook-form";
+// import { toast } from "react-toastify";
+import AppForm from "./AppForm";
+import TextInput from "./inputs/TextInput";
+import { useSearchParams } from "next/navigation";
+import Container from "../shared/Container";
+import SocialLogin from "../utils/SocilaLogin";
+import SubmitButton from "../buttons/SubmitButton";
+import Image from "next/image";
+import { getDictionary } from "@/app/[lang]/dictionaries";
+// import { useLoginMutation } from "@/app/redux/features/auth/auth.api";
+
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+  locale: string;
+}
+
+export default function Login({ t, locale }: Props) {
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect");
+  // const dispatch = useAppDispatch();
+  const router = useRouter();
+  // const [login, { isLoading }] = useLoginMutation();
+
+  const redirectPath = redirectUrl || `/${locale}`;
+
+  const onSubmit = async (values: FieldValues, reset: () => void) => {
+    console.log(values);
+    // try {
+    //   const res = await login(values).unwrap();
+
+    //   if (res?.data?.token) {
+    //     toast.success(res.message || "Login successful");
+    //     dispatch(
+    //       setUser({
+    //         user: {
+    //           id: res.data.user.id,
+    //           email: res.data.user.email,
+    //           role: res.data.user.role,
+    //           name: res.data.user.name,
+    //           avatar: res.data.user.avatar,
+    //         },
+    //         token: res.data.token,
+    //         tokenType: res.data.token_type,
+    //         expiresAt: res.data.expires_at,
+    //       }),
+    //     );
+
+    //     document.cookie = `metricas_token=${res.data.token}; path=/; max-age=86400`;
+    //     reset();
+    //     router.push(redirectPath);
+    //     router.refresh();
+    //   }
+    // } catch (error: any) {
+    //   toast.error(error?.data?.message || "Login failed");
+    // }
+  };
+
+  return (
+    <Container>
+      <div className="flex items-center justify-center min-h-screen px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-5xl bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
+          {/* ================= LEFT IMAGE ================= */}
+          <div className="hidden md:flex items-center justify-center">
+            <Image
+              src={""}
+              alt="signin"
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* ================= RIGHT FORM ================= */}
+          <div className="p-6 md:p-10 flex flex-col justify-center">
+            {/* HEADER */}
+            <div className="flex justify-center items-center flex-col gap-1 mb-8">
+              <h2 className="font-semibold text-2xl md:text-3xl lg:text-4xl mb-2">
+                {t.auth.login.title}
+              </h2>
+              <p className="text-xs md:text-sm text-muted-foreground">
+                {t.auth.login.description}
+              </p>
+            </div>
+
+            {/* SOCIAL LOGIN */}
+            <div className="space-y-4">
+              <SocialLogin />
+
+              {/* DIVIDER */}
+              <div className="flex items-center gap-3">
+                <div className="h-px bg-gray-200 flex-1" />
+                <span className="text-xs text-gray-400 uppercase">or</span>
+                <div className="h-px bg-gray-200 flex-1" />
+              </div>
+            </div>
+
+            {/* FORM */}
+            <AppForm
+              onSubmit={onSubmit}
+              defaultValues={{
+                name: "",
+                email: "",
+                password: "",
+              }}
+            >
+              <div className="space-y-5">
+                <TextInput
+                  icon={<Mail size={18} />}
+                  label={t.auth.login.email}
+                  name="email"
+                  className="h-12"
+                  placeholder={t.auth.login.email}
+                />
+
+                <TextInput
+                  icon={<Lock size={18} />}
+                  label={t.auth.login.password}
+                  name="password"
+                  type="password"
+                  className="h-12"
+                  placeholder={t.auth.login.password}
+                />
+
+                <div className="flex items-end gap-2 py-2">
+                  <Link
+                    href={`/${locale}/forgot`}
+                    className="text-xs text-gray-700 hover:text-primary transition-colors"
+                  >
+                    {t.auth.login.forgot_password}{" "}
+                  </Link>
+                </div>
+                {/* SUBMIT */}
+                <div className="pt-2">
+                  <SubmitButton
+                    isLoading={false}
+                    title={t.auth.login.login}
+                    className="h-12 rounded-full"
+                  />
+                </div>
+                <div>
+                  <p className="text-xs text-gray-700 text-center">
+                    {t.auth.login.no_account}{" "}
+                    <Link
+                      href={`/${locale}/registration`}
+                      className="text-primary font-semibold"
+                    >
+                      {t.auth.login.register}
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            </AppForm>
+          </div>
+        </div>
+      </div>
+    </Container>
+  );
+}

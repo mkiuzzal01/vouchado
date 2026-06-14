@@ -1,0 +1,61 @@
+{
+  "auth": {
+    "login": {
+      "title": "Login",
+      "description": "Welcome Back! Access Your Account Securely.",
+      "email": "Email",
+      "password": "Password",
+      "forgot_password": "Forgot Password?",
+      "login": "Login",
+      "no_account": "Don't have an account?",
+      "register": "Register"
+    },
+    "register": {
+      "title": "Create your account",
+      "description": "Create your account for secure, seamless ordering",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "terms": "I agree to Tech Takes Terms of Service and Privacy Policy.",
+      "register": "Register",
+      "already_account": "Already have an account?",
+      "login": "Log in"
+    },
+    "forgot": {
+      "title": "Forgot Password",
+      "description": "Please enter the email address associated with your account, and we’ll email you a link to reset your password.",
+      "email": "Email",
+      "reset_password": "Reset Password",
+      "back": "Back"
+    },
+    "verify": {
+      "back": "Back",
+      "title": "Please check your email!",
+      "description": "We've emailed a 6-digit confirmation code to",
+      "description_end": "please enter the code below to verify your email.",
+      "otp_label": "Enter Verification Code",
+      "verify": "Verify",
+      "not_received": "Didn't receive the code?",
+      "resend": "Resend Code"
+    },
+    "reset": {
+      "back": "Back",
+      "title": "Enter your new password.",
+      "description": "Secure Your Account with a New Password.",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "enter_password": "Enter password",
+      "enter_confirm_password": "Enter confirm password",
+      "update": "Update Password"
+    }
+  },
+  "home": {
+    "title": "Home",
+    "description": "Home",
+    "or": "Or",
+    "continue_with_google": "Continue with Google",
+    "back_to_login": "Back to Login",
+    "home_error": "Failed to load home. Please try again.",
+    "google_home_error": "Failed to load home with Google. Please try again."
+  }
+}
