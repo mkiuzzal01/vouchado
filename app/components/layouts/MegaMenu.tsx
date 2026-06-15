@@ -19,16 +19,24 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-import { navigationLinks, services } from "./navigationLinks";
 import Menu from "../icons/Menu";
 import Location from "../icons/Location";
 
 interface MegaMenuProps {
   showNavbar: boolean;
   setShowNavbar: (value: boolean) => void;
+  navLinks: any;
+  services: any;
+  menuTitle: string;
 }
 
-export default function MegaMenu({ showNavbar, setShowNavbar }: MegaMenuProps) {
+export default function MegaMenu({
+  showNavbar,
+  setShowNavbar,
+  navLinks,
+  services,
+  menuTitle,
+}: MegaMenuProps) {
   const pathname = usePathname();
 
   const isActive = (path: string) => pathname === path;
@@ -42,12 +50,12 @@ export default function MegaMenu({ showNavbar, setShowNavbar }: MegaMenuProps) {
           <NavigationMenuItem>
             <NavigationMenuTrigger className="flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium hover:bg-gray-200 transition">
               <Menu size={15} />
-              Services
+              {menuTitle}
             </NavigationMenuTrigger>
 
             <NavigationMenuContent className="bg-white shadow-xl rounded-2xl  p-5 w-[min(95vw,650px)]">
               <div className="grid gap-4 sm:grid-cols-2">
-                {services.map((service) => (
+                {services.map((service: any) => (
                   <div key={service.href} className="rounded-xl bg-gray-50 p-3">
                     <Link
                       href={service.href}
@@ -58,7 +66,7 @@ export default function MegaMenu({ showNavbar, setShowNavbar }: MegaMenuProps) {
 
                     {service.subMenu?.length && (
                       <div className="mt-2 ml-2 space-y-1 border-l pl-3">
-                        {service.subMenu.map((sub) => (
+                        {service.subMenu.map((sub: any) => (
                           <Link
                             key={sub.href}
                             href={sub.href}
@@ -76,7 +84,7 @@ export default function MegaMenu({ showNavbar, setShowNavbar }: MegaMenuProps) {
           </NavigationMenuItem>
 
           {/* LINKS */}
-          {navigationLinks.map((item) => (
+          {navLinks.map((item: any) => (
             <NavigationMenuItem key={item.href}>
               <NavigationMenuLink>
                 <Link
@@ -124,13 +132,11 @@ export default function MegaMenu({ showNavbar, setShowNavbar }: MegaMenuProps) {
           {/* SERVICES ACCORDION */}
           <Accordion>
             <AccordionItem value="services">
-              <AccordionTrigger className="text-sm font-medium">
-                Services
-              </AccordionTrigger>
+              <AccordionTrigger className="text-sm font-medium"></AccordionTrigger>
 
               <AccordionContent>
                 <div className="space-y-3 ml-2">
-                  {services.map((service) => (
+                  {services.map((service: any) => (
                     <div key={service.href}>
                       <Link
                         href={service.href}
@@ -142,7 +148,7 @@ export default function MegaMenu({ showNavbar, setShowNavbar }: MegaMenuProps) {
 
                       {service.subMenu?.length && (
                         <div className="ml-3 border-l pl-3 space-y-1 mt-1">
-                          {service.subMenu.map((sub) => (
+                          {service.subMenu.map((sub: any) => (
                             <Link
                               key={sub.href}
                               href={sub.href}
@@ -163,7 +169,7 @@ export default function MegaMenu({ showNavbar, setShowNavbar }: MegaMenuProps) {
 
           {/* NAV LINKS */}
           <div className="mt-4 flex flex-col gap-2">
-            {navigationLinks.map((item) => (
+            {navLinks.map((item: any) => (
               <Link
                 key={item.href}
                 href={item.href}

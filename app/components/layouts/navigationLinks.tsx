@@ -1,3 +1,5 @@
+import { getDictionary } from "@/app/[lang]/dictionaries";
+
 export interface INavbar {
   title: string;
   href: string;
@@ -9,60 +11,66 @@ export interface SubMenu {
   href: string;
 }
 
-export const services: INavbar[] = [
-  {
-    title: "Service 1",
-    href: "/services/service-1",
-    subMenu: [
-      {
-        title: "Sub Service 1",
-        href: "/services/service-1",
-      },
-      {
-        title: "Sub Service 2",
-        href: "/services/service-1/sub-service-2",
-      },
-    ],
-  },
-  {
-    title: "Service 2",
-    href: "/services/service-2",
-    subMenu: [
-      {
-        title: "Sub Service 1",
-        href: "/services/service-2/sub-service-1",
-      },
-      {
-        title: "Sub Service 2",
-        href: "/services/service-2/sub-service-2",
-      },
-    ],
-  },
-];
+export const getServices = async (lang: string) => {
+  const dict = await getDictionary(lang);
+  return [
+    {
+      title: dict.nav.service1,
+      href: `/${lang}/services/service-1`,
+      subMenu: [
+        {
+          title: dict.nav.subService1,
+          href: `/${lang}/services/service-1`,
+        },
+        {
+          title: dict.nav.subService2,
+          href: `/${lang}/services/service-1/sub-service-2`,
+        },
+      ],
+    },
+    {
+      title: dict.nav.service2,
+      href: `/${lang}/services/service-2`,
+      subMenu: [
+        {
+          title: dict.nav.subService1,
+          href: `/${lang}/services/service-2/sub-service-1`,
+        },
+        {
+          title: dict.nav.subService2,
+          href: `/${lang}/services/service-2/sub-service-2`,
+        },
+      ],
+    },
+  ];
+};
 
-export const navigationLinks: INavbar[] = [
-  {
-    title: "Home",
-    href: "/",
-  },
-  {
-    title: "Offers",
-    href: "/offers",
-  },
-  {
-    title: "Nearby",
-    href: "/nearby",
-  },
-  {
-    title: "How it works",
-    href: "/how-it-works",
-  },
-  {
-    title: "For Business",
-    href: "/for-business",
-  },
-  {
-    title: "Contact Us",
-    href: "/contact",
-  },
-];
+export const getNavLinks = async (lang: string) => {
+  const dict = await getDictionary(lang);
+  return [
+    {
+      title: dict.nav.home,
+      href: `/${lang}`,
+    },
+    {
+      title: dict.nav.offers,
+      href: `/${lang}/offers`,
+    },
+    {
+      title: dict.nav.nearby,
+      href: `/${lang}/nearby`,
+    },
+    {
+      title: dict.nav.how_it_works,
+      href: `/${lang}/how-it-works`,
+    },
+    {
+      title: dict.nav.for_business,
+      href: `/${lang}/for-business`,
+    },
+    {
+      title: dict.nav.contact_us,
+      href: `/${lang}/contact`,
+    },
+  ];
+};

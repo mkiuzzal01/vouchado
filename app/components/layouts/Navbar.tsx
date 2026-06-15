@@ -10,7 +10,13 @@ import branding_logo from "@/public/logo/logo.png";
 import cart_icon from "@/public/cart/add to cart.png";
 import { useState } from "react";
 
-export default function Navbar() {
+interface Props {
+  navLinks: any;
+  services: any;
+  menuTitle: string;
+}
+
+export default function Navbar({ navLinks, services, menuTitle }: Props) {
   const [showNavbar, setShowNavbar] = useState(false);
 
   return (
@@ -30,7 +36,13 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <MegaMenu showNavbar={showNavbar} setShowNavbar={setShowNavbar} />
+          <MegaMenu
+            menuTitle={menuTitle}
+            navLinks={navLinks}
+            services={services}
+            showNavbar={showNavbar}
+            setShowNavbar={setShowNavbar}
+          />
 
           {/* Right Section */}
           <div className="flex items-center gap-2 sm:gap-3">

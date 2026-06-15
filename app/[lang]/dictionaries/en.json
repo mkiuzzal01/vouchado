@@ -49,13 +49,21 @@
       "update": "Update Password"
     }
   },
-  "home": {
-    "title": "Home",
-    "description": "Home",
-    "or": "Or",
-    "continue_with_google": "Continue with Google",
-    "back_to_login": "Back to Login",
-    "home_error": "Failed to load home. Please try again.",
-    "google_home_error": "Failed to load home with Google. Please try again."
+  "top": {
+    "desktop": "🔥 Enjoy up to 70% off on premium wellness experiences. Book your next self-care moment today.",
+    "mobile": "🔥 Up to 70% off — don't miss out!"
+  },
+  "nav": {
+    "home": "Home",
+    "offers": "Offers",
+    "nearby": "Nearby",
+    "how_it_works": "How it works",
+    "for_business": "For Business",
+    "contact_us": "Contact Us",
+    "services": "Services",
+    "service1": "Service 1",
+    "service2": "Service 2",
+    "subService1": "Sub Service 1",
+    "subService2": "Sub Service 2"
   }
 }

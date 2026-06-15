@@ -1,4 +1,3 @@
-import Link from "next/link";
 import heroBg from "@/public/hero/hero.png";
 import { Search } from "lucide-react";
 

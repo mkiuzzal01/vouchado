@@ -48,5 +48,22 @@
       "enter_confirm_password": "Passwort bestätigen",
       "update": "Passwort aktualisieren"
     }
+  },
+  "top": {
+    "desktop": "🔥 Genieße bis zu 70 % Rabatt auf erstklassige Wellness-Erlebnisse. Buche deinen nächsten Self-Care-Moment noch heute.",
+    "mobile": "🔥 Bis zu 70 % Rabatt – nicht verpassen!"
+  },
+  "nav": {
+    "home": "Startseite",
+    "offers": "Angebote",
+    "nearby": "In der Nähe",
+    "how_it_works": "So funktioniert's",
+    "for_business": "Für Unternehmen",
+    "contact_us": "Kontakt",
+    "services": "Dienst",
+    "service1": "Dienst 1",
+    "service2": "Dienst 2",
+    "subService1": "Unterdienst 1",
+    "subService2": "Unterdienst 2"
   }
 }
