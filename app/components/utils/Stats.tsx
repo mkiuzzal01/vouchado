@@ -37,7 +37,7 @@ export default function Stats() {
   ];
 
   return (
-    <section className="w-full bg-white py-10 md:py-14 border-t border-gray-100">
+    <section className="w-full bg-white py-5 border-t border-gray-100">
       <Container>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
           {stats.map((stat, index) => (
@@ -48,7 +48,7 @@ export default function Stats() {
               <div className="text-gray-500">{stat.icon}</div>
 
               <div className="flex flex-col">
-                <div className="text-2xl md:text-3xl font-bold text-gray-900">
+                <div className="text-lg md:text-xl font-bold text-gray-900">
                   {stat.value}
                 </div>
                 <div className="text-gray-700 text-sm md:text-base font-medium">

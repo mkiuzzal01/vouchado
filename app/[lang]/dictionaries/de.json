@@ -63,8 +63,21 @@
     "services": "Dienst",
     "service1": "Dienst 1",
     "service2": "Dienst 2",
+    "service3": "Dienst 3",
     "subService1": "Unterdienst 1",
     "subService2": "Unterdienst 2",
+    "subService3": "Unterdienst 3",
     "mobile_menu": "Menü"
+  },
+  "footer": {
+    "links": {
+      "wishlist": "Wunschliste",
+      "category": "Kategorie",
+      "offers": "Angebote",
+      "faq": "FAQ",
+      "contact_us": "Kontakt",
+      "privacy_policy": "Datenschutzrichtlinie",
+      "terms_condition": "Allgemeine Geschäftsbedingungen"
+    }
   }
 }

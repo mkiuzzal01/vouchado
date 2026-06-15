@@ -3,6 +3,7 @@ import Footer from "../../components/layouts/Footer";
 import Navbar from "../../components/layouts/Navbar";
 import { getDictionary } from "../dictionaries";
 import {
+  footerLinks,
   getNavLinks,
   getServices,
 } from "@/app/components/layouts/navigationLinks";
@@ -17,6 +18,7 @@ export default async function layout({ children, params }: RootLayout) {
   const nav = await getDictionary(lang);
   const navLinks = await getNavLinks(lang);
   const services = await getServices(lang);
+  const footerLinksData = await footerLinks(lang);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -31,7 +33,7 @@ export default async function layout({ children, params }: RootLayout) {
         menuTitle={nav.nav.services}
       />
       <main className="flex-1">{children}</main>
-      <Footer />
+      <Footer footerLinks={footerLinksData} />
     </div>
   );
 }

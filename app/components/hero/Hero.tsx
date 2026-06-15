@@ -4,19 +4,18 @@ import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Container from "../shared/Container";
 import Location from "../icons/Location";
+import Stats from "../utils/Stats";
 
 const FEATURES = ["100% Verified Deals", "Secure Checkout", "24/7 Support"];
 
 export default function Hero() {
   return (
     <section
-      className="relative bg-cover bg-center bg-no-repeat py-16 sm:py-20 md:py-28"
+      className="relative bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${heroBg.src})` }}
     >
-      <div className="absolute inset-0 bg-black/40" />
-
       <Container>
-        <div className="relative z-10 flex min-h-[60vh] md:min-h-[70vh] items-center">
+        <div className="relative z-10 flex min-h-[60vh] md:min-h-[70vh] items-center pt-4">
           <div className="w-full max-w-3xl space-y-5 sm:space-y-6 text-center md:text-left">
             {/* Badge */}
             <span className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-[10px] sm:text-xs text-white backdrop-blur">
@@ -97,7 +96,7 @@ export default function Hero() {
             </div>
 
             {/* Features */}
-            <div className="flex flex-wrap justify-center md:justify-start gap-2 pt-5 sm:pt-6">
+            <div className="flex flex-wrap justify-center md:justify-start gap-2 py-4">
               {FEATURES.map((item) => (
                 <span
                   key={item}
@@ -110,6 +109,7 @@ export default function Hero() {
           </div>
         </div>
       </Container>
+      <Stats />
     </section>
   );
 }

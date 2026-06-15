@@ -24,7 +24,7 @@ export const getServices = async (lang: string) => {
         },
         {
           title: dict.nav.subService2,
-          href: `/${lang}/services/service-1/sub-service-2`,
+          href: `/${lang}/service-1/sub-service-2`,
         },
       ],
     },
@@ -34,11 +34,25 @@ export const getServices = async (lang: string) => {
       subMenu: [
         {
           title: dict.nav.subService1,
-          href: `/${lang}/services/service-2/sub-service-1`,
+          href: `/${lang}/service-2/sub-service-1`,
         },
         {
           title: dict.nav.subService2,
-          href: `/${lang}/services/service-2/sub-service-2`,
+          href: `/${lang}/service-2/sub-service-2`,
+        },
+      ],
+    },
+    {
+      title: dict.nav.service3,
+      href: `/${lang}/service-3`,
+      subMenu: [
+        {
+          title: dict.nav.subService1,
+          href: `/${lang}/service-3/sub-service-1`,
+        },
+        {
+          title: dict.nav.subService2,
+          href: `/${lang}/service-3/sub-service-2`,
         },
       ],
     },
@@ -69,4 +83,29 @@ export const getNavLinks = async (lang: string) => {
       href: `/${lang}/contact`,
     },
   ];
+};
+
+export const footerLinks = async (lang: string) => {
+  const dict = await getDictionary(lang);
+
+  return {
+    shopping: [
+      { title: dict.footer.links.wishlist, href: `/${lang}/wishlist` },
+      { title: dict.footer.links.category, href: `/${lang}/category` },
+      { title: dict.footer.links.offers, href: `/${lang}/offers` },
+      { title: dict.footer.links.faq, href: `/${lang}/faq` },
+      { title: dict.footer.links.contact_us, href: `/${lang}/contact` },
+    ],
+
+    customer: [
+      {
+        title: dict.footer.links.privacy_policy,
+        href: `/${lang}/privacy`,
+      },
+      {
+        title: dict.footer.links.terms_condition,
+        href: `/${lang}/terms`,
+      },
+    ],
+  };
 };

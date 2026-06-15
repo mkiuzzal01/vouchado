@@ -76,7 +76,7 @@ export default function MegaMenu({
             </NavigationMenuTrigger>
 
             <NavigationMenuContent className="bg-white shadow-xl rounded-2xl  p-5 w-[min(95vw,650px)]">
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {services.map((service: any) => (
                   <div key={service.href} className="rounded-xl bg-gray-50 p-3">
                     <Link

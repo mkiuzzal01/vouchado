@@ -63,8 +63,25 @@
     "services": "Services",
     "service1": "Service 1",
     "service2": "Service 2",
+    "service3": "Service 3",
     "subService1": "Sub Service 1",
     "subService2": "Sub Service 2",
+    "subService3": "Sub Service 3",
     "mobile_menu": "Menu"
+  },
+  "footer": {
+    "links": {
+      "wishlist": "Wishlist",
+      "category": "Category",
+      "offers": "Offers",
+      "faq": "FAQ",
+      "contact_us": "Contact Us",
+      "privacy_policy": "Privacy Policy",
+      "terms_condition": "Terms & Condition"
+    },
+    "features": {
+      "title": "Tech Takes",
+      "desc": "Customer"
+    }
   }
 }

@@ -11,16 +11,15 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export default function Footer() {
+interface FooterLinks {
+  footerLinks: any;
+}
+
+export default function Footer({ footerLinks }: FooterLinks) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const socialIcons = [FaFacebook, FaTwitter, FaInstagram, FaLinkedin];
-
-  const links = {
-    shopping: ["Wishlist", "Category", "Offers", "FAQ", "Contact Us"],
-    customer: ["Privacy Policy", "Terms & Condition"],
-  };
 
   const features = [
     {
@@ -99,10 +98,13 @@ export default function Footer() {
                   Shopping
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-400">
-                  {links.shopping.map((item) => (
-                    <li key={item}>
-                      <Link className="hover:text-white transition" href="#">
-                        {item}
+                  {footerLinks?.shopping?.map((item: any) => (
+                    <li key={item.href}>
+                      <Link
+                        className="hover:text-white transition"
+                        href={item.href}
+                      >
+                        {item.title}
                       </Link>
                     </li>
                   ))}
@@ -114,10 +116,13 @@ export default function Footer() {
                   Customer Services
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-400">
-                  {links.customer.map((item) => (
-                    <li key={item}>
-                      <Link className="hover:text-white transition" href="#">
-                        {item}
+                  {footerLinks?.customer?.map((item: any) => (
+                    <li key={item.href}>
+                      <Link
+                        className="hover:text-white transition"
+                        href={item.href}
+                      >
+                        {item.title}
                       </Link>
                     </li>
                   ))}

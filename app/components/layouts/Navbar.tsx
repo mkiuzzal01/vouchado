@@ -62,7 +62,7 @@ export default function Navbar({
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Cart */}
             <Link
-              href="/cart"
+              href={`/${lang}/cart`}
               className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition"
             >
               <Image
