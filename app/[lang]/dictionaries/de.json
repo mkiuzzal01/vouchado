@@ -64,6 +64,7 @@
     "service1": "Dienst 1",
     "service2": "Dienst 2",
     "subService1": "Unterdienst 1",
-    "subService2": "Unterdienst 2"
+    "subService2": "Unterdienst 2",
+    "mobile_menu": "Menü"
   }
 }

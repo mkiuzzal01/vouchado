@@ -17,10 +17,15 @@ export default async function layout({ children, params }: RootLayout) {
   const nav = await getDictionary(lang);
   const navLinks = await getNavLinks(lang);
   const services = await getServices(lang);
+
   return (
     <div className="min-h-screen flex flex-col">
       <TopBar content={nav.top} />
       <Navbar
+        lang={lang}
+        login={nav.auth.login.login}
+        register={nav.auth.register.register}
+        menu={nav.nav.mobile_menu}
         navLinks={navLinks}
         services={services}
         menuTitle={nav.nav.services}

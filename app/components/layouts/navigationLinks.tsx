@@ -49,10 +49,6 @@ export const getNavLinks = async (lang: string) => {
   const dict = await getDictionary(lang);
   return [
     {
-      title: dict.nav.home,
-      href: `/${lang}`,
-    },
-    {
       title: dict.nav.offers,
       href: `/${lang}/offers`,
     },

@@ -21,21 +21,27 @@ import {
 
 import Menu from "../icons/Menu";
 import Location from "../icons/Location";
+import { Button } from "@/components/ui/button";
+import { Home, X } from "lucide-react";
 
 interface MegaMenuProps {
+  lang: string;
   showNavbar: boolean;
   setShowNavbar: (value: boolean) => void;
   navLinks: any;
   services: any;
   menuTitle: string;
+  menu: string;
 }
 
 export default function MegaMenu({
+  lang,
   showNavbar,
   setShowNavbar,
   navLinks,
   services,
   menuTitle,
+  menu,
 }: MegaMenuProps) {
   const pathname = usePathname();
 
@@ -46,6 +52,22 @@ export default function MegaMenu({
       {/* ================= DESKTOP ================= */}
       <NavigationMenu className="hidden md:block w-full">
         <NavigationMenuList className="flex items-center gap-2">
+          {/* HOME */}
+          <NavigationMenuItem>
+            <NavigationMenuLink>
+              <Link
+                href={`/${lang}`}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                  isActive(`/${lang}`)
+                    ? "bg-gray-200 text-black"
+                    : "hover:bg-gray-100"
+                }`}
+              >
+                <Home size={15} />
+              </Link>
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
           {/* SERVICES */}
           <NavigationMenuItem>
             <NavigationMenuTrigger className="flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium hover:bg-gray-200 transition">
@@ -119,14 +141,14 @@ export default function MegaMenu({
         <div className="md:hidden fixed inset-0 z-50 bg-white p-4 overflow-y-auto">
           {/* HEADER */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">Menu</h2>
+            <h2 className="text-lg font-semibold">{menu}</h2>
 
-            <button
+            <Button
               onClick={() => setShowNavbar(false)}
               className="text-sm px-3 py-1 bg-gray-100 rounded-md"
             >
-              Close
-            </button>
+              <X size={18} />
+            </Button>
           </div>
 
           {/* SERVICES ACCORDION */}

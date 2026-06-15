@@ -11,12 +11,24 @@ import cart_icon from "@/public/cart/add to cart.png";
 import { useState } from "react";
 
 interface Props {
+  lang: string;
+  login: string;
+  register: string;
+  menu: string;
   navLinks: any;
   services: any;
   menuTitle: string;
 }
 
-export default function Navbar({ navLinks, services, menuTitle }: Props) {
+export default function Navbar({
+  lang,
+  login,
+  register,
+  menu,
+  navLinks,
+  services,
+  menuTitle,
+}: Props) {
   const [showNavbar, setShowNavbar] = useState(false);
 
   return (
@@ -24,7 +36,7 @@ export default function Navbar({ navLinks, services, menuTitle }: Props) {
       <Container>
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link href={`/${lang}`} className="flex items-center">
             <Image
               src={branding_logo}
               alt="Brand Logo"
@@ -37,6 +49,8 @@ export default function Navbar({ navLinks, services, menuTitle }: Props) {
 
           {/* Desktop Menu */}
           <MegaMenu
+            lang={lang}
+            menu={menu}
             menuTitle={menuTitle}
             navLinks={navLinks}
             services={services}
@@ -63,17 +77,17 @@ export default function Navbar({ navLinks, services, menuTitle }: Props) {
             {/* Auth */}
             <div className="hidden sm:flex items-center gap-2 rounded-full bg-gray-100 p-1">
               <Link
-                href="/login"
+                href={`/${lang}/login`}
                 className="rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
               >
-                Log in
+                {login}
               </Link>
 
               <Link
-                href="/signup"
+                href={`/${lang}/registeration`}
                 className="rounded-full bg-[#2EC4C6] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
               >
-                Register
+                {register}
               </Link>
             </div>
 
