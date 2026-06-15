@@ -62,9 +62,9 @@ export default function Footer() {
                 <Image
                   src={footer_logo}
                   alt="Footer Logo"
-                  width={180}
-                  height={60}
-                  className="h-12 w-auto object-contain"
+                  width={200}
+                  height={200}
+                  className="h-24 w-auto object-contain"
                 />
               </Link>
 
