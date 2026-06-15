@@ -14,6 +14,7 @@ import SubmitButton from "../buttons/SubmitButton";
 import Image from "next/image";
 import { getDictionary } from "@/app/[lang]/dictionaries";
 // import { useLoginMutation } from "@/app/redux/features/auth/auth.api";
+import loginImage from "@/public/auth/auth.png";
 
 interface Props {
   t: Awaited<ReturnType<typeof getDictionary>>;
@@ -68,7 +69,7 @@ export default function Login({ t, locale }: Props) {
           {/* ================= LEFT IMAGE ================= */}
           <div className="hidden md:flex items-center justify-center">
             <Image
-              src={""}
+              src={loginImage}
               alt="signin"
               className="w-full h-full object-cover"
             />
@@ -102,7 +103,6 @@ export default function Login({ t, locale }: Props) {
             <AppForm
               onSubmit={onSubmit}
               defaultValues={{
-                name: "",
                 email: "",
                 password: "",
               }}

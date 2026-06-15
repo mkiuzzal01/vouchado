@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 import SocialLogin from "../utils/SocilaLogin";
 import TextInput from "./inputs/TextInput";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import loginImage from "@/public/auth/auth.png";
 
 interface Props {
   t: Awaited<ReturnType<typeof getDictionary>>;
@@ -50,7 +51,7 @@ export default function RegistrationForm({ t, locale }: Props) {
           {/* ================= LEFT IMAGE ================= */}
           <div className="hidden md:flex items-center justify-center">
             <Image
-              src={""}
+              src={loginImage}
               alt="signin"
               className="w-full h-full object-cover"
             />
@@ -123,11 +124,7 @@ export default function RegistrationForm({ t, locale }: Props) {
                 </div>
 
                 {/* SUBMIT */}
-                <SubmitButton
-                  title="Register"
-                  className="h-12 rounded-full"
-                  isLoading={false}
-                />
+                <SubmitButton title="Register" className="h-12 rounded-full" />
                 <div>
                   <p className="text-xs text-gray-700 text-center">
                     {t.auth.register.already_account}{" "}
