@@ -71,7 +71,7 @@ export default function PromoBanner({
               {stats.map((stat, index) => (
                 <div
                   key={index}
-                  className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-4 py-3 text-center min-w-[110px]"
+                  className="bg-[#112F3180] border border-white/20 rounded-xl px-4 py-3 text-center min-w-[110px]"
                 >
                   <div className="text-lg sm:text-xl font-bold">
                     {stat.value}

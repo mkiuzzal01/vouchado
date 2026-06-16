@@ -63,7 +63,7 @@ export default function ExploreCategories() {
         >
           {categories.map((category, index) => (
             <SwiperSlide key={index}>
-              <div className="flex flex-col items-center gap-3 text-center cursor-pointer">
+              <div className="bg-white p-5 rounded-xl flex flex-col items-center gap-3 text-center cursor-pointer">
                 <div className="flex items-center justify-center">
                   {category.icon}
                 </div>

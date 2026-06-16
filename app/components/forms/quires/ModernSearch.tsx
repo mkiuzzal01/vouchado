@@ -31,7 +31,7 @@ export default function ModernSearch({
       {/* ================= MOBILE VIEW (Card style) ================= */}
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-2.5 rounded-2xl bg-white/95 p-3 shadow-xl backdrop-blur-md md:hidden border border-gray-100"
+        className="flex flex-col gap-2.5 rounded-2xl bg-white/95 p-3  backdrop-blur-md md:hidden border border-gray-100"
       >
         {/* Location Input */}
         <div className="flex items-center gap-2 rounded-xl bg-gray-50 border border-gray-100 px-3 py-2.5 text-gray-400 focus-within:text-[#1ec6cc] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#1ec6cc] transition-all">

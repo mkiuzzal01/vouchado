@@ -40,14 +40,14 @@
 
 :root {
   /* Base */
-  --background: oklch(1 0 0);
+  --background: oklch(97.391% 0.00104 11.32);
   --foreground: oklch(0.145 0 0);
 
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover-foreground: oklch(42.776% 0.00528 16.857);
 
   /* ✅ Your Brand Color (#31BFC8) */
   --primary: oklch(0.72 0.15 200);
