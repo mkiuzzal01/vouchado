@@ -114,7 +114,6 @@ export default function page() {
     <div>
       <Container>
         <ModernSearch />
-
         <div className="mt-8">
           <FilterWithCategory />
         </div>

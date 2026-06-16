@@ -85,8 +85,8 @@ export default function PromoSteps() {
   return (
     <div>
       {/* Outer Card Block Container Frame Wrapper */}
-      <div className="border border-gray-100 rounded-3xl ">
-        <div className=" p-6  grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-8 ">
+      <div className="border border-gray-100 rounded-3xl pt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 ">
           {promos.map((item, idx) => (
             <div
               key={idx}

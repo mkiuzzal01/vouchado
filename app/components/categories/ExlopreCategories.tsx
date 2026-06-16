@@ -1,7 +1,10 @@
 "use client";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+
 import "swiper/css";
+import "swiper/css/navigation";
 
 import Adventures from "../icons/Avantures";
 import Beauty from "../icons/Beauty";
@@ -10,6 +13,7 @@ import Creative from "../icons/Creative";
 import Eat from "../icons/Eat";
 import Kids from "../icons/Kids";
 import Container from "../shared/Container";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function ExploreCategories() {
   const categories = [
@@ -27,7 +31,7 @@ export default function ExploreCategories() {
     },
     {
       icon: <Beauty size={70} />,
-      name: "Beauty and Wellness",
+      name: "Beauty & Wellness",
     },
     {
       icon: <Creative size={70} />,
@@ -35,19 +39,36 @@ export default function ExploreCategories() {
     },
     {
       icon: <Cultural size={70} />,
-      name: "Hotel and Culture",
+      name: "Hotel & Culture",
     },
   ];
 
   return (
     <Container>
       <section className="py-8">
-        <h2 className="mb-6 text-2xl font-semibold">Explore Categories</h2>
+        {/* Header */}
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-2xl font-semibold">Explore Categories</h2>
+
+          {/* Navigation Buttons */}
+          <div className="flex gap-2">
+            <button className="category-prev flex h-10 w-10 items-center justify-center rounded-full border bg-white shadow-sm hover:bg-gray-50">
+              <ChevronLeft size={24} />
+            </button>
+
+            <button className="category-next flex h-10 w-10 items-center justify-center rounded-full border bg-white shadow-sm hover:bg-gray-50">
+              <ChevronRight size={24} />
+            </button>
+          </div>
+        </div>
 
         <Swiper
-          navigation
-          pagination={{ clickable: true }}
-          spaceBetween={20}
+          modules={[Navigation]}
+          navigation={{
+            prevEl: ".category-prev",
+            nextEl: ".category-next",
+          }}
+          spaceBetween={16}
           slidesPerView={2}
           breakpoints={{
             640: {
@@ -63,7 +84,7 @@ export default function ExploreCategories() {
         >
           {categories.map((category, index) => (
             <SwiperSlide key={index}>
-              <div className="bg-white p-5 rounded-xl flex flex-col items-center gap-3 text-center cursor-pointer">
+              <div className="flex h-full cursor-pointer flex-col items-center gap-3 rounded-2xl bg-white p-5 text-center shadow-sm transition hover:shadow-md">
                 <div className="flex items-center justify-center">
                   {category.icon}
                 </div>

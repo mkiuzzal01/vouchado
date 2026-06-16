@@ -82,7 +82,7 @@ export default function ModernSearch({
         {/* Action Button */}
         <button
           type="submit"
-          className="h-11 w-full rounded-xl bg-[#1ec6cc] hover:bg-[#19a7ad] text-white font-bold text-sm shadow-sm active:scale-[0.99] transition-all"
+          className="h-11 w-full rounded-xl bg-[#1ec6cc] hover:bg-[#19a7ad] text-white font-bold text-sm active:scale-[0.99] transition-all"
         >
           {buttonText}
         </button>
@@ -145,7 +145,7 @@ export default function ModernSearch({
         {/* Search Button */}
         <button
           type="submit"
-          className="h-12 rounded-full bg-[#1ec6cc] hover:bg-[#19a7ad] text-white font-extrabold px-9 tracking-wide text-sm shadow-md transition-all active:scale-98 whitespace-nowrap"
+          className="h-12 rounded-full bg-[#1ec6cc] hover:bg-[#19a7ad] text-white font-extrabold px-9 tracking-wide text-sm  transition-all active:scale-98 whitespace-nowrap"
         >
           {buttonText}
         </button>
