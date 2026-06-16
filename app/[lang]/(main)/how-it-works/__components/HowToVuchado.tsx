@@ -5,11 +5,11 @@ export default function HowToVuchado() {
     <section className="py-12">
       <Container>
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900">
             HOW TO <span className="text-[#1ec6cc]">VOUCHADO?</span>
           </h1>
 
-          <p className="mt-6 text-base md:text-lg leading-8 text-slate-600">
+          <p className="mt-6 text-sm  lg:text-lg leading-8 text-slate-600">
             We designed Vouchado around a simple three-step journey: Discover,
             Purchase, and Redeem . This approach removes unnecessary complexity
             and creates a frictionless experience for both customers and

@@ -183,7 +183,7 @@ export default function Steps() {
   ];
 
   return (
-    <section className="w-full bg-[#fcfdfd] py-16 lg:py-24 font-sans overflow-hidden selection:bg-[#1ec6cc]/10">
+    <section className="w-full  py-16 lg:py-24 font-sans overflow-hidden selection:bg-[#1ec6cc]/10">
       <Container>
         {/* Main Process Steps Mapping */}
         <div className="space-y-16 lg:space-y-24 relative z-10">
@@ -217,12 +217,12 @@ export default function Steps() {
                 <div className="w-full lg:w-1/2 flex flex-col justify-center">
                   <div className="flex items-start gap-4 mb-4">
                     {/* Badge Indicator */}
-                    <span className="w-10 h-10 shrink-0 rounded-full bg-[#1da9b1] text-white flex items-center justify-center font-bold text-[15px] tracking-wide shadow-sm">
+                    <span className="text-xs sm:text-sm  md:text-base lg:text-lg w-10 h-10 shrink-0 rounded-full bg-[#1da9b1] text-white flex items-center justify-center font-bold text-[15px] tracking-wide shadow-sm">
                       {step.number}
                     </span>
 
                     <div className="flex flex-col">
-                      <h3 className="text-2xl font-extrabold text-[#1a3138] tracking-tight mb-3">
+                      <h3 className="text-lg sm:text-xl  md:text-2xl font-extrabold text-[#1a3138] tracking-tight mb-3">
                         {step.title}
                       </h3>
 

@@ -1,6 +1,7 @@
 import ExploreCategories from "@/app/components/categories/ExploreCategories";
 import TrendingNow from "@/app/components/categories/TrendingNow";
 import Hero from "@/app/components/hero/Hero";
+import PromoExperience from "@/app/components/hero/PromoExprience";
 import PromoBanner from "@/app/components/hero/Promotional";
 import DealsNear from "@/app/components/sections/DealsNear";
 import Trusted from "@/app/components/sections/Trusted";
@@ -22,6 +23,7 @@ export default async function page({ params }: Props) {
       <TrendingNow />
       <Trusted />
       <PromoBanner />
+      <PromoExperience />
     </>
   );
 }

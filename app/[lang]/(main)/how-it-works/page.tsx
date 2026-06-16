@@ -1,15 +1,15 @@
+import PromoExperience from "@/app/components/hero/PromoExprience";
 import HowToVuchado from "./__components/HowToVuchado";
 import Steps from "./__components/Steps";
+import HowtoWorkBanner from "@/app/components/hero/HowtoWorkBanner";
 
 export default function page() {
   return (
     <div>
-      <div>
-        <HowToVuchado />
-      </div>
-      <div>
-        <Steps />
-      </div>
+      <HowtoWorkBanner />
+      <HowToVuchado />
+      <Steps />
+      <PromoExperience />
     </div>
   );
 }
