@@ -5,9 +5,8 @@ import Container from "../shared/Container";
 
 export default function PromoExperience() {
   return (
-    <Container className="py-6">
-      {/* Banner Card Container */}
-      <div className="relative w-full bg-[#0e6a70] rounded-2xl overflow-hidden p-8 sm:p-10 md:p-12 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-sm">
+    <div className="relative w-full bg-[#0e6a70] rounded-2xl overflow-hidden p-8 sm:p-10 md:p-12 flex flex-col lg:flex-row items-center justify-between gap-8 shadow-sm">
+      <Container className="py-6">
         {/* Left Side: Graphic Asset & Copywriting */}
         <div className="flex flex-col sm:flex-row items-center gap-6 md:gap-8 text-center sm:text-left w-full lg:w-auto">
           {/* Discount Tag 3D Graphic */}
@@ -57,7 +56,7 @@ export default function PromoExperience() {
             Become a Partner
           </button>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import PromoExperience from "@/app/components/hero/PromoExprience";
+import PromoExperience from "@/app/components/hero/PromoExperience";
 import HowToVuchado from "./__components/HowToVuchado";
 import Steps from "./__components/Steps";
 import HowtoWorkBanner from "@/app/components/hero/HowtoWorkBanner";
