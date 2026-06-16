@@ -1,6 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export interface ProductCardProps {
+  lang: string;
   imageUrl: string;
   category: string;
   title: string;
@@ -16,6 +18,7 @@ export interface ProductCardProps {
 }
 
 export default function ProductCard({
+  lang,
   imageUrl,
   category,
   title,
@@ -81,9 +84,11 @@ export default function ProductCard({
       {/* Content */}
       <div className="p-3 sm:p-4 pt-6 sm:pt-7">
         {/* Title */}
-        <h3 className="text-sm sm:text-[17px] font-semibold text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2">
-          {title}
-        </h3>
+        <Link href={`/${lang}/product/${title}`}>
+          <h3 className="text-sm sm:text-[17px] font-semibold text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2 hover:text-[#1ec6cc]">
+            {title}
+          </h3>
+        </Link>
 
         {/* Rating + Location */}
         <div className="flex items-center text-[11px] sm:text-sm text-gray-500 mb-3 sm:mb-5">
@@ -102,7 +107,7 @@ export default function ProductCard({
         {/* Price */}
         <div className="flex items-end justify-between">
           <div className="flex items-baseline gap-1 sm:gap-2">
-            <span className="text-lg sm:text-[22px] font-bold text-gray-900">
+            <span className="text-sm md:text-lg font-bold text-gray-900">
               {currencySymbol}
               {currentPrice.toFixed(2)}
             </span>

@@ -5,6 +5,11 @@ import ModernSearch from "@/app/components/forms/quires/ModernSearch";
 import ReusablePagination from "@/app/components/forms/quires/ReusablePagination";
 import PromoSteps from "@/app/components/hero/PromoSteps";
 import Container from "@/app/components/shared/Container";
+
+interface Props {
+  lang: string;
+}
+
 const deals = [
   {
     imageUrl:
@@ -109,7 +114,7 @@ const deals = [
   },
 ];
 
-export default function page() {
+export default function page({ lang }: Props) {
   return (
     <div>
       <Container>
@@ -124,7 +129,20 @@ export default function page() {
           <div className="flex flex-col gap-2 w-full lg:w-3/4">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {deals.map((deal, index) => (
-                <ProductCard key={index} {...deal} />
+                <ProductCard
+                  lang={lang}
+                  key={index}
+                  imageUrl={deal.imageUrl}
+                  category={deal.category}
+                  title={deal.title}
+                  rating={deal.rating}
+                  location={deal.location}
+                  currentPrice={deal.currentPrice}
+                  originalPrice={deal.originalPrice}
+                  discountPercentage={deal.discountPercentage}
+                  distance={deal.distance}
+                  endsIn={deal.endsIn}
+                />
               ))}
             </div>
             <PromoSteps />

@@ -4,7 +4,11 @@ import FilterWithCategory from "@/app/components/forms/quires/FilterWithCategory
 import ReusablePagination from "@/app/components/forms/quires/ReusablePagination";
 import PromoSteps from "@/app/components/hero/PromoSteps";
 import Container from "@/app/components/shared/Container";
-import SeactionHeader from "@/app/components/shared/SeactionHeader";
+import SectionHeader from "@/app/components/shared/SectionHeader";
+
+interface Props {
+  lang: string;
+}
 
 const deals = [
   {
@@ -110,11 +114,11 @@ const deals = [
   },
 ];
 
-export default function page() {
+export default function page({ lang }: Props) {
   return (
     <div>
       <Container>
-        <SeactionHeader
+        <SectionHeader
           title="Explore Services and Save More"
           description="Browse handpicked services for every trend, occasion and lifestyle."
         />
@@ -129,7 +133,20 @@ export default function page() {
           <div className="flex flex-col gap-2 w-full lg:w-3/4">
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {deals.map((deal, index) => (
-                <ProductCard key={index} {...deal} />
+                <ProductCard
+                  key={index}
+                  lang={lang}
+                  category={deal.category}
+                  distance={deal.distance}
+                  discountPercentage={deal.discountPercentage}
+                  endsIn={deal.endsIn}
+                  imageUrl={deal.imageUrl}
+                  location={deal.location}
+                  originalPrice={deal.originalPrice}
+                  rating={deal.rating}
+                  currentPrice={deal.currentPrice}
+                  title={deal.title}
+                />
               ))}
             </div>
             <PromoSteps />

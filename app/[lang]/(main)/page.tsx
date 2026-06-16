@@ -1,20 +1,26 @@
-import ExploreCategories from "@/app/components/categories/ExlopreCategories";
+import ExploreCategories from "@/app/components/categories/ExploreCategories";
 import TrendingNow from "@/app/components/categories/TrendingNow";
 import Hero from "@/app/components/hero/Hero";
 import PromoBanner from "@/app/components/hero/Promotional";
 import DealsNear from "@/app/components/sections/DealsNear";
-import Truested from "@/app/components/sections/Truested";
+import Trusted from "@/app/components/sections/Trusted";
 import Steps from "@/app/components/utils/Steps";
 
-export default function page() {
+interface Props {
+  params: Promise<{ lang: "en" | "de" }>;
+}
+
+export default async function page({ params }: Props) {
+  const { lang } = await params;
+
   return (
     <>
       <Hero />
       <Steps />
       <ExploreCategories />
-      <DealsNear />
+      <DealsNear lang={lang} />
       <TrendingNow />
-      <Truested />
+      <Trusted />
       <PromoBanner />
     </>
   );

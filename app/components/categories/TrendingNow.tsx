@@ -1,6 +1,6 @@
-import TrendingProductCard from "../cards/TrandingProductCard";
+import TrendingProductCard from "../cards/TrendingProductCard";
 import Container from "../shared/Container";
-import SeactionHeader from "../shared/SeactionHeader";
+import SectionHeader from "../shared/SectionHeader";
 
 const TRENDING_DEALS = [
   {
@@ -80,19 +80,16 @@ const TRENDING_DEALS = [
 ];
 
 export default function TrendingNow() {
-  const handleFavorite = (id: string) => {
-    console.log(`Toggled favorite for item: ${id}`);
-  };
-
   return (
     <section>
       <Container>
-        <SeactionHeader title="Trending Now" />
+        <SectionHeader title="Trending Now" />
         {/* Product Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-items-center">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-items-center">
           {TRENDING_DEALS.map((product) => (
             <TrendingProductCard
               key={product.id}
+              productId={product.id}
               imageUrl={product.imageUrl}
               category={product.category}
               title={product.title}
@@ -101,7 +98,6 @@ export default function TrendingNow() {
               currentPrice={product.currentPrice}
               originalPrice={product.originalPrice}
               discountPercentage={product.discountPercentage}
-              onFavoriteClick={() => handleFavorite(product.id)}
             />
           ))}
         </div>

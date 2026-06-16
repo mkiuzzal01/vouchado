@@ -14,6 +14,7 @@ import Eat from "../icons/Eat";
 import Kids from "../icons/Kids";
 import Container from "../shared/Container";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import SectionHeader from "../shared/SectionHeader";
 
 export default function ExploreCategories() {
   const categories = [
@@ -48,7 +49,10 @@ export default function ExploreCategories() {
       <section className="py-8">
         {/* Header */}
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-2xl font-semibold">Explore Categories</h2>
+          <SectionHeader
+            title="Explore Categories"
+            description="Discover amazing deals and discounts near you"
+          />
 
           {/* Navigation Buttons */}
           <div className="flex gap-2">

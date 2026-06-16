@@ -1,13 +1,13 @@
 import Container from "../shared/Container";
-import SeactionHeader from "../shared/SeactionHeader";
+import SectionHeader from "../shared/SectionHeader";
 
-export default function Truested() {
+export default function Trusted() {
   return (
     <Container>
       <div className="py-4">
-        <SeactionHeader title="Trusted by the best and loved by all" />
+        <SectionHeader title="Trusted by the best and loved by all" />
       </div>
-      <div className="grid grid-cols-3 items-center justify-center md:grid-cols-4 lg:grid-cols-7 gap-4 ">
+      <div className="grid grid-cols-2  md:grid-cols-4 lg:grid-cols-7 gap-4">
         {/* Card 1: Reviews */}
         <div className="flex items-center gap-3 bg-white px-5 py-4 rounded-2xl shadow-sm border border-gray-50 min-w-[200px] flex-1 sm:flex-initial">
           <div className="text-[#1ec6cc] shrink-0">

@@ -1,6 +1,6 @@
 import Container from "@/app/components/shared/Container";
 import ProductCard from "../cards/ProductCard";
-import SeactionHeader from "../shared/SeactionHeader";
+import SectionHeader from "../shared/SectionHeader";
 
 const deals = [
   {
@@ -106,15 +106,19 @@ const deals = [
   },
 ];
 
-export default function DealsNear() {
+interface Props {
+  lang: string;
+}
+
+export default function DealsNear({ lang }: Props) {
   return (
     <Container>
       <section className="pb-8">
-        <SeactionHeader title="Deals Near You" />
+        <SectionHeader title="Deals Near You" />
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {deals.map((deal, index) => (
-            <ProductCard key={index} {...deal} />
+            <ProductCard lang={lang} key={index} {...deal} />
           ))}
         </div>
       </section>
