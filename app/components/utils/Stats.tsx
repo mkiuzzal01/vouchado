@@ -11,6 +11,7 @@ import {
   AvatarGroupCount,
 } from "@/components/ui/avatar";
 import Star from "../icons/Star";
+import Review from "../icons/Review";
 
 export default function Stats() {
   const stats = [
@@ -30,15 +31,16 @@ export default function Stats() {
       label: "Local Partners",
     },
     {
-      icon: <Star size={100} />,
-      value: "4.8",
-      label: "Star Rating",
+      icon: <Review size={32} />,
+      value: "4.8 Star",
+      label: "Based on 12,500+ Review",
+      star: <Star size={100} />,
     },
   ];
 
   return (
-    <section className="w-full bg-white py-5 border-t border-gray-100">
-      <Container>
+    <section className="relative w-full -bottom-20">
+      <Container className="bg-white py-5 rounded-xl shadow">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <div
@@ -48,10 +50,10 @@ export default function Stats() {
               <div className="text-gray-500">{stat.icon}</div>
 
               <div className="flex flex-col">
-                <div className="text-lg md:text-xl font-bold text-gray-900">
-                  {stat.value}
+                <div className="flex items-center gap-1 text-sm md:text-lg font-bold text-gray-900">
+                  {stat.value} {stat.star && <div>{stat.star}</div>}
                 </div>
-                <div className="text-gray-700 text-sm md:text-base font-medium">
+                <div className="text-gray-700 text-xs md:text-md font-medium">
                   {stat.label}
                 </div>
               </div>

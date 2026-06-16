@@ -1,0 +1,127 @@
+import Image from "next/image";
+
+export interface ProductCardProps {
+  imageUrl: string;
+  category: string;
+  title: string;
+  rating: number;
+  location: string;
+  currentPrice: number;
+  originalPrice?: number;
+  currencySymbol?: string;
+  discountPercentage?: number;
+  distance?: string;
+  endsIn?: string;
+  onFavoriteClick?: () => void;
+}
+
+export default function ProductCard({
+  imageUrl,
+  category,
+  title,
+  rating,
+  location,
+  currentPrice,
+  originalPrice,
+  currencySymbol = "€",
+  discountPercentage,
+  distance,
+  endsIn,
+  onFavoriteClick,
+}: ProductCardProps) {
+  return (
+    <div className="w-full rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden font-sans">
+      {/* Image */}
+      <div className="relative w-full md:aspect-4/3 aspect-16/10 md:h-[200px]">
+        <Image
+          src={imageUrl}
+          alt={title}
+          width={500}
+          height={500}
+          className="w-full h-full object-cover"
+        />
+
+        {/* Discount */}
+        {discountPercentage && (
+          <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-[#1ec6cc] text-white text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full flex items-center gap-1">
+            -{discountPercentage}%
+          </div>
+        )}
+
+        {/* Top Right */}
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex items-center gap-2">
+          {distance && (
+            <div className="bg-white text-gray-800 text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full shadow-sm">
+              {distance}
+            </div>
+          )}
+
+          <button
+            onClick={onFavoriteClick}
+            className="bg-white p-1.5 rounded-full text-gray-600 hover:text-red-500 shadow-sm transition-colors"
+          >
+            <svg
+              className="w-3.5 h-3.5 sm:w-4 sm:h-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Category */}
+        <div className="absolute -bottom-3 left-3 sm:left-4 bg-[#eef0f2] text-gray-600 text-[10px] sm:text-xs font-medium px-2 sm:px-3 py-1 rounded-full border border-white">
+          {category}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-3 sm:p-4 pt-6 sm:pt-7">
+        {/* Title */}
+        <h3 className="text-sm sm:text-[17px] font-semibold text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2">
+          {title}
+        </h3>
+
+        {/* Rating + Location */}
+        <div className="flex items-center text-[11px] sm:text-sm text-gray-500 mb-3 sm:mb-5">
+          <div className="flex items-center gap-1 font-bold text-gray-800">
+            ⭐ {rating.toFixed(1)}
+          </div>
+
+          <div className="w-px h-3 bg-gray-300 mx-2 sm:mx-3" />
+
+          <div className="flex items-center gap-1 truncate">
+            📍
+            <span className="truncate">{location}</span>
+          </div>
+        </div>
+
+        {/* Price */}
+        <div className="flex items-end justify-between">
+          <div className="flex items-baseline gap-1 sm:gap-2">
+            <span className="text-lg sm:text-[22px] font-bold text-gray-900">
+              {currencySymbol}
+              {currentPrice.toFixed(2)}
+            </span>
+
+            {originalPrice && (
+              <span className="text-xs sm:text-sm text-gray-400 line-through">
+                {currencySymbol}
+                {originalPrice.toFixed(2)}
+              </span>
+            )}
+          </div>
+
+          {endsIn && (
+            <div className="bg-[#fff0f0] text-[#ff6b6b] text-[10px] sm:text-[13px] px-2 py-1 rounded-md">
+              {endsIn}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

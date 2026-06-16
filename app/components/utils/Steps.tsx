@@ -1,3 +1,4 @@
+import React from "react";
 import Bag from "../icons/Bag";
 import Scanner from "../icons/Scanner";
 import Search from "../icons/Search";
@@ -8,44 +9,61 @@ export default function Steps() {
     {
       title: "1. Discover",
       description: "Find the best local deals near you.",
-      icon: <Search size={40} />,
+      icon: <Search size={28} />,
     },
     {
       title: "2. Purchase",
       description: "Buy securely and instantly online.",
-      icon: <Bag size={40} />,
+      icon: <Bag size={28} />,
     },
     {
       title: "3. Redeem",
       description: "Redeem your deal and enjoy amazing experiences.",
-      icon: <Scanner size={40} />,
+      icon: <Scanner size={28} />,
     },
   ];
 
   return (
-    <div>
-      <Container className="rounded-4xl bg-gray-100 my-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-8 p-4">
-          {steps.map((step, idx) => (
-            <div key={idx} className="relative flex items-center gap-4">
-              {/* Icon circle */}
-              <div className="text-whatevvaa-darker">{step.icon}</div>
-
-              <div>
-                {/* Title */}
-                <div className="text-xl font-bold text-gray-900 mb-2">
-                  {step.title}
-                </div>
-
-                {/* Description */}
-                <div className="text-gray-600 text-sm leading-relaxed max-w-xs">
-                  {step.description}
-                </div>
-              </div>
+    <Container className="rounded-3xl bg-[#f4f6f8] border border-gray-100/50 mt-30 mb-5 ">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 p-6 sm:p-8">
+        {steps.map((step, idx) => (
+          <div key={idx} className="relative flex items-center gap-5">
+            {/* White Icon Circle Background */}
+            <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center shrink-0 text-[#1ec6cc]">
+              {step.icon}
             </div>
-          ))}
-        </div>
-      </Container>
-    </div>
+
+            {/* Text Copy Section */}
+            <div className="flex-1 min-w-0">
+              <h4 className="text-base font-extrabold text-slate-800 mb-1 tracking-tight">
+                {step.title}
+              </h4>
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed max-w-[210px]">
+                {step.description}
+              </p>
+            </div>
+
+            {/* Steps Chevron Divider (Hidden on Last Step & Mobile) */}
+            {idx < steps.length - 1 && (
+              <div className="hidden md:block absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 text-gray-300 z-10">
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                  />
+                </svg>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </Container>
   );
 }

@@ -1,10 +1,8 @@
 import heroBg from "@/public/hero/hero.png";
-import { Search } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import Container from "../shared/Container";
-import Location from "../icons/Location";
 import Stats from "../utils/Stats";
+import ModernSearch from "../forms/quires/ModernSearch";
 
 const FEATURES = ["100% Verified Deals", "Secure Checkout", "24/7 Support"];
 
@@ -40,60 +38,7 @@ export default function Hero() {
             </p>
 
             {/* ================= MODERN SEARCH ================= */}
-            <div className="mt-6 sm:mt-8">
-              {/* Mobile: Card style search */}
-              <div className="flex flex-col gap-2 rounded-2xl bg-white/95 p-3 shadow-xl backdrop-blur-md md:hidden">
-                {/* Location */}
-                <div className="flex items-center gap-2 rounded-xl bg-gray-100 px-3 py-2">
-                  <Location />
-                  <input
-                    type="text"
-                    placeholder="Your location"
-                    className="w-full bg-transparent text-sm outline-none"
-                  />
-                </div>
-
-                {/* Category */}
-                <div className="flex items-center gap-2 rounded-xl bg-gray-100 px-3 py-2">
-                  <Search className="h-4 w-4 text-gray-500" />
-                  <input
-                    type="text"
-                    placeholder="Search services"
-                    className="w-full bg-transparent text-sm outline-none"
-                  />
-                </div>
-
-                {/* Button */}
-                <Button className="h-11 w-full rounded-xl bg-cyan-500 hover:bg-cyan-600">
-                  Search
-                </Button>
-              </div>
-
-              {/* Desktop: original style */}
-              <div className="hidden md:flex w-full overflow-hidden rounded-full bg-white shadow-lg">
-                <div className="flex items-center gap-2 border-r px-4 py-3 w-full">
-                  <Location />
-                  <input
-                    type="text"
-                    placeholder="Search your location"
-                    className="w-full bg-transparent text-sm outline-none"
-                  />
-                </div>
-
-                <div className="flex items-center gap-2 px-4 py-3 w-full">
-                  <Search className="h-4 w-4 text-gray-500" />
-                  <input
-                    type="text"
-                    placeholder="Search category or service"
-                    className="w-full bg-transparent text-sm outline-none"
-                  />
-                </div>
-
-                <Button className="h-12 rounded-none rounded-r-full bg-cyan-500 px-6 hover:bg-cyan-600">
-                  Search
-                </Button>
-              </div>
-            </div>
+            <ModernSearch />
 
             {/* Features */}
             <div className="flex flex-wrap justify-center md:justify-start gap-2 py-4">
