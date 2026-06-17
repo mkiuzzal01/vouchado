@@ -1,0 +1,58 @@
+"use client";
+import AppForm from "./AppForm";
+import TextArea from "./inputs/TextArea";
+import SubmitButton from "../buttons/SubmitButton";
+import TextInput from "./inputs/TextInput";
+
+export default function ContactForm() {
+  const onSubmit = (data: any) => {
+    console.log("Form Submitted:", data);
+  };
+
+  return (
+    <div className="w-full bg-white p-6 sm:p-10 md:p-12 rounded-[32px] shadow-sm border border-[#EDF2F7]/60">
+      <AppForm onSubmit={onSubmit}>
+        <div className="space-y-6">
+          <div className="w-full">
+            <TextInput
+              required
+              label="Name"
+              name="name"
+              placeholder="Johnathan Smith"
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+            <TextInput
+              required
+              label="Email"
+              name="email"
+              placeholder="Enter your email Address"
+            />
+
+            <TextInput
+              required
+              label="Topic"
+              name="topic"
+              placeholder="Enter your topic"
+            />
+          </div>
+
+          <div className="w-full">
+            <TextArea
+              name="message"
+              label="Message"
+              placeholder="Discribe your message here..."
+              required
+            />
+          </div>
+
+          <SubmitButton
+            title="Send Message"
+            className="bg-[#2bc4ca] hover:bg-[#23aab0] active:scale-[0.98] text-white font-bold px-10 py-4 h-auto rounded-full shadow-md shadow-[#2bc4ca]/10 transition-all text-base tracking-wide"
+          />
+        </div>
+      </AppForm>
+    </div>
+  );
+}

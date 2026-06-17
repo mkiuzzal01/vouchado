@@ -13,6 +13,7 @@ interface TextInputProps {
   type?: string;
   icon?: React.ReactNode;
   className?: string;
+  required?: boolean;
 }
 
 export default function TextInput({
@@ -21,6 +22,7 @@ export default function TextInput({
   placeholder,
   type = "text",
   icon,
+  required,
   className,
 }: TextInputProps) {
   const {
@@ -61,6 +63,7 @@ export default function TextInput({
               <Input
                 id={name}
                 {...field}
+                required={required}
                 type={isPassword ? (showPassword ? "text" : "password") : type}
                 placeholder={placeholder}
                 className={cn(
