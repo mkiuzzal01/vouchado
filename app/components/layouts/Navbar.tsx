@@ -32,7 +32,7 @@ export default function Navbar({
   const [showNavbar, setShowNavbar] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white">
+    <header className="sticky top-0 z-50 w-full border-b bg-[#f7f6f6]">
       <Container>
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
