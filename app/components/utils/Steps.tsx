@@ -29,7 +29,7 @@ export default function Steps() {
         {steps.map((step, idx) => (
           <div key={idx} className="relative flex items-center gap-5">
             {/* White Icon Circle Background */}
-            <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center shrink-0 text-[#1ec6cc]">
+            <div className="w-16 h-16 rounded-full bg-white  flex items-center justify-center shrink-0 text-[#1ec6cc]">
               {step.icon}
             </div>
 

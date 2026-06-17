@@ -63,7 +63,7 @@ export default function Navbar({
             {/* Cart */}
             <Link
               href={`/${lang}/cart`}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 border hover:bg-gray-200 transition"
             >
               <Image
                 src={cart_icon}
@@ -75,7 +75,7 @@ export default function Navbar({
             </Link>
 
             {/* Auth */}
-            <div className="hidden sm:flex items-center gap-2 rounded-full bg-gray-100 p-1">
+            <div className="hidden sm:flex items-center gap-2 rounded-full bg-gray-100 border p-1">
               <Link
                 href={`/${lang}/login`}
                 className="rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"

@@ -84,7 +84,7 @@ export default function ProductCard({
       {/* Content */}
       <div className="p-3 sm:p-4 pt-6 sm:pt-7">
         {/* Title */}
-        <Link href={`/${lang}/product/${title}`}>
+        <Link href={`/${lang}/view/${title}`}>
           <h3 className="text-sm sm:text-[17px] font-semibold text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2 hover:text-[#1ec6cc]">
             {title}
           </h3>

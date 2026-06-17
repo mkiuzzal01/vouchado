@@ -70,7 +70,7 @@ export default function MegaMenu({
 
           {/* SERVICES */}
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium hover:bg-gray-200 transition">
+            <NavigationMenuTrigger className="flex items-center gap-2 rounded-full bg-gray-100 border px-4 py-2 text-sm font-medium hover:bg-gray-200 transition">
               <Menu size={15} />
               {menuTitle}
             </NavigationMenuTrigger>
@@ -127,7 +127,7 @@ export default function MegaMenu({
           <NavigationMenuItem>
             <Link
               href="/contact"
-              className="flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium hover:bg-gray-200 transition"
+              className="flex items-center gap-2 rounded-full bg-gray-100 border px-4 py-2 text-sm font-medium hover:bg-gray-200 transition"
             >
               <Location size={15} />
               Berlin, Germany
