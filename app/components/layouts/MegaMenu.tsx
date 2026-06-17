@@ -144,6 +144,7 @@ export default function MegaMenu({
             <h2 className="text-lg font-semibold">{menu}</h2>
 
             <Button
+              variant="ghost"
               onClick={() => setShowNavbar(false)}
               className="text-sm px-3 py-1 bg-gray-100 rounded-md"
             >
@@ -154,7 +155,9 @@ export default function MegaMenu({
           {/* SERVICES ACCORDION */}
           <Accordion>
             <AccordionItem value="services">
-              <AccordionTrigger className="text-sm font-medium"></AccordionTrigger>
+              <AccordionTrigger className="text-sm font-medium">
+                {menuTitle}
+              </AccordionTrigger>
 
               <AccordionContent>
                 <div className="space-y-3 ml-2">

@@ -39,10 +39,6 @@ export default function ItemPhotos({ images }: ItemPhotosProps) {
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 700px"
               />
-
-              <div className="absolute top-4 left-4 bg-gray-900/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full font-medium z-10">
-                📸 {index + 1} / {images.length} Photos
-              </div>
             </div>
           </SwiperSlide>
         ))}

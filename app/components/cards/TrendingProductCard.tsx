@@ -1,6 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export interface TrendingProductCardProps {
+  lang: "en" | "de";
   productId: string;
   imageUrl: string;
   category: string;
@@ -14,6 +16,7 @@ export interface TrendingProductCardProps {
 }
 
 export default function TrendingProductCard({
+  lang,
   productId,
   imageUrl,
   category,
@@ -68,12 +71,14 @@ export default function TrendingProductCard({
 
       {/* Content */}
       <div className="px-4 sm:px-5 pt-6 sm:pt-8 pb-4 sm:pb-5">
-        <h3
-          className="text-sm md:text-lg font-bold text-gray-800 line-clamp-2 mb-3 sm:mb-4"
-          title={title}
-        >
-          {title}
-        </h3>
+        <Link href={`/${lang}/view/${productId}`}>
+          <h3
+            className="text-sm md:text-lg font-bold text-gray-800 line-clamp-2 mb-3 sm:mb-4 hover:text-primary"
+            title={title}
+          >
+            {title}
+          </h3>
+        </Link>
 
         <div className="flex items-center justify-between gap-2 mb-4 sm:mb-5">
           <div className="flex items-center gap-1 text-sm sm:text-base font-bold text-gray-800">

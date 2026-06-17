@@ -19,7 +19,7 @@ export default async function page({ params }: Props) {
       <Steps />
       <ExploreCategories />
       <DealsNear lang={lang} />
-      <TrendingNow />
+      <TrendingNow lang={lang} />
       <Trusted />
       <PromoBanner />
     </>

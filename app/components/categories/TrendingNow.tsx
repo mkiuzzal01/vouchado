@@ -2,6 +2,10 @@ import TrendingProductCard from "../cards/TrendingProductCard";
 import Container from "../shared/Container";
 import SectionHeader from "../shared/SectionHeader";
 
+interface Props {
+  lang: "en" | "de";
+}
+
 const TRENDING_DEALS = [
   {
     id: "1",
@@ -79,7 +83,7 @@ const TRENDING_DEALS = [
   },
 ];
 
-export default function TrendingNow() {
+export default function TrendingNow({ lang }: Props) {
   return (
     <section>
       <Container>
@@ -88,6 +92,7 @@ export default function TrendingNow() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 justify-items-center">
           {TRENDING_DEALS.map((product) => (
             <TrendingProductCard
+              lang={lang}
               key={product.id}
               productId={product.id}
               imageUrl={product.imageUrl}
