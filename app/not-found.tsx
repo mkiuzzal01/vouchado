@@ -19,11 +19,11 @@ export default function NotFound() {
           </CardDescription>
         </CardHeader>
 
-        <CardContent className="flex flex-col gap-3">
-          <Button>
-            <Link href="/en">Back to Home</Link>
-          </Button>
-        </CardContent>
+        <Link href="/en">
+          <CardContent className="flex flex-col gap-3">
+            <Button>Back to Home</Button>
+          </CardContent>
+        </Link>
       </Card>
     </div>
   );

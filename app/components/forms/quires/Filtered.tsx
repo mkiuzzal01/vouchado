@@ -102,13 +102,14 @@ export default function Filtered() {
 
         {/* Track Slider Bar Representation */}
         <div className="relative pt-2 px-1">
-          <div className="h-1.5 w-full bg-gray-100 rounded-full relative">
-            {/* Filled Active Range Segment Line */}
-            <div className="absolute h-full bg-[#1ec6cc] left-[15%] right-[25%] rounded-full" />
-            {/* Visual Sliders Markers */}
-            <div className="absolute w-5 h-5 bg-[#1ec6cc] border-2 border-white rounded-full shadow-sm -top-1.5 left-[15%] cursor-pointer" />
-            <div className="absolute w-5 h-5 bg-[#1ec6cc] border-2 border-white rounded-full shadow-sm -top-1.5 right-[25%] cursor-pointer" />
-          </div>
+          <input
+            type="range"
+            value={maxPrice}
+            min={50}
+            max={200}
+            onChange={(e) => setMaxPrice(Number(e.target.value))}
+            className="w-full accent-[#1ec6cc]"
+          />
 
           {/* Label Indicators */}
           <div className="flex justify-between items-center mt-2 text-xs font-bold text-slate-600">

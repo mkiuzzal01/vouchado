@@ -116,44 +116,42 @@ const deals = [
 
 export default function page({ lang }: Props) {
   return (
-    <div>
-      <Container>
-        <SectionHeader
-          title="Explore Services and Save More"
-          description="Browse handpicked services for every trend, occasion and lifestyle."
-        />
+    <Container>
+      <SectionHeader
+        title="Explore Services and Save More"
+        description="Browse handpicked services for every trend, occasion and lifestyle."
+      />
 
-        <div className="mt-8">
-          <FilterWithCategory />
+      <div className="mt-8">
+        <FilterWithCategory />
+      </div>
+      <div className="flex flex-col lg:flex-row gap-2 mt-4">
+        <div className="w-full lg:w-1/4">
+          <Filtered />
         </div>
-        <div className="flex flex-col lg:flex-row gap-2 mt-4">
-          <div className="w-full lg:w-1/4">
-            <Filtered />
+        <div className="flex flex-col gap-2 w-full lg:w-3/4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {deals.map((deal, index) => (
+              <ProductCard
+                key={index}
+                lang={lang}
+                category={deal.category}
+                distance={deal.distance}
+                discountPercentage={deal.discountPercentage}
+                endsIn={deal.endsIn}
+                imageUrl={deal.imageUrl}
+                location={deal.location}
+                originalPrice={deal.originalPrice}
+                rating={deal.rating}
+                currentPrice={deal.currentPrice}
+                title={deal.title}
+              />
+            ))}
           </div>
-          <div className="flex flex-col gap-2 w-full lg:w-3/4">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {deals.map((deal, index) => (
-                <ProductCard
-                  key={index}
-                  lang={lang}
-                  category={deal.category}
-                  distance={deal.distance}
-                  discountPercentage={deal.discountPercentage}
-                  endsIn={deal.endsIn}
-                  imageUrl={deal.imageUrl}
-                  location={deal.location}
-                  originalPrice={deal.originalPrice}
-                  rating={deal.rating}
-                  currentPrice={deal.currentPrice}
-                  title={deal.title}
-                />
-              ))}
-            </div>
-            <PromoSteps />
-            <ReusablePagination currentPage={1} totalPages={10} />
-          </div>
+          <PromoSteps />
+          <ReusablePagination currentPage={1} totalPages={10} />
         </div>
-      </Container>
-    </div>
+      </div>
+    </Container>
   );
 }

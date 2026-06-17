@@ -44,7 +44,7 @@ export const getServices = async (lang: string) => {
     },
     {
       title: dict.nav.service3,
-      href: `/${lang}/service-3`,
+      href: `/${lang}/services/service-3`,
       subMenu: [
         {
           title: dict.nav.subService1,

@@ -73,7 +73,7 @@ export default function TrendingProductCard({
       <div className="px-4 sm:px-5 pt-6 sm:pt-8 pb-4 sm:pb-5">
         <Link href={`/${lang}/view/${productId}`}>
           <h3
-            className="text-sm md:text-lg font-bold text-gray-800 line-clamp-2 mb-3 sm:mb-4 hover:text-primary"
+            className="text-sm md:text-md font-bold text-gray-800 line-clamp-2 mb-3 sm:mb-4 hover:text-primary"
             title={title}
           >
             {title}
