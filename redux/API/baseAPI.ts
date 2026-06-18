@@ -8,7 +8,7 @@ import {
   type BaseQueryFn,
   type FetchArgs,
 } from "@reduxjs/toolkit/query/react";
-import { RootState } from "../Store";
+import { RootState } from "../store";
 import { logout, setUser } from "../features/auth/auth.slice";
 import { tagTypes } from "./tagTypes";
 

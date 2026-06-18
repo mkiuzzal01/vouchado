@@ -1,8 +1,16 @@
+"use client";
+import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { toast } from "react-toastify";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+import { toggleWishlist } from "@/redux/features/wishlist/wishlinst.slice";
+import { LocateIcon, Map, MapIcon } from "lucide-react";
+import Location from "../icons/Location";
 
 export interface ProductCardProps {
-  lang: string;
+  id: string;
+  lang?: string;
   imageUrl: string;
   category: string;
   title: string;
@@ -14,10 +22,10 @@ export interface ProductCardProps {
   discountPercentage?: number;
   distance?: string;
   endsIn?: string;
-  onFavoriteClick?: () => void;
 }
 
 export default function ProductCard({
+  id,
   lang,
   imageUrl,
   category,
@@ -30,8 +38,56 @@ export default function ProductCard({
   discountPercentage,
   distance,
   endsIn,
-  onFavoriteClick,
 }: ProductCardProps) {
+  const dispatch = useAppDispatch();
+
+  const wishlistItems = useAppSelector((state) => state.wishlist.items);
+
+  const product = useMemo(
+    () => ({
+      id,
+      imageUrl,
+      category,
+      title,
+      rating,
+      location,
+      currentPrice,
+      originalPrice,
+      currencySymbol,
+      discountPercentage,
+      distance,
+      endsIn,
+    }),
+    [
+      id,
+      imageUrl,
+      category,
+      title,
+      rating,
+      location,
+      currentPrice,
+      originalPrice,
+      currencySymbol,
+      discountPercentage,
+      distance,
+      endsIn,
+    ],
+  );
+
+  const isWishlisted = useMemo(
+    () => wishlistItems.some((item) => item.id === id),
+    [wishlistItems, id],
+  );
+
+  const handleFavoriteClick = () => {
+    dispatch(toggleWishlist(product));
+    if (isWishlisted) {
+      toast.warn("Removed from wishlist");
+    } else {
+      toast.success("Added to wishlist");
+    }
+  };
+
   return (
     <div className="w-full rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden font-sans">
       {/* Image */}
@@ -60,13 +116,21 @@ export default function ProductCard({
           )}
 
           <button
-            onClick={onFavoriteClick}
-            className="bg-white p-1.5 rounded-full text-gray-600 hover:text-red-500 shadow-sm transition-colors"
+            type="button"
+            aria-label={
+              isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+            }
+            onClick={handleFavoriteClick}
+            className="bg-white p-1.5 rounded-full shadow-sm transition-all duration-200"
           >
             <svg
-              className="w-3.5 h-3.5 sm:w-4 sm:h-4"
+              className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors ${
+                isWishlisted
+                  ? "text-[#1ec6cc]"
+                  : "text-gray-600 hover:text-[#1ec6cc]"
+              }`}
               viewBox="0 0 24 24"
-              fill="none"
+              fill={isWishlisted ? "currentColor" : "none"}
               stroke="currentColor"
               strokeWidth="2"
             >
@@ -84,8 +148,8 @@ export default function ProductCard({
       {/* Content */}
       <div className="p-3 sm:p-4 pt-6 sm:pt-7">
         {/* Title */}
-        <Link href={`/${lang}/view/${title}`}>
-          <h3 className="text-sm sm:text-[17px] font-semibold text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2 hover:text-[#1ec6cc]">
+        <Link href={`/${lang}/view/${id}`}>
+          <h3 className="text-sm sm:text-[17px] font-semibold text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2 hover:text-[#1ec6cc] transition-colors">
             {title}
           </h3>
         </Link>
@@ -99,7 +163,7 @@ export default function ProductCard({
           <div className="w-px h-3 bg-gray-300 mx-2 sm:mx-3" />
 
           <div className="flex items-center gap-1 truncate">
-            📍
+            <Location size={18} color="#d1d5dc " />
             <span className="truncate">{location}</span>
           </div>
         </div>

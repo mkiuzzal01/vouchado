@@ -1,5 +1,11 @@
+"use client";
+
+import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+import { toast } from "react-toastify";
+import { toggleWishlist } from "@/redux/features/wishlist/wishlinst.slice";
 
 export interface TrendingProductCardProps {
   lang: "en" | "de";
@@ -28,6 +34,58 @@ export default function TrendingProductCard({
   currencySymbol = "€",
   discountPercentage,
 }: TrendingProductCardProps) {
+  const dispatch = useAppDispatch();
+
+  const wishlistItems = useAppSelector((state) => state.wishlist.items);
+
+  const product = useMemo(
+    () => ({
+      id: productId,
+      imageUrl,
+      category,
+      title,
+      rating,
+      currentPrice,
+      originalPrice,
+      currencySymbol,
+      discountPercentage,
+    }),
+    [
+      productId,
+      imageUrl,
+      category,
+      title,
+      rating,
+      currentPrice,
+      originalPrice,
+      currencySymbol,
+      discountPercentage,
+    ],
+  );
+
+  // Check wishlist state
+  const isWishlisted = useMemo(
+    () => wishlistItems.some((item) => item.id === productId),
+    [wishlistItems, productId],
+  );
+
+  const handleWishlist = () => {
+    dispatch(
+      toggleWishlist({
+        ...product,
+        location: "not provided",
+        endsIn: "not provided",
+        distance: "not provided",
+      }),
+    );
+
+    if (isWishlisted) {
+      toast.warn("Added to wishlist");
+    } else {
+      toast.success("Removed from wishlist");
+    }
+  };
+
   return (
     <div className="w-full rounded-2xl sm:rounded-3xl bg-white border border-gray-100 shadow-sm overflow-hidden">
       {/* Image Section */}
@@ -49,13 +107,19 @@ export default function TrendingProductCard({
 
         {/* Favorite */}
         <button
-          className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/90 backdrop-blur-sm p-1.5 sm:p-2 rounded-full text-gray-700 hover:text-red-500 shadow-sm transition-all"
-          aria-label="Add to favorites"
+          type="button"
+          onClick={handleWishlist}
+          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/90 backdrop-blur-sm p-1.5 sm:p-2 rounded-full shadow-sm transition-all"
         >
           <svg
-            className="w-4 h-4 sm:w-5 sm:h-5"
+            className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${
+              isWishlisted
+                ? "text-[#1ec6cc]"
+                : "text-gray-600 hover:text-[#1ec6cc]"
+            }`}
             viewBox="0 0 24 24"
-            fill="none"
+            fill={isWishlisted ? "currentColor" : "none"}
             stroke="currentColor"
             strokeWidth="2"
           >
@@ -73,7 +137,7 @@ export default function TrendingProductCard({
       <div className="px-4 sm:px-5 pt-6 sm:pt-8 pb-4 sm:pb-5">
         <Link href={`/${lang}/view/${productId}`}>
           <h3
-            className="text-sm md:text-md font-bold text-gray-800 line-clamp-2 mb-3 sm:mb-4 hover:text-primary"
+            className="text-sm md:text-md font-bold text-gray-800 line-clamp-2 mb-3 sm:mb-4 hover:text-primary transition-colors"
             title={title}
           >
             {title}

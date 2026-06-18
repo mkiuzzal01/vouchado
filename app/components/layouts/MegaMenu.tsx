@@ -54,17 +54,15 @@ export default function MegaMenu({
         <NavigationMenuList className="flex items-center gap-2">
           {/* HOME */}
           <NavigationMenuItem>
-            <NavigationMenuLink>
-              <Link
-                href={`/${lang}`}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
-                  isActive(`/${lang}`)
-                    ? "bg-gray-200 text-black"
-                    : "hover:bg-gray-100"
-                }`}
-              >
-                <Home size={15} />
-              </Link>
+            <NavigationMenuLink
+              href={`/${lang}`}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                isActive(`/${lang}`)
+                  ? "bg-gray-200 text-black"
+                  : "hover:bg-gray-100"
+              }`}
+            >
+              <Home size={15} />
             </NavigationMenuLink>
           </NavigationMenuItem>
 
@@ -108,17 +106,15 @@ export default function MegaMenu({
           {/* LINKS */}
           {navLinks.map((item: any) => (
             <NavigationMenuItem key={item.href}>
-              <NavigationMenuLink>
-                <Link
-                  href={item.href}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
-                    isActive(item.href)
-                      ? "bg-gray-200 text-black"
-                      : "hover:bg-gray-100"
-                  }`}
-                >
-                  {item.title}
-                </Link>
+              <NavigationMenuLink
+                href={item.href}
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                  isActive(item.href)
+                    ? "bg-gray-200 text-black"
+                    : "hover:bg-gray-100"
+                }`}
+              >
+                {item.title}
               </NavigationMenuLink>
             </NavigationMenuItem>
           ))}
