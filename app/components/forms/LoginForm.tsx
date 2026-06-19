@@ -2,7 +2,7 @@
 "use client";
 import { Lock, Mail } from "lucide-react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 // import { toast } from "react-toastify";
 import AppForm from "./AppForm";
@@ -14,14 +14,16 @@ import SubmitButton from "../buttons/SubmitButton";
 import Image from "next/image";
 import { getDictionary } from "@/app/[lang]/dictionaries";
 // import { useLoginMutation } from "@/app/redux/features/auth/auth.api";
-import loginImage from "@/public/auth/auth.png";
+import { StaticImageData } from "next/image";
 
 interface Props {
   t: Awaited<ReturnType<typeof getDictionary>>;
   locale: string;
+  img: StaticImageData;
+  login_type: "user" | "provider";
 }
 
-export default function Login({ t, locale }: Props) {
+export default function Login({ t, locale, img, login_type }: Props) {
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect");
   // const dispatch = useAppDispatch();
@@ -65,11 +67,11 @@ export default function Login({ t, locale }: Props) {
   return (
     <Container>
       <div className="flex items-center justify-center min-h-screen px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-5xl bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-7xl bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
           {/* ================= LEFT IMAGE ================= */}
           <div className="hidden md:flex items-center justify-center">
             <Image
-              src={loginImage}
+              src={img}
               alt="signin"
               className="w-full h-full object-cover"
             />
@@ -138,14 +140,18 @@ export default function Login({ t, locale }: Props) {
                   <SubmitButton
                     isLoading={false}
                     title={t.auth.login.login}
-                    className="h-12 rounded-full"
+                    className="h-12 rounded-full text-white bg-primary hover:bg-[#0f7275]"
                   />
                 </div>
                 <div>
                   <p className="text-xs text-gray-700 text-center">
                     {t.auth.login.no_account}{" "}
                     <Link
-                      href={`/${locale}/registration`}
+                      href={
+                        login_type === "provider"
+                          ? `/${locale}/provider-registration`
+                          : `/${locale}/registration`
+                      }
                       className="text-primary font-semibold"
                     >
                       {t.auth.login.register}

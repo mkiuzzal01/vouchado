@@ -4,7 +4,7 @@ import Container from "../shared/Container";
 import AppForm from "./AppForm";
 // import TextInput from "./input-fields/TextInput";
 import { Lock, Mail, User } from "lucide-react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 // import SocialLogin from "../utils/SocialLogin";
 import SubmitButton from "../buttons/SubmitButton";
 // import logo from "@/public/auth/sign-in.jpg";
@@ -16,14 +16,20 @@ import { useRouter } from "next/navigation";
 import SocialLogin from "../utils/SocilaLogin";
 import TextInput from "./inputs/TextInput";
 import { getDictionary } from "@/app/[lang]/dictionaries";
-import loginImage from "@/public/auth/auth.png";
 
 interface Props {
   t: Awaited<ReturnType<typeof getDictionary>>;
   locale: string;
+  img: StaticImageData;
+  register_type?: "user" | "provider";
 }
 
-export default function RegistrationForm({ t, locale }: Props) {
+export default function RegistrationForm({
+  t,
+  locale,
+  img,
+  register_type,
+}: Props) {
   const router = useRouter();
   // const [register, { isLoading }] = useRegisterMutation();
 
@@ -47,11 +53,11 @@ export default function RegistrationForm({ t, locale }: Props) {
   return (
     <Container>
       <div className="flex items-center justify-center min-h-screen px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-5xl bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-7xl bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
           {/* ================= LEFT IMAGE ================= */}
           <div className="hidden md:flex items-center justify-center">
             <Image
-              src={loginImage}
+              src={img}
               alt="signin"
               className="w-full h-full object-cover"
             />
@@ -119,17 +125,38 @@ export default function RegistrationForm({ t, locale }: Props) {
                 <div className="flex items-center gap-2 py-2">
                   <Checkbox />
                   <label className="text-xs text-gray-700" htmlFor="terms">
-                    {t.auth.register.terms}
+                    I agree to Tech Takes{" "}
+                    <Link
+                      href={`/${locale}/terms`}
+                      className="underline text-primary font-semibold"
+                    >
+                      Terms of Service
+                    </Link>{" "}
+                    and{" "}
+                    <Link
+                      href={`/${locale}/privacy`}
+                      className="underline text-primary font-semibold"
+                    >
+                      Privacy Policy
+                    </Link>
+                    .
                   </label>
                 </div>
 
                 {/* SUBMIT */}
-                <SubmitButton title="Register" className="h-12 rounded-full" />
+                <SubmitButton
+                  title="Register"
+                  className="h-12 rounded-full text-white bg-primary hover:bg-[#0f7275]"
+                />
                 <div>
                   <p className="text-xs text-gray-700 text-center">
                     {t.auth.register.already_account}{" "}
                     <Link
-                      href={`/${locale}/login`}
+                      href={
+                        register_type === "provider"
+                          ? `/${locale}/provider-login`
+                          : `/${locale}/login`
+                      }
                       className="text-primary font-semibold"
                     >
                       {t.auth.register.login}

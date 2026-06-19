@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import businessBanner from "@/public/business/Dashboard.jpg";
 import Container from "../shared/Container";
+import Link from "next/link";
 
 export interface CategoryPill {
   label: string;
@@ -83,9 +84,11 @@ export default function ForBusiness() {
 
         {/* 3. CALL TO ACTION BUTTONS */}
         <div className="flex flex-row items-center justify-center gap-4 mb-16 w-full">
-          <button className="bg-white text-[#0e6a70] font-bold text-sm sm:text-base px-8 py-3.5 rounded-full hover:bg-neutral-100 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-black/10">
-            Become a Partner
-          </button>
+          <Link href={"/en/provider-login"}>
+            <button className="bg-white text-[#0e6a70] font-bold text-sm sm:text-base px-8 py-3.5 rounded-full hover:bg-neutral-100 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-black/10">
+              Become a Partner
+            </button>
+          </Link>
 
           <button className="border-2 border-white/60 text-white font-bold text-sm sm:text-base px-8 py-3.5 rounded-full bg-white/5 backdrop-blur-sm hover:bg-white/10 active:scale-[0.98] transition-all duration-200">
             Talk to Our Team

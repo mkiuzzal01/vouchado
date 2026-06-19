@@ -1,5 +1,6 @@
 import LoginForm from "@/app/components/forms/LoginForm";
 import { getDictionary } from "../../dictionaries";
+import loginImage from "@/public/auth/auth.png";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -8,5 +9,5 @@ interface Props {
 export default async function Login({ params }: Props) {
   const { lang } = await params;
   const t = await getDictionary(lang);
-  return <LoginForm t={t} locale={lang} />;
+  return <LoginForm login_type="user" t={t} locale={lang} img={loginImage} />;
 }
