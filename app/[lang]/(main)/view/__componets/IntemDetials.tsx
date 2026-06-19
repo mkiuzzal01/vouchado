@@ -26,13 +26,13 @@ import { toast } from "react-toastify";
 import { product } from "@/redux/items/ItemDetails";
 import { useState } from "react";
 import {
-  addToWishlist,
   removeFromWishlist,
+  toggleWishlist,
 } from "@/redux/features/wishlist/wishlinst.slice";
 import SimilarItem from "./SimilarItem";
-import ProductInfo from "./ProductLocation";
 import ProductLocation from "./ProductLocation";
 import PromoSteps from "@/app/components/hero/PromoSteps";
+import Link from "next/link";
 export default function ItemDetails() {
   const [quantity, setQuantity] = useState(1);
   const tabItems = [
@@ -42,10 +42,13 @@ export default function ItemDetails() {
     "Reviews",
   ];
   const { items } = useAppSelector((state) => state.cart);
+  const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
 
   const productIsInCart = items?.some((item) => item.id === product.id);
-  const productIsInWishlist = items?.some((item) => item.id === product.id);
+  const productIsInWishlist = wishlistItems?.some(
+    (item) => item.id === product.id,
+  );
 
   const handleAddToCart = () => {
     if (!productIsInCart) {
@@ -72,7 +75,7 @@ export default function ItemDetails() {
   const handleAddToWishlist = () => {
     if (!productIsInWishlist) {
       dispatch(
-        addToWishlist({
+        toggleWishlist({
           id: product?.id,
           imageUrl: product?.image,
           category: "",
@@ -297,19 +300,19 @@ export default function ItemDetails() {
                   variant="ghost"
                   className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-xl text-xs font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
                 >
-                  <Heart
-                    color={productIsInWishlist ? "#31BFC8" : "currentColor"}
-                  />
+                  <Heart color={productIsInWishlist ? "red" : "#31BFC8"} />
                   {productIsInWishlist
                     ? "Remove from wishlist"
                     : "Add to wishlist"}
                 </Button>
-                <Button
-                  variant="ghost"
-                  className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-xl text-xs font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
-                >
-                  <Message size={17} /> Chat with support
-                </Button>
+                <Link href={`/en/chat`}>
+                  <Button
+                    variant="ghost"
+                    className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-xl text-xs font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
+                  >
+                    <Message size={17} /> Chat with support
+                  </Button>
+                </Link>
               </div>
 
               {/* Micro Secured Footers Info */}
