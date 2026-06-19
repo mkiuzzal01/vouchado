@@ -8,7 +8,7 @@ import {
   ICartItem,
 } from "@/redux/features/cart/cart.slice";
 import { useRouter } from "next/navigation";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+import { useAppDispatch } from "@/redux/hooks/globalhooks";
 
 interface Props {
   items: ICartItem[];
@@ -18,20 +18,8 @@ export default function YourItems({ items }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  // Extract summary values directly computed by Redux
-  const { subTotal, totalPrice, vatRate, couponDiscount } = useAppSelector(
-    (state) => state.cart,
-  );
-
-  // Check if every item in the cart is currently selected
   const isAllSelected =
-    items.length > 0 && items.every((item) => item.isSelected);
-
-  // Count how many individual item units are checked
-  const selectedUnitsCount = items.reduce(
-    (acc, item) => (item.isSelected ? acc + item.selectedQuantity : acc),
-    0,
-  );
+    items?.length > 0 && items?.every((item) => item?.isSelected);
 
   const onContinueShopping = () => {
     router.back();
@@ -39,12 +27,10 @@ export default function YourItems({ items }: Props) {
 
   return (
     <div>
-      {/* Left Side: Cart Items Checklist */}
       <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
-        {/* Header Section */}
         <div className="flex justify-between items-center pb-4 mb-4 border-b border-slate-100">
           <h2 className="text-xl font-bold text-slate-900">
-            Your Items ({items.length})
+            Your Items ({items?.length})
           </h2>
           <div className="flex items-center space-x-2">
             <Checkbox
@@ -65,8 +51,8 @@ export default function YourItems({ items }: Props) {
 
         {/* Cart Items List */}
         <div className="space-y-4 mb-6">
-          {items.map((item) => (
-            <ItemCard key={item.id} item={item} />
+          {items?.map((item) => (
+            <ItemCard key={item?.id} item={item} />
           ))}
         </div>
 

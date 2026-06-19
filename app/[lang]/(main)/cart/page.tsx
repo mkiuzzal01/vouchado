@@ -10,7 +10,7 @@ import NotFoundData from "@/app/components/shared/NotFoundData";
 export default function page() {
   const { items } = useAppSelector((state) => state.cart);
 
-  if (!items.length) {
+  if (!items?.length) {
     return (
       <NotFoundData
         title="Your cart is empty"

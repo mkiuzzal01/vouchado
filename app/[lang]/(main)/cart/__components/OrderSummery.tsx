@@ -1,7 +1,12 @@
+import RedeemForm from "@/app/components/forms/RedeemForm";
+import ModalContainer from "@/app/components/shared/ModalContainer";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { Award, Clock, ShieldCheck, Coins } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
 export default function OrderSummary() {
+  const [isOpen, setIsOpen] = useState(false);
   const { items, subTotal, totalPrice, couponDiscount, vatRate } =
     useAppSelector((state) => state.cart);
 
@@ -80,7 +85,10 @@ export default function OrderSummary() {
             </h4>
           </div>
 
-          <button className="bg-[#2bb3bb] hover:bg-[#239aa1] text-white text-xs font-semibold px-3 py-2 rounded-xl transition-colors">
+          <button
+            onClick={() => setIsOpen(true)}
+            className="bg-[#2bb3bb] hover:bg-[#239aa1] text-white text-xs font-semibold px-3 py-2 rounded-xl transition-colors"
+          >
             Redeem Points
           </button>
         </div>
@@ -99,12 +107,14 @@ export default function OrderSummary() {
         </div>
 
         {/* Checkout */}
-        <button
-          disabled={!items.length}
-          className="w-full bg-[#2bb3bb] hover:bg-[#239aa1] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-full transition-colors"
-        >
-          Proceed to Checkout
-        </button>
+        <Link href={`/en/checkout`}>
+          <button
+            disabled={!items.length}
+            className="w-full bg-[#2bb3bb] hover:bg-[#239aa1] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-full transition-colors"
+          >
+            Proceed to Checkout
+          </button>
+        </Link>
       </div>
 
       {/* Trust Section */}
@@ -165,6 +175,13 @@ export default function OrderSummary() {
           </p>
         </div>
       </div>
+      <ModalContainer
+        title="Redeem Your Loyalty Points"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
+        <RedeemForm />
+      </ModalContainer>
     </div>
   );
 }

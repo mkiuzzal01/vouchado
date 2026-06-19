@@ -89,20 +89,20 @@ export default function ItemCard({ item }: ItemCardProps) {
         <Button
           size="icon"
           variant="ghost"
-          onClick={() => dispatch(removeFromCart(item.id))}
+          onClick={() => dispatch(removeFromCart(item?.id))}
           className="text-red-600 hover:text-red-500 hover:bg-red-50 rounded-full w-8 h-8 transition-colors"
         >
           <X size={16} />
         </Button>
         <div className="order-1 md:order-2">
           <ItemCounter
-            value={item.selectedQuantity}
-            max={item.totalQuantity}
+            value={item?.selectedQuantity}
+            max={item?.totalQuantity}
             min={1}
             onChange={(newQty) =>
               dispatch(
                 updateQuantity({
-                  id: item.id,
+                  id: item?.id,
                   quantity: newQty,
                 }),
               )
@@ -113,7 +113,7 @@ export default function ItemCard({ item }: ItemCardProps) {
         {/* Item Interactive Subtotal Pricing */}
         <div className="text-right order-2 md:order-1 mb-0 md:mb-4">
           <span className="text-2xl font-black text-cyan-600">
-            €{(item.currentPrice * item.selectedQuantity).toFixed(2)}
+            €{(item?.currentPrice * item?.selectedQuantity).toFixed(2)}
           </span>
         </div>
       </div>

@@ -16,7 +16,7 @@ import Mobile from "@/app/components/icons/Mobile";
 import CheckMark from "@/app/components/icons/CheckMark";
 import Star from "@/app/components/icons/Star";
 import Includes from "../__componets/Includes";
-import VisitorInfo from "../__componets/VisitorInfo";
+import VisitorInfo from "./ProductLocation";
 import Review from "../__componets/Review";
 import Overview from "../__componets/Overview";
 import ItemPhotos from "../__componets/ItemPhotos";
@@ -25,34 +25,72 @@ import { addToCart, removeFromCart } from "@/redux/features/cart/cart.slice";
 import { toast } from "react-toastify";
 import { product } from "@/redux/items/ItemDetails";
 import { useState } from "react";
-
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "@/redux/features/wishlist/wishlinst.slice";
+import SimilarItem from "./SimilarItem";
+import ProductInfo from "./ProductLocation";
+import ProductLocation from "./ProductLocation";
+import PromoSteps from "@/app/components/hero/PromoSteps";
 export default function ItemDetails() {
   const [quantity, setQuantity] = useState(1);
-  const tabItems = ["Overview", "What's Included", "Visitor Info", "Reviews"];
+  const tabItems = [
+    "Overview",
+    "What's Included",
+    "Local Information",
+    "Reviews",
+  ];
   const { items } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
-  const productIsInCart = items.some((item) => item.id === product.id);
+  const productIsInCart = items?.some((item) => item.id === product.id);
+  const productIsInWishlist = items?.some((item) => item.id === product.id);
 
   const handleAddToCart = () => {
     if (!productIsInCart) {
       dispatch(
         addToCart({
-          id: product.id,
-          title: product.title,
-          tagline: product.tagline,
-          rating: product.rating,
-          reviewsCount: product.reviewsCount,
-          location: product.location,
-          currentPrice: product.priceOriginal,
-          totalQuantity: product.quantity,
+          id: product?.id,
+          title: product?.title,
+          tagline: product?.tagline,
+          rating: product?.rating,
+          reviewsCount: product?.reviewsCount,
+          location: product?.location,
+          currentPrice: product?.priceOriginal,
+          totalQuantity: product?.quantity,
           selectedQuantity: quantity,
         }),
       );
       toast.success("Product added to cart");
     } else {
-      dispatch(removeFromCart(product.id));
+      dispatch(removeFromCart(product?.id));
       toast.warning("Product removed from cart");
+    }
+  };
+
+  const handleAddToWishlist = () => {
+    if (!productIsInWishlist) {
+      dispatch(
+        addToWishlist({
+          id: product?.id,
+          imageUrl: product?.image,
+          category: "",
+          title: product?.title,
+          rating: product?.rating,
+          location: product?.location,
+          currentPrice: product?.priceOriginal,
+          originalPrice: product?.priceOriginal,
+          currencySymbol: "$",
+          discountPercentage: product?.discountBadge,
+          distance: "10km",
+          endsIn: "2d 10h",
+        }),
+      );
+      toast.success("Product added to wishlist");
+    } else {
+      dispatch(removeFromWishlist(product?.id));
+      toast.warning("Product removed from wishlist");
     }
   };
 
@@ -157,10 +195,10 @@ export default function ItemDetails() {
                 </TabsContent>
 
                 <TabsContent
-                  value="visitor-info"
+                  value="local-information"
                   className="mt-4 focus-visible:outline-none"
                 >
-                  <VisitorInfo />
+                  <ProductLocation />
                 </TabsContent>
 
                 <TabsContent
@@ -255,10 +293,16 @@ export default function ItemDetails() {
                   {productIsInCart ? "Remove From Cart" : "Add to Cart"}
                 </Button>
                 <Button
+                  onClick={() => handleAddToWishlist()}
                   variant="ghost"
                   className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-xl text-xs font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
                 >
-                  <Heart /> Add to wishlist
+                  <Heart
+                    color={productIsInWishlist ? "#31BFC8" : "currentColor"}
+                  />
+                  {productIsInWishlist
+                    ? "Remove from wishlist"
+                    : "Add to wishlist"}
                 </Button>
                 <Button
                   variant="ghost"
@@ -291,6 +335,8 @@ export default function ItemDetails() {
             </div>
           </div>
         </div>
+        <SimilarItem />
+        <PromoSteps />
       </Container>
     </section>
   );

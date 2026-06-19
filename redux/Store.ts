@@ -5,18 +5,22 @@ import { baseApi } from "./API/baseAPI";
 import authReducer from "./features/auth/auth.slice";
 import cartReducer from "./features/cart/cart.slice";
 import wishlistReducer from "./features/wishlist/wishlinst.slice";
+import userReducer from "./features/user/user.slice";
+import providerReducer from "./features/provider/provider.slice";
 
 const rootReducer = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
   auth: authReducer,
   cart: cartReducer,
   wishlist: wishlistReducer,
+  user: userReducer,
+  provider: providerReducer,
 });
 
 const persistConfig = {
-  key: "root",
+  key: "vouchado",
   storage,
-  whitelist: ["auth", "cart", "wishlist"],
+  whitelist: ["auth", "cart", "wishlist", "user", "provider"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

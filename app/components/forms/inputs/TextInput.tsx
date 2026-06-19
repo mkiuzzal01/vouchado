@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
 interface TextInputProps {
-  label: string;
+  label?: string;
   name: string;
   placeholder?: string;
   type?: string;
@@ -39,9 +39,11 @@ export default function TextInput({
   return (
     <div className={cn("space-y-1.5 w-full mb-6", className)}>
       {/* LABEL */}
-      <Label htmlFor={name} className="text-sm font-medium text-gray-600">
-        {label}
-      </Label>
+      {label && (
+        <Label htmlFor={name} className="text-sm font-medium text-gray-600">
+          {label}
+        </Label>
+      )}
 
       <Controller
         name={name}

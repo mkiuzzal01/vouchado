@@ -11,7 +11,7 @@ export interface ICartItem {
   discountBadge?: number;
   selectedQuantity: number;
   totalQuantity: number;
-  isSelected: boolean; // Added to manage UI active/inactive selection
+  isSelected: boolean;
 }
 
 interface CartState {

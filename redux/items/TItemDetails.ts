@@ -14,6 +14,7 @@ export interface ICustomerReview {
 export interface IProduct {
   id: string;
   title: string;
+  image: string;
   tagline: string;
   quantity: number;
   rating: number;

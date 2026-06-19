@@ -3,11 +3,11 @@ import Location from "@/app/components/icons/Location";
 import Time from "@/app/components/icons/Time";
 import ItemMap from "./ItemMap";
 
-export default function VisitorInfo() {
+export default function ProductLocation() {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm space-y-4 text-left">
       <h4 className="text-sm font-bold text-gray-900 tracking-tight">
-        Visitor Information
+        Local Information
       </h4>
 
       <div className="space-y-3.5 text-xs text-gray-600 font-light">
@@ -48,7 +48,7 @@ export default function VisitorInfo() {
 
       {/* Miniature Map Segment Frame Layout */}
       <div className="relative w-full bg-slate-50 border border-gray-100 rounded-xl overflow-hidden flex flex-col justify-between">
-        <ItemMap />
+        <ItemMap center={{ lat: 23.8103, lng: 90.4125 }} />
       </div>
     </div>
   );

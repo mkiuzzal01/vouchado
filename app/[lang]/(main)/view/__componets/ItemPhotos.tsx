@@ -29,7 +29,7 @@ export default function ItemPhotos({ images }: ItemPhotosProps) {
         }}
         className="rounded-2xl overflow-hidden"
       >
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <SwiperSlide key={index}>
             <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-100">
               <Image

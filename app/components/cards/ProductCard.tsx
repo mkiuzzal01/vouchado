@@ -5,7 +5,7 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { toggleWishlist } from "@/redux/features/wishlist/wishlinst.slice";
-import { LocateIcon, Map, MapIcon } from "lucide-react";
+
 import Location from "../icons/Location";
 
 export interface ProductCardProps {
