@@ -8,7 +8,7 @@ export const product: IProduct = {
   reviewsCount: 12500,
   priceOriginal: 124.5,
   discountBadge: 17,
-  quantity: 12,
+  quantity: 5,
   overview:
     "Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life. From viewing artifacts like the Olympic torch to collecting personalized memories in your digital locker, it is an inspiring journey through sports history",
   location: "1 Olympic Plaza, Colorado Springs, CO 80909",

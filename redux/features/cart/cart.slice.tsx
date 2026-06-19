@@ -2,18 +2,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface ICartItem {
   id: string;
-  imageUrl: string;
-  category: string;
   title: string;
+  tagline?: string;
   rating: number;
+  reviewsCount?: number;
   location: string;
   currentPrice: number;
-  originalPrice?: number;
-  currencySymbol?: string;
-  discountPercentage?: number;
-  distance?: string;
-  endsIn?: string;
-  quantity?: number;
+  discountBadge?: number;
+  selectedQuantity: number;
+  totalQuantity: number;
+  isSelected: boolean; // Added to manage UI active/inactive selection
 }
 
 interface CartState {
@@ -23,6 +21,21 @@ interface CartState {
   subTotal: number;
   totalPrice: number;
 }
+
+// Recalculates totals only factoring in items where isSelected === true
+const calculateTotals = (state: CartState) => {
+  state.subTotal = state.items.reduce((total, item) => {
+    return item.isSelected
+      ? total + item.currentPrice * item.selectedQuantity
+      : total;
+  }, 0);
+
+  const vatAmount = state.subTotal * state.vatRate;
+
+  // Guard against coupon discounts dropping the final total below zero
+  const rawTotal = state.subTotal + vatAmount - state.couponDiscount;
+  state.totalPrice = Math.max(0, rawTotal);
+};
 
 const initialState: CartState = {
   items: [],
@@ -36,61 +49,63 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<ICartItem>) => {
-      const item = state.items.find((i) => i.id === action.payload.id);
+    addToCart: (
+      state,
+      action: PayloadAction<
+        Omit<ICartItem, "isSelected"> & { isSelected?: boolean }
+      >,
+    ) => {
+      const existingItem = state.items.find(
+        (item) => item.id === action.payload.id,
+      );
 
-      const quantityToAdd = action.payload.quantity ?? 1;
-
-      if (item) {
-        item.quantity = (item.quantity ?? 0) + quantityToAdd;
+      if (existingItem) {
+        existingItem.selectedQuantity += action.payload.selectedQuantity;
+        existingItem.totalQuantity += action.payload.totalQuantity;
       } else {
+        // Fallback default to true if isSelected isn't explicitly passed
         state.items.push({
           ...action.payload,
-          quantity: quantityToAdd,
+          isSelected: action.payload.isSelected ?? true,
         });
       }
-
-      state.subTotal = state.items.reduce(
-        (total, item) => total + item.currentPrice * item.quantity!,
-        0,
-      );
-      state.totalPrice = state.subTotal + state.vatRate;
-      state.totalPrice = state.totalPrice - state.couponDiscount;
+      calculateTotals(state);
     },
 
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
-      state.subTotal = state.items.reduce(
-        (total, item) => total + item.currentPrice * item.quantity!,
-        0,
-      );
-      state.totalPrice = state.subTotal + state.vatRate;
-      state.totalPrice = state.totalPrice - state.couponDiscount;
+      calculateTotals(state);
     },
 
-    increaseQty: (state, action: PayloadAction<string>) => {
-      const item = state.items.find((i) => i.id === action.payload);
-      if (item) item.quantity = (item.quantity || 1) + 1;
-      state.subTotal = state.items.reduce(
-        (total, item) => total + item.currentPrice * item.quantity!,
-        0,
-      );
-      state.totalPrice = state.subTotal + state.vatRate;
-      state.totalPrice = state.totalPrice - state.couponDiscount;
-    },
-
-    decreaseQty: (state, action: PayloadAction<string>) => {
-      const item = state.items.find((i) => i.id === action.payload);
-
-      if (item && item.quantity && item.quantity > 1) {
-        item.quantity -= 1;
+    updateQuantity: (
+      state,
+      action: PayloadAction<{ id: string; quantity: number }>,
+    ) => {
+      const item = state.items.find((item) => item.id === action.payload.id);
+      if (item) {
+        item.selectedQuantity = Math.max(1, action.payload.quantity);
       }
-      state.subTotal = state.items.reduce(
-        (total, item) => total + item.currentPrice * item.quantity!,
-        0,
-      );
-      state.totalPrice = state.subTotal + state.vatRate;
-      state.totalPrice = state.totalPrice - state.couponDiscount;
+      calculateTotals(state);
+    },
+
+    // New Reducer: Toggles a single item's checkbox state
+    toggleSelectItem: (
+      state,
+      action: PayloadAction<{ id: string; isSelected: boolean }>,
+    ) => {
+      const item = state.items.find((item) => item.id === action.payload.id);
+      if (item) {
+        item.isSelected = action.payload.isSelected;
+      }
+      calculateTotals(state);
+    },
+
+    // New Reducer: Handles the master checkout "Select All" toggle switch
+    toggleSelectAll: (state, action: PayloadAction<boolean>) => {
+      state.items.forEach((item) => {
+        item.isSelected = action.payload;
+      });
+      calculateTotals(state);
     },
 
     clearCart: (state) => {
@@ -98,10 +113,11 @@ const cartSlice = createSlice({
       state.subTotal = 0;
       state.totalPrice = 0;
       state.couponDiscount = 0;
-      state.vatRate = 0.15;
     },
+
     applyCoupon: (state, action: PayloadAction<number>) => {
       state.couponDiscount = action.payload;
+      calculateTotals(state);
     },
   },
 });
@@ -109,8 +125,9 @@ const cartSlice = createSlice({
 export const {
   addToCart,
   removeFromCart,
-  increaseQty,
-  decreaseQty,
+  updateQuantity,
+  toggleSelectItem,
+  toggleSelectAll,
   clearCart,
   applyCoupon,
 } = cartSlice.actions;

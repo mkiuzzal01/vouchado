@@ -24,21 +24,35 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { addToCart, removeFromCart } from "@/redux/features/cart/cart.slice";
 import { toast } from "react-toastify";
 import { product } from "@/redux/items/ItemDetails";
+import { useState } from "react";
 
 export default function ItemDetails() {
+  const [quantity, setQuantity] = useState(1);
   const tabItems = ["Overview", "What's Included", "Visitor Info", "Reviews"];
   const { items } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   const productIsInCart = items.some((item) => item.id === product.id);
 
-  const handleAddToCart = (product: any) => {
-    if (productIsInCart) {
-      dispatch(removeFromCart(product.id));
-      toast.warn("Product removed from cart");
-    } else {
-      dispatch(addToCart(product));
+  const handleAddToCart = () => {
+    if (!productIsInCart) {
+      dispatch(
+        addToCart({
+          id: product.id,
+          title: product.title,
+          tagline: product.tagline,
+          rating: product.rating,
+          reviewsCount: product.reviewsCount,
+          location: product.location,
+          currentPrice: product.priceOriginal,
+          totalQuantity: product.quantity,
+          selectedQuantity: quantity,
+        }),
+      );
       toast.success("Product added to cart");
+    } else {
+      dispatch(removeFromCart(product.id));
+      toast.warning("Product removed from cart");
     }
   };
 
@@ -226,12 +240,16 @@ export default function ItemDetails() {
               </div>
 
               {/* Core Input Quantity Ticket Selector Panel Wrapper */}
-              <CounterItem max={product?.quantity} />
+              <CounterItem
+                max={product.quantity}
+                defaultValue={1}
+                onChange={setQuantity}
+              />
 
               {/* Action Routes Button Modules */}
               <div className="space-y-2.5 pt-1">
                 <Button
-                  onClick={() => handleAddToCart(product)}
+                  onClick={() => handleAddToCart()}
                   className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-xl text-sm shadow-sm transition-all active:scale-[0.99]"
                 >
                   {productIsInCart ? "Remove From Cart" : "Add to Cart"}
