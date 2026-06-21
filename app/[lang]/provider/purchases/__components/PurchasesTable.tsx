@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
 const mockRows = [
@@ -95,104 +95,144 @@ const mockRows = [
 
 export default function PurchasesTable() {
   return (
-    <Table>
-      <TableHeader className="bg-gray-50/60">
-        <TableRow className="border-b border-gray-100 hover:bg-transparent">
-          <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
-            Service Name
-          </TableHead>
-          <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
-            Category
-          </TableHead>
-          <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
-            Customer
-          </TableHead>
-          <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
-            Purchase
-          </TableHead>
-          <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
-            Revenue
-          </TableHead>
-          <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
-            Status
-          </TableHead>
-          <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4 text-center">
-            Action
-          </TableHead>
-        </TableRow>
-      </TableHeader>
+    <div className="space-y-5 w-full">
+      {/* Table Section */}
+      <div className="w-full overflow-x-auto rounded-xl border border-gray-100 bg-white">
+        <Table className="min-w-[850px]">
+          <TableHeader className="bg-gray-50/60">
+            <TableRow className="border-b border-gray-100 hover:bg-transparent">
+              <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+                Service Name
+              </TableHead>
+              <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+                Category
+              </TableHead>
+              <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+                Customer
+              </TableHead>
+              <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+                Purchase
+              </TableHead>
+              <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+                Revenue
+              </TableHead>
+              <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+                Status
+              </TableHead>
+              <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4 text-center">
+                Action
+              </TableHead>
+            </TableRow>
+          </TableHeader>
 
-      <TableBody className="divide-y divide-gray-50 text-xs font-semibold text-gray-700">
-        {mockRows.map((row) => (
-          <TableRow
-            key={row.id}
-            className="border-none hover:bg-gray-50/30 transition-colors"
-          >
-            {/* Service Item */}
-            <TableCell className="py-3.5 px-4 flex items-center gap-3 max-w-xs">
-              <Image
-                src={row.img}
-                alt=""
-                width={80}
-                height={70}
-                className="w-9 h-7 object-cover rounded-md border border-gray-100 shrink-0"
-              />
-              <span className="font-bold text-gray-900 truncate">
-                {row.name}
-              </span>
-            </TableCell>
-
-            {/* Category */}
-            <TableCell className="py-3.5 px-4 text-gray-400 font-medium">
-              {row.cat}
-            </TableCell>
-
-            {/* Customer */}
-            <TableCell className="py-3.5 px-4 text-gray-600">
-              {row.user}
-            </TableCell>
-
-            {/* Purchase & Revenue prices */}
-            <TableCell className="py-3.5 px-4 font-bold text-gray-900">
-              {row.buy}
-            </TableCell>
-            <TableCell className="py-3.5 px-4 font-bold text-gray-900">
-              {row.rev}
-            </TableCell>
-
-            {/* Status Badge Grouping */}
-            <TableCell className="py-3.5 px-4">
-              <span
-                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
-                  row.status === "Redeemed"
-                    ? "bg-emerald-50 border-emerald-100 text-emerald-600"
-                    : row.status === "Unredeemed"
-                      ? "bg-gray-50 border-gray-200 text-gray-500"
-                      : "bg-rose-50 border-rose-100 text-rose-500"
-                }`}
+          <TableBody className="divide-y divide-gray-50 text-xs font-semibold text-gray-700">
+            {mockRows.map((row) => (
+              <TableRow
+                key={row.id}
+                className="border-none hover:bg-gray-50/30 transition-colors"
               >
-                <span
-                  className={`w-1 h-1 rounded-full ${
-                    row.status === "Redeemed"
-                      ? "bg-emerald-500"
-                      : row.status === "Unredeemed"
-                        ? "bg-gray-400"
-                        : "bg-rose-500"
-                  }`}
-                ></span>
-                {row.status}
-              </span>
-            </TableCell>
+                {/* Service Item */}
+                <TableCell className="py-3.5 px-4 flex items-center gap-3 max-w-xs">
+                  <Image
+                    src={row.img}
+                    alt=""
+                    width={36}
+                    height={28}
+                    className="w-9 h-7 object-cover rounded-md border border-gray-100 shrink-0"
+                  />
+                  <span className="font-bold text-gray-900 truncate">
+                    {row.name}
+                  </span>
+                </TableCell>
 
-            {/* Action Trigger */}
-            <TableCell className="py-3.5 px-4 text-center">
-              <button className="p-1.5 border border-gray-100 text-teal-500 rounded-lg bg-white hover:bg-teal-50/50 hover:border-teal-200 transition-all inline-flex items-center justify-center">
-                <MessageSquare size={13} />
-              </button>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+                {/* Category */}
+                <TableCell className="py-3.5 px-4 text-gray-400 font-medium">
+                  {row.cat}
+                </TableCell>
+
+                {/* Customer */}
+                <TableCell className="py-3.5 px-4 text-gray-600">
+                  {row.user}
+                </TableCell>
+
+                {/* Purchase & Revenue prices */}
+                <TableCell className="py-3.5 px-4 font-bold text-gray-900">
+                  {row.buy}
+                </TableCell>
+                <TableCell className="py-3.5 px-4 font-bold text-gray-900">
+                  {row.rev}
+                </TableCell>
+
+                {/* Status Badge Grouping */}
+                <TableCell className="py-3.5 px-4">
+                  <span
+                    className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                      row.status === "Redeemed"
+                        ? "bg-emerald-50 border-emerald-100 text-emerald-600"
+                        : row.status === "Unredeemed"
+                          ? "bg-gray-50 border-gray-200 text-gray-500"
+                          : "bg-rose-50 border-rose-100 text-rose-500"
+                    }`}
+                  >
+                    <span
+                      className={`w-1 h-1 rounded-full ${
+                        row.status === "Redeemed"
+                          ? "bg-emerald-500"
+                          : row.status === "Unredeemed"
+                            ? "bg-gray-400"
+                            : "bg-rose-500"
+                      }`}
+                    ></span>
+                    {row.status}
+                  </span>
+                </TableCell>
+
+                {/* Action Trigger */}
+                <TableCell className="py-3.5 px-4 text-center">
+                  <button className="p-1.5 border border-gray-100 text-teal-500 rounded-lg bg-white hover:bg-teal-50/50 hover:border-teal-200 transition-all inline-flex items-center justify-center">
+                    <MessageSquare size={13} />
+                  </button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Pagination Footer Section */}
+      <div className="flex items-center justify-center gap-1.5 pt-2 text-xs font-bold text-gray-500 selection:bg-transparent">
+        {/* Left Chevron Control */}
+        <button
+          className="p-1.5 rounded-md text-gray-400 hover:bg-gray-100/70 hover:text-gray-700 transition-colors disabled:opacity-30 disabled:hover:bg-transparent"
+          disabled
+        >
+          <ChevronLeft size={16} strokeWidth={2.5} />
+        </button>
+
+        {/* Numeric Indicators */}
+        <button className="w-7 h-7 flex items-center justify-center bg-gray-100 text-gray-900 rounded-full transition-colors">
+          1
+        </button>
+        <button className="w-7 h-7 flex items-center justify-center hover:bg-gray-100/70 text-gray-500 rounded-full transition-colors">
+          2
+        </button>
+        <button className="w-7 h-7 flex items-center justify-center hover:bg-gray-100/70 text-gray-500 rounded-full transition-colors">
+          3
+        </button>
+        <button className="w-7 h-7 flex items-center justify-center hover:bg-gray-100/70 text-gray-500 rounded-full transition-colors">
+          4
+        </button>
+        <button className="w-7 h-7 flex items-center justify-center hover:bg-gray-100/70 text-gray-500 rounded-full transition-colors">
+          5
+        </button>
+
+        <span className="px-1 text-gray-300 font-medium select-none">...</span>
+
+        {/* Right Chevron Control */}
+        <button className="p-1.5 rounded-md text-gray-400 hover:bg-gray-100/70 hover:text-gray-700 transition-colors">
+          <ChevronRight size={16} strokeWidth={2.5} />
+        </button>
+      </div>
+    </div>
   );
 }

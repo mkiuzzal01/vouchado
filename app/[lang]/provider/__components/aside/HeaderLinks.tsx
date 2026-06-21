@@ -16,7 +16,7 @@ export const providerNavItems: IProviderNavItem[] = [
   {
     icon: LayoutDashboard,
     label: "Dashboard",
-    href: "/provider/dashboard",
+    href: "/provider",
   },
   {
     icon: MessageSquare,
