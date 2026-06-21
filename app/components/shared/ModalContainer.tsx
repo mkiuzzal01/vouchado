@@ -1,6 +1,8 @@
+"use client";
+
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import React, { useEffect } from "react";
 
 interface Props {
   className?: string;
@@ -18,17 +20,19 @@ export default function ModalContainer({
   onClose,
 }: Props) {
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onClose();
       }
     };
 
-    if (isOpen) {
-      window.addEventListener("keydown", handleKeyDown);
-    }
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
+      document.body.style.overflow = "";
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isOpen, onClose]);
@@ -37,53 +41,54 @@ export default function ModalContainer({
 
   return (
     <div
-      style={{
-        position: "fixed",
-        inset: 0,
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        zIndex: 1000,
-      }}
+      className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center bg-black/60 backdrop-blur-sm p-0 sm:p-4"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        style={{
-          background: "white",
-          borderRadius: "8px",
-          minWidth: "320px",
-          maxWidth: "90%",
-          padding: "16px",
-        }}
+        className={cn(
+          "relative w-full",
+          "sm:max-w-2xl",
+          "bg-white",
+          "rounded-t-3xl sm:rounded-2xl",
+          "shadow-2xl",
+          "animate-in fade-in zoom-in-95 duration-200",
+          "max-h-[95vh]",
+          "flex flex-col",
+          className,
+        )}
       >
+        {/* Mobile drag indicator */}
+        <div className="flex justify-center pt-3 sm:hidden">
+          <div className="h-1.5 w-12 rounded-full bg-gray-300" />
+        </div>
+
         {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "12px",
-            paddingBottom: "8px",
-          }}
-        >
-          <h3 style={{ margin: 0, fontSize: "16px", fontWeight: 600 }}>
+        <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-5 py-4 rounded-t-3xl sm:rounded-t-2xl">
+          <h2 className="text-lg font-semibold text-gray-900">
             {title || "Modal"}
-          </h3>
+          </h2>
 
           <Button
-            className="w-8 h-8 p-0"
-            variant={"destructive"}
+            variant="ghost"
+            size="icon"
             onClick={onClose}
             aria-label="Close modal"
+            className="rounded-full hover:bg-red-50 hover:text-red-500"
           >
             ✕
           </Button>
         </div>
 
         {/* Body */}
-        <div className={cn(className)}>{children}</div>
+        <div
+          className={cn(
+            "flex-1 overflow-y-auto px-5 py-4",
+            "max-h-[calc(95vh-80px)]",
+          )}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
