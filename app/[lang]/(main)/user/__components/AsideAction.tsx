@@ -1,9 +1,8 @@
 "use client";
-
 import { useState } from "react";
-import UserUpdateForm from "@/app/components/forms/UserUpdateForm";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import UpdateUserPassForm from "@/app/components/forms/inputs/UpdateUserPassForm";
+import { LogOut, Trash, Trash2 } from "lucide-react";
 
 export default function AsideAction() {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -14,34 +13,27 @@ export default function AsideAction() {
 
   const handleLogout = () => {
     console.log("Logout");
-
-    // Example:
-    // await logout();
-    // router.push("/auth/login");
   };
 
   const handleDeleteAccount = () => {
     console.log("Delete Account");
-
-    // Open delete confirmation modal
-    // setIsDeleteModalOpen(true);
   };
 
   const actions = [
     {
       label: "Change Password",
-      icon: "🔑",
+      icon: <Trash2 />,
       onClick: handleChangePassword,
     },
     {
       label: "Log Out",
-      icon: "🚪",
+      icon: <LogOut />,
       isDanger: true,
       onClick: handleLogout,
     },
     {
       label: "Delete Account",
-      icon: "🗑️",
+      icon: <Trash />,
       isDanger: true,
       onClick: handleDeleteAccount,
     },

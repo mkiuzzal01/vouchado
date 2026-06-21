@@ -55,7 +55,8 @@ export default function SelectInput({
           <Select value={field.value || ""} onValueChange={field.onChange}>
             <SelectTrigger
               id={name}
-              className={`w-full${
+              style={{ height: "42px" }}
+              className={`w-full ${
                 errorMessage ? "border-red-500 focus:ring-red-500" : ""
               }`}
             >

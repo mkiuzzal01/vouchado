@@ -73,19 +73,19 @@ export default function MegaMenu({
               {menuTitle}
             </NavigationMenuTrigger>
 
-            <NavigationMenuContent className="bg-white shadow-xl rounded-2xl  p-5 w-[min(95vw,650px)]">
+            <NavigationMenuContent className="bg-white shadow-xl rounded-2xl  p-5 w-fit">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {services.map((service: any) => (
-                  <div key={service.href} className="rounded-xl bg-gray-50 p-3">
+                  <div key={service.href} className="rounded-xl bg-white p-3">
                     <Link
                       href={service.href}
-                      className="block px-2 py-2 font-semibold text-gray-900 hover:bg-gray-100 rounded-md"
+                      className="block text-md px-2 py-2 font-medium text-gray-900 hover:bg-gray-100 rounded-md"
                     >
                       {service.title}
                     </Link>
 
                     {service.subMenu?.length && (
-                      <div className="mt-2 ml-2 space-y-1 border-l pl-3">
+                      <div className="mt-2  space-y-1 pl-3">
                         {service.subMenu.map((sub: any) => (
                           <Link
                             key={sub.href}
@@ -108,7 +108,7 @@ export default function MegaMenu({
             <NavigationMenuItem key={item.href}>
               <NavigationMenuLink
                 href={item.href}
-                className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
+                className={`px-3 py-2 rounded-lg text-xs lg:text-sm font-medium transition ${
                   isActive(item.href)
                     ? "bg-gray-200 text-black"
                     : "hover:bg-gray-100"
@@ -123,7 +123,7 @@ export default function MegaMenu({
           <NavigationMenuItem>
             <Link
               href="/contact"
-              className="flex items-center gap-2 rounded-full bg-gray-100 border px-4 py-2 text-sm font-medium hover:bg-gray-200 transition"
+              className="flex items-center gap-2 rounded-full bg-gray-100 border px-4 py-2 text-xs lg:text-sm font-medium hover:bg-gray-200 transition"
             >
               <Location size={15} />
               Berlin, Germany
@@ -137,7 +137,7 @@ export default function MegaMenu({
         <div className="md:hidden fixed inset-0 z-50 bg-white p-4 overflow-y-auto">
           {/* HEADER */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold">{menu}</h2>
+            <h2 className="text-lg font-semibold pl-4">{menu}</h2>
 
             <Button
               variant="ghost"
@@ -151,12 +151,12 @@ export default function MegaMenu({
           {/* SERVICES ACCORDION */}
           <Accordion>
             <AccordionItem value="services">
-              <AccordionTrigger className="text-sm font-medium">
+              <AccordionTrigger className="p-3 font-medium">
                 {menuTitle}
               </AccordionTrigger>
 
-              <AccordionContent>
-                <div className="space-y-3 ml-2">
+              <AccordionContent unselectable="on">
+                <div className="space-y-3 ml-2 p-4">
                   {services.map((service: any) => (
                     <div key={service.href}>
                       <Link
@@ -189,7 +189,7 @@ export default function MegaMenu({
           </Accordion>
 
           {/* NAV LINKS */}
-          <div className="mt-4 flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             {navLinks.map((item: any) => (
               <Link
                 key={item.href}
@@ -210,7 +210,7 @@ export default function MegaMenu({
           <Link
             href="/contact"
             onClick={() => setShowNavbar(false)}
-            className="flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 text-sm mt-4"
+            className="flex items-center gap-2 px-2 lg:px-3 py-2 rounded-md bg-gray-100 text-xs lg:text-sm mt-4"
           >
             <Location size={15} />
             Berlin, Germany

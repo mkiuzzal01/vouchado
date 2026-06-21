@@ -2,7 +2,7 @@
 import UserUpdateForm from "@/app/components/forms/UserUpdateForm";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 
 export default function PersonalInfo() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

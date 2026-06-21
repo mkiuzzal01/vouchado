@@ -42,6 +42,10 @@ export default function ExploreCategories() {
       icon: <Cultural size={70} />,
       name: "Hotel & Culture",
     },
+    {
+      icon: <Beauty size={70} />,
+      name: "Beauty & Wellness",
+    },
   ];
 
   return (
@@ -56,11 +60,11 @@ export default function ExploreCategories() {
 
           {/* Navigation Buttons */}
           <div className="flex gap-2">
-            <button className="category-prev flex h-10 w-10 items-center justify-center rounded-full border bg-white shadow-sm hover:bg-gray-50">
+            <button className="category-prev flex h-10 w-10 items-center justify-center rounded-full border bg-white  hover:bg-gray-50">
               <ChevronLeft size={24} />
             </button>
 
-            <button className="category-next flex h-10 w-10 items-center justify-center rounded-full border bg-white shadow-sm hover:bg-gray-50">
+            <button className="category-next flex h-10 w-10 items-center justify-center rounded-full border bg-white hover:bg-gray-50">
               <ChevronRight size={24} />
             </button>
           </div>

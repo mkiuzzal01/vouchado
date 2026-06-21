@@ -12,20 +12,13 @@ interface Product {
   notIncluded?: string[];
 }
 
-export default function Overview({
-  description,
-  highlights,
-  included,
-  notIncluded,
-}: Product) {
+export default function Overview({ description, highlights }: Product) {
   return (
     <div className="space-y-8">
       <h2 className="text-xl font-bold text-gray-900">Overview</h2>
 
       {/* Description */}
-      <div className="space-y-3 text-sm text-gray-600 leading-relaxed">
-        <p>{description}</p>
-      </div>
+      <p className="leading-relaxed text-sm">{description}</p>
 
       {/* Highlights */}
       <div className="space-y-4 pt-6 border-t border-gray-100">

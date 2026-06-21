@@ -110,7 +110,7 @@ export default function ProductCard({
         {/* Top Right */}
         <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex items-center gap-2">
           {distance && (
-            <div className="bg-white text-gray-800 text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full shadow-sm">
+            <div className="bg-white/80 text-gray-800 text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full shadow-sm">
               {distance}
             </div>
           )}
@@ -121,7 +121,7 @@ export default function ProductCard({
               isWishlisted ? "Remove from wishlist" : "Add to wishlist"
             }
             onClick={handleFavoriteClick}
-            className="bg-white p-1.5 rounded-full shadow-sm transition-all duration-200"
+            className="bg-white/80 p-1.5 rounded-full shadow-sm transition-all duration-200"
           >
             <svg
               className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors ${

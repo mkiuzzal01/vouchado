@@ -91,7 +91,7 @@ export default function ModernSearch({
       {/* ================= DESKTOP VIEW (Pill style) ================= */}
       <form
         onSubmit={handleSubmit}
-        className="hidden md:flex w-full items-center overflow-hidden rounded-full bg-white shadow-xl border border-gray-100/80 p-1"
+        className="hidden md:flex w-full items-center overflow-hidden rounded-full bg-white  border border-gray-100/80 p-1"
       >
         {/* Location Box */}
         <div className="flex items-center gap-2 px-5 py-2 w-full text-gray-400 focus-within:text-[#1ec6cc] transition-colors group">

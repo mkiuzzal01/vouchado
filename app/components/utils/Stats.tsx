@@ -40,14 +40,14 @@ export default function Stats() {
 
   return (
     <section className="relative w-full -bottom-20">
-      <Container className="bg-white py-5 rounded-xl shadow">
+      <Container className="bg-white rounded-xl shadow">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition duration-300"
+              className="flex items-center gap-4 p-4 rounded-xl transition duration-300"
             >
-              <div className="text-gray-500">{stat.icon}</div>
+              <div className="bg-primary/10 p-2 rounded-full">{stat.icon}</div>
 
               <div className="flex flex-col">
                 <div className="flex items-center gap-1 text-sm md:text-lg font-bold text-gray-900">
@@ -59,7 +59,7 @@ export default function Stats() {
               </div>
             </div>
           ))}
-          <div className="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition duration-300">
+          <div className="flex items-center gap-4 p-4 rounded-xl transition duration-300">
             <AvatarGroup>
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" alt="@user1" />

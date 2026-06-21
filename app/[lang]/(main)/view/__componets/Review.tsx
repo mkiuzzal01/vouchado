@@ -1,3 +1,7 @@
+import ModalContainer from "@/app/components/shared/ModalContainer";
+import { useState } from "react";
+import ViewAllReview from "./ViewAllReview";
+
 interface ReviewItem {
   id: string | number;
   name: string;
@@ -13,6 +17,8 @@ interface Props {
 }
 
 export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
+  const [showAllReviews, setShowAllReviews] = useState(false);
+
   return (
     <div className="space-y-6 pt-8 border-t border-gray-100">
       {/* Header */}
@@ -31,7 +37,10 @@ export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
           </div>
         </div>
 
-        <button className="rounded-full border border-gray-200 px-4 py-1.5 text-xs font-bold text-[#0E6A70] hover:bg-gray-50 transition">
+        <button
+          onClick={() => setShowAllReviews(true)}
+          className="rounded-full cursor-pointer border border-gray-200 px-4 py-1.5 text-xs font-bold text-[#0E6A70] hover:bg-gray-50 transition"
+        >
           View all reviews
         </button>
       </div>
@@ -58,6 +67,13 @@ export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
           </div>
         ))}
       </div>
+      <ModalContainer
+        title="All Reviews"
+        isOpen={showAllReviews}
+        onClose={() => setShowAllReviews(false)}
+      >
+        <ViewAllReview reviews={reviews} />
+      </ModalContainer>
     </div>
   );
 }

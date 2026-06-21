@@ -1,20 +1,31 @@
+import { ReactNode } from "react";
 import Container from "../shared/Container";
 import SectionHeader from "../shared/SectionHeader";
 
-const TRUST_FEATURES = [
+interface Feature {
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: ReactNode;
+}
+
+interface Brand {
+  id: string;
+  content: ReactNode;
+}
+
+const TRUST_FEATURES: Feature[] = [
   {
     id: "reviews",
-    title: "4.8/5",
-    subtitle: "Based on 12,500+ Review",
+    title: "4.8/5 Rating",
+    subtitle: "Based on 12,500+ reviews",
     icon: (
       <svg
-        className="w-8 h-8"
+        className="h-5 w-5"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
       >
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
       </svg>
@@ -23,35 +34,31 @@ const TRUST_FEATURES = [
   {
     id: "payments",
     title: "Secure Payments",
-    subtitle: "100% Protected",
+    subtitle: "100% protected transactions",
     icon: (
       <svg
-        className="w-8 h-8"
+        className="h-5 w-5"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
       >
-        <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+        <rect x="1" y="4" width="22" height="16" rx="2" />
         <line x1="1" y1="10" x2="23" y2="10" />
       </svg>
     ),
   },
   {
     id: "support",
-    title: "Customer Support",
-    subtitle: "We're here to help",
+    title: "24/7 Support",
+    subtitle: "We're always here to help",
     icon: (
       <svg
-        className="w-8 h-8"
+        className="h-5 w-5"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
         strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
       >
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
       </svg>
@@ -59,37 +66,34 @@ const TRUST_FEATURES = [
   },
 ];
 
-const BRAND_LOGOS = [
+const BRAND_LOGOS: Brand[] = [
   {
     id: "trustpilot",
-    minWidth: "min-w-[140px]",
     content: (
-      <div className="flex items-center gap-1 font-sans font-bold text-lg text-slate-800">
+      <div className="flex items-center gap-2 font-bold text-slate-800">
         <svg
-          className="w-6 h-6 text-[#00b67a]"
+          className="h-6 w-6 text-[#00b67a]"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
           <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
         </svg>
-        Trustpilot
+        <span>Trustpilot</span>
       </div>
     ),
   },
   {
     id: "visa",
-    minWidth: "min-w-[100px]",
     content: (
-      <span className="text-[#1a1f71] text-2xl font-black italic tracking-tight">
+      <span className="text-2xl font-black italic tracking-tight text-[#1a1f71]">
         VISA
       </span>
     ),
   },
   {
     id: "paypal",
-    minWidth: "min-w-[110px]",
     content: (
-      <div className="flex items-center gap-0.5 text-[#003087] font-black italic text-xl">
+      <div className="text-xl font-black italic">
         <span className="text-[#00457c]">Pay</span>
         <span className="text-[#0079c1]">Pal</span>
       </div>
@@ -97,14 +101,13 @@ const BRAND_LOGOS = [
   },
   {
     id: "mastercard",
-    minWidth: "min-w-[100px]",
     content: (
-      <div className="flex flex-col items-center justify-center">
-        <div className="flex -space-x-2.5">
-          <div className="w-6 h-6 rounded-full bg-[#eb001b] opacity-90"></div>
-          <div className="w-6 h-6 rounded-full bg-[#ff5f00] opacity-90"></div>
+      <div className="flex flex-col items-center">
+        <div className="flex -space-x-2">
+          <div className="h-6 w-6 rounded-full bg-[#EB001B]" />
+          <div className="h-6 w-6 rounded-full bg-[#F79E1B]" />
         </div>
-        <span className="text-[9px] text-slate-500 font-medium tracking-tighter mt-1">
+        <span className="mt-1 text-[10px] font-medium text-slate-500">
           mastercard
         </span>
       </div>
@@ -112,48 +115,51 @@ const BRAND_LOGOS = [
   },
 ];
 
-// Sub-component: Feature Card Layout
-function FeatureCard({ icon, title, subtitle }: any) {
+function FeatureCard({ icon, title, subtitle }: Feature) {
   return (
-    <div className="flex h-20 items-center gap-3 bg-white px-5 py-4 rounded-2xl shadow-sm border border-gray-50 min-w-[200px] flex-1 sm:flex-initial">
-      <div className="text-[#1ec6cc] shrink-0">{icon}</div>
+    <div className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-500">
+        {icon}
+      </div>
+
       <div>
-        <div className="text-base font-bold text-slate-800 leading-tight">
-          {title}
-        </div>
-        <div className="text-xs text-slate-400 font-medium">{subtitle}</div>
+        <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
+        <p className="text-xs text-slate-500">{subtitle}</p>
       </div>
     </div>
   );
 }
 
-// Sub-component: Brand Card Layout
-function BrandCard({ content, minWidth }: any) {
+function BrandCard({ content }: Brand) {
   return (
-    <div
-      className={`flex justify-center bg-white px-6 py-4 rounded-2xl shadow-sm border border-gray-50 h-20 flex-1 sm:flex-initial ${minWidth}`}
-    >
+    <div className="flex h-24 items-center justify-center rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
       {content}
     </div>
   );
 }
 
-// Main Component
 export default function Trusted() {
   return (
     <Container>
-      <div className="py-4">
+      <section className="py-16">
         <SectionHeader title="Trusted by the best and loved by all" />
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-        {TRUST_FEATURES.map((feature) => (
-          <FeatureCard key={feature.id} {...feature} />
-        ))}
 
-        {BRAND_LOGOS.map((brand) => (
-          <BrandCard key={brand.id} {...brand} />
-        ))}
-      </div>
+        <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
+          {/* Trust Features */}
+          <div className="grid gap-4 md:grid-cols-3 w-full">
+            {TRUST_FEATURES.map((feature) => (
+              <FeatureCard key={feature.id} {...feature} />
+            ))}
+          </div>
+
+          {/* Brand Logos */}
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 w-full">
+            {BRAND_LOGOS.map((brand) => (
+              <BrandCard key={brand.id} {...brand} />
+            ))}
+          </div>
+        </div>
+      </section>
     </Container>
   );
 }

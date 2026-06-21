@@ -41,12 +41,6 @@ interface Props {
 
 export default function ItemDetails({ slug, lang }: Props) {
   const [quantity, setQuantity] = useState(1);
-  const tabItems = [
-    "Overview",
-    "What's Included",
-    "Local Information",
-    "Reviews",
-  ];
   const { items } = useAppSelector((state) => state.cart);
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
@@ -102,6 +96,13 @@ export default function ItemDetails({ slug, lang }: Props) {
       toast.warning("Product removed from wishlist");
     }
   };
+
+  const tabItems = [
+    "Overview",
+    "What's Included",
+    "Local Information",
+    "Reviews",
+  ];
 
   return (
     <section className="w-full  min-h-screen py-6 md:py-10 selection:bg-[#2BC4CA]/20">
@@ -167,7 +168,10 @@ export default function ItemDetails({ slug, lang }: Props) {
             <div className="border-b border-gray-100 flex items-center gap-6 overflow-x-auto whitespace-nowrap scrollbar-none text-sm font-semibold text-gray-400">
               <Tabs defaultValue="overview" className="w-full">
                 {/* --- TAB NAVIGATION HEADER --- */}
-                <TabsList className="w-full justify-start rounded-none bg-transparent p-0 border-b border-gray-100 h-auto gap-6 overflow-x-auto whitespace-nowrap scrollbar-none">
+                <TabsList
+                  variant={"line"}
+                  className="w-full h-auto gap-6 overflow-x-auto whitespace-nowrap scrollbar-none"
+                >
                   {tabItems.map((tab) => {
                     const value = tab.toLowerCase().replace(/\s+/g, "-");
                     return (

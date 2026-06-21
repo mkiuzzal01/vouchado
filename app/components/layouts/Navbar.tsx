@@ -45,7 +45,7 @@ export default function Navbar({
               width={120}
               height={40}
               priority
-              className="h-9 w-auto object-contain md:h-10"
+              className="h-5 lg:h-9 w-auto object-contain"
             />
           </Link>
 
@@ -65,14 +65,14 @@ export default function Navbar({
             {/* Cart */}
             <Link
               href={`/${lang}/chat`}
-              className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
+              className="flex h-10 w-5 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
             >
               <Image
                 src={chatIcon}
                 alt="Cart Icon"
                 width={30}
                 height={30}
-                className="h-10 w-10 object-contain"
+                className="h-10 w-5 lg:w-10 object-contain"
               />
             </Link>
 
@@ -80,7 +80,7 @@ export default function Navbar({
             <div className="hidden sm:flex items-center gap-2 rounded-full bg-gray-100 border p-1">
               <Link
                 href={`/${lang}/wishlist`}
-                className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
+                className="flex h-10 w-5 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
               >
                 <Image
                   src={heartIcon}
