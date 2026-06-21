@@ -4,12 +4,19 @@ import WhyBusiness from "./__components/WhyBusiness";
 import CreateDeal from "./__components/CreateDeal";
 import PromotionalSteps from "./__components/PromotionalSteps";
 import PromoReadyGrow from "@/app/components/hero/PromoReadyGrow";
+import CreateBusiness from "./__components/CreateBusiness";
 
-export default function page() {
+interface Props {
+  params: Promise<{ lang: string }>;
+}
+
+export default async function page({ params }: Props) {
+  const { lang } = await params;
   return (
     <div>
       <ForBusiness />
       <LaunchSteps />
+      <CreateBusiness lang={lang} />
       <WhyBusiness />
       <CreateDeal />
       <PromotionalSteps />

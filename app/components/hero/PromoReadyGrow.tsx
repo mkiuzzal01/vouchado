@@ -1,5 +1,3 @@
-// src/components/sections/PromoReadyGrow.tsx
-import React from "react";
 import Image from "next/image";
 import Container from "@/app/components/shared/Container";
 import readyGrowIcon from "@/public/business/home.png";

@@ -140,7 +140,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
                   <SubmitButton
                     isLoading={false}
                     title={t.auth.login.login}
-                    className="h-12 rounded-full text-white bg-primary hover:bg-[#0f7275]"
+                    className="h-12 w-full rounded-full text-white bg-primary hover:bg-[#0f7275]"
                   />
                 </div>
                 <div>

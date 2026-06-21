@@ -47,10 +47,12 @@ export default function ContactForm() {
             />
           </div>
 
-          <SubmitButton
-            title="Send Message"
-            className="bg-[#2bc4ca] hover:bg-[#23aab0] active:scale-[0.98] text-white font-bold px-10 py-4 h-auto rounded-full shadow-md shadow-[#2bc4ca]/10 transition-all text-base tracking-wide"
-          />
+          <div className="flex justify-end">
+            <SubmitButton
+              title="Send Message"
+              className="bg-[#2bc4ca] hover:bg-[#23aab0] active:scale-[0.98] text-white font-bold px-10 py-4 h-auto rounded-full shadow-md shadow-[#2bc4ca]/10 transition-all text-base tracking-wide"
+            />
+          </div>
         </div>
       </AppForm>
     </div>

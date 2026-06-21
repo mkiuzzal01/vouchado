@@ -1,4 +1,6 @@
 "use client";
+
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -6,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { Controller, useFormContext } from "react-hook-form";
 
 type Option = {
@@ -18,38 +21,48 @@ type Props = {
   label?: string;
   placeholder?: string;
   options: Option[];
+  required?: boolean;
 };
 
 export default function SelectInput({
   name,
   label,
-  placeholder = "Select...",
+  placeholder = "Select an option...",
   options,
+  required,
 }: Props) {
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
+  const errorMessage = errors?.[name]?.message as string | undefined;
 
   return (
     <div className="w-full space-y-1">
-      {label && <label className="text-xs text-white/60">{label}</label>}
+      {/* Label */}
+      {label && (
+        <Label htmlFor={name} className="text-sm font-medium text-gray-600">
+          {label}
+        </Label>
+      )}
 
+      {/* Select */}
       <Controller
         name={name}
         control={control}
         render={({ field }) => (
-          <Select onValueChange={field.onChange} value={field.value}>
+          <Select value={field.value || ""} onValueChange={field.onChange}>
             <SelectTrigger
-              className="
-                w-full
-                bg-[#0b111a]/70
-                border-white/10
-                text-white
-                focus:ring-[#5a9e8e]/30
-              "
+              id={name}
+              className={`w-full${
+                errorMessage ? "border-red-500 focus:ring-red-500" : ""
+              }`}
             >
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
 
-            <SelectContent className="bg-[#0b111a] border-white/10 text-white">
+            <SelectContent className="bg-white text-black border shadow-md">
               {options.map((opt) => (
                 <SelectItem key={opt.value} value={opt.value}>
                   {opt.label}
@@ -59,6 +72,9 @@ export default function SelectInput({
           </Select>
         )}
       />
+
+      {/* Error message */}
+      {errorMessage && <p className="text-xs text-red-500">{errorMessage}</p>}
     </div>
   );
 }

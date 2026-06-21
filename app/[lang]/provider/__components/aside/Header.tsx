@@ -29,7 +29,7 @@ export default function Header({ lang }: HeaderProps) {
       <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <div className="shrink-0">
-          <Link href={`/${lang}/provider`}>
+          <Link href={`/${lang}`}>
             <Image
               src={logo}
               alt="Vouchado Logo"

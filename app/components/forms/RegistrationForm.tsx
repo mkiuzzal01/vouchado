@@ -146,7 +146,7 @@ export default function RegistrationForm({
                 {/* SUBMIT */}
                 <SubmitButton
                   title="Register"
-                  className="h-12 rounded-full text-white bg-primary hover:bg-[#0f7275]"
+                  className="h-12 w-full rounded-full text-white bg-primary hover:bg-[#0f7275]"
                 />
                 <div>
                   <p className="text-xs text-gray-700 text-center">
