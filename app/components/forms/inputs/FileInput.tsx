@@ -52,7 +52,7 @@ export default function FileInput({
                 onClick={() => inputRef.current?.click()}
                 className={cn(
                   "relative overflow-hidden rounded-2xl border border-white/10",
-                  "bg-[#0b111a]/70 backdrop-blur-xl",
+                  "bg-[#0b111a]/20 backdrop-blur-xl",
                   "hover:border-[#5a9e8e]/40 transition cursor-pointer",
                   "flex flex-col items-center justify-center",
                   "min-h-[220px] p-6",

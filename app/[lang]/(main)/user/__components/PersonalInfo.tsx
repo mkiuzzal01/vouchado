@@ -1,6 +1,11 @@
-import React from "react";
+"use client";
+import UserUpdateForm from "@/app/components/forms/UserUpdateForm";
+import ModalContainer from "@/app/components/shared/ModalContainer";
+import Image from "next/image";
+import React, { useState } from "react";
 
 export default function PersonalInfo() {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm relative">
       {/* Header with Edit Button */}
@@ -8,7 +13,10 @@ export default function PersonalInfo() {
         <h2 className="text-base font-bold text-gray-900">
           Personal Information
         </h2>
-        <button className="flex items-center gap-1.5 px-3 py-1.5 border border-teal-500/20 text-teal-600 rounded-lg text-xs font-semibold hover:bg-teal-50/50 transition-colors">
+        <button
+          onClick={() => setIsEditModalOpen(true)}
+          className="flex items-center gap-1.5 px-3 py-1.5 border border-teal-500/20 text-teal-600 rounded-lg text-xs font-semibold hover:bg-teal-50/50 transition-colors"
+        >
           <svg
             className="w-3.5 h-3.5"
             fill="none"
@@ -29,8 +37,10 @@ export default function PersonalInfo() {
       {/* Grid Content */}
       <div className="flex flex-col sm:flex-row gap-6 items-start">
         {/* Avatar */}
-        <img
-          src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80"
+        <Image
+          width={200}
+          height={200}
+          src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80"
           alt="Sarah Lee"
           className="w-20 h-20 rounded-2xl object-cover border border-gray-100 shrink-0"
         />
@@ -72,6 +82,13 @@ export default function PersonalInfo() {
           </div>
         </div>
       </div>
+      <ModalContainer
+        title="Edit Profile"
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+      >
+        <UserUpdateForm onClose={() => setIsEditModalOpen(false)} />
+      </ModalContainer>
     </div>
   );
 }

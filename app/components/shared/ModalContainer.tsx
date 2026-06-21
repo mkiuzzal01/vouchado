@@ -64,7 +64,7 @@ export default function ModalContainer({
         </div>
 
         {/* Header */}
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-5 py-4 rounded-t-3xl sm:rounded-t-2xl">
+        <div className="sticky top-0 z-10 flex items-center justify-between    bg-white px-5 py-4 rounded-t-3xl sm:rounded-t-2xl">
           <h2 className="text-lg font-semibold text-gray-900">
             {title || "Modal"}
           </h2>
