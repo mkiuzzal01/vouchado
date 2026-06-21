@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/public/logo/logo.png";
-import { providerNavItems } from "./AsideLinks";
+import { providerNavItems } from "./HeaderLinks";
 import { Bell } from "lucide-react";
 
 interface HeaderProps {

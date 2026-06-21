@@ -1,5 +1,13 @@
-import React from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { MessageSquare } from "lucide-react";
+import Image from "next/image";
 
 const tableData = [
   {
@@ -37,46 +45,71 @@ const tableData = [
 export default function DealsTable() {
   return (
     <div className="w-full overflow-x-auto rounded-xl border border-gray-100 bg-white">
-      <table className="w-full text-left border-collapse min-w-[800px]">
-        <thead>
-          <tr className="border-b border-gray-100 bg-gray-50/60 text-[11px] font-bold text-gray-400 tracking-wider">
-            <th className="py-3 px-4">Service Name</th>
-            <th className="py-3 px-4">Category</th>
-            <th className="py-3 px-4">Customer</th>
-            <th className="py-3 px-4">Purchase</th>
-            <th className="py-3 px-4">Revenue</th>
-            <th className="py-3 px-4">Status</th>
-            <th className="py-3 px-4 text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-50 text-xs font-semibold text-gray-700">
+      <Table className="min-w-[800px]">
+        <TableHeader className="bg-gray-50/60">
+          <TableRow className="border-b border-gray-100 hover:bg-transparent">
+            <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+              Service Name
+            </TableHead>
+            <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+              Category
+            </TableHead>
+            <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+              Customer
+            </TableHead>
+            <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+              Purchase
+            </TableHead>
+            <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+              Revenue
+            </TableHead>
+            <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4">
+              Status
+            </TableHead>
+            <TableHead className="h-10 text-[11px] font-bold text-gray-400 tracking-wider px-4 text-center">
+              Action
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody className="divide-y divide-gray-50 text-xs font-semibold text-gray-700">
           {tableData.map((row) => (
-            <tr key={row.id} className="hover:bg-gray-50/40 transition-colors">
+            <TableRow
+              key={row.id}
+              className="border-none hover:bg-gray-50/40 transition-colors"
+            >
               {/* Service Details Group */}
-              <td className="py-3.5 px-4 flex items-center gap-3 max-w-xs">
-                <img
+              <TableCell className="py-3.5 px-4 flex items-center gap-3 max-w-xs">
+                <Image
                   src={row.img}
                   alt=""
+                  width={80}
+                  height={70}
                   className="w-9 h-7 object-cover rounded-md border border-gray-100 shrink-0"
                 />
                 <span className="font-bold text-gray-900 truncate">
                   {row.service}
                 </span>
-              </td>
+              </TableCell>
 
-              <td className="py-3.5 px-4 text-gray-400 font-medium">
+              <TableCell className="py-3.5 px-4 text-gray-400 font-medium">
                 {row.category}
-              </td>
-              <td className="py-3.5 px-4 text-gray-600">{row.customer}</td>
-              <td className="py-3.5 px-4 font-bold text-gray-900">
+              </TableCell>
+
+              <TableCell className="py-3.5 px-4 text-gray-600">
+                {row.customer}
+              </TableCell>
+
+              <TableCell className="py-3.5 px-4 font-bold text-gray-900">
                 {row.purchase}
-              </td>
-              <td className="py-3.5 px-4 font-bold text-gray-900">
+              </TableCell>
+
+              <TableCell className="py-3.5 px-4 font-bold text-gray-900">
                 {row.revenue}
-              </td>
+              </TableCell>
 
               {/* Dynamic Badging */}
-              <td className="py-3.5 px-4">
+              <TableCell className="py-3.5 px-4">
                 <span
                   className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                     row.status === "Redeemed"
@@ -97,18 +130,18 @@ export default function DealsTable() {
                   ></span>
                   {row.status}
                 </span>
-              </td>
+              </TableCell>
 
               {/* Action Chat Icon link bubble */}
-              <td className="py-3.5 px-4 text-center">
+              <TableCell className="py-3.5 px-4 text-center">
                 <button className="p-1.5 border border-gray-100 text-teal-500 rounded-lg bg-white hover:bg-teal-50/50 hover:border-teal-200 transition-all inline-flex items-center justify-center">
                   <MessageSquare size={14} />
                 </button>
-              </td>
-            </tr>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }

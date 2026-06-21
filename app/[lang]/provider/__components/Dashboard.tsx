@@ -1,8 +1,13 @@
-import MetricCards from "./__components/MetricCards";
-import DealsTable from "./__components/DealsTable";
+import MetricCards from "../__components/MetricCards";
+import DealsTable from "../__components/DealsTable";
 import Container from "@/app/components/shared/Container";
+import Link from "next/link";
 
-export default function Page() {
+interface Props {
+  lang: string;
+}
+
+export default async function Dashboard({ lang }: Props) {
   return (
     <Container>
       <div className="space-y-7 p-4 w-full text-gray-800">
@@ -61,9 +66,11 @@ export default function Page() {
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-sm font-bold text-gray-900">Deal Purchased</h2>
-            <button className="text-xs font-bold text-teal-500 hover:underline">
-              View all
-            </button>
+            <Link href={`/${lang}/provider/purchases`}>
+              <button className="text-xs font-bold text-teal-500 hover:underline">
+                View all
+              </button>
+            </Link>
           </div>
 
           {/* Dynamic Inner Table Grid */}
