@@ -33,7 +33,13 @@ import SimilarItem from "./SimilarItem";
 import ProductLocation from "./ProductLocation";
 import PromoSteps from "@/app/components/hero/PromoSteps";
 import Link from "next/link";
-export default function ItemDetails() {
+
+interface Props {
+  slug: string;
+  lang: string;
+}
+
+export default function ItemDetails({ slug, lang }: Props) {
   const [quantity, setQuantity] = useState(1);
   const tabItems = [
     "Overview",
@@ -338,7 +344,7 @@ export default function ItemDetails() {
             </div>
           </div>
         </div>
-        <SimilarItem />
+        <SimilarItem lang={lang} />
         <PromoSteps />
       </Container>
     </section>

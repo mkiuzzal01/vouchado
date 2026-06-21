@@ -8,10 +8,11 @@ import SectionHeader from "@/app/components/shared/SectionHeader";
 import { productItems } from "@/redux/items/ItemData";
 
 interface Props {
-  lang: string;
+  params: Promise<{ lang: string }>;
 }
 
-export default function page({ lang }: Props) {
+export default async function page({ params }: Props) {
+  const { lang } = await params;
   return (
     <Container>
       <SectionHeader

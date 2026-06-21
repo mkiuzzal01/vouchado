@@ -1,13 +1,15 @@
 import { productItems } from "@/redux/items/ItemData";
 import ProductCard from "@/app/components/cards/ProductCard";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-
 import { Navigation, Autoplay } from "swiper/modules";
 
-export default function SimilarItem() {
+interface Props {
+  lang: string;
+}
+
+export default function SimilarItem({ lang }: Props) {
   return (
     <div className="py-6 md:py-10">
       <h1 className="text-xl font-bold text-gray-900 tracking-tight mb-6">
@@ -43,6 +45,7 @@ export default function SimilarItem() {
           <SwiperSlide key={item.id}>
             <ProductCard
               id={item.id}
+              lang={lang}
               imageUrl={item.imageUrl}
               category={item.category}
               title={item.title}
