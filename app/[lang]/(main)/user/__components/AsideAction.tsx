@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import ModalContainer from "@/app/components/shared/ModalContainer";
-import UpdateUserPassForm from "@/app/components/forms/inputs/UpdateUserPassForm";
 import { LogOut, Trash, Trash2 } from "lucide-react";
+import UpdateUserPassForm from "@/app/components/forms/UpdateUserPassForm";
 
 export default function AsideAction() {
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);

@@ -1,7 +1,7 @@
-import React from "react";
-import AppForm from "../AppForm";
-import TextInput from "./TextInput";
-import SubmitButton from "../../buttons/SubmitButton";
+"use client";
+import SubmitButton from "../buttons/SubmitButton";
+import AppForm from "./AppForm";
+import TextInput from "./inputs/TextInput";
 
 export default function UpdateUserPassForm() {
   const submit = () => {};
