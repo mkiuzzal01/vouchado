@@ -6,9 +6,5 @@ interface IPageProps {
 
 export default async function page({ params }: IPageProps) {
   const { lang } = await params;
-  return (
-    <div>
-      <Dashboard lang={lang} />
-    </div>
-  );
+  return <Dashboard lang={lang} />;
 }

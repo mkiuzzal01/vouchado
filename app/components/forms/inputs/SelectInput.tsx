@@ -52,7 +52,11 @@ export default function SelectInput({
         name={name}
         control={control}
         render={({ field }) => (
-          <Select value={field.value || ""} onValueChange={field.onChange}>
+          <Select
+            required={required}
+            value={field.value || ""}
+            onValueChange={field.onChange}
+          >
             <SelectTrigger
               id={name}
               style={{ height: "42px" }}

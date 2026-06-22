@@ -3,7 +3,7 @@ import {
   LayoutDashboard,
   MessageSquare,
   Settings,
-  Briefcase,
+  ShoppingBag,
 } from "lucide-react";
 
 export interface IProviderNavItem {
@@ -19,15 +19,16 @@ export const providerNavItems: IProviderNavItem[] = [
     href: "/provider",
   },
   {
+    icon: ShoppingBag,
+    label: "Deals",
+    href: "/provider/deals",
+  },
+  {
     icon: MessageSquare,
     label: "Messages",
     href: "/provider/message",
   },
-  {
-    icon: Briefcase,
-    label: "Services",
-    href: "/provider/services",
-  },
+
   {
     icon: Settings,
     label: "Settings",

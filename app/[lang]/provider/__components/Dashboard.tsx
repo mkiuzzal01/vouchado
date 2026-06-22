@@ -7,12 +7,13 @@ import ModalContainer from "@/app/components/shared/ModalContainer";
 import CreateDealForm from "@/app/components/forms/muti-steps/CreateDealForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { setOpenDealModal } from "@/redux/features/provider/deal.slice";
+import { Plus, Scan } from "lucide-react";
 
 interface Props {
   lang: string;
 }
 
-export default async function Dashboard({ lang }: Props) {
+export default function Dashboard({ lang }: Props) {
   const dispatch = useAppDispatch();
   const { openDealModal } = useAppSelector((state) => state.deal);
 
@@ -32,40 +33,14 @@ export default async function Dashboard({ lang }: Props) {
 
           {/* Global Control Button Pairs */}
           <div className="flex items-center gap-3">
-            <button className="flex items-center justify-center gap-2 px-4 py-2 border border-teal-500/20 bg-white text-teal-600 rounded-xl text-xs font-bold hover:bg-teal-50/40 transition-colors shadow-sm">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              Scan Voucher
+            <button className="flex items-center justify-center gap-2 px-4 py-2 border border-teal-500 text-teal-600 font-medium rounded-xl text-sm bg-white hover:bg-teal-50 transition shadow-sm w-full sm:w-auto">
+              <Scan className="w-4 h-4" /> Scan Voucher
             </button>
             <button
               onClick={() => dispatch(setOpenDealModal(!openDealModal))}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-xl text-xs font-bold transition-all shadow-sm"
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-xl text-sm transition shadow-sm w-full sm:w-auto"
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-              Add New Deal
+              <Plus className="w-4 h-4" /> Add New Deal
             </button>
           </div>
         </div>

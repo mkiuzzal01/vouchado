@@ -1,7 +1,6 @@
 "use client";
 import { Controller, useFormContext } from "react-hook-form";
 import { Clock } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -68,7 +67,7 @@ export default function TimeInput({
 
               <PopoverContent
                 align="start"
-                className="w-[var(--radix-popover-trigger-width)] p-3"
+                className="w-(--radix-popover-trigger-width) p-3"
               >
                 <input
                   id={name}

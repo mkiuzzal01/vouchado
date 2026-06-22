@@ -1,8 +1,8 @@
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { useDispatch } from "react-redux";
-import Star from "../../icons/Star";
-import { ChevronLeft, Clock, MapPin } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { setStep } from "@/redux/features/provider/deal.slice";
+import Image from "next/image";
 
 export default function Preview() {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ export default function Preview() {
 
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
         {/* Main Column Grid Layout Elements */}
         <div className="lg:col-span-2 space-y-6">
           <div>
@@ -43,11 +43,34 @@ export default function Preview() {
           </div>
 
           <div className="rounded-2xl overflow-hidden aspect-video bg-gray-100 relative w-full max-h-[380px]">
-            <img
-              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80"
+            <Image
+              src={
+                dealState.media.coverImage ||
+                "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80"
+              }
               alt="Main Content Preview Showcase Banner"
+              width={800}
+              height={600}
               className="w-full h-full object-cover"
             />
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            {dealState.media.galleryImages?.map((image, idx) => (
+              <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-100">
+                <Image
+                  key={idx}
+                  src={
+                    image ||
+                    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80"
+                  }
+                  alt={`Additional Image ${idx + 1}`}
+                  width={800}
+                  height={600}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
           </div>
 
           {/* Sub Navigation Anchor Mocks */}
@@ -83,66 +106,8 @@ export default function Preview() {
             </div>
           </div>
         </div>
-
-        {/* Right Sidebar Interactive Card Widgets Component Interface Elements */}
-        <div className="lg:col-span-1 border border-gray-100 shadow-2xl shadow-gray-200/40 rounded-3xl p-5 space-y-4 bg-white">
-          <h3 className="font-bold text-slate-900 text-base">
-            Single Day Ticket
-          </h3>
-          <div className="flex items-center gap-1 text-amber-500 text-xs font-bold">
-            <Star />
-            <span>0.0</span>
-            <span className="text-gray-400 font-normal ml-0.5">
-              (12,500+ reviews)
-            </span>
-          </div>
-          <div>
-            <span className="text-gray-400 line-through text-xs block">
-              € 124.50
-            </span>
-            <span className="text-2xl font-black text-slate-900">
-              € {dealState.dealInfo.discountedPrice || "124.50"}
-            </span>
-          </div>
-
-          <button
-            type="button"
-            disabled
-            className="w-full h-11 bg-gray-100 text-gray-400 rounded-xl text-xs font-bold cursor-not-allowed transition-colors"
-          >
-            Book now
-          </button>
-
-          <hr className="border-gray-100" />
-
-          <div className="space-y-4 pt-1">
-            <div className="flex gap-2.5 items-start text-xs">
-              <MapPin className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
-              <div>
-                <span className="font-bold block text-slate-900 mb-0.5">
-                  Location
-                </span>
-                <span className="text-gray-500 leading-relaxed">
-                  200 S Sierra Madre St, Colorado Springs, CO 80903
-                </span>
-              </div>
-            </div>
-            <div className="flex gap-2.5 items-start text-xs">
-              <Clock className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
-              <div>
-                <span className="font-bold block text-slate-900 mb-0.5">
-                  Opening Hours
-                </span>
-                <span className="text-gray-500 leading-relaxed">
-                  Mon - Sun: 9:00 AM - 5:00 PM
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* Primary Action Row Control Bar */}
       <div className="flex justify-between pt-6 border-t border-gray-100 mt-8">
         <button
           type="button"

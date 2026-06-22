@@ -39,7 +39,6 @@ export default function CreateDealForm() {
 
   return (
     <div>
-      {/* Progress Timeline Header Tracker Component */}
       {currentStep <= 4 && (
         <div className="flex items-center justify-between max-w-2xl mx-auto mb-12 relative">
           {WIZARD_STEPS.map((step, idx) => {
@@ -64,7 +63,7 @@ export default function CreateDealForm() {
                   }`}
                 >
                   {isCompleted ? (
-                    <Check className="w-4 h-4 stroke-[3]" />
+                    <Check className="w-4 h-4 stroke-3" />
                   ) : (
                     step.id
                   )}
