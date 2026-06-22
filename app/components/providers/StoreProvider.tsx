@@ -1,7 +1,9 @@
 "use client";
-import { store } from "@/redux/store";
+
+import { persistor, store } from "@/redux/store";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import { PersistGate } from "redux-persist/integration/react";
 
 interface StoreProviderProps {
   children: React.ReactNode;
@@ -10,8 +12,10 @@ interface StoreProviderProps {
 export default function StoreProvider({ children }: StoreProviderProps) {
   return (
     <Provider store={store}>
-      <ToastContainer position="top-right" />
-      {children}
+      <PersistGate persistor={persistor}>
+        <ToastContainer position="top-right" />
+        {children}
+      </PersistGate>
     </Provider>
   );
 }
