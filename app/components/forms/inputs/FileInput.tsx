@@ -3,9 +3,7 @@
 import React, { useRef } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { ImagePlus, X } from "lucide-react";
-
 import Image from "next/image";
-
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +12,7 @@ interface FileInputProps {
   name: string;
   accept?: string;
   className?: string;
+  multiple?: boolean;
 }
 
 export default function FileInput({
@@ -21,6 +20,7 @@ export default function FileInput({
   name,
   accept = "image/*",
   className,
+  multiple = false,
 }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -30,6 +30,13 @@ export default function FileInput({
   } = useFormContext();
 
   const errorMessage = (errors?.[name]?.message as string | undefined) || "";
+
+  // Helper to convert single files, arrays, or string URLs into standard preview strings
+  const getPreviewUrl = (file: any) => {
+    if (file instanceof File) return URL.createObjectURL(file);
+    if (typeof file === "string") return file; // handles existing network images
+    return null;
+  };
 
   return (
     <div className={cn("space-y-1.5 w-full mb-6", className)}>
@@ -42,90 +49,144 @@ export default function FileInput({
         name={name}
         control={control}
         render={({ field: { onChange, value } }) => {
-          const preview =
-            value instanceof File ? URL.createObjectURL(value) : null;
+          // Normalize value into an array for consistent rendering logic
+          const filesArray: any[] = Array.isArray(value)
+            ? value
+            : value
+              ? [value]
+              : [];
+
+          const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+            const selectedFiles = e.target.files
+              ? Array.from(e.target.files)
+              : [];
+            if (selectedFiles.length === 0) return;
+
+            if (multiple) {
+              onChange([...filesArray, ...selectedFiles]);
+            } else {
+              onChange(selectedFiles[0]);
+            }
+          };
+
+          const removeImage = (indexToRemove: number) => {
+            if (multiple) {
+              const filtered = filesArray.filter(
+                (_, idx) => idx !== indexToRemove,
+              );
+              onChange(filtered.length > 0 ? filtered : null);
+            } else {
+              onChange(null);
+            }
+          };
 
           return (
-            <>
-              {/* FILE AREA */}
-              <div
-                onClick={() => inputRef.current?.click()}
-                className={cn(
-                  "relative overflow-hidden rounded-2xl border border-white/10",
-                  "bg-[#0b111a]/20 backdrop-blur-xl",
-                  "hover:border-[#5a9e8e]/40 transition cursor-pointer",
-                  "flex flex-col items-center justify-center",
-                  "min-h-[220px] p-6",
-                )}
-              >
-                <input
-                  ref={inputRef}
-                  id={name}
-                  type="file"
-                  accept={accept}
-                  className="hidden"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    onChange(file);
-                  }}
-                />
-
-                {preview ? (
-                  <div className="relative w-full h-[220px] rounded-xl overflow-hidden">
-                    <Image
-                      src={preview}
-                      alt="Preview"
-                      fill
-                      className="object-cover"
+            <div className="space-y-4">
+              {/* Flex wrapper for the grid matching your dashboard layout */}
+              <div className="flex flex-wrap gap-4 items-start">
+                {/* UPLOAD BUTTON SKELETON */}
+                {/* Always visible if 'multiple' is true, or hidden when a single image is active */}
+                {(multiple || filesArray.length === 0) && (
+                  <div
+                    onClick={() => inputRef.current?.click()}
+                    className={cn(
+                      "relative overflow-hidden rounded-2xl border border-white/10",
+                      "bg-[#0b111a]/20 backdrop-blur-xl",
+                      "hover:border-[#5a9e8e]/40 transition cursor-pointer",
+                      "flex flex-col items-center justify-center",
+                      multiple
+                        ? "w-32 h-32 p-2 text-center"
+                        : "w-full min-h-[220px] p-6",
+                    )}
+                  >
+                    <input
+                      ref={inputRef}
+                      id={name}
+                      type="file"
+                      accept={accept}
+                      multiple={multiple}
+                      className="hidden"
+                      onChange={handleFileChange}
                     />
 
-                    {/* REMOVE BUTTON */}
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onChange(null);
-                      }}
-                      className={cn(
-                        "absolute top-3 right-3 z-10",
-                        "flex items-center justify-center",
-                        "h-8 w-8 rounded-full",
-                        "bg-black/60 text-white",
-                        "hover:bg-red-500 transition",
+                    <div className="flex flex-col items-center text-center">
+                      <div
+                        className={cn(
+                          "flex items-center justify-center rounded-full",
+                          "bg-[#5a9e8e]/10 border border-[#5a9e8e]/20",
+                          multiple ? "w-10 h-10 mb-1" : "w-14 h-14 mb-4",
+                        )}
+                      >
+                        <ImagePlus
+                          size={multiple ? 18 : 26}
+                          className="text-[#5a9e8e]"
+                        />
+                      </div>
+                      <h3
+                        className={cn(
+                          "font-medium text-white",
+                          multiple ? "text-xs" : "text-sm",
+                        )}
+                      >
+                        Browse File
+                      </h3>
+                      {!multiple && (
+                        <p className="mt-1 text-xs text-white/50">
+                          Click to browse your files
+                        </p>
                       )}
-                    >
-                      <X size={16} />
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center text-center">
-                    <div
-                      className={cn(
-                        "mb-4 flex items-center justify-center",
-                        "w-14 h-14 rounded-full",
-                        "bg-[#5a9e8e]/10",
-                        "border border-[#5a9e8e]/20",
-                      )}
-                    >
-                      <ImagePlus size={26} className="text-[#5a9e8e]" />
                     </div>
-
-                    <h3 className="text-sm font-medium text-white">
-                      Upload File
-                    </h3>
-
-                    <p className="mt-1 text-xs text-white/50">
-                      Click to browse your files
-                    </p>
                   </div>
                 )}
+
+                {/* IMAGES PREVIEW TILES */}
+                {filesArray.map((file, index) => {
+                  const imgUrl = getPreviewUrl(file);
+                  if (!imgUrl) return null;
+
+                  return (
+                    <div
+                      key={index}
+                      className={cn(
+                        "relative rounded-xl overflow-hidden border border-white/10 shadow-md group",
+                        multiple ? "w-32 h-32" : "w-full h-[220px]",
+                      )}
+                    >
+                      <Image
+                        src={imgUrl}
+                        alt={`Preview ${index + 1}`}
+                        fill
+                        className="object-cover"
+                        unoptimized={imgUrl.startsWith("blob:")} // prevents performance warnings on local object URLs
+                      />
+
+                      {/* REMOVE BUTTON */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeImage(index);
+                        }}
+                        className={cn(
+                          "absolute top-2 right-2 z-10",
+                          "flex items-center justify-center",
+                          "h-7 w-7 rounded-full",
+                          "bg-black/60 text-white",
+                          "hover:bg-red-500 transition",
+                        )}
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
 
               {/* ERROR */}
               {errorMessage && (
                 <p className="text-xs text-red-500 mt-1">{errorMessage}</p>
               )}
-            </>
+            </div>
           );
         }}
       />

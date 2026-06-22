@@ -1,13 +1,21 @@
+"use client";
 import MetricCards from "../__components/MetricCards";
 import DealsTable from "../__components/DealsTable";
 import Container from "@/app/components/shared/Container";
 import Link from "next/link";
+import ModalContainer from "@/app/components/shared/ModalContainer";
+import CreateDealForm from "@/app/components/forms/muti-steps/CreateDealForm";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+import { setOpenDealModal } from "@/redux/features/provider/deal.slice";
 
 interface Props {
   lang: string;
 }
 
 export default async function Dashboard({ lang }: Props) {
+  const dispatch = useAppDispatch();
+  const { openDealModal } = useAppSelector((state) => state.deal);
+
   return (
     <Container>
       <div className="space-y-7 p-4 w-full text-gray-800">
@@ -40,7 +48,10 @@ export default async function Dashboard({ lang }: Props) {
               </svg>
               Scan Voucher
             </button>
-            <button className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-xl text-xs font-bold transition-all shadow-sm">
+            <button
+              onClick={() => dispatch(setOpenDealModal(!openDealModal))}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-xl text-xs font-bold transition-all shadow-sm"
+            >
               <svg
                 className="w-4 h-4"
                 fill="none"
@@ -76,6 +87,13 @@ export default async function Dashboard({ lang }: Props) {
           {/* Dynamic Inner Table Grid */}
           <DealsTable />
         </div>
+        <ModalContainer
+          title="Create new deal"
+          isOpen={openDealModal}
+          onClose={() => dispatch(setOpenDealModal(!openDealModal))}
+        >
+          <CreateDealForm />
+        </ModalContainer>
       </div>
     </Container>
   );

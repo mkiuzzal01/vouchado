@@ -7,7 +7,6 @@ import {
   getNavLinks,
   getServices,
 } from "@/app/components/layouts/navigationLinks";
-import StoreProvider from "@/app/components/providers/StoreProvider";
 
 interface RootLayout {
   children: React.ReactNode;
@@ -22,21 +21,19 @@ export default async function layout({ children, params }: RootLayout) {
   const footerLinksData = await footerLinks(lang);
 
   return (
-    <StoreProvider>
-      <div className="min-h-screen flex flex-col">
-        <TopBar content={nav.top} />
-        <Navbar
-          lang={lang}
-          login={nav.auth.login.login}
-          register={nav.auth.register.register}
-          menu={nav.nav.mobile_menu}
-          navLinks={navLinks}
-          services={services}
-          menuTitle={nav.nav.services}
-        />
-        <main className="flex-1">{children}</main>
-        <Footer footerLinks={footerLinksData} />
-      </div>
-    </StoreProvider>
+    <div className="min-h-screen flex flex-col">
+      <TopBar content={nav.top} />
+      <Navbar
+        lang={lang}
+        login={nav.auth.login.login}
+        register={nav.auth.register.register}
+        menu={nav.nav.mobile_menu}
+        navLinks={navLinks}
+        services={services}
+        menuTitle={nav.nav.services}
+      />
+      <main className="flex-1">{children}</main>
+      <Footer footerLinks={footerLinksData} />
+    </div>
   );
 }
