@@ -1,5 +1,5 @@
-import React from "react";
+import Container from "@/app/components/shared/Container";
 
 export default function page() {
-  return <div>page</div>;
+  return <Container>page</Container>;
 }

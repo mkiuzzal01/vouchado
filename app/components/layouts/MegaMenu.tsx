@@ -32,6 +32,8 @@ interface MegaMenuProps {
   services: any;
   menuTitle: string;
   menu: string;
+  login: string;
+  register: string;
 }
 
 export default function MegaMenu({
@@ -42,6 +44,8 @@ export default function MegaMenu({
   services,
   menuTitle,
   menu,
+  login,
+  register,
 }: MegaMenuProps) {
   const pathname = usePathname();
 
@@ -50,7 +54,7 @@ export default function MegaMenu({
   return (
     <>
       {/* ================= DESKTOP ================= */}
-      <NavigationMenu className="hidden md:block w-full">
+      <NavigationMenu className="hidden lg:block w-full">
         <NavigationMenuList className="flex items-center gap-2">
           {/* HOME */}
           <NavigationMenuItem>
@@ -134,7 +138,7 @@ export default function MegaMenu({
 
       {/* ================= MOBILE (PROFESSIONAL DRAWER STYLE) ================= */}
       {showNavbar && (
-        <div className="md:hidden fixed inset-0 z-50 bg-white p-4 overflow-y-auto">
+        <div className="lg:hidden fixed inset-0 z-50 bg-white p-4 overflow-y-auto">
           {/* HEADER */}
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold pl-4">{menu}</h2>
@@ -215,6 +219,22 @@ export default function MegaMenu({
             <Location size={15} />
             Berlin, Germany
           </Link>
+
+          <div className="mt-4 sm:hidden flex items-center gap-2">
+            <Link
+              href={`/${lang}/login`}
+              className="rounded-full px-4 py-2 bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
+            >
+              {login}
+            </Link>
+
+            <Link
+              href={`/${lang}/registration`}
+              className="rounded-full bg-[#2EC4C6] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
+            >
+              {register}
+            </Link>
+          </div>
         </div>
       )}
     </>

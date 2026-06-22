@@ -1,5 +1,5 @@
-import React from "react";
+import CheckoutMessagePage from "./checkout-message/page";
 
 export default function page() {
-  return <div>page</div>;
+  return <CheckoutMessagePage />;
 }

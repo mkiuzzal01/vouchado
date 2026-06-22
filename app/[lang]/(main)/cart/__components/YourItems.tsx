@@ -2,19 +2,17 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowLeft, Trash2 } from "lucide-react";
 import ItemCard from "./ItemCard";
-import {
-  clearCart,
-  toggleSelectAll,
-  ICartItem,
-} from "@/redux/features/cart/cart.slice";
+import { clearCart, toggleSelectAll } from "@/redux/features/cart/cart.slice";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "@/redux/hooks/globalhooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+import NotFoundData from "@/app/components/shared/NotFoundData";
 
 interface Props {
-  items: ICartItem[];
+  lang: string;
 }
 
-export default function YourItems({ items }: Props) {
+export default function YourItems({ lang }: Props) {
+  const { items } = useAppSelector((state) => state.cart);
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -24,6 +22,15 @@ export default function YourItems({ items }: Props) {
   const onContinueShopping = () => {
     router.back();
   };
+
+  if (!items?.length) {
+    return (
+      <NotFoundData
+        title="Your cart is empty"
+        description="Looks like you haven't added any items to your cart yet."
+      />
+    );
+  }
 
   return (
     <div>
@@ -52,7 +59,7 @@ export default function YourItems({ items }: Props) {
         {/* Cart Items List */}
         <div className="space-y-4 mb-6">
           {items?.map((item) => (
-            <ItemCard key={item?.id} item={item} />
+            <ItemCard key={item?.id} item={item} lang={lang} />
           ))}
         </div>
 

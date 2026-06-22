@@ -52,6 +52,8 @@ export default function Navbar({
           {/* Desktop Menu */}
           <MegaMenu
             lang={lang}
+            login={login}
+            register={register}
             menu={menu}
             menuTitle={menuTitle}
             navLinks={navLinks}
@@ -65,56 +67,58 @@ export default function Navbar({
             {/* Cart */}
             <Link
               href={`/${lang}/chat`}
-              className="flex h-10 w-5 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
+              className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
             >
               <Image
                 src={chatIcon}
                 alt="Cart Icon"
                 width={30}
                 height={30}
-                className="h-10 w-5 lg:w-10 object-contain"
+                className="h-10 w-7 lg:w-10 object-contain"
               />
             </Link>
 
             {/* Auth */}
-            <div className="hidden sm:flex items-center gap-2 rounded-full bg-gray-100 border p-1">
+            <div className="flex items-center gap-2 rounded-full bg-gray-100 lg:border lg:p-1">
               <Link
                 href={`/${lang}/wishlist`}
-                className="flex h-10 w-5 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
+                className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
               >
                 <Image
                   src={heartIcon}
                   alt="Cart Icon"
                   width={30}
                   height={30}
-                  className="h-8 w-8 object-contain"
+                  className="h-10 w-7 lg:w-10 object-contain"
                 />
               </Link>
               <Link
                 href={`/${lang}/cart`}
-                className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
+                className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
               >
                 <Image
                   src={cart_icon}
                   alt="Cart Icon"
                   width={30}
                   height={30}
-                  className="h-8 w-8 object-contain"
+                  className="h-10 w-7 lg:w-10 object-contain"
                 />
               </Link>
-              <Link
-                href={`/${lang}/login`}
-                className="rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
-              >
-                {login}
-              </Link>
+              <div className="hidden sm:flex items-center gap-2">
+                <Link
+                  href={`/${lang}/login`}
+                  className="rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
+                >
+                  {login}
+                </Link>
 
-              <Link
-                href={`/${lang}/registration`}
-                className="rounded-full bg-[#2EC4C6] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
-              >
-                {register}
-              </Link>
+                <Link
+                  href={`/${lang}/registration`}
+                  className="rounded-full bg-[#2EC4C6] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
+                >
+                  {register}
+                </Link>
+              </div>
             </div>
 
             {/* Mobile Button */}

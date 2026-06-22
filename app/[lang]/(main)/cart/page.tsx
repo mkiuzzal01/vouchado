@@ -4,20 +4,13 @@ import Container from "@/app/components/shared/Container";
 import sectionHeroImage from "@/public/hero/Hero Section.png";
 import YourItems from "./__components/YourItems";
 import OrderSummery from "./__components/OrderSummery";
-import { useAppSelector } from "@/redux/hooks/globalhooks";
-import NotFoundData from "@/app/components/shared/NotFoundData";
+interface Props {
+  params: Promise<{ lang: string }>;
+}
 
-export default function page() {
-  const { items } = useAppSelector((state) => state.cart);
+export default async function page({ params }: Props) {
+  const { lang } = await params;
 
-  if (!items?.length) {
-    return (
-      <NotFoundData
-        title="Your cart is empty"
-        description="Looks like you haven't added any items to your cart yet."
-      />
-    );
-  }
   return (
     <div>
       <PageHero
@@ -28,7 +21,7 @@ export default function page() {
       <Container className="py-8 lg:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
-            <YourItems items={items} />
+            <YourItems lang={lang} />
           </div>
           <div className="lg:col-span-1">
             <OrderSummery />

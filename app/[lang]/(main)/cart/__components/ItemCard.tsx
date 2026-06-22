@@ -13,12 +13,14 @@ import {
 } from "@/redux/features/cart/cart.slice";
 import ItemCounter from "./ItemCounter";
 import { ICartItem } from "@/redux/features/cart/cart.slice";
+import Link from "next/link";
 
 interface ItemCardProps {
   item: ICartItem;
+  lang: string;
 }
 
-export default function ItemCard({ item }: ItemCardProps) {
+export default function ItemCard({ item, lang }: ItemCardProps) {
   const dispatch = useAppDispatch();
 
   return (
@@ -54,9 +56,11 @@ export default function ItemCard({ item }: ItemCardProps) {
       {/* 4. Core Details Context Section */}
       <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
         <div>
-          <h3 className="text-lg md:text-xl font-bold text-slate-900 pr-6 tracking-tight line-clamp-2 leading-snug">
-            {item.title}
-          </h3>
+          <Link href={`/${lang}/view/${item?.id}`}>
+            <h3 className="text-lg md:text-xl font-bold text-slate-900 hover:text-primary pr-6 tracking-tight line-clamp-2 leading-snug">
+              {item.title}
+            </h3>
+          </Link>
 
           {item.tagline && (
             <p className="text-xs font-medium text-slate-500 mt-1 line-clamp-1">
