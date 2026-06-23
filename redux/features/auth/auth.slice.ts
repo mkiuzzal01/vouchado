@@ -12,12 +12,12 @@ interface IUser {
 
 interface IInitState {
   user: IUser | null;
-  token: string | null;
+  vuchado_token: string | null;
 }
 
 const initialState: IInitState = {
   user: null,
-  token: null,
+  vuchado_token: null,
 };
 
 export const authSlice = createSlice({
@@ -28,9 +28,9 @@ export const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.vuchado_token = action.payload.vuchado_token;
 
-      cookie.set("token", action.payload.token, {
+      cookie.set("vuchado_token", action.payload.vuchado_token, {
         expires: 7,
         secure: true,
         sameSite: "strict",
@@ -39,7 +39,8 @@ export const authSlice = createSlice({
 
     logout: (state) => {
       state.user = null;
-      state.token = null;
+      state.vuchado_token = null;
+      cookie.remove("vuchado_token");
     },
   },
 });

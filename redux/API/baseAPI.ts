@@ -16,7 +16,7 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).auth.token;
+    const token = (getState() as RootState).auth.vuchado_token;
 
     if (token) {
       headers.set("authorization", `Bearer ${token}`);
@@ -61,7 +61,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
                 name: currentUser?.name || "",
                 avatar: currentUser?.avatar || "",
               },
-              token: refreshData.data.accessToken,
+              vuchado_token: refreshData.data.accessToken,
             }),
           );
         }

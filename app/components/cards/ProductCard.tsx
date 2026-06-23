@@ -7,6 +7,10 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { toggleWishlist } from "@/redux/features/wishlist/wishlinst.slice";
 
 import Location from "../icons/Location";
+import PinLocation from "../icons/PinLocation";
+import Discount from "../icons/Discount";
+import Start from "../icons/Start";
+import { MapPin } from "lucide-react";
 
 export interface ProductCardProps {
   id: string;
@@ -89,7 +93,7 @@ export default function ProductCard({
   };
 
   return (
-    <div className="w-full rounded-2xl bg-white border border-gray-100 shadow-sm overflow-hidden font-sans">
+    <div className="w-full rounded-2xl bg-white overflow-hidden">
       {/* Image */}
       <div className="relative w-full md:aspect-4/3 aspect-16/10 md:h-[200px]">
         <Image
@@ -103,15 +107,16 @@ export default function ProductCard({
         {/* Discount */}
         {discountPercentage && (
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-[#1ec6cc] text-white text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full flex items-center gap-1">
-            -{discountPercentage}%
+            <Discount color="#fff" /> -{discountPercentage}%
           </div>
         )}
 
         {/* Top Right */}
         <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex items-center gap-2">
           {distance && (
-            <div className="bg-white/80 text-gray-800 text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full shadow-sm">
-              {distance}
+            <div className="flex justify-center items-center gap-1 bg-white/80 text-gray-800 text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full shadow-sm">
+              <PinLocation />
+              <div>{distance}</div>
             </div>
           )}
 
@@ -157,13 +162,13 @@ export default function ProductCard({
         {/* Rating + Location */}
         <div className="flex items-center text-[11px] sm:text-sm text-gray-500 mb-3 sm:mb-5">
           <div className="flex items-center gap-1 font-bold text-gray-800">
-            ⭐ {rating.toFixed(1)}
+            <Start /> {rating.toFixed(1)}
           </div>
 
           <div className="w-px h-3 bg-gray-300 mx-2 sm:mx-3" />
 
           <div className="flex items-center gap-1 truncate">
-            <Location size={18} color="#d1d5dc " />
+            <MapPin size={18} />
             <span className="truncate">{location}</span>
           </div>
         </div>

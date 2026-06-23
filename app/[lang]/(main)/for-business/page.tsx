@@ -13,14 +13,14 @@ interface Props {
 export default async function page({ params }: Props) {
   const { lang } = await params;
   return (
-    <div>
+    <>
       <ForBusiness />
       <LaunchSteps />
       <CreateBusiness lang={lang} />
       <WhyBusiness />
       <CreateDeal />
       <PromotionalSteps />
-      <PromoReadyGrow />
-    </div>
+      <PromoReadyGrow lang={lang} />
+    </>
   );
 }

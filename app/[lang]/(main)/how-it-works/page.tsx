@@ -4,7 +4,12 @@ import Steps from "./__components/Steps";
 import PageHero from "@/app/components/hero/PageHero";
 import question from "@/public/howToWork/Question.png";
 
-export default function page() {
+interface Props {
+  params: Promise<{ lang: string }>;
+}
+
+export default async function page({ params }: Props) {
+  const { lang } = await params;
   return (
     <div>
       <PageHero
@@ -14,7 +19,7 @@ export default function page() {
       />
       <HowToVuchado />
       <Steps />
-      <PromoExperience />
+      <PromoExperience lang={lang} />
     </div>
   );
 }

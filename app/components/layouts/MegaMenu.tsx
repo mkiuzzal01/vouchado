@@ -57,7 +57,7 @@ export default function MegaMenu({
       <NavigationMenu className="hidden lg:block w-full">
         <NavigationMenuList className="flex items-center gap-2">
           {/* HOME */}
-          <NavigationMenuItem>
+          {/* <NavigationMenuItem>
             <NavigationMenuLink
               href={`/${lang}`}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
@@ -68,11 +68,11 @@ export default function MegaMenu({
             >
               <Home size={15} />
             </NavigationMenuLink>
-          </NavigationMenuItem>
+          </NavigationMenuItem> */}
 
           {/* SERVICES */}
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="flex items-center gap-2 rounded-full bg-gray-100 border px-4 py-2 text-sm font-medium hover:bg-gray-200 transition">
+            <NavigationMenuTrigger className="flex items-center gap-2 rounded-full bg-gray-50 border px-4 py-2 text-sm font-medium hover:bg-gray-200 transition">
               <Menu size={15} />
               {menuTitle}
             </NavigationMenuTrigger>
@@ -112,10 +112,10 @@ export default function MegaMenu({
             <NavigationMenuItem key={item.href}>
               <NavigationMenuLink
                 href={item.href}
-                className={`px-3 py-2 rounded-lg text-xs lg:text-sm font-medium transition ${
+                className={`px-3 rounded-none  text-xs lg:text-sm font-medium transition ${
                   isActive(item.href)
-                    ? "bg-gray-200 text-black"
-                    : "hover:bg-gray-100"
+                    ? "border-b-2 border-[#2EC4C6] text-black"
+                    : "hover:border-b-2 hover:border-[#2EC4C6]"
                 }`}
               >
                 {item.title}
@@ -127,7 +127,7 @@ export default function MegaMenu({
           <NavigationMenuItem>
             <Link
               href="/contact"
-              className="flex items-center gap-2 rounded-full bg-gray-100 border px-4 py-2 text-xs lg:text-sm font-medium hover:bg-gray-200 transition"
+              className="flex items-center gap-2 rounded-full bg-gray-50 border px-4 py-2 text-xs lg:text-sm font-medium hover:bg-gray-200 transition"
             >
               <Location size={15} />
               Berlin, Germany
@@ -146,7 +146,7 @@ export default function MegaMenu({
             <Button
               variant="ghost"
               onClick={() => setShowNavbar(false)}
-              className="text-sm px-3 py-1 bg-gray-100 rounded-md"
+              className="text-sm px-3 py-1 bg-gray-50 rounded-md"
             >
               <X size={18} />
             </Button>

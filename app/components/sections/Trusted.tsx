@@ -141,18 +141,14 @@ function BrandCard({ content }: Brand) {
 export default function Trusted() {
   return (
     <Container>
-      <section className="py-16">
+      <section className="py-5">
         <SectionHeader title="Trusted by the best and loved by all" />
-
         <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-          {/* Trust Features */}
           <div className="grid gap-4 md:grid-cols-3 w-full">
             {TRUST_FEATURES.map((feature) => (
               <FeatureCard key={feature.id} {...feature} />
             ))}
           </div>
-
-          {/* Brand Logos */}
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4 w-full">
             {BRAND_LOGOS.map((brand) => (
               <BrandCard key={brand.id} {...brand} />

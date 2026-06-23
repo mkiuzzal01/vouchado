@@ -1,15 +1,19 @@
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
-
 import footer_logo from "@/public/logo/logo_for_footer.png";
 import Container from "../shared/Container";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Search from "../icons/Search";
+import Money from "../icons/Money";
+import Payment from "../icons/Payment";
+import SupportOnline from "../icons/SupportOnline";
+import AppleStore from "../icons/AppleStore";
+import PlayStore from "../icons/PlayStore";
 
 interface FooterLinks {
   footerLinks: any;
@@ -23,18 +27,22 @@ export default function Footer({ footerLinks }: FooterLinks) {
 
   const features = [
     {
+      icon: <Search />,
       title: "Discover Local Deals",
       desc: "Find the best offers near you in real-time.",
     },
     {
+      icon: <Money />,
       title: "Save More Every Time",
       desc: "Exclusive discounts on every purchase.",
     },
     {
+      icon: <Payment />,
       title: "Flexible Payment",
       desc: "Choose your most convenient option.",
     },
     {
+      icon: <SupportOnline />,
       title: "Support Online",
       desc: "24 hours a day, 7 days a week.",
     },
@@ -52,9 +60,9 @@ export default function Footer({ footerLinks }: FooterLinks) {
   return (
     <footer className="bg-[#161C24] text-white">
       <Container>
-        <div className="py-14 space-y-14">
+        <div className="py-10 space-y-14">
           {/* ================= TOP GRID ================= */}
-          <div className="grid gap-12 md:grid-cols-3">
+          <div className="grid gap-10 md:grid-cols-3">
             {/* LOGO + ABOUT */}
             <div className="space-y-5">
               <Link href="/" className="inline-block">
@@ -131,10 +139,10 @@ export default function Footer({ footerLinks }: FooterLinks) {
             </div>
 
             {/* NEWSLETTER */}
-            <div className="space-y-5">
+            <div className="space-y-2">
               <p className="text-sm text-gray-400 leading-relaxed">
-                Subscribe to our newsletter & get exclusive 10% off your first
-                order.
+                Subscribe to our newsletter & get exclusive <br /> 10% off your
+                first order.
               </p>
 
               <form
@@ -165,17 +173,9 @@ export default function Footer({ footerLinks }: FooterLinks) {
               </form>
 
               {/* APP BUTTONS */}
-              <div className="flex items-center gap-3 pt-2">
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-                  alt="Google Play"
-                  className="h-10"
-                />
-                <img
-                  src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg"
-                  alt="App Store"
-                  className="h-10"
-                />
+              <div className="flex justify-end items-center gap-3">
+                <PlayStore />
+                <AppleStore />
               </div>
             </div>
           </div>
@@ -190,7 +190,10 @@ export default function Footer({ footerLinks }: FooterLinks) {
                   "hover:border-gray-600 transition",
                 )}
               >
-                <h4 className="text-sm font-semibold mb-1">{item.title}</h4>
+                <div className="flex items-center gap-3">
+                  <div className=" p-2">{item.icon}</div>
+                  <h4 className="text-sm font-semibold mb-1">{item.title}</h4>
+                </div>
                 <p className="text-xs text-gray-400 leading-relaxed">
                   {item.desc}
                 </p>
@@ -199,7 +202,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
           </div>
 
           {/* ================= BOTTOM ================= */}
-          <div className="border-t border-gray-800 pt-6">
+          <div className="border-t border-gray-800 pt-2">
             <p className="text-sm text-gray-500 text-center">
               © {new Date().getFullYear()} 2026 All Rights Reserved | HTML Site
               by

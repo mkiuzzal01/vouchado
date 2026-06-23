@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { toast } from "react-toastify";
 import { toggleWishlist } from "@/redux/features/wishlist/wishlinst.slice";
+import Discount from "../icons/Discount";
+import Start from "../icons/Start";
 
 export interface TrendingProductCardProps {
   lang: "en" | "de";
@@ -87,7 +89,7 @@ export default function TrendingProductCard({
   };
 
   return (
-    <div className="w-full rounded-2xl sm:rounded-3xl bg-white border border-gray-100 shadow-sm overflow-hidden">
+    <div className="w-full rounded-2xl sm:rounded-3xl bg-white border border-gray-100  overflow-hidden">
       {/* Image Section */}
       <div className="relative h-44 sm:h-[220px] w-full">
         <Image
@@ -100,8 +102,8 @@ export default function TrendingProductCard({
 
         {/* Discount */}
         {discountPercentage && (
-          <div className="absolute top-2 left-2 sm:top-4 sm:left-4 bg-[#1ec6cc] text-white text-xs sm:text-sm font-bold px-2 sm:px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
-            -{discountPercentage}%
+          <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-[#1ec6cc] text-white text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full flex items-center gap-1">
+            <Discount color="#fff" /> -{discountPercentage}%
           </div>
         )}
 
@@ -146,7 +148,7 @@ export default function TrendingProductCard({
 
         <div className="flex items-center justify-between gap-2 mb-4 sm:mb-5">
           <div className="flex items-center gap-1 text-sm sm:text-base font-bold text-gray-800">
-            ⭐ {rating.toFixed(1)}
+            <Start /> {rating.toFixed(1)}
           </div>
 
           {purchasedText && (

@@ -30,7 +30,7 @@ export default async function layout({ children, params }: RootLayout) {
         menu={nav.nav.mobile_menu}
         navLinks={navLinks}
         services={services}
-        menuTitle={nav.nav.services}
+        menuTitle={nav.nav.category}
       />
       <main className="flex-1">{children}</main>
       <Footer footerLinks={footerLinksData} />

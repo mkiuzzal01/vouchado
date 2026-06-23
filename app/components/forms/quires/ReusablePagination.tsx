@@ -129,7 +129,7 @@ export default function ReusablePagination({
                 onClick={(e) => handlePageClick(e, page)}
                 className={`w-10 h-10 rounded-xl text-sm font-bold border transition-all ${
                   isActive
-                    ? "bg-[#1ec6cc] border-[#1ec6cc] text-white hover:bg-[#19a7ad] hover:text-white shadow-sm shadow-[#1ec6cc]/20"
+                    ? "bg-[#1ec6cc] border-[#1ec6cc]  hover:bg-[#19a7ad] hover:text-white shadow-sm shadow-[#1ec6cc]/20"
                     : "bg-white border-slate-200/60 hover:border-slate-300 text-slate-700 hover:bg-slate-50"
                 }`}
               >

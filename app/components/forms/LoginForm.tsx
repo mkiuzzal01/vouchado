@@ -15,6 +15,8 @@ import Image from "next/image";
 import { getDictionary } from "@/app/[lang]/dictionaries";
 // import { useLoginMutation } from "@/app/redux/features/auth/auth.api";
 import { StaticImageData } from "next/image";
+import { useAppDispatch } from "@/redux/hooks/globalhooks";
+import { setUser } from "@/redux/features/auth/auth.slice";
 
 interface Props {
   t: Awaited<ReturnType<typeof getDictionary>>;
@@ -26,14 +28,46 @@ interface Props {
 export default function Login({ t, locale, img, login_type }: Props) {
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect");
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   // const [login, { isLoading }] = useLoginMutation();
 
   const redirectPath = redirectUrl || `/${locale}`;
 
   const onSubmit = async (values: FieldValues, reset: () => void) => {
-    console.log(values);
+    if (values.email && values.password && login_type === "user") {
+      dispatch(
+        setUser({
+          vuchado_token: "2345678",
+          user: {
+            email: values.email,
+            id: "123456789",
+            name: "John Doe",
+            avatar: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+            role: "user",
+          },
+        }),
+      );
+      router.push(redirectPath);
+    } else if (values.email && values.password && login_type === "provider") {
+      dispatch(
+        setUser({
+          vuchado_token: "2345678",
+          user: {
+            email: values.email,
+            id: "123456789",
+            name: "John Doe",
+            avatar: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+            role: "provider",
+          },
+        }),
+      );
+      reset();
+      router.push(redirectPath);
+    } else {
+      router.push(redirectPath);
+    }
+
     // try {
     //   const res = await login(values).unwrap();
 
@@ -115,6 +149,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
                   label={t.auth.login.email}
                   name="email"
                   className="h-12"
+                  required
                   placeholder={t.auth.login.email}
                 />
 
@@ -124,6 +159,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
                   name="password"
                   type="password"
                   className="h-12"
+                  required
                   placeholder={t.auth.login.password}
                 />
 

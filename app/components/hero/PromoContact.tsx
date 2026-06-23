@@ -1,6 +1,11 @@
 import Container from "@/app/components/shared/Container";
+import Link from "next/link";
 
-export default function PromoContact() {
+interface props {
+  lang: string;
+}
+
+export default function PromoContact({ lang }: props) {
   return (
     <section className="w-full bg-white py-12 px-4 sm:px-8">
       <Container>
@@ -21,9 +26,11 @@ export default function PromoContact() {
           {/* RIGHT CONTENT BLOCK: Button & Trust Avatars Stack */}
           <div className="flex flex-col sm:flex-row lg:flex-col items-start sm:items-center lg:items-end justify-start gap-5 shrink-0">
             {/* Primary Action Button */}
-            <button className="bg-[#2BC4CA] text-white font-bold text-base px-8 py-3.5 rounded-full hover:bg-[#23AAB0] active:scale-[0.98] transition-all duration-200 shadow-md shadow-[#2BC4CA]/10 whitespace-nowrap min-w-[180px] text-center">
-              Partner With us
-            </button>
+            <Link href={`/${lang}/provider-login`}>
+              <button className="bg-[#2BC4CA] text-white font-bold text-base px-8 py-3.5 rounded-full hover:bg-[#23AAB0] active:scale-[0.98] transition-all duration-200 shadow-md shadow-[#2BC4CA]/10 whitespace-nowrap min-w-[180px] text-center">
+                Partner With us
+              </button>
+            </Link>
 
             {/* Social Proof Trust Layer */}
             <div className="flex items-center gap-3">

@@ -24,19 +24,22 @@ export default function FilterWithCategory({
   const categories: CategoryItem[] = [
     {
       id: "all",
-      label: "All Services",
+      label: "All Deals",
       icon: (
         <svg
           className="w-4 h-4"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="2.5"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <rect x="3" y="3" width="7" height="7" rx="1" />
-          <rect x="14" y="3" width="7" height="7" rx="1" />
-          <rect x="14" y="14" width="7" height="7" rx="1" />
-          <rect x="3" y="14" width="7" height="7" rx="1" />
+          {/* 4 Grid Squares */}
+          <rect x="3" y="3" width="7" height="7" rx="1.5" />
+          <rect x="14" y="3" width="7" height="7" rx="1.5" />
+          <rect x="3" y="14" width="7" height="7" rx="1.5" />
+          <rect x="14" y="14" width="7" height="7" rx="1.5" />
         </svg>
       ),
     },
@@ -50,8 +53,13 @@ export default function FilterWithCategory({
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
+          {/* Detailed overlapping mountain ridges lines */}
+          <path d="M3 20L10 6L16 16.5" />
+          <path d="M13 13.5L16.5 9L21 20" />
+          <path d="M2 20h20" />
         </svg>
       ),
     },
@@ -65,8 +73,14 @@ export default function FilterWithCategory({
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+          {/* Hand holding a dome serving plate / cloche */}
+          <path d="M5 13a7 7 0 0 1 14 0H5z" />
+          <path d="M12 4v2" />
+          <path d="M3 16h18" />
+          <path d="M17 16c0 2-2 3-5 3s-5-1-5-3" />
         </svg>
       ),
     },
@@ -80,9 +94,15 @@ export default function FilterWithCategory({
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <circle cx="12" cy="12" r="10" />
-          <path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />
+          {/* Winking/Smiling baby/child face with single hair curl */}
+          <circle cx="12" cy="13" r="8" />
+          <path d="M12 5a3 3 0 0 1-2-3" />
+          <path d="M9.5 11.5a.5.5 0 1 1-.01 0" />
+          <path d="M14.5 11.5a.5.5 0 1 1-.01 0" />
+          <path d="M9.5 15.5c.8 1.5 2.7 2 4.5 0" />
         </svg>
       ),
     },
@@ -96,8 +116,53 @@ export default function FilterWithCategory({
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         >
-          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+          {/* Sacred Lotus Flower multi-leaf configuration sitting on platform */}
+          <path d="M12 21a6 6 0 0 0 6-6c0-3.5-6-9-6-9s-6 5.5-6 9a6 6 0 0 0 6 6z" />
+          <path d="M12 9c1.5 2.5 3.5 4 3.5 6a3.5 3.5 0 0 1-7 0c0-2 2-3.5 3.5-6z" />
+          <path d="M6 17c-1.5-1-2.5-2.5-2.5-4 0-2 2.5-3 4-1" />
+          <path d="M18 17c1.5-1 2.5-2.5 2.5-4 0-2-2.5-3-4-1" />
+        </svg>
+      ),
+    },
+    {
+      id: "creative",
+      label: "Creative",
+      icon: (
+        <svg
+          className="w-4 h-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {/* Angled artist paint brush */}
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+          <path d="M3 21h4l2-2-4-4-2 2v4z" />
+        </svg>
+      ),
+    },
+    {
+      id: "hotel",
+      label: "Hotel and Culture",
+      icon: (
+        <svg
+          className="w-4 h-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {/* Desk reception service call bell */}
+          <path d="M12 4V2" />
+          <path d="M12 4a7 7 0 0 1 7 7v3H5v-3a7 7 0 0 1 7-7z" />
+          <path d="M3 17h18a1 1 0 0 1 1 1v2H2v-2a1 1 0 0 1 1-1z" />
         </svg>
       ),
     },
@@ -123,7 +188,7 @@ export default function FilterWithCategory({
           [scrollbar-width:none]
           [&::-webkit-scrollbar]:hidden
 
-          /* IMPORTANT: snap behavior */
+          /* snap behavior */
           snap-x snap-mandatory
         "
       >
@@ -141,23 +206,21 @@ export default function FilterWithCategory({
                 text-sm font-semibold
                 whitespace-nowrap
                 shrink-0
-
                 border transition-all duration-200
-
                 snap-start
                 active:scale-95
-
                 ${
                   isActive
-                    ? "bg-[#1ec6cc] border-[#1ec6cc] text-white shadow-md"
+                    ? "bg-[#1ec6cc] border-[#1ec6cc] text-white shadow-md shadow-[#1ec6cc]/20"
                     : "bg-white border-slate-200 text-slate-700 hover:border-slate-300"
                 }
               `}
             >
-              <span className={isActive ? "text-white" : "text-slate-500"}>
+              <span
+                className={`transition-colors ${isActive ? "text-white" : "text-slate-500"}`}
+              >
                 {cat.icon}
               </span>
-
               <span>{cat.label}</span>
             </button>
           );

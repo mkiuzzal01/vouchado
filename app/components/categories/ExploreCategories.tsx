@@ -50,59 +50,53 @@ export default function ExploreCategories() {
 
   return (
     <Container>
-      <section className="py-8">
-        {/* Header */}
-        <div className="mb-6 flex items-center justify-between">
-          <SectionHeader
-            title="Explore Categories"
-            description="Discover amazing deals and discounts near you"
-          />
+      <div className="flex items-center justify-between">
+        <SectionHeader title="Explore Categories" />
 
-          {/* Navigation Buttons */}
-          <div className="flex gap-2">
-            <button className="category-prev flex h-10 w-10 items-center justify-center rounded-full border bg-white  hover:bg-gray-50">
-              <ChevronLeft size={24} />
-            </button>
+        {/* Navigation Buttons */}
+        <div className="flex gap-2">
+          <button className="category-prev flex h-10 w-10 items-center justify-center rounded-full border bg-white  hover:bg-gray-50">
+            <ChevronLeft size={24} />
+          </button>
 
-            <button className="category-next flex h-10 w-10 items-center justify-center rounded-full border bg-white hover:bg-gray-50">
-              <ChevronRight size={24} />
-            </button>
-          </div>
+          <button className="category-next flex h-10 w-10 items-center justify-center rounded-full border bg-white hover:bg-gray-50">
+            <ChevronRight size={24} />
+          </button>
         </div>
+      </div>
 
-        <Swiper
-          modules={[Navigation]}
-          navigation={{
-            prevEl: ".category-prev",
-            nextEl: ".category-next",
-          }}
-          spaceBetween={16}
-          slidesPerView={2}
-          breakpoints={{
-            640: {
-              slidesPerView: 3,
-            },
-            768: {
-              slidesPerView: 4,
-            },
-            1024: {
-              slidesPerView: 6,
-            },
-          }}
-        >
-          {categories.map((category, index) => (
-            <SwiperSlide key={index}>
-              <div className="flex h-full cursor-pointer flex-col items-center gap-3 rounded-2xl bg-white p-5 text-center shadow-sm transition hover:shadow-md">
-                <div className="flex items-center justify-center">
-                  {category.icon}
-                </div>
-
-                <p className="text-sm font-medium">{category.name}</p>
+      <Swiper
+        modules={[Navigation]}
+        navigation={{
+          prevEl: ".category-prev",
+          nextEl: ".category-next",
+        }}
+        spaceBetween={16}
+        slidesPerView={2}
+        breakpoints={{
+          640: {
+            slidesPerView: 3,
+          },
+          768: {
+            slidesPerView: 4,
+          },
+          1024: {
+            slidesPerView: 6,
+          },
+        }}
+      >
+        {categories.map((category, index) => (
+          <SwiperSlide key={index}>
+            <div className="flex h-42 cursor-pointer flex-col items-center gap-3 rounded-2xl bg-white p-5 my-2 border transition">
+              <div className="flex items-center justify-center">
+                {category.icon}
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </section>
+
+              <p className="text-sm font-bold">{category.name}</p>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </Container>
   );
 }

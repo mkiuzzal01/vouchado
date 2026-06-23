@@ -9,10 +9,7 @@ export default function Preview() {
   const dealState = useAppSelector((state) => state.deal);
 
   const submitCompletedPayload = () => {
-    console.log(
-      "Complete Form Data Structured Payload Ready for Backend Processing: ",
-      dealState,
-    );
+    console.table(dealState);
   };
 
   return (

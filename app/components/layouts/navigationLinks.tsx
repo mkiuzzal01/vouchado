@@ -170,14 +170,9 @@ export const footerLinks = async (lang: string) => {
         href: `/${lang}/wishlist`,
       },
       {
-        title: dict.footer?.links?.category || "Category",
-        href: `/${lang}/category`,
-      },
-      {
         title: dict.footer?.links?.offers || "Offers",
         href: `/${lang}/offers`,
       },
-      { title: dict.footer?.links?.faq || "FAQ", href: `/${lang}/faq` },
       {
         title: dict.footer?.links?.contact_us || "Contact us",
         href: `/${lang}/contact`,

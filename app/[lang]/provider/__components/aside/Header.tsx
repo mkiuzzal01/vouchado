@@ -1,12 +1,12 @@
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Bell } from "lucide-react";
 
 import logo from "@/public/logo/logo.png";
 import { providerNavItems } from "./HeaderLinks";
+import UserDropdown from "@/app/components/layouts/UserDropdown";
+import { Bell } from "lucide-react";
 
 interface HeaderProps {
   lang: string;
@@ -67,27 +67,15 @@ export default function Header({ lang }: HeaderProps) {
 
         {/* Right Side */}
         <div className="flex items-center gap-4">
-          {/* Notification */}
-          <Link href={`/${lang}/provider/settings/notifications`}>
-            <button className="relative rounded-full border border-gray-100 bg-white p-2.5 text-gray-400 transition-all hover:text-gray-600 hover:shadow-sm">
-              <Bell size={18} />
-
-              <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-rose-500" />
-            </button>
-          </Link>
-
-          {/* User Profile */}
-          <div className="flex cursor-pointer items-center gap-2.5 rounded-full border border-gray-100 bg-gray-50/80 py-1.5 pl-1.5 pr-4 transition-all hover:shadow-sm">
-            <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80"
-              alt="User Avatar"
-              className="h-8 w-8 rounded-full border border-white object-cover shadow-sm"
-            />
-
-            <span className="text-xs font-bold tracking-tight text-gray-800">
-              $5,300
-            </span>
+          <div className="hidden md:flex items-center gap-2">
+            <Link href={`/${lang}/provider/settings/notifications`}>
+              <button className="relative p-2 rounded-full border border-slate-200 bg-white shadow-sm hover:bg-slate-50 transition">
+                <Bell />
+                <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500"></span>
+              </button>
+            </Link>
           </div>
+          <UserDropdown lang={lang} totalMoney={2000} />
         </div>
       </div>
 

@@ -3,7 +3,7 @@ interface SearchProps {
   color?: string;
 }
 
-export default function Search({ size = 70, color = "#31BFC8" }: SearchProps) {
+export default function Search({ size = 32, color = "#31BFC8" }: SearchProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

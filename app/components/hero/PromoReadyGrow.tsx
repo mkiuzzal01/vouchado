@@ -1,8 +1,13 @@
 import Image from "next/image";
 import Container from "@/app/components/shared/Container";
 import readyGrowIcon from "@/public/business/home.png";
+import Link from "next/link";
 
-export default function PromoReadyGrow() {
+interface Props {
+  lang: string;
+}
+
+export default function PromoReadyGrow({ lang }: Props) {
   return (
     <Container className="py-4">
       {/* --- DEEP TEAL POD BANNER --- */}
@@ -47,27 +52,32 @@ export default function PromoReadyGrow() {
         {/* RIGHT SIDE: Action Buttons Block */}
         <div className="flex flex-col gap-3.5 w-full sm:w-auto shrink-0 relative z-10">
           {/* Primary Action Button */}
-          <button className="bg-white text-[#0e6a70] font-bold text-sm sm:text-base px-7 py-3.5 rounded-full hover:bg-neutral-50 active:scale-[0.98] transition-all duration-200 shadow-md flex items-center justify-center gap-2 group whitespace-nowrap">
-            <span>Become a Partner</span>
-            <svg
-              className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2.5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M14 5l7 7m0 0l-7 7m7-7H3"
-              />
-            </svg>
-          </button>
+          <Link href={`/${lang}/provider`}>
+            <button className="bg-white text-[#0e6a70] font-bold text-sm sm:text-base px-7 py-3.5 rounded-full hover:bg-neutral-50 active:scale-[0.98] transition-all duration-200 shadow-md flex items-center justify-center gap-2 group whitespace-nowrap">
+              <span>Become a Partner</span>
+              <svg
+                className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </button>
+          </Link>
 
           {/* Secondary Action Button */}
-          <button className="border border-white/50 text-white font-bold text-sm sm:text-base px-7 py-3.5 rounded-full bg-white/5 backdrop-blur-sm hover:bg-white/10 active:scale-[0.98] transition-all duration-200 whitespace-nowrap text-center">
+          <Link
+            href={`/${lang}/contact`}
+            className="border border-white/50 text-white font-bold text-sm sm:text-base px-7 py-3.5 rounded-full bg-white/5 backdrop-blur-sm hover:bg-white/10 active:scale-[0.98] transition-all duration-200 whitespace-nowrap text-center"
+          >
             Talk to Our Team
-          </button>
+          </Link>
         </div>
       </div>
     </Container>

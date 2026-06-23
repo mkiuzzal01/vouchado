@@ -39,18 +39,18 @@ export default function Stats() {
   ];
 
   return (
-    <section className="relative w-full -bottom-20">
-      <Container className="bg-white rounded-xl shadow">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-12">
+    <section className="relative w-full -bottom-18">
+      <Container className="bg-white rounded-4xl shadow-2xl shadow-gray-200">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-10">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="flex items-center gap-4 p-4 rounded-xl transition duration-300"
+              className="flex justify-center last:border-none lg:border-e border-black/10 items-center gap-2 p-2 my-4 transition duration-300"
             >
               <div className="bg-primary/10 p-2 rounded-full">{stat.icon}</div>
 
               <div className="flex flex-col">
-                <div className="flex items-center gap-1 text-sm md:text-lg font-bold text-gray-900">
+                <div className="flex flex-col lg:items-center lg:flex-row gap-1 text-sm md:text-lg font-bold text-gray-900">
                   {stat.value} {stat.star && <div>{stat.star}</div>}
                 </div>
                 <div className="text-gray-700 text-xs md:text-md font-medium">
@@ -59,7 +59,7 @@ export default function Stats() {
               </div>
             </div>
           ))}
-          <div className="flex items-center gap-4 p-4 rounded-xl transition duration-300">
+          <div className="flex justify-center items-center gap-4 p-4 rounded-xl transition duration-300">
             <AvatarGroup>
               <Avatar>
                 <AvatarImage src="https://github.com/shadcn.png" alt="@user1" />

@@ -11,7 +11,7 @@ interface PrivateRouteProps {
 export default function PrivateRoute({ children }: PrivateRouteProps) {
   const router = useRouter();
 
-  const token = useAppSelector((state) => state.auth.token);
+  const token = useAppSelector((state) => state.auth.vuchado_token);
 
   useEffect(() => {
     if (!token) {

@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Menu } from "lucide-react";
-
 import MegaMenu from "./MegaMenu";
 import Container from "../shared/Container";
 import branding_logo from "@/public/logo/logo.png";
@@ -11,6 +10,10 @@ import cart_icon from "@/public/cart/add to cart.png";
 import { useState } from "react";
 import heartIcon from "@/public/wishlist/wishlisl_icon.png";
 import chatIcon from "@/public/cart/Chat.png";
+import cookie from "js-cookie";
+import UserDropdown from "./UserDropdown";
+import Chat from "../icons/Chat";
+import { usePathname } from "next/navigation";
 
 interface Props {
   lang: string;
@@ -32,9 +35,11 @@ export default function Navbar({
   menuTitle,
 }: Props) {
   const [showNavbar, setShowNavbar] = useState(false);
+  const token = cookie.get("vuchado_token");
+  const path = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-[#f7f6f6]">
+    <header className="sticky top-0 z-50 w-full border-b bg-[#ffff]">
       <Container>
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -67,19 +72,13 @@ export default function Navbar({
             {/* Cart */}
             <Link
               href={`/${lang}/chat`}
-              className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
+              className={`flex h-10 w-7 lg:w-10 items-center justify-center rounded-full transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
             >
-              <Image
-                src={chatIcon}
-                alt="Cart Icon"
-                width={30}
-                height={30}
-                className="h-10 w-7 lg:w-10 object-contain"
-              />
+              <Chat color={path.includes("/chat") ? "white" : "#292D32"} />
             </Link>
 
             {/* Auth */}
-            <div className="flex items-center gap-2 rounded-full bg-gray-100 lg:border lg:p-1">
+            <div className="flex items-center gap-2 rounded-full bg-gray-50 lg:border lg:p-1">
               <Link
                 href={`/${lang}/wishlist`}
                 className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
@@ -104,21 +103,24 @@ export default function Navbar({
                   className="h-10 w-7 lg:w-10 object-contain"
                 />
               </Link>
-              <div className="hidden sm:flex items-center gap-2">
-                <Link
-                  href={`/${lang}/login`}
-                  className="rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
-                >
-                  {login}
-                </Link>
-
-                <Link
-                  href={`/${lang}/registration`}
-                  className="rounded-full bg-[#2EC4C6] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
-                >
-                  {register}
-                </Link>
-              </div>
+              {token ? (
+                <UserDropdown lang={lang} />
+              ) : (
+                <div className="hidden sm:flex items-center gap-2">
+                  <Link
+                    href={`/${lang}/login`}
+                    className="rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
+                  >
+                    {login}
+                  </Link>
+                  <Link
+                    href={`/${lang}/registration`}
+                    className="rounded-full bg-[#2EC4C6] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
+                  >
+                    {register}
+                  </Link>
+                </div>
+              )}
             </div>
 
             {/* Mobile Button */}

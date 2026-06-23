@@ -4,6 +4,7 @@ import { Plus, Scan } from "lucide-react";
 import Container from "@/app/components/shared/Container";
 import StatsCards from "./__components/StatsCards";
 import DealsTable from "../__components/DealsTable";
+import ActiveDealsTable from "./__components/ActiveDealsTable";
 
 export default function DealsPage() {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
@@ -37,7 +38,7 @@ export default function DealsPage() {
       <StatsCards />
 
       {/* DATA TABLE MODULE */}
-      <DealsTable />
+      <ActiveDealsTable />
 
       {/* OPTIONAL SCANNER MODAL OVERLAY */}
       {isScannerOpen && (

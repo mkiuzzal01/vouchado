@@ -10,7 +10,8 @@ export default function SettingAside({ lang }: SettingAsideProps) {
   const pathname = usePathname();
 
   const navItems = [
-    { name: "Business Settings", href: `/${lang}/provider/settings` },
+    { name: "Analytics", href: `/${lang}/provider/settings` },
+    { name: "Business Settings", href: `/${lang}/provider/settings/business` },
     { name: "Payment Information", href: `/${lang}/provider/settings/payment` },
     { name: "Notifications", href: `/${lang}/provider/settings/notifications` },
     {
@@ -25,7 +26,7 @@ export default function SettingAside({ lang }: SettingAsideProps) {
   ];
 
   return (
-    <nav className="flex flex-col gap-2 w-full bg-white p-4 rounded-xl">
+    <aside className="sticky top-28 flex flex-col gap-2 w-full bg-white p-4 rounded-xl">
       {navItems.map((item) => {
         const isActive = pathname === item.href;
 
@@ -43,6 +44,6 @@ export default function SettingAside({ lang }: SettingAsideProps) {
           </Link>
         );
       })}
-    </nav>
+    </aside>
   );
 }

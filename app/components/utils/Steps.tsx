@@ -9,17 +9,17 @@ export default function Steps() {
     {
       title: "1. Discover",
       description: "Find the best local deals near you.",
-      icon: <Search size={28} />,
+      icon: <Search size={30} />,
     },
     {
       title: "2. Purchase",
       description: "Buy securely and instantly online.",
-      icon: <Bag size={28} />,
+      icon: <Bag size={30} />,
     },
     {
       title: "3. Redeem",
       description: "Redeem your deal and enjoy amazing experiences.",
-      icon: <Scanner size={28} />,
+      icon: <Scanner size={30} />,
     },
   ];
 
@@ -29,7 +29,7 @@ export default function Steps() {
         {steps.map((step, idx) => (
           <div key={idx} className="relative flex items-center gap-5">
             {/* White Icon Circle Background */}
-            <div className="w-16 h-16 rounded-full bg-white  flex items-center justify-center shrink-0 text-[#1ec6cc]">
+            <div className="w-16 h-16 rounded-full bg-white/50  flex items-center justify-center shrink-0 text-[#1ec6cc]">
               {step.icon}
             </div>
 

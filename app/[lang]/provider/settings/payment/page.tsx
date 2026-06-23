@@ -7,9 +7,9 @@ export default function PaymentInformationPage() {
   };
 
   return (
-    <div className="w-full space-y-6">
+    <div className="bg-white rounded-2xl border border-gray-100 p-6">
       {/* Subview Section Header */}
-      <div>
+      <div className="pb-4">
         <h2 className="text-lg font-bold text-gray-900 tracking-tight">
           Payment Information
         </h2>

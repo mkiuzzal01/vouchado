@@ -1,7 +1,11 @@
+import BusinessAnalytics from "../__components/BusinessAnalytics";
+import DealList from "../__components/DealList";
+
 export default function page() {
   return (
     <div>
-      <h1>provider-settings</h1>
+      <BusinessAnalytics />
+      <DealList />
     </div>
   );
 }

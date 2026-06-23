@@ -9,7 +9,7 @@ export default function ProviderChangePassForm() {
     console.log(values);
   };
   return (
-    <div>
+    <div className="bg-white rounded-2xl border border-gray-100 p-6">
       <AppForm onSubmit={onSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <TextInput name="currentPassword" label="Current Password" />
