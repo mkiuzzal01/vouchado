@@ -154,7 +154,7 @@ export default function ProductCard({
       <div className="p-3 sm:p-4 pt-6 sm:pt-7">
         {/* Title */}
         <Link href={`/${lang}/view/${id}`}>
-          <h3 className="text-sm sm:text-[17px] font-semibold text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2 hover:text-[#1ec6cc] transition-colors">
+          <h3 className="text-sm sm:text-[17px] font-medium text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2 hover:text-[#1ec6cc] transition-colors">
             {title}
           </h3>
         </Link>

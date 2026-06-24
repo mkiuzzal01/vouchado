@@ -59,8 +59,8 @@ export default function Footer({ footerLinks }: FooterLinks) {
 
   return (
     <footer className="bg-[#161C24] text-white">
-      <Container>
-        <div className="py-10 space-y-14">
+      <Container className="px-8 lg:px-10">
+        <div className="pb-5 pt-20 space-y-14">
           {/* ================= TOP GRID ================= */}
           <div className="grid gap-10 md:grid-cols-3">
             {/* LOGO + ABOUT */}
@@ -148,27 +148,27 @@ export default function Footer({ footerLinks }: FooterLinks) {
               <form
                 onSubmit={handleSubmit}
                 className={cn(
-                  "flex items-center w-full rounded-full overflow-hidden",
-                  "border-none bg-white/5",
+                  "flex items-center w-full rounded-full p-1 border border-gray-800 bg-[#1A222C]",
                 )}
               >
                 <Input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter email address"
+                  placeholder="Enter Your Email"
                   className={cn(
-                    "h-11 border-0 bg-transparent text-white placeholder:text-gray-400",
-                    "focus-visible:ring-0 focus-visible:ring-offset-0",
+                    "h-11 border-0 bg-transparent px-4 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 flex-1",
                   )}
                 />
 
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className={cn("h-11 rounded-none rounded-r-full px-6")}
+                  className={cn(
+                    "h-11 cursor-pointer bg-gradient-to-r from-[#4cd3e3] to-[#25a5b5] text-white rounded-full px-8 font-semibold tracking-wider uppercase text-xs hover:opacity-90 transition-opacity",
+                  )}
                 >
-                  {isLoading ? "..." : "Subscribe"}
+                  {isLoading ? "..." : "SUBSCRIBE"}
                 </Button>
               </form>
 
@@ -186,17 +186,19 @@ export default function Footer({ footerLinks }: FooterLinks) {
               <div
                 key={item.title}
                 className={cn(
-                  "rounded-xl border border-gray-800 bg-[#1C232D] p-5",
+                  "rounded-xl border border-gray-800 bg-[#1C232D] p-4",
                   "hover:border-gray-600 transition",
                 )}
               >
                 <div className="flex items-center gap-3">
-                  <div className=" p-2">{item.icon}</div>
-                  <h4 className="text-sm font-semibold mb-1">{item.title}</h4>
+                  <div>{item.icon}</div>
+                  <div>
+                    <h4 className="text-sm mb-1">{item.title}</h4>
+                    <p className="text-xs text-gray-400 leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
                 </div>
-                <p className="text-xs text-gray-400 leading-relaxed">
-                  {item.desc}
-                </p>
               </div>
             ))}
           </div>

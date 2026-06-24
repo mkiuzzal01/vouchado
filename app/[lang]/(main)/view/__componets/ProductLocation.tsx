@@ -5,7 +5,7 @@ import ItemMap from "./ItemMap";
 
 export default function ProductLocation() {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm space-y-4 text-left">
+    <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4 text-left">
       <h4 className="text-sm font-bold text-gray-900 tracking-tight">
         Local Information
       </h4>

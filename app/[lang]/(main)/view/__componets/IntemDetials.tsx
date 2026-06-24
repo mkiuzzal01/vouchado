@@ -16,7 +16,6 @@ import Mobile from "@/app/components/icons/Mobile";
 import CheckMark from "@/app/components/icons/CheckMark";
 import Star from "@/app/components/icons/Star";
 import Includes from "../__componets/Includes";
-import VisitorInfo from "./ProductLocation";
 import Review from "../__componets/Review";
 import Overview from "../__componets/Overview";
 import ItemPhotos from "../__componets/ItemPhotos";
@@ -33,6 +32,33 @@ import SimilarItem from "./SimilarItem";
 import ProductLocation from "./ProductLocation";
 import PromoSteps from "@/app/components/hero/PromoSteps";
 import Link from "next/link";
+import Save from "@/app/components/icons/Save";
+import InstantConfirm from "@/app/components/icons/InstantConfirm";
+import SecurePayment from "@/app/components/icons/SecurePayment";
+import { ProductMetrics } from "./ProductMetrics";
+
+export const promos = [
+  {
+    title: "Best Price Guarantee",
+    description: "Vouchado Deals are always 20% cheaper and MORE!",
+    icon: <Save />,
+  },
+  {
+    title: "Easy & Secure Booking",
+    description: "Your data is safe with us.",
+    icon: <SecurePayment />,
+  },
+  {
+    title: "Instant Confirmation",
+    description: "Book & get confirmed instantly.",
+    icon: <InstantConfirm />,
+  },
+  {
+    title: "In Person Support",
+    description: "We're here to help anytime.",
+    icon: <Contact />,
+  },
+];
 
 interface Props {
   slug: string;
@@ -104,14 +130,18 @@ export default function ItemDetails({ slug, lang }: Props) {
     "Reviews",
   ];
 
+  const guarantees = [
+    { label: "Instant Confirmation", icon: <CheckMark size={18} /> },
+    { label: "Mobile Ticket", icon: <Mobile size={18} /> },
+    {
+      label: "Vouchado Guarantee: always safe 20% or more",
+      icon: <InstantConfirm size={18} />,
+    },
+  ];
+
   return (
     <section className="w-full  min-h-screen py-6 md:py-10 selection:bg-[#2BC4CA]/20">
       <Container>
-        {/* --- BREADCRUMBS ROW --- */}
-        <nav className="text-xs text-gray-400 font-normal mb-4 flex items-center gap-1.5 overflow-x-auto whitespace-nowrap">
-          {/*  */}
-        </nav>
-
         {/* --- TWO-COLUMN MASTER CONTENT TRACK GRID --- */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           <div className="lg:col-span-8 space-y-8 p-6 rounded-2xl border border-gray-100">
@@ -120,36 +150,23 @@ export default function ItemDetails({ slug, lang }: Props) {
               <h1 className="text-2xl sm:text-3xl lg:text-[38px] font-extrabold text-gray-900 tracking-tight leading-tight">
                 {product.title}
               </h1>
-              <p className="text-gray-500 text-sm sm:text-base max-w-2xl font-light leading-relaxed">
+              <p className="text-gray-700 text-sm sm:text-base max-w-2xl font-bold leading-relaxed">
                 {product.tagline}
               </p>
 
               {/* Dynamic Badging Row */}
-              <div className="flex flex-wrap items-center gap-4 pt-1.5 text-xs text-gray-500">
-                <div className="w-1 h-1 bg-gray-300 rounded-full" />
-                <div className="flex items-center gap-1.5">
-                  <svg
-                    className="w-4 h-4 text-[#2BC4CA]"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
+              <div className="flex flex-wrap items-center gap-4 pt-1.5 text-sm text-gray-500">
+                {guarantees.map((guarantee) => (
+                  <div
+                    key={guarantee.label}
+                    className="flex items-center gap-1.5 bg-gray-100 p-2 rounded-lg"
                   >
-                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>Instant Confirmation</span>
-                </div>
-                <div className="w-1 h-1 bg-gray-300 rounded-full" />
-                <div className="flex items-center gap-1.5">
-                  <Mobile />
-                  <span>Mobile Ticket</span>
-                </div>
-                <div className="w-1 h-1 bg-gray-300 rounded-full" />
-                <div className="flex items-center gap-1">
-                  <Check />
-                  <div>Vouchado Guarantee: always safe 20% or more.</div>
-                </div>
+                    {guarantee.icon}
+                    <span>{guarantee.label}</span>
+                  </div>
+                ))}
               </div>
+              <ProductMetrics />
             </div>
 
             {/* PRODUCT HERO MEDIA CONTAINER CAROUSEL BLOCK */}
@@ -165,30 +182,27 @@ export default function ItemDetails({ slug, lang }: Props) {
             </div>
 
             {/* TAB SYSTEM SECTION INTERFACES */}
-            <div className="border-b border-gray-100 flex items-center gap-6 overflow-x-auto whitespace-nowrap scrollbar-none text-sm font-semibold text-gray-400">
+            <div className="flex items-center gap-6 overflow-x-auto scrollbar-none text-sm font-semibold text-gray-400">
               <Tabs defaultValue="overview" className="w-full">
                 {/* --- TAB NAVIGATION HEADER --- */}
                 <TabsList
                   variant={"line"}
-                  className="w-full h-auto gap-6 overflow-x-auto whitespace-nowrap scrollbar-none"
+                  className="w-full h-auto gap-6 overflow-x-auto scrollbar-none"
                 >
                   {tabItems.map((tab) => {
                     const value = tab.toLowerCase().replace(/\s+/g, "-");
                     return (
                       <TabsTrigger
+                        className="font-bold"
                         key={value}
                         value={value}
-                        className="rounded-none bg-transparent p-0 pb-3 border-b-2 border-transparent data-[state=active]:border-[#2BC4CA] text-sm font-semibold text-gray-400 data-[state=active]:text-[#2BC4CA]  hover:text-gray-600 transition-all shadow-none"
                       >
                         {tab}
                       </TabsTrigger>
                     );
                   })}
                 </TabsList>
-                <TabsContent
-                  value="overview"
-                  className="mt-4 focus-visible:outline-none"
-                >
+                <TabsContent value="overview" className="mt-4">
                   <Overview
                     description={product?.overview}
                     highlights={product?.highlights}
@@ -197,27 +211,18 @@ export default function ItemDetails({ slug, lang }: Props) {
                   />
                 </TabsContent>
 
-                <TabsContent
-                  value="what's-included"
-                  className="mt-4 focus-visible:outline-none"
-                >
+                <TabsContent value="what's-included" className="mt-4">
                   <Includes
                     included={product?.included}
                     notIncluded={product?.notIncluded}
                   />
                 </TabsContent>
 
-                <TabsContent
-                  value="local-information"
-                  className="mt-4 focus-visible:outline-none"
-                >
+                <TabsContent value="local-information" className="mt-4">
                   <ProductLocation />
                 </TabsContent>
 
-                <TabsContent
-                  value="reviews"
-                  className="mt-4 focus-visible:outline-none"
-                >
+                <TabsContent value="reviews" className="mt-4">
                   <Review rating={200} reviews={product?.customerReviews} />
                 </TabsContent>
               </Tabs>
@@ -233,7 +238,7 @@ export default function ItemDetails({ slug, lang }: Props) {
               Best Price Guarantee
             </div>
             {/* Primary Action Panel wrapper card element layout */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm space-y-5">
+            <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
               <div>
                 <h4 className="text-2xl font-bold text-gray-900">
                   Single Day Ticket
@@ -260,7 +265,7 @@ export default function ItemDetails({ slug, lang }: Props) {
                   <span className="text-2xl sm:text-3xl font-extrabold text-gray-900">
                     {product.priceOriginal}
                   </span>
-                  <span className="bg-emerald-50 text-primary font-bold text-xs px-2 py-0.5 rounded-md">
+                  <span className="bg-[#E1F7F5] text-[#31BFC8] font-bold text-xs px-2 py-0.5 rounded-md">
                     Save {product.discountBadge}%
                   </span>
                 </div>
@@ -269,7 +274,9 @@ export default function ItemDetails({ slug, lang }: Props) {
               {/* Simple Feature Checklist */}
               <div className="space-y-3 pt-2 text-xs text-gray-600 font-light">
                 <div className="flex items-start gap-2.5">
-                  <CheckMark />
+                  <div className="shrink-0 w-9 h-9 rounded-full bg-[#e5f7f8]  border-gray-300 flex items-center justify-center">
+                    <CheckMark color="#31BFC8" />
+                  </div>
                   <div>
                     <p className="font-bold text-gray-900">
                       Instant Confirmation
@@ -280,7 +287,9 @@ export default function ItemDetails({ slug, lang }: Props) {
                   </div>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <Mobile />
+                  <div className="shrink-0 w-9 h-9 rounded-full bg-[#e5f7f8]  border-gray-300 flex items-center justify-center">
+                    <Mobile color="#31BFC8" />
+                  </div>
                   <div>
                     <p className="font-bold text-gray-900">Mobile Ticket</p>
                     <p className="text-gray-400 text-[11px] mt-0.5">
@@ -301,14 +310,14 @@ export default function ItemDetails({ slug, lang }: Props) {
               <div className="space-y-2.5 pt-1">
                 <Button
                   onClick={() => handleAddToCart()}
-                  className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-xl text-sm shadow-sm transition-all active:scale-[0.99]"
+                  className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-sm  transition-all active:scale-[0.99]"
                 >
                   {productIsInCart ? "Remove From Cart" : "Add to Cart"}
                 </Button>
                 <Button
                   onClick={() => handleAddToWishlist()}
                   variant="ghost"
-                  className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-xl text-xs font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
+                  className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-xs font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
                 >
                   <Heart color={productIsInWishlist ? "red" : "#31BFC8"} />
                   {productIsInWishlist
@@ -318,7 +327,7 @@ export default function ItemDetails({ slug, lang }: Props) {
                 <Link href={`/en/chat`}>
                   <Button
                     variant="ghost"
-                    className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-xl text-xs font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
+                    className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-xs font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
                   >
                     <Message size={17} /> Chat with support
                   </Button>
@@ -333,7 +342,7 @@ export default function ItemDetails({ slug, lang }: Props) {
             </div>
 
             {/* Support/Assistance secondary side widget component panel */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-4 shadow-sm flex items-center gap-3 text-left">
+            <div className="bg-white rounded-2xl border border-gray-100 p-4  flex items-center gap-3 text-left">
               <div className="shrink-0 w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center">
                 <Contact size={25} />
               </div>
@@ -349,7 +358,7 @@ export default function ItemDetails({ slug, lang }: Props) {
           </div>
         </div>
         <SimilarItem lang={lang} />
-        <PromoSteps />
+        <PromoSteps steps={promos} />
       </Container>
     </section>
   );

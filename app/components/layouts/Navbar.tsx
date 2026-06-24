@@ -14,6 +14,8 @@ import cookie from "js-cookie";
 import UserDropdown from "./UserDropdown";
 import Chat from "../icons/Chat";
 import { usePathname } from "next/navigation";
+import Cart from "../icons/Cart";
+import WishList from "../icons/WishList";
 
 interface Props {
   lang: string;
@@ -68,40 +70,30 @@ export default function Navbar({
           />
 
           {/* Right Section */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 ">
             {/* Cart */}
-            <Link
-              href={`/${lang}/chat`}
-              className={`flex h-10 w-7 lg:w-10 items-center justify-center rounded-full transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
-            >
-              <Chat color={path.includes("/chat") ? "white" : "#292D32"} />
-            </Link>
+            <div className="bg-gray-50 rounded-full p-1">
+              <Link
+                href={`/${lang}/chat`}
+                className={`flex h-10 w-7 lg:w-10 items-center justify-center rounded-full bg-white hover:bg-gray-200 transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
+              >
+                <Chat color={path.includes("/chat") ? "white" : "#292D32"} />
+              </Link>
+            </div>
 
             {/* Auth */}
-            <div className="flex items-center gap-2 rounded-full bg-gray-50 lg:border lg:p-1">
+            <div className="flex items-center gap-2 rounded-full bg-[#F4F6F8] lg:border lg:p-1">
               <Link
                 href={`/${lang}/wishlist`}
-                className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
+                className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full bg-white hover:bg-gray-200 transition"
               >
-                <Image
-                  src={heartIcon}
-                  alt="Cart Icon"
-                  width={30}
-                  height={30}
-                  className="h-10 w-7 lg:w-10 object-contain"
-                />
+                <WishList />
               </Link>
               <Link
                 href={`/${lang}/cart`}
-                className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition"
+                className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full bg-white hover:bg-gray-200 transition"
               >
-                <Image
-                  src={cart_icon}
-                  alt="Cart Icon"
-                  width={30}
-                  height={30}
-                  className="h-10 w-7 lg:w-10 object-contain"
-                />
+                <Cart />
               </Link>
               {token ? (
                 <UserDropdown lang={lang} />
@@ -109,7 +101,7 @@ export default function Navbar({
                 <div className="hidden sm:flex items-center gap-2">
                   <Link
                     href={`/${lang}/login`}
-                    className="rounded-full px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
+                    className="rounded-full border border-black px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
                   >
                     {login}
                   </Link>

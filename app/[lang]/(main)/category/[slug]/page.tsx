@@ -3,9 +3,36 @@ import Filtered from "@/app/components/forms/quires/Filtered";
 import FilterWithCategory from "@/app/components/forms/quires/FilterWithCategory";
 import ReusablePagination from "@/app/components/forms/quires/ReusablePagination";
 import PromoSteps from "@/app/components/hero/PromoSteps";
+import Contact from "@/app/components/icons/Contact";
+import InstantConfirm from "@/app/components/icons/InstantConfirm";
+import Save from "@/app/components/icons/Save";
+import SecurePayment from "@/app/components/icons/SecurePayment";
 import Container from "@/app/components/shared/Container";
 import SectionHeader from "@/app/components/shared/SectionHeader";
 import { productItems } from "@/redux/items/ItemData";
+
+export const promos = [
+  {
+    title: "Vouchado Guarantee",
+    description: "Always save 20% and MORE!",
+    icon: <Save />,
+  },
+  {
+    title: "Instant Confirmation",
+    description: "Book & get confirmed instantly.",
+    icon: <InstantConfirm />,
+  },
+  {
+    title: "Secure Payments",
+    description: "100% secure and protected.",
+    icon: <SecurePayment />,
+  },
+  {
+    title: "24/7 Support",
+    description: "In person support - no chatboot",
+    icon: <Contact />,
+  },
+];
 
 interface Props {
   params: Promise<{ lang: string; slug: string }>;
@@ -48,7 +75,7 @@ export default async function page({ params }: Props) {
               />
             ))}
           </div>
-          <PromoSteps />
+          <PromoSteps steps={promos} />
           <ReusablePagination currentPage={1} totalPages={10} />
         </div>
       </div>

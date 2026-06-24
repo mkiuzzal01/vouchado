@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Container from "../shared/Container";
 
-interface IPageHero {
+interface PageHeroProps {
   title?: string;
   description?: string;
   backgroundImage?: string;
@@ -13,11 +12,11 @@ export default function PageHero({
   title,
   description,
   backgroundImage,
-}: IPageHero) {
+}: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-r from-[#1B696E] via-[#55ADAA] to-[#1B696E]">
-      <Container>
-        <div className="flex flex-col-reverse items-center justify-between gap-8 py-10 md:flex-row md:py-14 lg:py-16">
+    <section className="w-full md:max-w-[90%] mx-auto overflow-hidden md:rounded-3xl bg-linear-to-r from-[#1B696E] via-[#55ADAA] to-[#1B696E]">
+      <div className="mx-auto max-w-7xl px-6 py-8">
+        <div className="flex flex-col-reverse items-center gap-8 md:flex-row md:justify-between">
           {/* Content */}
           <div className="max-w-2xl text-center md:text-left">
             {title && (
@@ -27,28 +26,27 @@ export default function PageHero({
             )}
 
             {description && (
-              <p className="mt-3 text-sm leading-relaxed text-white/90 sm:text-base lg:text-lg">
+              <p className="mt-4 text-sm leading-relaxed text-white/90 sm:text-base lg:text-lg">
                 {description}
               </p>
             )}
           </div>
 
-          {/* Illustration */}
+          {/* Image */}
           {backgroundImage && (
-            <div className="flex shrink-0 justify-center md:justify-end">
+            <div className="relative h-52 w-52 shrink-0 sm:h-64 sm:w-64 md:h-72 md:w-72">
               <Image
                 src={backgroundImage}
-                alt={title || "Page illustration"}
-                width={320}
-                height={320}
+                alt={title ?? "Page Hero"}
+                fill
                 priority
-                quality={100}
-                className="h-auto w-[180px] sm:w-[220px] md:w-[260px] lg:w-[320px] object-contain"
+                className="object-contain"
+                sizes="(max-width: 768px) 208px, 288px"
               />
             </div>
           )}
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

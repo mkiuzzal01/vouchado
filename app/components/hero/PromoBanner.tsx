@@ -10,9 +10,6 @@ interface Props {
 }
 
 export default function PromoBanner({ lang }: Props) {
-  const title = "Grow Your Business with VOUCHADO";
-  const description =
-    "Join 300+ local businesses and reach thousands of new customers";
   const ctaText = "Partner With us";
   const imageUrl =
     promo ||
@@ -28,15 +25,16 @@ export default function PromoBanner({ lang }: Props) {
     <Container className="py-6">
       {/* Main Container Layer */}
       <section className="w-full overflow-hidden rounded-[24px] bg-[#0c4d52] text-white shadow-xl border border-teal-950/20">
-        <div className="relative flex flex-col md:flex-row min-h-[360px] lg:min-h-[400px]">
+        <div className="relative flex flex-col md:flex-row min-h-[372px]">
           {/* LEFT CONTENT BLOCK */}
           <div className="relative z-20 w-full md:w-[48%] p-8 sm:p-10 lg:p-14 flex flex-col justify-center text-left">
-            <h2 className="text-2xl sm:text-3xl lg:text-[36px] xl:text-[40px] font-black tracking-tight leading-[1.15]">
-              {title}
+            <h2 className="text-2xl sm:text-3xl lg:text-[36px] xl:text-[40px]  tracking-tight leading-[1.15]">
+              Grow Your Business <br /> With VOUCHADO
             </h2>
 
-            <p className="mt-4 text-xs sm:text-sm text-teal-50/80 font-medium max-w-sm leading-relaxed">
-              {description}
+            <p className="mt-4 text-xs sm:text-sm  max-w-sm leading-relaxed">
+              Join 300+ local businesses and reach <br /> thousands of new
+              customers
             </p>
 
             <div className="mt-8">
@@ -51,7 +49,7 @@ export default function PromoBanner({ lang }: Props) {
             </div>
           </div>
           {/* Removed negative margin adjustments on mobile to prevent distortion */}
-          <div className="relative w-full md:w-[57%] h-[280px] sm:h-[320px] md:h-auto md:-ml-[5%] overflow-hidden">
+          <div className="relative w-full md:w-[57%] h-[372px] sm:h-[320px] md:h-auto md:-ml-[5%] overflow-hidden">
             {/* The Shape Mask - Straight on mobile, Slanted only on desktop */}
             <div className="absolute inset-0 z-10 w-full h-full md:[clip-path:polygon(12%_0%,_100%_0%,_100%_100%,_0%_100%)]">
               {/* Image Asset Rendering Layer */}

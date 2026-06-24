@@ -110,84 +110,119 @@ export default function Steps() {
   ];
 
   return (
-    <section className="w-full py-16 lg:py-24 font-sans overflow-hidden selection:bg-[#1ec6cc]/10">
+    <section className="w-full py-20 lg:py-32 font-sans overflow-hidden bg-[#FAFCFD] selection:bg-[#1ec6cc]/10">
       <Container>
-        <div className="relative">
-          {/* --- VERTICAL TIMELINE DIVIDER LINE --- */}
-          {/* Mobile: Anchored to the left side | Desktop: Anchored exactly at center (left: 50%) */}
-          <div className="absolute top-4 bottom-4 left-9 lg:left-1/2 w-[2px] border-l-2 border-dashed border-[#1da9b1]/30 -translate-x-1/2 z-0" />
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
+          {/* ── VERTICAL TIMELINE LINE ── */}
+          <div
+            className="
+              absolute top-2 bottom-2
+              left-6 lg:left-1/2
+              w-[2px] bg-gradient-to-b from-[#E5E7EB] via-[#F4F6F8] to-[#E5E7EB]
+              z-0 lg:-translate-x-1/2
+            "
+          />
 
-          {/* --- STEPS CONTAINER --- */}
-          <div className="space-y-16 lg:space-y-28 relative z-10">
+          {/* ── STEPS ── */}
+          <div className="space-y-20 lg:space-y-32 relative z-10">
             {steps.map((step, index) => {
-              const isReverseRow = index % 2 === 1;
+              const isEven = index % 2 === 1;
 
               return (
                 <div
                   key={step.id}
-                  className={`flex flex-col lg:flex-row items-center gap-10 lg:gap-0 relative
-                    ${isReverseRow ? "lg:flex-row-reverse" : ""}
-                  `}
+                  className="relative grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center"
                 >
-                  {/* --- BADGE CIRCLE --- */}
-                  {/* Absolute positioning to stack perfectly over the matching background timeline line */}
-                  <div className="absolute left-5 lg:left-1/2 top-2 lg:top-1/2 -translate-y-1/2 -translate-x-1/2 z-20">
-                    <span className="text-sm md:text-base w-11 h-11 rounded-full bg-[#1da9b1] text-white flex items-center justify-center font-bold tracking-wide shadow-md shadow-[#1da9b1]/30 border-4 border-white">
+                  {/* ── NUMBERED BADGE ── */}
+                  {/* 
+                    Perfect alignment adjustment: 
+                    Positioned beautifully exactly at the height of the text headers 
+                  */}
+                  <div
+                    className="
+                      absolute
+                      left-6 top-0
+                      lg:left-1/2 lg:top-[28px]
+                      lg:-translate-y-1/2 lg:-translate-x-1/2
+                      z-20
+                    "
+                  >
+                    <span
+                      className="
+                        text-sm md:text-base
+                        w-10 h-10 rounded-full
+                        bg-[#1da9b1] text-white
+                        flex items-center justify-center
+                        font-bold tracking-wide
+                        border-4 border-white shadow-md
+                        transition-transform duration-300 hover:scale-110
+                      "
+                    >
                       {step.number}
                     </span>
                   </div>
 
-                  {/* --- GRAPHIC IMAGE COLUMN --- */}
-                  <div className="w-full lg:w-1/2 flex items-center justify-center px-4 lg:px-12">
-                    <div className="relative w-full max-w-[380px] aspect-[4/3] transition-transform duration-500 hover:scale-[1.02]">
+                  {/* ── IMAGE SIDE ── */}
+                  <div
+                    className={`
+                      w-full flex items-center pl-14 lg:pl-0
+                      ${isEven ? "lg:order-last lg:justify-start" : "lg:order-first lg:justify-end"}
+                    `}
+                  >
+                    {/* Premium Card Mockup Container matching image_881533.png */}
+                    <div
+                      className="
+                        relative w-full max-w-[340px] aspect-[4/3] sm:aspect-square 
+                        rounded-[32px] bg-white p-6
+                        flex items-center justify-center
+                        shadow-[0px_20px_50px_rgba(0,0,0,0.04)]
+                        border border-gray-100/60
+                        transition-all duration-500 hover:shadow-[0px_30px_60px_rgba(0,0,0,0.07)] hover:-translate-y-1
+                      "
+                    >
                       <Image
                         src={step.imageSrc}
                         alt={step.title}
                         quality={100}
-                        fill
-                        sizes="(max-w-7xl) 100vw, 400px"
-                        className="object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.05)]"
-                        priority={index === 0}
+                        priority={index < 2}
+                        className="object-contain max-h-[92%] w-auto select-none"
                       />
                     </div>
                   </div>
 
-                  {/* --- CONTENT TEXT COLUMN BLOCK --- */}
+                  {/* ── TEXT SIDE ── */}
                   <div
-                    className={`w-full lg:w-1/2 flex flex-col justify-center pl-16 pr-4 lg:p-12
-                    ${isReverseRow ? "lg:items-end lg:text-right" : "lg:items-start lg:text-left"}
-                  `}
+                    className={`
+                      flex flex-col justify-center text-left pl-14 lg:pl-0
+                      ${isEven ? "lg:order-first lg:text-left lg:pr-10" : "lg:pl-10"}
+                    `}
                   >
-                    <div
-                      className={`max-w-md text-justify flex flex-col ${isReverseRow ? "lg:items-end" : "lg:items-start"}`}
-                    >
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-[#1a3138] tracking-tight mb-3">
-                        {step.title}
-                      </h3>
+                    <h3 className="text-2xl lg:text-[28px] font-extrabold text-[#1F2E3D] tracking-tight mb-3 leading-tight">
+                      {step.title}
+                    </h3>
 
-                      <p className="text-[15px] text-slate-500 font-medium leading-relaxed mb-6">
-                        {step.description}
-                      </p>
+                    <p className="text-[15px] lg:text-[16px] text-[#637381] font-normal leading-relaxed mb-6 max-w-md">
+                      {step.description}
+                    </p>
 
-                      {/* Inline Product Key Features Metrics */}
-                      <div
-                        className={`flex flex-wrap items-center gap-x-5 gap-y-3 ${isReverseRow ? "lg:justify-end" : "lg:justify-start"}`}
-                      >
-                        {step.features.map((feature, fIdx) => {
-                          const IconComponent = feature.icon;
-                          return (
-                            <div
-                              key={fIdx}
-                              className="flex items-center gap-2 text-xs font-bold shrink-0"
-                            >
-                              <IconComponent className="w-[18px] h-[18px] text-[#1ec6cc] shrink-0" />
-                              <span className="tracking-tight text-slate-600 font-semibold">
-                                {feature.label}
-                              </span>
+                    {/* Sub-feature badges */}
+                    <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+                      {step.features.map((feature, fIdx) => {
+                        const IconComponent = feature.icon;
+                        return (
+                          <div
+                            key={fIdx}
+                            className="flex items-center gap-2 text-xs font-bold shrink-0 group"
+                          >
+                            <div className="p-1 rounded-md bg-[#1ec6cc]/5 transition-colors group-hover:bg-[#1ec6cc]/10">
+                              <IconComponent className="w-[16px] h-[16px] text-[#1da9b1] shrink-0" />
                             </div>
-                          );
-                        })}
-                      </div>
+                            <span className="tracking-tight text-[#212B36] font-semibold text-[13px]">
+                              {feature.label}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>

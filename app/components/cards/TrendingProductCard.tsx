@@ -139,7 +139,7 @@ export default function TrendingProductCard({
       <div className="px-4 sm:px-5 pt-6 sm:pt-8 pb-4 sm:pb-5">
         <Link href={`/${lang}/view/${productId}`}>
           <h3
-            className="text-sm md:text-md font-bold text-gray-800 line-clamp-2 mb-3 sm:mb-4 hover:text-primary transition-colors"
+            className="text-sm md:text-md font-semibold text-gray-800 line-clamp-2 mb-3 sm:mb-4 hover:text-primary transition-colors"
             title={title}
           >
             {title}
@@ -147,7 +147,7 @@ export default function TrendingProductCard({
         </Link>
 
         <div className="flex items-center justify-between gap-2 mb-4 sm:mb-5">
-          <div className="flex items-center gap-1 text-sm sm:text-base font-bold text-gray-800">
+          <div className="flex items-center gap-1 text-sm sm:text-base font-normal text-gray-800">
             <Start /> {rating.toFixed(1)}
           </div>
 

@@ -10,6 +10,12 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import {
+  ArrowRight,
+  ArrowRightIcon,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
 export interface ReusablePaginationProps {
   currentPage: number;
@@ -32,7 +38,6 @@ export default function ReusablePagination({
     const pages: (number | string)[] = [];
     const siblingCount = 1; // Number of page buttons to show on either side of active index
 
-    // If total pages are small, output entire linear sequence without truncation marks
     if (totalPages <= 5) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
@@ -46,7 +51,6 @@ export default function ReusablePagination({
     const shouldShowLeftDots = leftSiblingIndex > 2;
     const shouldShowRightDots = rightSiblingIndex < totalPages - 1;
 
-    // Case 1: Show right ellipsis only (Close to the beginning)
     if (!shouldShowLeftDots && shouldShowRightDots) {
       const leftItemCount = 3 + 2 * siblingCount;
       for (let i = 1; i <= leftItemCount; i++) {
@@ -57,7 +61,6 @@ export default function ReusablePagination({
       return pages;
     }
 
-    // Case 2: Show left ellipsis only (Close to the end sequence)
     if (shouldShowLeftDots && !shouldShowRightDots) {
       const rightItemCount = 3 + 2 * siblingCount;
       pages.push(1);
@@ -68,7 +71,6 @@ export default function ReusablePagination({
       return pages;
     }
 
-    // Case 3: Show both left and right ellipses (Dead center float track range)
     if (shouldShowLeftDots && shouldShowRightDots) {
       pages.push(1);
       pages.push("ellipsis-left");
@@ -93,20 +95,11 @@ export default function ReusablePagination({
   };
 
   return (
-    <Pagination className={`select-none my-6 ${className}`}>
-      <PaginationContent className="gap-1.5">
+    <Pagination className={`select-none my-4 ${className}`}>
+      <PaginationContent className="gap-1 text-slate-500">
         {/* --- PREVIOUS TRIGGER BUTTON --- */}
         <PaginationItem>
-          <PaginationPrevious
-            href="#"
-            onClick={(e) => handlePageClick(e, currentPage - 1)}
-            aria-disabled={currentPage === 1}
-            className={`rounded-xl border border-gray-100 transition-colors ${
-              currentPage === 1
-                ? "pointer-events-none opacity-40 cursor-not-allowed"
-                : "hover:bg-slate-50 text-slate-700"
-            }`}
-          />
+          <ChevronLeft />
         </PaginationItem>
 
         {/* --- DYNAMIC NUMBER CHIPS AND ELLIPSES --- */}
@@ -114,7 +107,7 @@ export default function ReusablePagination({
           if (typeof page === "string") {
             return (
               <PaginationItem key={`${page}-${index}`}>
-                <PaginationEllipsis className="text-slate-400" />
+                <PaginationEllipsis className="text-slate-400 px-2" />
               </PaginationItem>
             );
           }
@@ -124,13 +117,11 @@ export default function ReusablePagination({
           return (
             <PaginationItem key={page}>
               <PaginationLink
-                href="#"
-                isActive={isActive}
                 onClick={(e) => handlePageClick(e, page)}
-                className={`w-10 h-10 rounded-xl text-sm font-bold border transition-all ${
+                className={`w-10 h-10 text-sm font-medium border-0 transition-all ${
                   isActive
-                    ? "bg-[#1ec6cc] border-[#1ec6cc]  hover:bg-[#19a7ad] hover:text-white shadow-sm shadow-[#1ec6cc]/20"
-                    : "bg-white border-slate-200/60 hover:border-slate-300 text-slate-700 hover:bg-slate-50"
+                    ? "bg-[#edf9fa] text-[#1ec6cc] font-semibold rounded-lg"
+                    : "bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg"
                 }`}
               >
                 {page}
@@ -141,16 +132,7 @@ export default function ReusablePagination({
 
         {/* --- NEXT TRIGGER BUTTON --- */}
         <PaginationItem>
-          <PaginationNext
-            href="#"
-            onClick={(e) => handlePageClick(e, currentPage + 1)}
-            aria-disabled={currentPage === totalPages}
-            className={`rounded-xl border border-gray-100 transition-colors ${
-              currentPage === totalPages
-                ? "pointer-events-none opacity-40 cursor-not-allowed"
-                : "hover:bg-slate-50 text-slate-700"
-            }`}
-          />
+          <ChevronRight />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

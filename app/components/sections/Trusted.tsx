@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 import Container from "../shared/Container";
 import SectionHeader from "../shared/SectionHeader";
+import mastercard from "@/public/payment/mastercard.png";
+import trustpilot from "@/public/payment/trustplot.png";
+import paypal from "@/public/payment/paypal.png";
+import visa from "@/public/payment/visa.png";
+import Image, { StaticImageData } from "next/image";
 
 interface Feature {
   id: string;
@@ -11,7 +16,7 @@ interface Feature {
 
 interface Brand {
   id: string;
-  content: ReactNode;
+  icon: StaticImageData;
 }
 
 const TRUST_FEATURES: Feature[] = [
@@ -69,55 +74,25 @@ const TRUST_FEATURES: Feature[] = [
 const BRAND_LOGOS: Brand[] = [
   {
     id: "trustpilot",
-    content: (
-      <div className="flex items-center gap-2 font-bold text-slate-800">
-        <svg
-          className="h-6 w-6 text-[#00b67a]"
-          fill="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-        </svg>
-        <span>Trustpilot</span>
-      </div>
-    ),
+    icon: trustpilot,
   },
   {
     id: "visa",
-    content: (
-      <span className="text-2xl font-black italic tracking-tight text-[#1a1f71]">
-        VISA
-      </span>
-    ),
+    icon: visa,
   },
   {
     id: "paypal",
-    content: (
-      <div className="text-xl font-black italic">
-        <span className="text-[#00457c]">Pay</span>
-        <span className="text-[#0079c1]">Pal</span>
-      </div>
-    ),
+    icon: paypal,
   },
   {
     id: "mastercard",
-    content: (
-      <div className="flex flex-col items-center">
-        <div className="flex -space-x-2">
-          <div className="h-6 w-6 rounded-full bg-[#EB001B]" />
-          <div className="h-6 w-6 rounded-full bg-[#F79E1B]" />
-        </div>
-        <span className="mt-1 text-[10px] font-medium text-slate-500">
-          mastercard
-        </span>
-      </div>
-    ),
+    icon: mastercard,
   },
 ];
 
 function FeatureCard({ icon, title, subtitle }: Feature) {
   return (
-    <div className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+    <div className="flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-cyan-500">
         {icon}
       </div>
@@ -130,10 +105,16 @@ function FeatureCard({ icon, title, subtitle }: Feature) {
   );
 }
 
-function BrandCard({ content }: Brand) {
+function BrandCard({ icon }: Brand) {
   return (
-    <div className="flex h-24 items-center justify-center rounded-2xl border border-slate-100 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
-      {content}
+    <div className="flex relative h-24 items-center justify-center rounded-2xl border border-slate-100 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+      <Image
+        width={100}
+        height={100}
+        src={icon}
+        alt="brand"
+        className="object-contain"
+      />
     </div>
   );
 }

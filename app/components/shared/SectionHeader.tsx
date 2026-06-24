@@ -11,7 +11,7 @@ export default function SectionHeader({ icon, title, description }: Props) {
       <div className="flex items-center gap-4">
         {icon}
         {title && (
-          <h2 className="mb-2 text-xl lg:text-2xl font-semibold">{title}</h2>
+          <h2 className="mb-2 text-xl lg:text-2xl font-bold">{title}</h2>
         )}
       </div>
       {description && (

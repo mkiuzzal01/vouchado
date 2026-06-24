@@ -4,35 +4,46 @@ import React, { useEffect, useState, useTransition, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Slider } from "@/components/ui/slider";
 
+// Configuration constants matched precisely with your visual layout mocks
+const MAX_RANGE = 250;
+const DEFAULT_MIN = 50;
+const DEFAULT_MAX = 200;
+const DEBOUNCE_DELAY = 400;
+
 export default function Filtered() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
   const lockRef = useRef(false);
 
-  // --- Accordion Section Open/Close States ---
-  const [isLocationOpen, setIsLocationOpen] = useState(true);
+  // --- Accordion Open/Close States ---
   const [isRatingOpen, setIsRatingOpen] = useState(true);
   const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(true);
 
-  // --- Active Filter States ---
-  const [minPrice, setMinPrice] = useState<number>(
-    Number(searchParams.get("min_price")) || 50,
-  );
-  const [maxPrice, setMaxPrice] = useState<number>(
-    Number(searchParams.get("max_price")) || 200,
-  );
+  // --- Filter Core States ---
+  const [minPrice, setMinPrice] = useState<number>(() => {
+    const param = searchParams.get("min_price");
+    return param ? Number(param) : DEFAULT_MIN;
+  });
+
+  const [maxPrice, setMaxPrice] = useState<number>(() => {
+    const param = searchParams.get("max_price");
+    return param ? Number(param) : DEFAULT_MAX;
+  });
+
   const [location, setLocation] = useState<string>(
-    searchParams.get("location") || "",
-  );
-  const [selectedRating, setSelectedRating] = useState<string | null>(
-    searchParams.get("rating") || null,
-  );
-  const [availability, setAvailability] = useState<string[]>(
-    searchParams.get("availability")?.split(",").filter(Boolean) || [],
+    () => searchParams.get("location") || "",
   );
 
-  // --- Map Filter States to URL Query Strings ---
+  const [selectedRating, setSelectedRating] = useState<string | null>(
+    () => searchParams.get("rating") || null,
+  );
+
+  const [availability, setAvailability] = useState<string[]>(
+    () => searchParams.get("availability")?.split(",").filter(Boolean) || [],
+  );
+
+  // --- Synchronize parameters to URL ---
   const buildParams = () => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -40,8 +51,12 @@ export default function Filtered() {
     let max = maxPrice;
     if (min > max) [min, max] = [max, min];
 
-    params.set("min_price", String(min));
-    params.set("max_price", String(max));
+    // Strip parameters only if they match initial layout states to keep URL clean
+    if (min !== DEFAULT_MIN) params.set("min_price", String(min));
+    else params.delete("min_price");
+
+    if (max !== DEFAULT_MAX) params.set("max_price", String(max));
+    else params.delete("max_price");
 
     if (location.trim()) params.set("location", location.trim());
     else params.delete("location");
@@ -56,7 +71,7 @@ export default function Filtered() {
     return params;
   };
 
-  // --- Controlled Debounce Sync Effect ---
+  // --- Debounced URL Update Effect ---
   useEffect(() => {
     if (lockRef.current) return;
 
@@ -71,12 +86,12 @@ export default function Filtered() {
       setTimeout(() => {
         lockRef.current = false;
       }, 300);
-    }, 400);
+    }, DEBOUNCE_DELAY);
 
     return () => clearTimeout(timer);
   }, [minPrice, maxPrice, location, selectedRating, availability]);
 
-  // --- State Mutators ---
+  // --- Handlers ---
   const handleSliderChange = (values: number[]) => {
     if (values.length === 2) {
       setMinPrice(values[0]);
@@ -94,24 +109,31 @@ export default function Filtered() {
     );
   };
 
+  const handleClearAll = () => {
+    setMinPrice(DEFAULT_MIN);
+    setMaxPrice(DEFAULT_MAX);
+    setLocation("");
+    setSelectedRating(null);
+    setAvailability([]);
+  };
+
+  // Determine if parameters vary from initial load conditions
+  const hasActiveFilters =
+    minPrice !== DEFAULT_MIN ||
+    maxPrice !== DEFAULT_MAX ||
+    location !== "" ||
+    selectedRating !== null ||
+    availability.length > 0;
+
   return (
-    <div className="sticky top-12 z-10 w-full bg-white lg:max-w-[340px] rounded-3xl border border-slate-100 p-6 shadow-sm font-sans select-none text-slate-800">
+    <div className="sticky top-12 z-10 w-full bg-white lg:max-w-[340px] rounded-3xl border border-slate-100 p-6">
       {/* Title Header */}
-      <div className="text-base font-bold text-slate-900 pb-4 border-b border-slate-100 flex items-center justify-between">
+      <div className="text-[17px] font-semibold text-[#1F2E3D] pb-4 border-b border-slate-100 flex items-center justify-between">
         <span>Filters</span>
-        {(searchParams.get("min_price") ||
-          searchParams.get("location") ||
-          searchParams.get("rating") ||
-          searchParams.get("availability")) && (
+        {hasActiveFilters && (
           <button
-            onClick={() => {
-              setMinPrice(50);
-              setMaxPrice(200);
-              setLocation("");
-              setSelectedRating(null);
-              setAvailability([]);
-            }}
-            className="text-xs text-[#1ec6cc] font-semibold hover:underline bg-transparent border-none cursor-pointer"
+            onClick={handleClearAll}
+            className="text-xs text-[#1ec6cc] font-semibold hover:underline bg-transparent border-none cursor-pointer transition-colors"
           >
             Clear All
           </button>
@@ -119,116 +141,65 @@ export default function Filtered() {
       </div>
 
       {/* ================= PRICE FILTER SECTION ================= */}
-      <div className="mt-5 space-y-4">
-        <label className="text-sm font-bold text-slate-900 block">
-          Price Range
-        </label>
+      <div className="mt-5 flex flex-col gap-4">
+        <span className="text-[15px] font-semibold text-[#1F2E3D]">Price</span>
 
-        {/* Dynamic Multi-Handle Controlled Slider Array */}
-        <div className="relative pt-2 px-1">
+        {/* Slider track with moving indicators */}
+        <div className="relative pt-2 pb-6 px-2">
           <Slider
             value={[minPrice, maxPrice]}
             onValueChange={handleSliderChange}
-            max={200}
-            min={50}
-            step={5}
+            max={MAX_RANGE}
+            min={0}
+            step={1}
             className="w-full"
           />
-          {/* Label Indicators */}
-          <div className="flex justify-between items-center mt-3 text-xs font-bold text-slate-500">
-            <span>${minPrice}</span>
-            <span>${maxPrice}</span>
+
+          {/* Dynamic Label Indicators placed exactly beneath the thumbs */}
+          <div className="absolute left-0 right-0 top-6 text-[13px] font-bold text-[#1F2E3D] pointer-events-none select-none">
+            <span
+              className="absolute -translate-x-1/2 transition-all duration-75"
+              style={{ left: `${(minPrice / MAX_RANGE) * 100}%` }}
+            >
+              ${minPrice}
+            </span>
+            <span
+              className="absolute -translate-x-1/2 transition-all duration-75"
+              style={{ left: `${(maxPrice / MAX_RANGE) * 100}%` }}
+            >
+              ${maxPrice}
+            </span>
           </div>
         </div>
 
-        {/* Input Boxes */}
-        <div className="grid grid-cols-2 gap-3 pt-1">
-          <div className="relative flex items-center">
-            <span className="absolute left-3 text-xs font-semibold text-slate-400">
-              $
-            </span>
+        {/* Input Fields Container */}
+        <div className="grid grid-cols-2 gap-4 pt-1">
+          <div className="relative">
             <input
               type="number"
-              value={minPrice}
-              min={50}
-              max={200}
-              onChange={(e) => setMinPrice(Number(e.target.value))}
-              placeholder="Min"
-              className="w-full bg-slate-50 text-xs font-semibold text-slate-700 placeholder-slate-400 rounded-xl pl-6 pr-3 py-2.5 outline-none border border-transparent focus:bg-white focus:border-slate-200 focus:ring-1 focus:ring-[#1ec6cc]/20 transition-all"
+              value={minPrice || ""}
+              min={0}
+              max={MAX_RANGE}
+              onChange={(e) =>
+                setMinPrice(Math.min(MAX_RANGE, Number(e.target.value)))
+              }
+              placeholder="Min. price"
+              className="w-full bg-[#F4F6F8] text-sm font-medium text-[#1F2E3D] placeholder-[#919EAB] rounded-xl px-4 py-3 outline-none border border-transparent focus:bg-white focus:border-[#1ec6cc]/40 transition-all"
             />
           </div>
-          <div className="relative flex items-center">
-            <span className="absolute left-3 text-xs font-semibold text-slate-400">
-              $
-            </span>
+
+          <div className="relative">
             <input
               type="number"
-              value={maxPrice}
-              min={50}
-              max={200}
-              onChange={(e) => setMaxPrice(Number(e.target.value))}
-              placeholder="Max"
-              className="w-full bg-slate-50 text-xs font-semibold text-slate-700 placeholder-slate-400 rounded-xl pl-6 pr-3 py-2.5 outline-none border border-transparent focus:bg-white focus:border-slate-200 focus:ring-1 focus:ring-[#1ec6cc]/20 transition-all"
+              value={maxPrice || ""}
+              min={0}
+              max={MAX_RANGE}
+              onChange={(e) =>
+                setMaxPrice(Math.min(MAX_RANGE, Number(e.target.value)))
+              }
+              placeholder="Max. price"
+              className="w-full bg-[#F4F6F8] text-sm font-medium text-[#1F2E3D] placeholder-[#919EAB] rounded-xl px-4 py-3 outline-none border border-transparent focus:bg-white focus:border-[#1ec6cc]/40 transition-all"
             />
-          </div>
-        </div>
-      </div>
-
-      <hr className="my-5 border-slate-100" />
-
-      {/* ================= LOCATION ACCORDION ================= */}
-      <div>
-        <button
-          onClick={() => setIsLocationOpen(!isLocationOpen)}
-          className="w-full flex items-center justify-between text-sm font-bold text-slate-900 focus:outline-none group"
-        >
-          <span>Location</span>
-          <svg
-            className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 group-hover:text-slate-600 ${isLocationOpen ? "rotate-180" : ""}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="3"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-            />
-          </svg>
-        </button>
-
-        <div
-          className={`grid transition-all duration-200 ease-in-out ${isLocationOpen ? "grid-rows-[1fr] opacity-100 mt-3" : "grid-rows-[0fr] opacity-0"}`}
-        >
-          <div className="overflow-hidden">
-            <div className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2.5 text-slate-400 focus-within:text-[#1ec6cc] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#1ec6cc]/20 border border-transparent focus-within:border-slate-200 transition-all">
-              <svg
-                className="w-4 h-4 shrink-0"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                />
-              </svg>
-              <input
-                type="text"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                placeholder="Enter your location"
-                className="w-full bg-transparent text-xs font-semibold text-slate-800 placeholder-slate-400 outline-none"
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -239,15 +210,15 @@ export default function Filtered() {
       <div>
         <button
           onClick={() => setIsRatingOpen(!isRatingOpen)}
-          className="w-full flex items-center justify-between text-sm font-bold text-slate-900 focus:outline-none group"
+          className="w-full flex items-center justify-between text-[15px] font-semibold text-[#1F2E3D] focus:outline-none group"
         >
           <span>Rating</span>
           <svg
-            className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 group-hover:text-slate-600 ${isRatingOpen ? "rotate-180" : ""}`}
+            className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${isRatingOpen ? "rotate-180" : ""}`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            strokeWidth="3"
+            strokeWidth="2.5"
           >
             <path
               strokeLinecap="round"
@@ -258,23 +229,23 @@ export default function Filtered() {
         </button>
 
         <div
-          className={`grid transition-all duration-200 ease-in-out ${isRatingOpen ? "grid-rows-[1fr] opacity-100 mt-3" : "grid-rows-[0fr] opacity-0"}`}
+          className={`grid transition-all duration-200 ease-in-out ${isRatingOpen ? "grid-rows-[1fr] opacity-100 mt-4" : "grid-rows-[0fr] opacity-0"}`}
         >
-          <div className="overflow-hidden space-y-2.5 pt-0.5">
+          <div className="overflow-hidden space-y-3.5 pt-0.5">
             {["5.0", "4.0+", "3.0+", "2.0+", "1.0+"].map((ratingOption) => (
               <label
                 key={ratingOption}
-                className="flex items-center gap-3 group cursor-pointer text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+                className="flex items-center gap-3 group cursor-pointer text-[14px] font-medium text-[#1F2E3D] transition-colors"
               >
                 <input
                   type="checkbox"
                   checked={selectedRating === ratingOption}
                   onChange={() => handleRatingToggle(ratingOption)}
-                  className="w-4 h-4 rounded border-slate-300 text-[#1ec6cc] focus:ring-[#1ec6cc]/30 accent-[#1ec6cc] cursor-pointer transition-all"
+                  className="w-[18px] h-[18px] rounded-md border-[#919EAB] text-[#1ec6cc] focus:ring-[#1ec6cc]/30 accent-[#1ec6cc] cursor-pointer transition-all"
                 />
                 <div className="flex items-center gap-1">
                   <svg
-                    className="w-3.5 h-3.5 text-[#ffb800]"
+                    className="w-4 h-4 text-[#ffb800]"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -294,15 +265,15 @@ export default function Filtered() {
       <div>
         <button
           onClick={() => setIsAvailabilityOpen(!isAvailabilityOpen)}
-          className="w-full flex items-center justify-between text-sm font-bold text-slate-900 focus:outline-none group"
+          className="w-full flex items-center justify-between text-[15px] font-semibold text-[#1F2E3D] focus:outline-none group"
         >
           <span>Availability</span>
           <svg
-            className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 group-hover:text-slate-600 ${isAvailabilityOpen ? "rotate-180" : ""}`}
+            className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${isAvailabilityOpen ? "rotate-180" : ""}`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
-            strokeWidth="3"
+            strokeWidth="2.5"
           >
             <path
               strokeLinecap="round"
@@ -313,9 +284,9 @@ export default function Filtered() {
         </button>
 
         <div
-          className={`grid transition-all duration-200 ease-in-out ${isAvailabilityOpen ? "grid-rows-[1fr] opacity-100 mt-3" : "grid-rows-[0fr] opacity-0"}`}
+          className={`grid transition-all duration-200 ease-in-out ${isAvailabilityOpen ? "grid-rows-[1fr] opacity-100 mt-4" : "grid-rows-[0fr] opacity-0"}`}
         >
-          <div className="overflow-hidden space-y-2.5 pt-0.5">
+          <div className="overflow-hidden space-y-3.5 pt-0.5">
             {[
               { id: "last_day", label: "Last Day Offers" },
               { id: "in_stock", label: "In Stock" },
@@ -323,13 +294,13 @@ export default function Filtered() {
             ].map((option) => (
               <label
                 key={option.id}
-                className="flex items-center gap-3 group cursor-pointer text-xs font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+                className="flex items-center gap-3 group cursor-pointer text-[14px] font-medium text-[#1F2E3D] transition-colors"
               >
                 <input
                   type="checkbox"
                   checked={availability.includes(option.id)}
                   onChange={() => handleAvailabilityToggle(option.id)}
-                  className="w-4 h-4 rounded border-slate-300 text-[#1ec6cc] focus:ring-[#1ec6cc]/30 accent-[#1ec6cc] cursor-pointer transition-all"
+                  className="w-[18px] h-[18px] rounded-md border-[#919EAB] text-[#1ec6cc] focus:ring-[#1ec6cc]/30 accent-[#1ec6cc] cursor-pointer transition-all"
                 />
                 <span>{option.label}</span>
               </label>

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 
 export interface ModernSearchProps {
+  buttonClass?: string;
   onSearch?: (query: { location: string; service: string }) => void;
   locationPlaceholder?: string;
   servicePlaceholder?: string;
@@ -10,6 +11,7 @@ export interface ModernSearchProps {
 }
 
 export default function ModernSearch({
+  buttonClass,
   onSearch,
   locationPlaceholder = "Search your location",
   servicePlaceholder = "Search category or service",
@@ -112,7 +114,7 @@ export default function ModernSearch({
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder={locationPlaceholder}
-            className="w-full bg-transparent text-sm font-medium text-slate-800 placeholder-gray-400 outline-none py-1"
+            className="w-full bg-transparent text-sm  text-slate-800 placeholder-gray-400 outline-none py-1"
           />
         </div>
 
@@ -138,14 +140,14 @@ export default function ModernSearch({
             value={service}
             onChange={(e) => setService(e.target.value)}
             placeholder={servicePlaceholder}
-            className="w-full bg-transparent text-sm font-medium text-slate-800 placeholder-gray-400 outline-none py-1"
+            className="w-full bg-transparent text-sm  text-slate-800 placeholder-gray-400 outline-none py-1"
           />
         </div>
 
         {/* Search Button */}
         <button
           type="submit"
-          className="h-12 rounded-full bg-[#1ec6cc] hover:bg-[#19a7ad] text-white font-extrabold px-9 tracking-wide text-sm  transition-all active:scale-98 whitespace-nowrap"
+          className={`h-12 rounded-full ${buttonClass} px-9 tracking-wide text-sm  transition-all active:scale-98 whitespace-nowrap`}
         >
           {buttonText}
         </button>

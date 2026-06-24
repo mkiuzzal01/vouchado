@@ -18,125 +18,125 @@ export const getServices = async (lang: string): Promise<INavbar[]> => {
   return [
     {
       title: "Adventure & Sports",
-      href: `/${lang}/services/adventure-sports`,
+      href: `/${lang}/category/adventure-sports`,
       subMenu: [
         {
           title: "Pilates",
-          href: `/${lang}/services/pilates`,
+          href: `/${lang}/category/pilates`,
         },
         {
           title: "Yoga",
-          href: `/${lang}/services/yoga`,
+          href: `/${lang}/category/yoga`,
         },
         {
           title: "Courses",
-          href: `/${lang}/services/courses`,
+          href: `/${lang}/category/courses`,
         },
         {
           title: "Rental",
-          href: `/${lang}/services/rental`,
+          href: `/${lang}/category/rental`,
         },
       ],
     },
     {
       title: "Eat and Drink",
-      href: `/${lang}/services/eat-and-drink`,
+      href: `/${lang}/category/eat-and-drink`,
       subMenu: [
         {
           title: "Drinks",
-          href: `/${lang}/services/drinks`,
+          href: `/${lang}/category/drinks`,
         },
         {
           title: "Brunch",
-          href: `/${lang}/services/brunch`,
+          href: `/${lang}/category/brunch`,
         },
         {
           title: "Lunch",
-          href: `/${lang}/services/lunch`,
+          href: `/${lang}/category/lunch`,
         },
         {
           title: "Dinner",
-          href: `/${lang}/services/dinner`,
+          href: `/${lang}/category/dinner`,
         },
         {
           title: "Sweets",
-          href: `/${lang}/services/sweets`,
+          href: `/${lang}/category/sweets`,
         },
       ],
     },
     {
       title: "Family & Kids",
-      href: `/${lang}/services/family-kids`,
+      href: `/${lang}/category/family-kids`,
       subMenu: [
         {
           title: "Leisure Time",
-          href: `/${lang}/services/leisure-time`,
+          href: `/${lang}/category/leisure-time`,
         },
       ],
     },
     {
       title: "Beauty & Wellness",
-      href: `/${lang}/services/beauty-wellness`,
+      href: `/${lang}/category/beauty-wellness`,
       subMenu: [
         {
           title: "Hairdresser",
-          href: `/${lang}/services/hairdresser`,
+          href: `/${lang}/category/hairdresser`,
         },
         {
           title: "Beautytreatment",
-          href: `/${lang}/services/beautytreatment`,
+          href: `/${lang}/category/beautytreatment`,
         },
         {
           title: "Massages",
-          href: `/${lang}/services/massages`,
+          href: `/${lang}/category/massages`,
         },
         {
           title: "Microblading & Permanent",
-          href: `/${lang}/services/microblading-permanent`,
+          href: `/${lang}/category/microblading-permanent`,
         },
       ],
     },
     {
       title: "Creative",
-      href: `/${lang}/services/creative`,
+      href: `/${lang}/category/creative`,
       subMenu: [
         {
           title: "Art Supplies",
-          href: `/${lang}/services/art-supplies`,
+          href: `/${lang}/category/art-supplies`,
         },
         {
           title: "DIY & Crafts",
-          href: `/${lang}/services/diy-crafts`,
+          href: `/${lang}/category/diy-crafts`,
         },
         {
           title: "Photography",
-          href: `/${lang}/services/photography`,
+          href: `/${lang}/category/photography`,
         },
         {
           title: "Musical Instruments",
-          href: `/${lang}/services/musical-instruments`,
+          href: `/${lang}/category/musical-instruments`,
         },
       ],
     },
     {
       title: "Hotel nd Culture",
-      href: `/${lang}/services/hotel-culture`,
+      href: `/${lang}/category/hotel-culture`,
       subMenu: [
         {
           title: "Boutique Hotels",
-          href: `/${lang}/services/boutique-hotels`,
+          href: `/${lang}/category/boutique-hotels`,
         },
         {
           title: "Cultural Experiences",
-          href: `/${lang}/services/cultural-experiences`,
+          href: `/${lang}/category/cultural-experiences`,
         },
         {
           title: "Luxury Stays",
-          href: `/${lang}/services/luxury-stays`,
+          href: `/${lang}/category/luxury-stays`,
         },
         {
           title: "Local Tours",
-          href: `/${lang}/services/local-tours`,
+          href: `/${lang}/category/local-tours`,
         },
       ],
     },

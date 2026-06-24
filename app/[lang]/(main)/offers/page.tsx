@@ -3,6 +3,10 @@ import Filtered from "@/app/components/forms/quires/Filtered";
 import FilterWithCategory from "@/app/components/forms/quires/FilterWithCategory";
 import ReusablePagination from "@/app/components/forms/quires/ReusablePagination";
 import PromoSteps from "@/app/components/hero/PromoSteps";
+import Contact from "@/app/components/icons/Contact";
+import InstantConfirm from "@/app/components/icons/InstantConfirm";
+import Save from "@/app/components/icons/Save";
+import SecurePayment from "@/app/components/icons/SecurePayment";
 import Container from "@/app/components/shared/Container";
 import SectionHeader from "@/app/components/shared/SectionHeader";
 import { productItems } from "@/redux/items/ItemData";
@@ -11,13 +15,36 @@ interface Props {
   params: Promise<{ lang: string }>;
 }
 
+export const promos = [
+  {
+    title: "Best Price Guarantee",
+    description: "Find it cheaper? We'll match it.",
+    icon: <Save />,
+  },
+  {
+    title: "Instant Confirmation",
+    description: "Book and get confirmed instantly.",
+    icon: <InstantConfirm />,
+  },
+  {
+    title: "Secure Payments",
+    description: "100% secure and protected.",
+    icon: <SecurePayment />,
+  },
+  {
+    title: "24/7 Support",
+    description: "We're here to help anytime.",
+    icon: <Contact />,
+  },
+];
+
 export default async function page({ params }: Props) {
   const { lang } = await params;
   return (
     <Container>
       <SectionHeader
-        title="Explore Services and Save More"
-        description="Browse handpicked services for every trend, occasion and lifestyle."
+        title="Explore Deals and Save More"
+        description="Browse handpicked Deals for every trend, occasion and lifestyle."
       />
 
       <div className="mt-8">
@@ -47,8 +74,8 @@ export default async function page({ params }: Props) {
               />
             ))}
           </div>
-          <PromoSteps />
           <ReusablePagination currentPage={1} totalPages={10} />
+          <PromoSteps steps={promos} />
         </div>
       </div>
     </Container>

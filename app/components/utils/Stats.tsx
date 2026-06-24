@@ -47,7 +47,7 @@ export default function Stats() {
               key={index}
               className="flex justify-center last:border-none lg:border-e border-black/10 items-center gap-2 p-2 my-4 transition duration-300"
             >
-              <div className="bg-primary/10 p-2 rounded-full">{stat.icon}</div>
+              <div className="bg-[#31BFC8]/5 p-2 rounded-full">{stat.icon}</div>
 
               <div className="flex flex-col">
                 <div className="flex flex-col lg:items-center lg:flex-row gap-1 text-sm md:text-lg font-bold text-gray-900">
