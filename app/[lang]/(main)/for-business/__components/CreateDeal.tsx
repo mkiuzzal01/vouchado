@@ -1,6 +1,15 @@
 // src/components/sections/CreateDeal.tsx
 import React from "react";
 import Container from "@/app/components/shared/Container";
+import Limited from "@/app/components/icons/Limited";
+import Promotion from "@/app/components/icons/Promotion";
+import Campaigns from "@/app/components/icons/Campaigns";
+import Calendar from "@/app/components/icons/Calendar";
+import TimeBased from "@/app/components/icons/TimeBased";
+import Smiley from "@/app/components/icons/Smiley";
+import Flag from "@/app/components/icons/Flag";
+import Universal from "@/app/components/icons/Universal";
+import Opening from "@/app/components/icons/Opening";
 
 interface DealType {
   id: number;
@@ -12,57 +21,47 @@ const DEAL_TYPES: DealType[] = [
   {
     id: 1,
     title: "Limited Quantity Offers",
-    iconPath: <path d="M21 8H3M21 16H3M10 4v16M14 4v16" />, // Custom Box/Grid representation
+    iconPath: <Limited size={24} />,
   },
   {
     id: 2,
     title: "Last-Minute Promotions",
-    iconPath: <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />, // Lightning bolt
+    iconPath: <Promotion size={24} />,
   },
   {
     id: 3,
     title: "Seasonal Campaigns",
-    iconPath: (
-      <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
-    ), // Sun icon
+    iconPath: <Campaigns size={24} />,
   },
   {
     id: 4,
     title: "Weekday Specials",
-    iconPath: (
-      <path d="M19 4H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM16 2v4M8 2v4M3 10h18" />
-    ), // Calendar icon
+    iconPath: <Calendar size={24} />,
   },
   {
     id: 5,
     title: "Time-Based Deals",
-    iconPath: <path d="" />,
+    iconPath: <TimeBased size={24} />,
   },
   {
     id: 6,
     title: "Family & Kids Offers",
-    iconPath: (
-      <path d="M12 22a10 10 0 100-20 10 10 0 000 20zM8 11.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM16 11.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM12 17a4 4 0 003.5-2h-7A4 4 0 0012 17z" />
-    ), // Smiley icon
+    iconPath: <Smiley size={24} />,
   },
   {
     id: 7,
     title: "Event-Based Promotions",
-    iconPath: (
-      <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1zM4 22V14" />
-    ), // Flag/Celebration icon
+    iconPath: <Flag size={24} />,
   },
   {
     id: 8,
     title: "Universal Business Vouchers",
-    iconPath: (
-      <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
-    ), // Box icon
+    iconPath: <Universal size={24} />,
   },
   {
     id: 9,
     title: "Opening Specials",
-    iconPath: <path d="M20 12V8H4v4M22 12v6H2v-6M12 2v6" />, // Storefront wrapper representation
+    iconPath: <Opening size={24} />,
   },
 ];
 
@@ -71,7 +70,7 @@ export default function CreateDeal() {
     <Container className="pb-24">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         <div className="lg:col-span-4 space-y-4 text-left">
-          <h2 className="text-4xl sm:text-5xl lg:text-[44px] font-extrabold text-[#1F2937] tracking-tight leading-[1.15]">
+          <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">
             Create Deals That Fit Your Business
           </h2>
           <p className="text-[#6B7280] text-sm sm:text-base font-normal leading-relaxed max-w-md">
@@ -80,8 +79,8 @@ export default function CreateDeal() {
         </div>
 
         {/* Right Block: Dynamic Unified Outer Border Matrix Grid (Takes 8 spans out of 12) */}
-        <div className="lg:col-span-8 w-full bg-white rounded-3xl border border-[#EDF2F7] overflow-hidden shadow-sm">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+        <div className="lg:col-span-8 w-full rounded-3xl border border-[#EDF2F7] overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {DEAL_TYPES.map((deal, idx) => {
               return (
                 <div

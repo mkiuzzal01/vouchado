@@ -1,5 +1,11 @@
 import React from "react";
 import Container from "@/app/components/shared/Container";
+import SecurePayment from "@/app/components/icons/SecurePayment";
+import QRCode from "@/app/components/icons/QRCode";
+import ProtectedRedeem from "@/app/components/icons/ProtectedRedeem";
+import VerifyedCustomer from "@/app/components/icons/VerifyedCustomer";
+import Fraud from "@/app/components/icons/Fraud";
+import SafeTransaction from "@/app/components/icons/SafeTransaction";
 
 interface SecurityBadge {
   id: number;
@@ -13,46 +19,38 @@ const SECURITY_BADGES: SecurityBadge[] = [
     id: 1,
     title: "Secure Payments",
     description: "Bank-grade encryption on every transaction.",
-    iconPath: (
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M12 8v4M12 16h.01" />
-    ), // Shield with details
+    iconPath: <SecurePayment size={24} />,
   },
   {
     id: 2,
     title: "QR-Protected Redemption",
     description: "Each voucher is verified at point of use.",
-    iconPath: (
-      <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zm14 6h2V9h-2V7h2V5h-4v6h2zm-6 10h2v-2h-2v2zm6-6h2v-2h-2v2zm-6-4h2V7h-2V5h-2v4h2zm-8 8h8v-8H3v8zm2-6h4v4H5v-4zm14 10h2v-4h-4v2h2v2zm-8-2h2v-2h-2v2zm-2 2h2v-2H9v2zm2-6h2v-2h-2v2z" />
-    ), // QR representation
+    iconPath: <ProtectedRedeem size={24} />,
   },
   {
     id: 3,
     title: "Verified Customers",
     description: "Real, accountable buyers visit your business.",
-    iconPath: (
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M16 11l2 2 4-4" />
-    ),
+    iconPath: <VerifyedCustomer size={24} />,
   },
   {
     id: 4,
     title: "Fraud Prevention",
     description: "Active monitoring protects your revenue.",
-    iconPath: (
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z M12 8v4M12 16h.01" />
-    ),
+    iconPath: <Fraud size={24} />,
   },
   {
     id: 5,
     title: "Safe Transactions",
     description: "Funds handled with full transparency.",
-    iconPath: <path d="M2 10h20" />,
+    iconPath: <SafeTransaction size={24} />,
   },
 ];
 
 export default function PromotionalSteps() {
   return (
     <Container className="py-8">
-      <div className="w-full bg-white rounded-3xl border border-[#EDF2F7] shadow-sm p-6 lg:p-8">
+      <div className="w-full bg-white rounded-3xl border border-[#EDF2F7] p-6 lg:p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-4 items-start">
           {SECURITY_BADGES.map((badge, idx) => {
             return (

@@ -126,7 +126,7 @@ export default function ItemDetails({ slug, lang }: Props) {
   const tabItems = [
     "Overview",
     "What's Included",
-    "Local Information",
+    "Visitor Information",
     "Reviews",
   ];
 
@@ -144,7 +144,7 @@ export default function ItemDetails({ slug, lang }: Props) {
       <Container>
         {/* --- TWO-COLUMN MASTER CONTENT TRACK GRID --- */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-8 space-y-8 p-6 rounded-2xl border border-gray-100">
+          <div className="lg:col-span-8 space-y-8  rounded-2xl ">
             {/* Header Content Info Block */}
             <div className="space-y-3">
               <h1 className="text-2xl sm:text-3xl lg:text-[38px] font-extrabold text-gray-900 tracking-tight leading-tight">
@@ -218,7 +218,7 @@ export default function ItemDetails({ slug, lang }: Props) {
                   />
                 </TabsContent>
 
-                <TabsContent value="local-information" className="mt-4">
+                <TabsContent value="visitor-information" className="mt-4">
                   <ProductLocation />
                 </TabsContent>
 

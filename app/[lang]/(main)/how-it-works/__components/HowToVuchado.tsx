@@ -10,14 +10,16 @@ export default function HowToVuchado() {
           </h1>
 
           <p className="mt-6 text-sm  lg:text-lg leading-8 text-slate-600">
-            We designed Vouchado around a simple three-step journey: Discover,
-            Purchase, and Redeem . This approach removes unnecessary complexity
-            and creates a frictionless experience for both customers and
-            businesses. Users can quickly find inspiring local offers, purchase
-            vouchers in seconds, and redeem them effortlessly through a QR code.
-            By focusing on a clear and intuitive flow, we encourage exploration,
-            increase conversion rates, and make the entire experience easy to
-            understand and use.
+            We designed Vouchado around a simple three-step journey:{" "}
+            <span className="text-[#1ec6cc]">Discover</span>,{" "}
+            <span className="text-[#1ec6cc]">Purchase</span>, and{" "}
+            <span className="text-[#1ec6cc]">Redeem</span> . This approach
+            removes unnecessary complexity and creates a frictionless experience
+            for both customers and businesses. Users can quickly find inspiring
+            local offers, purchase vouchers in seconds, and redeem them
+            effortlessly through a QR code. By focusing on a clear and intuitive
+            flow, we encourage exploration, increase conversion rates, and make
+            the entire experience easy to understand and use.
           </p>
         </div>
       </Container>

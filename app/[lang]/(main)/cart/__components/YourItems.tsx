@@ -68,7 +68,7 @@ export default function YourItems({ lang }: Props) {
           <Button
             variant="outline"
             onClick={onContinueShopping}
-            className="w-full sm:w-auto rounded-full border-cyan-500 text-cyan-600 hover:bg-cyan-50 hover:text-cyan-700 font-medium px-6 transition-colors"
+            className="w-full sm:w-auto rounded-full border-[#31BFC8] text-[#31BFC8] hover:border-[#31BFC8] hover:bg-[#31BFC8]/10 hover:text-[#31BFC8] font-semibold px-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Continue Shopping

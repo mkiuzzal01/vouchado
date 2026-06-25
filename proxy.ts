@@ -4,7 +4,7 @@ const LOCALES = ["en", "de"] as const;
 const DEFAULT_LOCALE = "en";
 const AUTH_COOKIE = "vuchado_token";
 
-const PRIVATE_ROUTES = ["/user", "/provider", "/chat"];
+const PRIVATE_ROUTES = ["/user", "/provider"];
 
 function getLocale(pathname: string): string | undefined {
   return LOCALES.find(

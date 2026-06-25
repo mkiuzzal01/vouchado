@@ -75,7 +75,7 @@ export default function Navbar({
             <div className="bg-gray-50 rounded-full p-1">
               <Link
                 href={`/${lang}/chat`}
-                className={`flex h-10 w-7 lg:w-10 items-center justify-center rounded-full bg-white hover:bg-gray-200 transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
+                className={`flex h-10 w-7 lg:w-10 items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
               >
                 <Chat color={path.includes("/chat") ? "white" : "#292D32"} />
               </Link>
@@ -101,7 +101,7 @@ export default function Navbar({
                 <div className="hidden sm:flex items-center gap-2">
                   <Link
                     href={`/${lang}/login`}
-                    className="rounded-full border border-black px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
+                    className="rounded-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
                   >
                     {login}
                   </Link>

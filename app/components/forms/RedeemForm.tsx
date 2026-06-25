@@ -13,7 +13,7 @@ export default function RedeemForm() {
         Every 1,000 points can be redeemed for a €50 discount.
       </h1>
       <AppForm onSubmit={onSumitForm}>
-        <TextInput type="range" name="code" />
+        <TextInput type="range" name="code" className="accent-[#2BC4CA]" />
         <SubmitButton
           title="Redeem"
           type="submit"

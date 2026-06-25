@@ -68,7 +68,7 @@ export default function ForBusiness() {
         <div className="text-center space-y-5 mb-10">
           <h1 className="text-2xl md:text-5xl font-extrabold text-white leading-[1.15] tracking-tight">
             Launch Deals in{" "}
-            <span className="bg-gradient-to-r from-[#53f1f8] to-[#2de2ea] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#5ACCD3] to-[#2de2ea] bg-clip-text text-transparent">
               Minutes <br /> AND GROW YOUR BUSINESS
             </span>
           </h1>

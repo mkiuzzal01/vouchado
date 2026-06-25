@@ -50,7 +50,7 @@ export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
         {reviews.map((rev) => (
           <div
             key={rev.id}
-            className="flex flex-col justify-between rounded-2xl border border-gray-100 bg-[#FAFAFA]/60 p-4 transition hover:shadow-sm"
+            className="flex flex-col justify-between my-2 rounded-2xl shadow-md bg-[#FAFAFA]/60 p-4 transition hover:shadow-sm"
           >
             <div className="space-y-2">
               <div className="flex items-center justify-between text-xs text-gray-400">

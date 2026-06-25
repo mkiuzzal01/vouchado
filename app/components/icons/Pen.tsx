@@ -3,7 +3,7 @@ interface Interface {
   size?: number;
 }
 
-export default function Pen({ color = "#454F5B", size = 24 }: Interface) {
+export default function Pen({ color = "#31BFC8", size = 24 }: Interface) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

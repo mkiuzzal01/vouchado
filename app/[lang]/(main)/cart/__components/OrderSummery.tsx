@@ -1,4 +1,7 @@
 import RedeemForm from "@/app/components/forms/RedeemForm";
+import FreeCancellation from "@/app/components/icons/FreeCancellation";
+import InstantConfirm from "@/app/components/icons/InstantConfirm";
+import SecurePayment from "@/app/components/icons/SecurePayment";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { Award, Clock, ShieldCheck, Coins } from "lucide-react";
@@ -83,6 +86,9 @@ export default function OrderSummary() {
             <h4 className="text-sm font-semibold text-gray-800 mb-1">
               Use your points & enjoy even more discount
             </h4>
+            <p className="text-sm text-gray-500">
+              2000 vouchado points are available. You can add upto €20 discount.
+            </p>
           </div>
 
           <button
@@ -122,7 +128,7 @@ export default function OrderSummary() {
         <div className="w-full p-6 flex flex-col gap-5">
           <div className="flex items-start gap-4">
             <div className="text-[#2bb3bb] mt-0.5">
-              <Award size={22} />
+              <InstantConfirm />
             </div>
 
             <div>
@@ -136,7 +142,7 @@ export default function OrderSummary() {
 
           <div className="flex items-start gap-4">
             <div className="text-[#2bb3bb] mt-0.5">
-              <Clock size={22} />
+              <FreeCancellation />
             </div>
 
             <div>
@@ -150,7 +156,7 @@ export default function OrderSummary() {
 
           <div className="flex items-start gap-4">
             <div className="text-[#2bb3bb] mt-0.5">
-              <ShieldCheck size={22} />
+              <SecurePayment />
             </div>
 
             <div>

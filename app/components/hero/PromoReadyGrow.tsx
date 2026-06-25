@@ -26,7 +26,7 @@ export default function PromoReadyGrow({ lang }: Props) {
         {/* LEFT SIDE: Integrated Image Asset & Typography Block */}
         <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 md:gap-8 max-w-3xl relative z-10 w-full">
           {/* Next.js Optimized Asset Container */}
-          <div className="shrink-0 flex items-center justify-center select-none pointer-events-none">
+          <div className="shrink-0 p-1 border border-gray-500 rounded-full flex items-center justify-center select-none pointer-events-none">
             <Image
               src={readyGrowIcon}
               alt="Vouchado grow your business storefront icon"
@@ -53,7 +53,7 @@ export default function PromoReadyGrow({ lang }: Props) {
         <div className="flex flex-col gap-3.5 w-full sm:w-auto shrink-0 relative z-10">
           {/* Primary Action Button */}
           <Link href={`/${lang}/provider`}>
-            <button className="bg-white text-[#0e6a70] font-bold text-sm sm:text-base px-7 py-3.5 rounded-full hover:bg-neutral-50 active:scale-[0.98] transition-all duration-200 shadow-md flex items-center justify-center gap-2 group whitespace-nowrap">
+            <button className="bg-linear-to-r from-[#5ACCD3] to-[#1bb6be] text-white font-bold text-sm sm:text-base px-7 py-3.5 rounded-full hover:bg-neutral-50 active:scale-[0.98] transition-all duration-200 shadow-md flex items-center justify-center gap-2 group whitespace-nowrap">
               <span>Become a Partner</span>
               <svg
                 className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"

@@ -10,13 +10,13 @@ export default function PromoContact({ lang }: props) {
     <section className="w-full bg-white py-12 px-4 sm:px-8">
       <Container>
         {/* --- LIGHT TEAL CONTAINER POD --- */}
-        <div className="w-full rounded-[24px] bg-[#EAF5F6] border border-[#2DE2EA]/20 px-8 py-10 md:py-12 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 shadow-sm">
+        <div className="w-full rounded-[24px] bg-[#EAF5F6] border border-[#2DE2EA] px-8 py-10 md:py-12 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 shadow-sm">
           {/* LEFT CONTENT BLOCK: Headings & Text */}
           <div className="space-y-3 text-left max-w-3xl">
-            <h2 className="text-3xl sm:text-4xl md:text-[42px] font-extrabold text-[#0E6A70] tracking-tight leading-tight">
+            <h2 className="text-2xl font-semibold  sm:text-3xl md:text-[34px]  text-[#0E6A70]">
               Grow Your Business with VOUCHADO
             </h2>
-            <p className="text-[#4A6B6C] text-sm sm:text-base font-normal leading-relaxed max-w-2xl">
+            <p className="text-[#4A6B6C] max-w-2xl">
               Join 300+ businesses already using our platform to reach new
               customers, fill empty capacity, and increase revenue with zero
               upfront costs.
