@@ -50,7 +50,7 @@ export default function UserList({ users, selectedId, onSelectUser }: Props) {
             <button
               key={user.id}
               onClick={() => onSelectUser(user.id)}
-              className={`w-full text-left p-4 flex items-start gap-3 transition-colors ${isSelected ? "bg-teal-50/50 border-l-4 border-teal-500 pl-3" : "hover:bg-gray-50"}`}
+              className={`w-full text-left p-4 flex items-start gap-3 transition-colors ${isSelected ? "bg-teal-100 pl-3" : "hover:bg-gray-50"}`}
             >
               <img
                 src={user.avatar}

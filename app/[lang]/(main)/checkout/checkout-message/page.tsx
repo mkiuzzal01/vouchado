@@ -1,7 +1,11 @@
-import Container from "@/app/components/shared/Container";
-import { CheckCircle, Download, Eye, Compass } from "lucide-react";
+"use client";
+import Image from "next/image";
 import Link from "next/link";
+import { Download, Eye, Compass } from "lucide-react";
+import Container from "@/app/components/shared/Container";
 import QRCode from "@/app/components/icons/QRCode";
+import message from "@/public/notification/Success Notification.png";
+import EarnedBatch from "@/app/components/icons/EarnedBatch";
 
 export default function CheckoutMessagePage() {
   const orderDetails = {
@@ -33,128 +37,142 @@ export default function CheckoutMessagePage() {
 
   return (
     <Container>
-      <div className="my-4 bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 font-sans text-gray-800">
-        {/* Success Header */}
-        <div className="text-center flex flex-col items-center mb-8">
-          <div className="w-16 h-16 bg-teal-500 rounded-full flex items-center justify-center text-white mb-4 shadow-md shadow-teal-100">
-            <CheckCircle className="w-10 h-10" strokeWidth={2.5} />
-          </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-            Payment Successful
-          </h1>
-          <p className="text-sm text-gray-500 max-w-sm">
-            Your order has been confirmed and your redemption voucher is ready
-            to use.
-          </p>
+      <div className="max-w-4xl w-full mx-auto  rounded-3xl p-6 md:p-10 text-slate-800">
+        {/* Success Header Image */}
+        <div className="text-center flex flex-col items-center py-4">
+          <Image
+            src={message.src || message}
+            alt="Success Banner"
+            width={260}
+            height={260}
+            priority
+            className="object-contain"
+          />
         </div>
 
-        {/* Order Details Section */}
-        <div className="mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
+        {/* Order Details Card */}
+        <div className="p-6 bg-white rounded-xl">
+          <h2 className="text-lg font-bold text-slate-900 mb-3.5 tracking-tight">
             Order Details
           </h2>
-          <div className="bg-gray-50/50 rounded-2xl p-5 border border-gray-100 space-y-3">
+          <div className="rounded-2xl p-5 border border-slate-100 space-y-3.5">
             <div className="flex justify-between items-center text-sm">
-              <span className="font-semibold text-gray-500">Sub Total</span>
-              <span className="font-medium text-gray-500">
-                {orderDetails.itemsCount}
+              <span className="font-semibold text-slate-500">
+                Sub Total{" "}
+                <span className="ml-1.5 px-2 py-0.5 bg-slate-200/60 rounded-md text-xs font-bold text-slate-600">
+                  {orderDetails.itemsCount} Items
+                </span>
               </span>
-              <span className="font-bold text-gray-900">
+              <span className="font-bold text-slate-900">
                 € {orderDetails.subTotal}
               </span>
             </div>
-            <hr className="border-gray-200/60" />
-            <div className="flex justify-between text-sm text-gray-600">
+
+            <hr className="border-slate-200/60" />
+
+            <div className="flex justify-between text-sm text-slate-600">
               <span>Vat (20%)</span>
-              <span className="font-semibold text-gray-900">
+              <span className="font-semibold text-slate-900">
                 € {orderDetails.vat}
               </span>
             </div>
-            <div className="flex justify-between text-sm text-red-500 font-medium">
+
+            <div className="flex justify-between text-sm text-rose-600 font-medium">
               <span>Coupon Discount</span>
               <span>-€ {orderDetails.couponDiscount}</span>
             </div>
-            <div className="flex justify-between text-sm text-red-500 font-medium">
+
+            <div className="flex justify-between text-sm text-rose-600 font-medium">
               <span>Vouchado Voucher</span>
               <span>-€ {orderDetails.voucherDiscount}</span>
             </div>
-            <hr className="border-gray-200" />
-            <div className="flex justify-between items-center pt-1">
-              <span className="text-base font-bold text-gray-900">Total</span>
-              <span className="text-lg font-extrabold text-gray-900">
+
+            <hr className="border-slate-200" />
+
+            <div className="flex justify-between items-center pt-0.5">
+              <span className="text-base font-bold text-slate-900">Total</span>
+              <span className="text-xl font-extrabold text-slate-900">
                 € {orderDetails.total}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Points Notification Banner */}
-        <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-center gap-2 mb-8 justify-center text-sm text-emerald-800">
-          <span className="inline-block w-5 h-5 bg-emerald-500 text-white rounded-full text-center text-xs leading-5">
-            ✓
-          </span>
-          <p>
+        {/* Points Reward Notification Banner */}
+        <div className="bg-[#229A16]/10 border-[#229A16] rounded-xl p-3.5 flex items-center justify-center gap-2.5 my-8 text-sm text-[#0F6357]">
+          <EarnedBatch />
+          <p className="font-medium">
             You Earned a{" "}
-            <span className="font-bold text-emerald-600">
+            <span className="font-bold text-[#229A16]">
               {orderDetails.pointsEarned} Vouchado Points
             </span>{" "}
             with this deal.
           </p>
         </div>
 
-        {/* Vouchers List */}
-        <div className="space-y-4 mb-8">
+        {/* Vouchers Section */}
+        <div className="space-y-6 mb-8">
           {vouchers.map((voucher, index) => (
             <div
               key={index}
-              className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm flex flex-col md:flex-row justify-between gap-6 items-start md:items-center"
+              className="bg-white border border-slate-100 rounded-2xl p-6 shadow-[0px_4px_20px_rgba(0,0,0,0.015)] flex flex-col md:flex-row justify-between gap-6 items-stretch hover:border-slate-200 transition-colors duration-200"
             >
-              <div className="flex-1 space-y-2 text-sm">
-                <div className="flex justify-between md:justify-start gap-12">
+              {/* Left Side Content - Structured Grid matching image_3090e1.png */}
+              <div className="flex-1 space-y-4 text-xs font-medium text-slate-500">
+                {/* Voucher ID & Qty Row */}
+                <div className="flex justify-between items-start">
                   <div>
-                    <span className="text-gray-400 block text-xs">
+                    <span className="block text-[11px] font-normal text-slate-400 mb-0.5">
                       Voucher ID
                     </span>
-                    <span className="font-bold text-gray-900">
+                    <span className="text-sm font-bold text-slate-900">
                       {voucher.id}
                     </span>
                   </div>
-                  <div>
-                    <span className="text-gray-400 block text-xs">Qty</span>
-                    <span className="font-bold text-gray-900">
+                  <div className="text-right">
+                    <span className="block text-[11px] font-normal text-slate-400 mb-0.5">
+                      Qty
+                    </span>
+                    <span className="text-sm font-bold text-slate-900">
                       {voucher.qty}
                     </span>
                   </div>
                 </div>
-                <div>
-                  <span className="text-gray-400 block text-xs mb-0.5">
-                    Deal Name
+
+                {/* Deal Name / Service Name Row */}
+                <div className="flex justify-between items-start gap-4">
+                  <span className="w-24 shrink-0 block text-[11px] font-normal text-slate-400 pt-0.5">
+                    {index === 0 ? "Deal Name" : "Service Name"}
                   </span>
-                  <p className="font-medium text-gray-800 leading-tight">
+                  <p className="flex-1 text-right text-slate-800 font-semibold leading-relaxed max-w-md">
                     {voucher.name}
                   </p>
                 </div>
-                <div className="grid grid-cols-2 gap-4 pt-1">
-                  <div>
-                    <span className="text-gray-400 block text-xs">Payment</span>
-                    <span className="font-bold text-gray-900">
-                      € {voucher.payment}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-gray-400 block text-xs">
-                      Expire date
-                    </span>
-                    <span className="font-semibold text-gray-700">
-                      {voucher.expiry}
-                    </span>
-                  </div>
+
+                {/* Payment Row */}
+                <div className="flex justify-between items-center">
+                  <span className="block text-[11px] font-normal text-slate-400">
+                    {index === 0 ? "Payment" : "Order Payment"}
+                  </span>
+                  <span className="text-sm font-bold text-slate-900">
+                    € {voucher.payment}
+                  </span>
+                </div>
+
+                {/* Expire Date Row */}
+                <div className="flex justify-between items-center">
+                  <span className="block text-[11px] font-normal text-slate-400">
+                    Expire date
+                  </span>
+                  <span className="font-semibold text-slate-700">
+                    {voucher.expiry}
+                  </span>
                 </div>
               </div>
 
-              {/* QR Code Placeholder */}
-              <div className="w-full md:w-auto flex justify-center items-center border-t md:border-t-0 md:border-l border-gray-100 pt-4 md:pt-0 md:pl-6">
-                <div className="p-2 bg-gray-50 rounded-xl border border-gray-200/60 text-slate-800">
+              {/* Vertical Separator Line & QR Code Container */}
+              <div className="w-full md:w-auto flex justify-center items-center border-t md:border-t-0 md:border-l border-slate-100/80 pt-4 md:pt-0 md:pl-8 shrink-0">
+                <div className="p-1 bg-white select-none transition-transform hover:scale-[1.02]">
                   <QRCode />
                 </div>
               </div>
@@ -163,16 +181,18 @@ export default function CheckoutMessagePage() {
         </div>
 
         {/* Action Footer Buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4 border-t border-gray-100">
-          <Link href="/coupons">
-            <button className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-teal-500 text-teal-600 font-medium text-sm flex items-center justify-center gap-2 hover:bg-teal-50 transition">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-6 border-t border-slate-100">
+          <Link href="/coupons" className="w-full sm:w-auto">
+            <button className="w-full px-5 py-2.5 rounded-full border border-teal-500 text-[#31BFC8] hover:text-white font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[#31BFC8] transition duration-200">
               <Eye className="w-4 h-4" /> View Coupons
             </button>
           </Link>
-          <button className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-teal-500 text-teal-600 font-medium text-sm flex items-center justify-center gap-2 hover:bg-teal-50 transition">
-            <Compass className="w-4 h-4" /> Explore Service
+
+          <button className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-teal-500 text-[#31BFC8] hover:text-white font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[#31BFC8] transition duration-200">
+            <Compass className="w-4 h-4" /> Explore Services
           </button>
-          <button className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-teal-500 text-white font-medium text-sm flex items-center justify-center gap-2 hover:bg-teal-600 shadow-sm transition">
+
+          <button className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#31BFC8] hover:bg-[#28A1AA] text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition duration-200">
             <Download className="w-4 h-4" /> Download All
           </button>
         </div>
