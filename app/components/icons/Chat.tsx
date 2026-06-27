@@ -1,15 +1,16 @@
+import { cn } from "@/lib/utils";
+
 interface Props {
-  size?: number;
   color?: string;
+  className?: string;
 }
 
-export default function Chat({ size = 24, color = "#292D32" }: Props) {
+export default function Chat({ color = "#292D32", className="" }: Props) {
   
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
+      className={cn("size-6", className)}
       viewBox="0 0 24 24"
       fill="none"
     >

@@ -43,16 +43,16 @@ export default function Navbar({
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-[#ffff]">
       <Container>
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex items-center justify-between py-2.5 sm:py-3 lg:py-3.5 2xl:py-4">
           {/* Logo */}
           <Link href={`/${lang}`} className="flex items-center">
             <Image
               src={branding_logo}
               alt="Brand Logo"
-              width={120}
-              height={40}
+              width={270}
+              height={62}
               priority
-              className="h-5 lg:h-9 w-auto object-contain"
+              className="h-7 sm:h-8 md:h-9 lg:h-10 xl:h-11 2xl:h-14 w-auto object-contain"
             />
           </Link>
 
@@ -70,44 +70,47 @@ export default function Navbar({
           />
 
           {/* Right Section */}
-          <div className="flex items-center gap-2 sm:gap-3 ">
+          <div className="flex items-center gap-2 sm:gap-3 xl:gap-1 2xl:gap-3 ">
             {/* Cart */}
-            <div className="bg-gray-50 rounded-full p-1">
+            <div className="bg-gray-50 rounded-full">
               <Link
                 href={`/${lang}/chat`}
-                className={`flex h-10 w-7 lg:w-10 items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
+                className={`flex size-9 lg:size-10 xl:size-8 2xl:size-10 items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
               >
-                <Chat color={path.includes("/chat") ? "white" : "#292D32"} />
+                <Chat
+                  color={path.includes("/chat") ? "white" : "#292D32"}
+                  className="size-5 lg:size-6 xl:size-4 2xl:size-6"
+                />
               </Link>
             </div>
 
             {/* Auth */}
-            <div className="flex items-center gap-2 rounded-full bg-[#F4F6F8] lg:border lg:p-1">
+            <div className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full lg:bg-[#F4F6F8] lg:border lg:p-1 xl:p-0.5 2xl:p-1">
               <Link
                 href={`/${lang}/wishlist`}
-                className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full bg-white hover:bg-gray-200 transition"
+                className="flex h-10 w-7 lg:w-10 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 items-center justify-center rounded-full bg-white hover:bg-gray-200 transition"
               >
-                <WishList />
+                <WishList className="size-5 lg:size-6 xl:size-4 2xl:size-6" />
               </Link>
               <Link
                 href={`/${lang}/cart`}
-                className="flex h-10 w-7 lg:w-10 items-center justify-center rounded-full bg-white hover:bg-gray-200 transition"
+                className="flex h-10 w-7 lg:w-10 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 items-center justify-center rounded-full bg-white hover:bg-gray-200 transition"
               >
-                <Cart />
+                <Cart className="size-5 lg:size-6 xl:size-4 2xl:size-6" />
               </Link>
               {token ? (
                 <UserDropdown lang={lang} />
               ) : (
-                <div className="hidden sm:flex items-center gap-2">
+                <div className="hidden sm:flex items-center gap-2 xl:gap-1 2xl:gap-2">
                   <Link
                     href={`/${lang}/login`}
-                    className="rounded-full border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
+                    className="rounded-full border border-gray-300 px-4 py-2 xl:px-2 xl:py-1 2xl:px-4 2xl:py-2 text-sm xl:text-xs 2xl:text-base font-medium 2xl:font-semibold text-gray-700 hover:bg-gray-200 transition"
                   >
                     {login}
                   </Link>
                   <Link
                     href={`/${lang}/registration`}
-                    className="rounded-full bg-[#2EC4C6] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
+                    className="rounded-full bg-[#2EC4C6] px-4 py-2 xl:px-2 xl:py-1 2xl:px-4 2xl:py-2 text-sm xl:text-xs 2xl:text-base font-medium 2xl:font-semibold text-white hover:opacity-90 transition"
                   >
                     {register}
                   </Link>
@@ -118,7 +121,7 @@ export default function Navbar({
             {/* Mobile Button */}
             <button
               onClick={() => setShowNavbar(!showNavbar)}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition md:hidden"
+              className="flex size-9 sm:size-10 items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition xl:hidden"
               aria-label="Open menu"
             >
               <Menu className="h-5 w-5" />

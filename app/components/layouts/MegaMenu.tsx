@@ -54,8 +54,8 @@ export default function MegaMenu({
   return (
     <>
       {/* ================= DESKTOP ================= */}
-      <NavigationMenu className="hidden lg:block w-full">
-        <NavigationMenuList className="flex items-center gap-2">
+      <NavigationMenu className="hidden xl:block w-full">
+        <NavigationMenuList className="flex items-center gap-2 xl:gap-1 2xl:gap-2">
           {/* HOME */}
           {/* <NavigationMenuItem>
             <NavigationMenuLink
@@ -72,8 +72,8 @@ export default function MegaMenu({
 
           {/* SERVICES */}
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="flex items-center gap-2 rounded-full bg-gray-50 border px-4 py-2 text-sm font-medium hover:bg-gray-200 transition">
-              <Menu size={15} />
+            <NavigationMenuTrigger className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full bg-gray-50 border px-4 py-2 xl:px-2 xl:py-1 2xl:py-3 2xl:px-5 2xl:py-2 text-sm xl:text-xs 2xl:text-base font-medium hover:bg-gray-200 transition 2xl:h-auto">
+              <Menu className="size-4 lg:size-5 2xl:size-6" />
               {menuTitle}
             </NavigationMenuTrigger>
 
@@ -112,7 +112,7 @@ export default function MegaMenu({
             <NavigationMenuItem key={item.href}>
               <NavigationMenuLink
                 href={item.href}
-                className={`px-3 rounded-none  text-xs lg:text-sm font-medium transition ${
+                className={`px-3 xl:px-1.5 2xl:px-3 rounded-none  text-xs lg:text-sm xl:text-xs 2xl:text-base font-medium transition ${
                   isActive(item.href)
                     ? "border-b-2 border-[#2EC4C6] text-black"
                     : "hover:border-b-2 hover:border-[#2EC4C6]"
@@ -127,7 +127,7 @@ export default function MegaMenu({
           <NavigationMenuItem>
             <Link
               href="/contact"
-              className="flex items-center gap-2 rounded-full bg-gray-50 border px-4 py-2 text-xs lg:text-sm font-medium hover:bg-gray-200 transition"
+              className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full bg-gray-50 border px-4 py-2 xl:px-2 xl:py-1 2xl:px-4 2xl:py-2 text-xs lg:text-sm xl:text-xs 2xl:text-base font-medium hover:bg-gray-200 transition"
             >
               <Location size={15} />
               Berlin, Germany
@@ -138,7 +138,7 @@ export default function MegaMenu({
 
       {/* ================= MOBILE (PROFESSIONAL DRAWER STYLE) ================= */}
       {showNavbar && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-white p-4 overflow-y-auto">
+        <div className="xl:hidden fixed inset-0 z-50 bg-white p-4 overflow-y-auto">
           {/* HEADER */}
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold pl-4">{menu}</h2>

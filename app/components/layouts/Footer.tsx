@@ -59,26 +59,26 @@ export default function Footer({ footerLinks }: FooterLinks) {
 
   return (
     <footer className="bg-[#161C24] text-white">
-      <Container className="px-8 lg:px-10">
-        <div className="pb-5 pt-20 space-y-14">
+      <Container className="">
+        <div className="pt-20 space-y-14">
           {/* ================= TOP GRID ================= */}
-          <div className="grid gap-10 md:grid-cols-3">
+          <div className="grid gap-8 xl:gap-10 sm:grid-cols-2 lg:grid-cols-3">
             {/* LOGO + ABOUT */}
             <div className="space-y-5">
               <Link href="/" className="inline-block">
                 <Image
                   src={footer_logo}
                   alt="Footer Logo"
-                  width={200}
-                  height={200}
-                  className="h-24 w-auto object-contain"
+                  width={230}
+                  height={230}
+                  className="h-28 lg:h-35 xl:h-41 w-auto object-contain"
                 />
               </Link>
 
               {/* SOCIAL */}
-              <div className="space-y-3">
-                <h3 className="text-xs font-semibold uppercase text-gray-300">
-                  Follow Us
+              <div className="space-y-2.5">
+                <h3 className="text-xs xl:text-base text-[#DFE3E8]">
+                  Follow Us On
                 </h3>
 
                 <div className="flex items-center gap-3">
@@ -87,8 +87,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
                       key={i}
                       href="#"
                       className={cn(
-                        "h-9 w-9 flex items-center justify-center rounded-full",
-                        "border border-gray-700 text-gray-300",
+                        "size-9 flex items-center justify-center rounded-full bg-[#212B36] text-white",
                         "transition hover:bg-white hover:text-black",
                       )}
                     >
@@ -100,9 +99,9 @@ export default function Footer({ footerLinks }: FooterLinks) {
             </div>
 
             {/* LINKS */}
-            <div className="grid grid-cols-2 gap-10">
+            <div className="grid grid-cols-2 gap-5 xl:gap-10">
               <div>
-                <h3 className="mb-4 text-sm font-semibold text-white">
+                <h3 className="mb-4 sm:text-lg xl:text-xl font-semibold text-white">
                   Shopping
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-400">
@@ -120,7 +119,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
               </div>
 
               <div>
-                <h3 className="mb-4 text-sm font-semibold text-white">
+                <h3 className="mb-4 sm:text-lg xl:text-xl font-semibold text-white">
                   Customer Services
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-400">
@@ -139,10 +138,11 @@ export default function Footer({ footerLinks }: FooterLinks) {
             </div>
 
             {/* NEWSLETTER */}
-            <div className="space-y-2">
+            <div className="space-y-4 xl:col-span-1">
               <p className="text-sm text-gray-400 leading-relaxed">
-                Subscribe to our newsletter & get exclusive <br /> 10% off your
-                first order.
+                Subscribe to our newsletter & get exclusive 
+                <br className="block" /> 
+                10% off your first order.
               </p>
 
               <form
@@ -165,7 +165,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
                   type="submit"
                   disabled={isLoading}
                   className={cn(
-                    "h-11 cursor-pointer bg-gradient-to-r from-[#4cd3e3] to-[#25a5b5] text-white rounded-full px-8 font-semibold tracking-wider uppercase text-xs hover:opacity-90 transition-opacity",
+                    "h-11 cursor-pointer bg-linear-to-r from-[#4cd3e3] to-[#25a5b5] text-white rounded-full px-4 sm:px-8 font-semibold tracking-wider uppercase text-xs hover:opacity-90 transition-opacity",
                   )}
                 >
                   {isLoading ? "..." : "SUBSCRIBE"}
@@ -173,7 +173,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
               </form>
 
               {/* APP BUTTONS */}
-              <div className="flex justify-end items-center gap-3">
+              <div className="flex justify-start xl:justify-end items-center gap-3 pt-2">
                 <PlayStore />
                 <AppleStore />
               </div>
@@ -181,7 +181,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
           </div>
 
           {/* ================= FEATURES ================= */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {features.map((item) => (
               <div
                 key={item.title}
@@ -204,7 +204,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
           </div>
 
           {/* ================= BOTTOM ================= */}
-          <div className="border-t border-gray-800 pt-2">
+          <div className="border-t border-gray-800 py-4 sm:py-6 xl:py-8">
             <p className="text-sm text-gray-500 text-center">
               © {new Date().getFullYear()} 2026 All Rights Reserved | HTML Site
               by
