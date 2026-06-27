@@ -16,12 +16,12 @@ export default async function page({ params }: Props) {
   return (
     <>
       <Hero />
-      <Steps />
+      {/* <Steps />
       <ExploreCategories />
       <DealsNear lang={lang} />
       <TrendingNow lang={lang} />
       <Trusted />
-      <PromoBanner lang={lang} />
+      <PromoBanner lang={lang} /> */}
     </>
   );
 }

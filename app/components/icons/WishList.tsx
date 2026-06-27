@@ -1,14 +1,15 @@
+import { cn } from '@/lib/utils';
+
 interface props {
-  size?: number;
   color?: string;
+  className?: string;
 }
 
-export default function WishList({ size = 24, color = "#212B36" }: props) {
+export default function WishList({ color = "#212B36", className="" }: props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
+      className={cn("size-6", className)}
       viewBox="0 0 24 24"
       fill="none"
     >

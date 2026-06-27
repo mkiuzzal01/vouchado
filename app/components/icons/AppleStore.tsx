@@ -8,7 +8,6 @@ export default function AppleStore({ color = "#212B36", size = 150 }: Props) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
-      height={size}
       viewBox="0 0 161 56"
       fill="none"
     >

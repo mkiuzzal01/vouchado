@@ -1,15 +1,16 @@
+import { cn } from '@/lib/utils';
+
 interface props {
-  size?: number;
   color?: string;
+  className?: string;
 }
 
-export default function Cart({ size = 24, color = "#212B36" }: props) {
+export default function Cart({ color = "#212B36", className="" }: props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={size}
-      height={size}
       viewBox="0 0 24 24"
+      className={cn("size-6", className)}
       fill="none"
     >
       <path

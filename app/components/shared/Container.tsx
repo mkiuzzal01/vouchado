@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 export default function Container({
   children,
   className,
@@ -6,7 +8,12 @@ export default function Container({
   className?: string;
 }) {
   return (
-    <div className={`container mx-auto px-2 lg:px-0 ${className}`}>
+    <div
+      className={cn(
+        "max-w-[1744px] mx-auto px-3.5 sm:px-6 lg:px-8 w-full",
+        className,
+      )}
+    >
       {children}
     </div>
   );

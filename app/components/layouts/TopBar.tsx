@@ -9,9 +9,9 @@ interface TopBarProps {
 
 export default function TopBar({ content }: TopBarProps) {
   return (
-    <div className="w-full border-b border-white/10 bg-[#013445]">
-      <Container className="px-4 py-2 text-center text-white sm:text-base">
-        <p className="text-xs hidden lg:text-sm lg:block">{content.desktop}</p>
+    <div className="w-full bg-[#013445]">
+      <Container className="py-2 sm:py-2.5 lg:py-3 2xl:py-3.5 text-center text-white sm:text-base">
+        <p className="text-xs hidden lg:text-sm xl:text-base lg:block">{content.desktop}</p>
         <p className="text-xs block lg:hidden">{content.mobile}</p>
       </Container>
     </div>
