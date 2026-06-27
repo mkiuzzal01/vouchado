@@ -1,56 +1,58 @@
 import Container from "@/app/components/shared/Container";
 import PurchasesTable from "./__components/PurchasesTable";
-import ServiceMetrics from "./__components/ServiceMetrics";
+import MetricCards from "../__components/MetricCards";
+import CreateDealAction from "./__components/CreateDealAction";
+import DealSold from "@/app/components/icons/DealSold";
+import Bag from "@/app/components/icons/Bag";
+import DealsRedeem from "@/app/components/icons/DealsRedeem";
+import DealYet from "@/app/components/icons/DealYet";
+
+const metrics = [
+  {
+    id: 1,
+    title: "Deals Sold (Total)",
+    value: "1,782",
+    trend: "12% all time",
+    isPositive: true,
+    icon: DealSold,
+    color: "text-blue-500 bg-blue-50",
+  },
+  {
+    id: 2,
+    title: "Deals Sold This Month",
+    value: "245",
+    trend: "8% this month",
+    isPositive: true,
+    icon: Bag,
+    color: "text-cyan-500 bg-cyan-50",
+  },
+  {
+    id: 3,
+    title: "Deals Redeemed",
+    value: "1,567",
+    trend: "70% of sold",
+    isPositive: true,
+    icon: DealsRedeem,
+    color: "text-teal-500 bg-teal-50",
+  },
+  {
+    id: 4,
+    title: "Deals yet Unredeemed",
+    value: "526",
+    trend: "30% of sold",
+    isPositive: false,
+    icon: DealYet,
+    color: "text-red-500 bg-red-50",
+  },
+];
 
 export default function Page() {
   return (
     <Container>
       <div className="space-y-6 text-gray-800 py-4">
+        <CreateDealAction title="Services" />
         {/* Top Action Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <h1 className="text-xl font-bold text-gray-900 tracking-tight">
-            Services
-          </h1>
-
-          <div className="flex items-center gap-3">
-            <button className="flex items-center justify-center gap-2 px-4 py-2 border border-teal-500/20 bg-white text-teal-600 rounded-xl text-xs font-bold hover:bg-teal-50/40 transition-colors shadow-sm">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-              Scan Voucher
-            </button>
-            <button className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-xl text-xs font-bold transition-all shadow-sm">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                />
-              </svg>
-              Add New Deal
-            </button>
-          </div>
-        </div>
-
-        {/* Top Level Quick Metrics Row */}
-        <ServiceMetrics />
-
+        <MetricCards metrics={metrics} />
         {/* Main Core Content Table Block */}
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
           <div className="flex justify-between items-center">

@@ -1,30 +1,27 @@
-import {
-  LucideIcon,
-  LayoutDashboard,
-  MessageSquare,
-  Settings,
-  ShoppingBag,
-} from "lucide-react";
+import Dasboard from "@/app/components/icons/Dasboard";
+import DealIcon from "@/app/components/icons/DealIcon";
+import MessageIcon from "@/app/components/icons/MessageIcon";
+import Settings from "@/app/components/icons/Settings";
 
 export interface IProviderNavItem {
-  icon: LucideIcon;
+  icon: React.FC<{ size: number; color: string }>;
   label: string;
   href: string;
 }
 
 export const providerNavItems: IProviderNavItem[] = [
   {
-    icon: LayoutDashboard,
+    icon: Dasboard,
     label: "Dashboard",
     href: "/provider",
   },
   {
-    icon: ShoppingBag,
+    icon: DealIcon,
     label: "Deals",
     href: "/provider/deals",
   },
   {
-    icon: MessageSquare,
+    icon: MessageIcon,
     label: "Messages",
     href: "/provider/message",
   },

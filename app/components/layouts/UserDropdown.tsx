@@ -46,7 +46,7 @@ export default function UserDropdown({ lang, totalMoney }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-2 rounded-full border border-slate-200 bg-white p-1 shadow-sm hover:bg-slate-50 transition">
+        <button className="flex items-center gap-3 rounded-full border border-gray-200 bg-white p-1 hover:bg-gray-50 transition">
           {/* Avatar */}
           <Avatar className="h-8 w-8 border border-[#2EC4C6]">
             <AvatarFallback className="bg-[#31BFC8] text-white text-xs font-bold">

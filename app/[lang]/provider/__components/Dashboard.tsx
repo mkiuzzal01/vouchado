@@ -7,7 +7,51 @@ import ModalContainer from "@/app/components/shared/ModalContainer";
 import CreateDealForm from "@/app/components/forms/muti-steps/CreateDealForm";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { setOpenDealModal } from "@/redux/features/provider/deal.slice";
-import { Plus, Scan } from "lucide-react";
+import PromoCreateDeals from "./PromoCreateDeals";
+
+import DealSold from "@/app/components/icons/DealSold";
+import DealsRedeem from "@/app/components/icons/DealsRedeem";
+import DealYet from "@/app/components/icons/DealYet";
+import Bag from "@/app/components/icons/Bag";
+
+export const metricsData = [
+  {
+    id: 1,
+    title: "Deals Sold (Total)",
+    value: "1,782",
+    trend: "12% all time",
+    isPositive: true,
+    icon: DealSold,
+    color: "text-blue-500 bg-blue-50",
+  },
+  {
+    id: 2,
+    title: "Deals Sold This Month",
+    value: "245",
+    trend: "8% this month",
+    isPositive: true,
+    icon: Bag,
+    color: "text-cyan-500 bg-cyan-50",
+  },
+  {
+    id: 3,
+    title: "Deals Redeemed",
+    value: "1,567",
+    trend: "70% of sold",
+    isPositive: true,
+    icon: DealsRedeem,
+    color: "text-teal-500 bg-teal-50",
+  },
+  {
+    id: 4,
+    title: "Deals yet Unredeemed",
+    value: "526",
+    trend: "30% of sold",
+    isPositive: false,
+    icon: DealYet,
+    color: "text-red-500 bg-red-50",
+  },
+];
 
 interface Props {
   lang: string;
@@ -30,32 +74,22 @@ export default function Dashboard({ lang }: Props) {
               Let's grow your business today
             </p>
           </div>
-
-          {/* Global Control Button Pairs */}
-          <div className="flex items-center gap-3">
-            <button className="flex items-center justify-center gap-2 px-4 py-2 border border-teal-500 text-teal-600 font-medium rounded-xl text-sm bg-white hover:bg-teal-50 transition shadow-sm w-full sm:w-auto">
-              <Scan className="w-4 h-4" /> Scan Voucher
-            </button>
-            <button
-              onClick={() => dispatch(setOpenDealModal(!openDealModal))}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-xl text-sm transition shadow-sm w-full sm:w-auto"
-            >
-              <Plus className="w-4 h-4" /> Add New Deal
-            </button>
-          </div>
         </div>
 
         {/* Metric Cards Section Block Row */}
-        <MetricCards />
+        <MetricCards metrics={metricsData} />
+        <PromoCreateDeals />
 
         {/* Primary Analytical Data Feed Layout Container */}
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-sm font-bold text-gray-900">Deal Purchased</h2>
+            <h2 className="text-[24px] font-bold text-gray-900">
+              Deal Purchased
+            </h2>
             <Link href={`/${lang}/provider/purchases`}>
-              <button className="text-xs font-bold text-teal-500 hover:underline">
+              <span className="text-xs font-se text-teal-500 underline">
                 View all
-              </button>
+              </span>
             </Link>
           </div>
 

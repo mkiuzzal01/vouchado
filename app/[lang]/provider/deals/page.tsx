@@ -1,10 +1,52 @@
 "use client";
 import { useState } from "react";
-import { Plus, Scan } from "lucide-react";
 import Container from "@/app/components/shared/Container";
-import StatsCards from "./__components/StatsCards";
-import DealsTable from "../__components/DealsTable";
 import ActiveDealsTable from "./__components/ActiveDealsTable";
+import CreateDealAction from "../purchases/__components/CreateDealAction";
+import MetricCards from "../__components/MetricCards";
+import Revenue from "@/app/components/icons/Revenue";
+import ActiveVoucher from "@/app/components/icons/ActiveVoucher";
+import Expried from "@/app/components/icons/Expried";
+import AlreadyRedeem from "@/app/components/icons/AlreadyRedeem";
+
+export const metricsData = [
+  {
+    id: 1,
+    title: "Total Revenue",
+    value: "1,782",
+    trend: "12% all time",
+    isPositive: true,
+    icon: Revenue,
+    color: "text-cyan-500 bg-cyan-50/50",
+  },
+  {
+    id: 2,
+    title: "Active vouchers in total",
+    value: "245",
+    trend: "8% this month",
+    isPositive: true,
+    icon: ActiveVoucher,
+    color: "text-cyan-500 bg-cyan-50/50",
+  },
+  {
+    id: 3,
+    title: "expired vouchers in total",
+    value: "1,567",
+    trend: "70% of sold",
+    isPositive: true,
+    icon: Expried,
+    color: "text-cyan-500 bg-cyan-50/50",
+  },
+  {
+    id: 4,
+    title: "Vouchers already redeemed",
+    value: "526",
+    trend: "30% of sold",
+    isPositive: false,
+    icon: AlreadyRedeem,
+    color: "text-rose-500 bg-rose-50",
+  },
+];
 
 export default function DealsPage() {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
@@ -17,25 +59,10 @@ export default function DealsPage() {
   return (
     <Container className="py-6 space-y-8 bg-slate-50/50 min-h-screen">
       {/* HEADER SECTION */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
-          Deals
-        </h1>
-        <div className="flex items-center gap-3 w-full sm:w-auto">
-          <button
-            onClick={handleScanVoucher}
-            className="flex items-center justify-center gap-2 px-4 py-2 border border-teal-500 text-teal-600 font-medium rounded-xl text-sm bg-white hover:bg-teal-50 transition shadow-sm w-full sm:w-auto"
-          >
-            <Scan className="w-4 h-4" /> Scan Voucher
-          </button>
-          <button className="flex items-center justify-center gap-2 px-4 py-2 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-xl text-sm transition shadow-sm w-full sm:w-auto">
-            <Plus className="w-4 h-4" /> Add New Deal
-          </button>
-        </div>
-      </div>
+      <CreateDealAction title="Deals" />
 
       {/* METRIC SUMMARY CARDS MODULE */}
-      <StatsCards />
+      <MetricCards metrics={metricsData} />
 
       {/* DATA TABLE MODULE */}
       <ActiveDealsTable />
@@ -43,7 +70,7 @@ export default function DealsPage() {
       {/* OPTIONAL SCANNER MODAL OVERLAY */}
       {isScannerOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white p-6 rounded-2xl max-w-md w-full shadow-xl space-y-4 text-center">
+          <div className="bg-white p-6 rounded-2xl max-w-md w-full  space-y-4 text-center">
             <h3 className="text-lg font-bold text-slate-800">
               Voucher Scanner Active
             </h3>
