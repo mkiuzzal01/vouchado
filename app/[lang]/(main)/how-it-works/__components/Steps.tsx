@@ -114,9 +114,9 @@ export default function Steps() {
   ];
 
   return (
-    <section className="w-full py-16 lg:py-24 overflow-hidden bg-[#F9FBFC] selection:bg-[#23888E]/10">
+    <section className="w-full py-12 md:py-16 lg-18 xl:py-24 overflow-hidden selection:bg-[#23888E]/10">
       <Container>
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="relative max-w-[1114px] mx-auto px-4 sm:px-6">
           {/* ── VERTICAL TIMELINE LINE ── */}
           <div
             className="
@@ -184,7 +184,7 @@ export default function Steps() {
                         alt={step.title}
                         quality={100}
                         priority={index < 2}
-                        className="object-contain max-h-[90%] w-auto select-none"
+                        className="object-contain max-h-[380px] w-auto select-none"
                       />
                     </div>
                   </div>
@@ -197,25 +197,22 @@ export default function Steps() {
                     `}
                   >
                     <div className="max-w-md w-full">
-                      <h3 className="text-xl lg:text-[22px] font-bold text-black tracking-tight mb-2 leading-snug">
+                      <h3 className="text-xl lg:text-[32px] font-bold text-black tracking-tight mb-2 leading-snug">
                         {step.title}
                       </h3>
 
-                      <p className="text-[14px] lg:text-[15px] text-[#637381] font-normal leading-relaxed mb-4">
+                      <p className="text-[14px] lg:text-[18px] text-gray-600 font-normal leading-[28px] mb-4">
                         {step.description}
                       </p>
 
                       {/* Sub-feature badges */}
-                      <div className="flex items-center gap-x-5 gap-y-2">
+                      <div className="flex gap-4">
                         {step.features.map((feature, fIdx) => {
                           const IconComponent = feature.icon;
                           return (
-                            <div
-                              key={fIdx}
-                              className="flex items-center gap-2 text-xs font-medium text-[#1A2530]"
-                            >
+                            <div key={fIdx} className="flex items-center gap-2">
                               {IconComponent}
-                              <span className="text-[13px] font-semibold text-[#212B36]">
+                              <span className=" text-[10px] md:text-[12px] lg:text-[14px] font-semibold text-[#212B36] xl:leading-[20px]">
                                 {feature.label}
                               </span>
                             </div>

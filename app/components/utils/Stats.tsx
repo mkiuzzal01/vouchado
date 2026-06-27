@@ -39,9 +39,9 @@ export default function Stats() {
   ];
 
   return (
-    <section className="relative w-full -bottom-18">
+    <section className="relative w-full -bottom-2">
       <Container className="bg-white rounded-4xl shadow-2xl shadow-gray-200">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-5 md:gap-10">
           {stats.map((stat, index) => (
             <div
               key={index}

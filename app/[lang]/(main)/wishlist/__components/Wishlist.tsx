@@ -5,7 +5,7 @@ import Container from "@/app/components/shared/Container";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { useMemo } from "react";
-import wishlistBg from "@/public/wishlist/wishlist.png";
+import wishlistBg from "@/public/section-headers/Hero Section (2).png";
 
 interface Props {
   lang: string;
@@ -29,11 +29,7 @@ export default function Wishlist({ lang }: Props) {
 
   return (
     <div>
-      <PageHero
-        backgroundImage={wishlistBg.src}
-        title="Wishlist"
-        description="Discover how Vuchado brings you closer to unforgettable local experiences while helping you save money."
-      />
+      <PageHero backgroundImage={wishlistBg.src} title="Wishlist" />
       <Container className="py-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {items.map((item) => (
