@@ -5,7 +5,7 @@ import ModernSearch from "../forms/quires/ModernSearch";
 import Verified from "../icons/Verified";
 import CallSupport from "../icons/CallSupport";
 import Payment from "../icons/Payment";
-import hero from "@/public/hero/Offer.png";
+import hero from "@/public/hero/discount.png";
 import Image from "next/image";
 
 const FEATURES = [
