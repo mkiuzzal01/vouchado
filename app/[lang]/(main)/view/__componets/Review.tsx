@@ -24,7 +24,9 @@ export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-bold text-gray-900">Customer Reviews</h3>
+          <h3 className="text-lg lg:text-2xl font-bold text-gray-900">
+            Customer Reviews
+          </h3>
 
           <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
             <span className="text-gray-900 font-extrabold text-sm">
@@ -58,7 +60,7 @@ export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
                 <span>{rev.date}</span>
               </div>
 
-              <h5 className="text-sm font-bold text-gray-900">{rev.name}</h5>
+              <h5 className="text-xl font-bold text-gray-900">{rev.name}</h5>
 
               <p className="text-xs text-gray-600 leading-relaxed line-clamp-4">
                 "{rev.comment}"

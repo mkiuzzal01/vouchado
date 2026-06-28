@@ -12,7 +12,7 @@ export const product: IProduct = {
   discountBadge: 17,
   quantity: 5,
   overview:
-    "Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life. From viewing artifacts like the Olympic torch to collecting personalized memories in your digital locker, it is an inspiring journey through sports history Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life.",
+    "Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life. From viewing artifacts like the Olympic torch to collecting personalized memories in your digital locker, it is an inspiring journey through sports history Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life.Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life. From viewing artifacts like the Olympic torch to collecting personalized memories in your digital locker, it is an inspiring journey through sports history Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to lifeExperience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life. From viewing artifacts like the Olympic torch to collecting personalized memories in your digital locker, it is an inspiring journey through sports history Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life",
   location: "1 Olympic Plaza, Colorado Springs, CO 80909",
   highlights: [
     { id: 1, text: "Explore the inspiring history of Team USA" },

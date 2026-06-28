@@ -14,7 +14,7 @@ export default function TrendingNow({ lang }: Props) {
       <Container>
         <SectionHeader icon={<Fire />} title="Trending Now" />
         {/* Product Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 justify-items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 justify-items-center">
           {trendingItems.map((product) => (
             <TrendingProductCard
               lang={lang}

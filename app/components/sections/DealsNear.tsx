@@ -13,7 +13,7 @@ export default function DealsNear({ lang }: Props) {
       <section className="pb-8">
         <SectionHeader title="Deals Near You" />
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {productItems.map((deal) => (
             <ProductCard lang={lang} key={deal.id} {...deal} />
           ))}

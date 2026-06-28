@@ -89,16 +89,10 @@ export default function TrendingProductCard({
   };
 
   return (
-    <div className="w-full rounded-2xl sm:rounded-3xl bg-white border border-gray-100  overflow-hidden">
+    <div className="w-full rounded-2xl sm:rounded-3xl bg-white border border-gray-100  overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       {/* Image Section */}
-      <div className="relative h-44 sm:h-[220px] w-full">
-        <Image
-          src={imageUrl}
-          alt={title}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover"
-        />
+      <div className="relative md:h-[220px] h-48 w-full flex justify-center items-center">
+        <Image src={imageUrl} alt={title} fill className="object-cover" />
 
         {/* Discount */}
         {discountPercentage && (
@@ -139,7 +133,7 @@ export default function TrendingProductCard({
       <div className="px-4 sm:px-5 pt-6 sm:pt-8 pb-4 sm:pb-5">
         <Link href={`/${lang}/view/${productId}`}>
           <h3
-            className="text-sm md:text-md font-semibold text-gray-800 line-clamp-2 mb-3 sm:mb-4 hover:text-primary transition-colors"
+            className="text-sm md:text-xl font-medium text-gray-800 line-clamp-2 mb-3 sm:mb-4 hover:text-primary transition-colors"
             title={title}
           >
             {title}
@@ -147,24 +141,24 @@ export default function TrendingProductCard({
         </Link>
 
         <div className="flex items-center justify-between gap-2 mb-4 sm:mb-5">
-          <div className="flex items-center gap-1 text-sm sm:text-base font-normal text-gray-800">
-            <Start /> {rating.toFixed(1)}
+          <div className="flex items-center gap-1 font-semibold text-gray-800">
+            <Start size={20} /> {rating.toFixed(1)}
           </div>
 
           {purchasedText && (
-            <span className="text-xs sm:text-sm text-slate-500 truncate">
+            <span className="font-normal text-[#637381] truncate">
               {purchasedText}
             </span>
           )}
         </div>
 
         <div className="flex items-baseline gap-2 flex-wrap">
-          <span className="text-sm md:text-lg font-black text-slate-900">
+          <span className="text-sm md:text-xl font-black text-[#212B36]">
             {currencySymbol} {currentPrice.toFixed(2)}
           </span>
 
           {originalPrice && (
-            <span className="text-sm sm:text-base text-slate-400 line-through">
+            <span className="text-slate-400 line-through">
               {currencySymbol} {originalPrice.toFixed(2)}
             </span>
           )}

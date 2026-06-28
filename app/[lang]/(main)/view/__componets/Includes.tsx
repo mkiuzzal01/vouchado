@@ -9,12 +9,31 @@ interface Props {
 export default function Includes({ included = [], notIncluded = [] }: Props) {
   return (
     <div className="space-y-8">
+      <div>
+        <h1 className="text-md lg:text-2xl font-bold text-[#212B36]">
+          What You&apos;ll Experience
+        </h1>
+        <p className="text-[#637381] mt-4 text-sm lg:text-md xl:text-xl">
+          Discover the legacy of the Olympic & Paralympic Games at the
+          world&apos;s first Olympic & Paralympic museum. With immersive
+          exhibits, interactive challenges, and incredible athlete stories,
+          it&apos;s an unforgettable experience for the whole family. Discover
+          the legacy of the Olympic & Paralympic Games at the world&apos;s first
+          Olympic & Paralympic museum. With immersive exhibits, interactive
+          challenges, and incredible athlete stories, it&apos;s an unforgettable
+          experience for the whole family. Discover the legacy of the Olympic &
+          Paralympic Games at the world&apos;s first Olympic & Paralympic
+          museum. With immersive exhibits, interactive challenges, and
+          incredible athlete stories, it&apos;s an unforgettable experience for
+          the whole family.
+        </p>
+      </div>
       {/* Two-Column Grid Setup */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 px-4">
         {/* Included Column */}
         {included.length > 0 && (
           <div className="space-y-4 bg-gray-200 rounded-lg p-4">
-            <h4 className="text-base font-bold text-[#31BFC8] tracking-tight ">
+            <h4 className="text-md lg:text-2xl font-bold text-[#31BFC8] tracking-tight ">
               What&apos;s Included
             </h4>
 
@@ -34,7 +53,7 @@ export default function Includes({ included = [], notIncluded = [] }: Props) {
         {/* Not Included Column */}
         {notIncluded.length > 0 && (
           <div className="space-y-4 bg-gray-200 rounded-lg p-4">
-            <h4 className="text-base font-bold text-black tracking-tight pb-2 ">
+            <h4 className="lg:text-md xl:text-2xl font-bold text-black tracking-tight pb-2 ">
               What&apos;s Not Included
             </h4>
 

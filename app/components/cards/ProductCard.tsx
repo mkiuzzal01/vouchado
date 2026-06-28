@@ -93,14 +93,14 @@ export default function ProductCard({
   };
 
   return (
-    <div className="w-full rounded-2xl bg-white overflow-hidden">
+    <div className="w-full rounded-2xl bg-white overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
       {/* Image */}
       <div className="relative w-full md:aspect-4/3 aspect-16/10 md:h-[200px]">
         <Image
           src={imageUrl}
           alt={title}
           width={500}
-          height={500}
+          height={224}
           className="w-full h-full object-cover"
         />
 
@@ -151,38 +151,38 @@ export default function ProductCard({
       </div>
 
       {/* Content */}
-      <div className="p-3 sm:p-4 pt-6 sm:pt-7">
+      <div className="space-y-3 p-5">
         {/* Title */}
         <Link href={`/${lang}/view/${id}`}>
-          <h3 className="text-sm sm:text-[17px] font-medium text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2 hover:text-[#1ec6cc] transition-colors">
+          <h3 className="text-sm md:text-[20px] font-medium text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2 hover:text-[#1ec6cc] transition-colors">
             {title}
           </h3>
         </Link>
 
         {/* Rating + Location */}
-        <div className="flex items-center text-[11px] sm:text-sm text-gray-500 mb-3 sm:mb-5">
-          <div className="flex items-center gap-1 font-bold text-gray-800">
-            <Start /> {rating.toFixed(1)}
+        <div className="flex items-center text-[16px] sm:text-sm text-gray-500 mb-3 sm:mb-5">
+          <div className="flex items-center gap-1 text-[16px] font-semibold text-gray-800">
+            <Start size={20} /> {rating.toFixed(1)}
           </div>
 
           <div className="w-px h-3 bg-gray-300 mx-2 sm:mx-3" />
 
-          <div className="flex items-center gap-1 truncate">
-            <MapPin size={18} />
-            <span className="truncate">{location}</span>
+          <div className="flex text-[16px]  items-center gap-1 truncate">
+            <MapPin size={20} />
+            <span className="text-[#637381]">{location}</span>
           </div>
         </div>
 
         {/* Price */}
-        <div className="flex items-end justify-between">
+        <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
           <div className="flex items-baseline gap-1 sm:gap-2">
-            <span className="text-sm md:text-lg font-bold text-gray-900">
+            <span className="text-sm md:text-2xl font-bold text-[#212B36]">
               {currencySymbol}
               {currentPrice.toFixed(2)}
             </span>
 
             {originalPrice && (
-              <span className="text-xs sm:text-sm text-gray-400 line-through">
+              <span className="text-xs md:text-[16px] text-[#919EAB] line-through">
                 {currencySymbol}
                 {originalPrice.toFixed(2)}
               </span>
@@ -190,8 +190,10 @@ export default function ProductCard({
           </div>
 
           {endsIn && (
-            <div className="bg-[#fff0f0] text-[#ff6b6b] text-[10px] sm:text-[13px] px-2 py-1 rounded-md">
-              {endsIn}
+            <div className="flex justify-end">
+              <div className="bg-[#fff0f0] text-[#FF4842] text-[10px] sm:text-[13px] px-3 py-1 rounded-sm">
+                Ends in {endsIn}
+              </div>
             </div>
           )}
         </div>

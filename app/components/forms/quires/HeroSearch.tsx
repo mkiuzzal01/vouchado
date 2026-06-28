@@ -11,7 +11,7 @@ export interface ModernSearchProps {
   className?: string;
 }
 
-export default function ModernSearch({
+export default function HeroSearch({
   buttonClass,
   onSearch,
   locationPlaceholder = "Search your location",
@@ -39,7 +39,7 @@ export default function ModernSearch({
         {/* Location Input */}
         <div className="flex items-center gap-2 rounded-xl bg-gray-50 border border-gray-100 px-3 py-2.5 text-gray-400 focus-within:text-[#1ec6cc] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#1ec6cc] transition-all">
           <svg
-            className="w-5 h-5 shrink-0"
+            className="w-[28px] h-[28px] shrink-0"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -94,7 +94,7 @@ export default function ModernSearch({
       {/* ================= DESKTOP VIEW (Pill style) ================= */}
       <form
         onSubmit={handleSubmit}
-        className="hidden md:flex w-full items-center overflow-hidden rounded-full bg-white  border border-gray-100/80 p-1"
+        className="hidden md:flex w-full items-center overflow-hidden rounded-3xl bg-white  border border-gray-100/80 p-1"
       >
         {/* Location Box */}
         <div className="flex items-center gap-2 px-5 py-2 w-full text-gray-400 focus-within:text-[#1ec6cc] transition-colors group">
@@ -114,7 +114,7 @@ export default function ModernSearch({
         {/* Service Box */}
         <div className="flex items-center gap-2 px-5 py-2 w-full text-gray-400 focus-within:text-[#1ec6cc] transition-colors">
           <svg
-            className="w-4 h-4 shrink-0 mx-0.5"
+            className="w-[28px] h-[28px] shrink-0 mx-0.5"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -130,14 +130,14 @@ export default function ModernSearch({
             value={service}
             onChange={(e) => setService(e.target.value)}
             placeholder={servicePlaceholder}
-            className="w-full bg-transparent text-sm  text-slate-800 placeholder-gray-400 outline-none py-1"
+            className="w-full h-12 bg-transparent text-sm  text-slate-800 placeholder-gray-400 outline-none py-1"
           />
         </div>
 
         {/* Search Button */}
         <button
           type="submit"
-          className={`h-12 rounded-full ${buttonClass} px-9 tracking-wide text-sm  transition-all active:scale-98 whitespace-nowrap`}
+          className={`h-15 rounded-3xl text-white font-semibold bg-[linear-gradient(to_right,#1ec6cc,#19a7ad)] hover:bg-[#1ec6cc]/80 px-9 tracking-wide text-sm  transition-all active:scale-98 whitespace-nowrap`}
         >
           {buttonText}
         </button>

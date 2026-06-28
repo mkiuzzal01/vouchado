@@ -24,15 +24,15 @@ export default function PromoBanner({ lang }: Props) {
   return (
     <Container className="py-6">
       {/* Main Container Layer */}
-      <section className="w-full overflow-hidden rounded-[24px] bg-[#0c4d52] text-white shadow-xl border border-teal-950/20">
+      <section className="w-full overflow-hidden rounded-[24px] bg-[#1B696E] text-white shadow-xl border border-teal-950/20">
         <div className="relative flex flex-col md:flex-row min-h-[372px]">
           {/* LEFT CONTENT BLOCK */}
           <div className="relative z-20 w-full md:w-[48%] p-8 sm:p-10 lg:p-14 flex flex-col justify-center text-left">
-            <h2 className="text-2xl sm:text-3xl lg:text-[36px] xl:text-[40px]  tracking-tight leading-[1.15]">
+            <h2 className="text-2xl sm:text-3xl lg:text-[36px] xl:text-[40px] leading-[1.15] font-semibold">
               Grow Your Business <br /> With VOUCHADO
             </h2>
 
-            <p className="mt-4 text-xs sm:text-sm  max-w-sm leading-relaxed">
+            <p className="mt-4 text-xs sm:text-sm  max-w-sm leading-relaxed font-medium">
               Join 300+ local businesses and reach <br /> thousands of new
               customers
             </p>
@@ -41,7 +41,7 @@ export default function PromoBanner({ lang }: Props) {
               <Link href={`/${lang}/provider-login`}>
                 <button
                   type="button"
-                  className="w-full sm:w-fit bg-white text-[#0c4d52] text-xs font-bold px-8 py-4 rounded-full hover:bg-teal-50 transition-all active:scale-[0.98] shadow-md hover:shadow-lg"
+                  className="w-full sm:w-fit bg-white text-[#0c4d52] text-xs font-semibold px-8 py-4 rounded-full hover:bg-teal-50 transition-all active:scale-[0.98] shadow-md hover:shadow-lg"
                 >
                   {ctaText}
                 </button>
@@ -70,12 +70,12 @@ export default function PromoBanner({ lang }: Props) {
               {stats.map((stat, index) => (
                 <div
                   key={index}
-                  className="bg-[#072426]/50 border border-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 text-center flex-1 sm:flex-none min-w-[95px] sm:min-w-[130px] h-[85px] sm:h-[95px] flex flex-col justify-center items-center shadow-2xl transition-transform hover:scale-[1.02]"
+                  className="bg-[#0C3F42A3] rounded-xl sm:rounded-2xl py-[20px] px-[40] text-center flex-1 sm:flex-none min-w-[95px] sm:min-w-[130px] h-[85px] sm:h-[95px] flex flex-col justify-center items-center shadow-2xl transition-transform hover:scale-[1.02]"
                 >
-                  <div className="text-lg sm:text-2xl font-black tracking-tight text-white">
+                  <div className="text-[32px]  font-semibold tracking-tight text-white">
                     {stat.value}
                   </div>
-                  <div className="text-[9px] sm:text-[11px] text-teal-100/70 font-medium mt-0.5 whitespace-nowrap">
+                  <div className="text-[9px] sm:text-[11px] text-[#DFE3E8]  mt-0.5 whitespace-nowrap">
                     {stat.label}
                   </div>
                 </div>

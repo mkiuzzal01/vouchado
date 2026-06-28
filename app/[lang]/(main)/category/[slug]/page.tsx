@@ -56,7 +56,7 @@ export default async function page({ params }: Props) {
           <Filtered />
         </div>
         <div className="flex flex-col gap-2 w-full lg:w-3/4">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
             {productItems.map((deal) => (
               <ProductCard
                 id={deal?.id}

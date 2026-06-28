@@ -16,7 +16,9 @@ export default function Overview({ description, highlights }: Product) {
   return (
     <div className="space-y-8">
       {/* Description */}
-      <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
+      <p className="text-[#454F5B] text-sm xl:text-xl leading-relaxed">
+        {description}
+      </p>
 
       {/* Highlights */}
       <div className="space-y-4 pt-6 border-t border-gray-100">

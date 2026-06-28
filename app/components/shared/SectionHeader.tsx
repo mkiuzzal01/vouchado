@@ -7,11 +7,13 @@ interface Props {
 }
 export default function SectionHeader({ icon, title, description }: Props) {
   return (
-    <div className="my-8">
+    <div className="mt-[80px] mb-[20px]">
       <div className="flex items-center gap-4">
         {icon}
         {title && (
-          <h2 className="mb-2 text-xl lg:text-2xl font-bold">{title}</h2>
+          <h2 className="mb-2 text-xl lg:text-2xl xl:text-[32px] font-semibold">
+            {title}
+          </h2>
         )}
       </div>
       {description && (

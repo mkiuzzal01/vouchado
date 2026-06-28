@@ -18,7 +18,7 @@ export default function ForBusiness() {
       />
 
       <Container>
-        <div className="text-center space-y-5 mb-10">
+        <div className="text-center space-y-5 ">
           <h1 className="text-2xl md:text-5xl font-extrabold text-white leading-[1.15] tracking-tight">
             Launch Deals in{" "}
             <span className="bg-gradient-to-r from-[#5ACCD3] to-[#2de2ea] bg-clip-text text-transparent">

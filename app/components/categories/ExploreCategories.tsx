@@ -15,36 +15,44 @@ import Kids from "../icons/Kids";
 import Container from "../shared/Container";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeader from "../shared/SectionHeader";
+import Link from "next/link";
 
 export default function ExploreCategories() {
   const categories = [
     {
-      icon: <Adventures size={70} />,
+      icon: <Adventures size={64} />,
       name: "Adventure & Sports",
+      tranding: true,
     },
     {
-      icon: <Eat size={70} />,
+      icon: <Eat size={64} />,
       name: "Eat and Drink",
+      tranding: false,
     },
     {
-      icon: <Kids size={70} />,
+      icon: <Kids size={64} />,
       name: "Family & Kids",
+      tranding: false,
     },
     {
-      icon: <Beauty size={70} />,
+      icon: <Beauty size={64} />,
       name: "Beauty & Wellness",
+      tranding: false,
     },
     {
-      icon: <Creative size={70} />,
+      icon: <Creative size={64} />,
       name: "Creative",
+      tranding: false,
     },
     {
-      icon: <Cultural size={70} />,
+      icon: <Cultural size={64} />,
       name: "Hotel & Culture",
+      tranding: false,
     },
     {
-      icon: <Beauty size={70} />,
+      icon: <Beauty size={64} />,
       name: "Beauty & Wellness",
+      tranding: false,
     },
   ];
 
@@ -87,13 +95,23 @@ export default function ExploreCategories() {
       >
         {categories.map((category, index) => (
           <SwiperSlide key={index}>
-            <div className="flex h-42 cursor-pointer flex-col items-center gap-3 rounded-2xl bg-white p-5 my-2 border transition">
-              <div className="flex items-center justify-center">
-                {category.icon}
-              </div>
+            <Link href={`/category/${category.name}`} className="block">
+              <div className="relative flex justify-between h-[176px] py-[32px] px-2 cursor-pointer flex-col items-center gap-3 rounded-2xl bg-white border transition  hover:shadow-xl hover:-translate-y-1">
+                {category.tranding && (
+                  <span className="absolute top-4 right-4 bg-[#FF4141] text-white text-xs font-medium px-3 py-1 rounded-full">
+                    Hot
+                  </span>
+                )}
 
-              <p className="text-sm font-bold">{category.name}</p>
-            </div>
+                <div className="flex items-center justify-center">
+                  {category.icon}
+                </div>
+
+                <p className="text-sm md:text-xs xl:text-lg font-bold text-center">
+                  {category.name}
+                </p>
+              </div>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>

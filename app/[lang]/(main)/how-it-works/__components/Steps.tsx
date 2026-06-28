@@ -120,10 +120,10 @@ export default function Steps() {
           {/* ── VERTICAL TIMELINE LINE ── */}
           <div
             className="
-              absolute top-20 bottom-0
+              absolute top-40 bottom-0
               left-6 lg:left-1/2
               w-[2px] bg-[#E2E8F0]
-              z-0 lg:-translate-x-1/2
+              z-10 lg:-translate-x-1/2
             "
           />
 
@@ -142,11 +142,11 @@ export default function Steps() {
                   {/* ── CONDITIONALLY POSITIONED BADGE ── */}
                   <div
                     className={`
-                      absolute z-20
+                      absolute z-10
                       ${
                         isOdd
-                          ? "left-6 top-0 lg:left-1/2 lg:top-22 lg:-translate-y-1/2 lg:-translate-x-1/2"
-                          : "left-6 top-0 lg:left-[-30px] lg:top-[88px] lg:-translate-y-1/2 lg:-translate-x-1/2"
+                          ? "left-6 top-0 lg:left-1/2 lg:top-42 lg:-translate-y-1/2 lg:-translate-x-1/2"
+                          : "left-6 top-0 lg:left-[-30px] lg:top-[175px] lg:-translate-y-1/2 lg:-translate-x-1/2"
                       }
                     `}
                   >
@@ -172,10 +172,9 @@ export default function Steps() {
                   >
                     <div
                       className="
-                        relative w-full max-w-[350px] aspect-[1.25/1]
-                        rounded-[28px] bg-white p-6
+                        relative w-full aspect-[1/1]
+                        rounded-xl p-6
                         flex items-center justify-center
-                        shadow-[0px_20px_40px_rgba(145,158,171,0.06)]
                         border border-slate-100/80
                       "
                     >
@@ -184,7 +183,7 @@ export default function Steps() {
                         alt={step.title}
                         quality={100}
                         priority={index < 2}
-                        className="object-contain max-h-[380px] w-auto select-none"
+                        className="object-contain max-h-[400px] w-auto select-none"
                       />
                     </div>
                   </div>

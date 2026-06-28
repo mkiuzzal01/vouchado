@@ -17,8 +17,8 @@ interface Props {
 
 export const promos = [
   {
-    title: "Best Price Guarantee",
-    description: "Find it cheaper? We'll match it.",
+    title: "Vouchado Guarantee",
+    description: "Always save 20% and MORE!",
     icon: <Save />,
   },
   {
@@ -33,7 +33,7 @@ export const promos = [
   },
   {
     title: "24/7 Support",
-    description: "We're here to help anytime.",
+    description: "In person support - no chatboot",
     icon: <Contact />,
   },
 ];
@@ -55,7 +55,7 @@ export default async function page({ params }: Props) {
           <Filtered />
         </div>
         <div className="flex flex-col gap-2 w-full lg:w-3/4">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-3 gap-4">
             {productItems.map((product, index) => (
               <ProductCard
                 id={product?.id}

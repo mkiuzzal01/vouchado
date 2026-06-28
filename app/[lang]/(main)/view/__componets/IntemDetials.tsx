@@ -36,6 +36,7 @@ import Save from "@/app/components/icons/Save";
 import InstantConfirm from "@/app/components/icons/InstantConfirm";
 import SecurePayment from "@/app/components/icons/SecurePayment";
 import { ProductMetrics } from "./ProductMetrics";
+import VouchadoCount from "./VouchadoCount";
 
 export const promos = [
   {
@@ -123,12 +124,7 @@ export default function ItemDetails({ slug, lang }: Props) {
     }
   };
 
-  const tabItems = [
-    "Overview",
-    "What's Included",
-    "Visitor Information",
-    "Reviews",
-  ];
+  const tabItems = ["Overview", "What's Included", "Reviews"];
 
   const guarantees = [
     { label: "Instant Confirmation", icon: <CheckMark size={18} /> },
@@ -143,26 +139,28 @@ export default function ItemDetails({ slug, lang }: Props) {
     <section className="w-full  min-h-screen py-6 md:py-10 selection:bg-[#2BC4CA]/20">
       <Container>
         {/* --- TWO-COLUMN MASTER CONTENT TRACK GRID --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-8 space-y-8  rounded-2xl ">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="lg:col-span-7 space-y-8  rounded-2xl ">
             {/* Header Content Info Block */}
             <div className="space-y-3">
-              <h1 className="text-2xl sm:text-3xl lg:text-[38px] font-extrabold text-gray-900 tracking-tight leading-tight">
+              <h1 className="text-2xl md:text-3xl lg:text-[64px] font-bold text-[#212B36] tracking-tight leading-tight">
                 {product.title}
               </h1>
-              <p className="text-gray-700 text-sm sm:text-base max-w-2xl font-bold leading-relaxed">
+              <p className="text-[#212B36] text-md sm:text-2xl font-semibold">
                 {product.tagline}
               </p>
 
               {/* Dynamic Badging Row */}
-              <div className="flex flex-wrap items-center gap-4 pt-1.5 text-sm text-gray-500">
+              <div className="flex flex-wrap items-center gap-4 pt-1.5">
                 {guarantees.map((guarantee) => (
                   <div
                     key={guarantee.label}
-                    className="flex items-center gap-1.5 bg-gray-100 p-2 rounded-lg"
+                    className="flex items-center gap-1.5 "
                   >
                     {guarantee.icon}
-                    <span>{guarantee.label}</span>
+                    <span className="text-[#454F5B] font-normal">
+                      {guarantee.label}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -193,7 +191,7 @@ export default function ItemDetails({ slug, lang }: Props) {
                     const value = tab.toLowerCase().replace(/\s+/g, "-");
                     return (
                       <TabsTrigger
-                        className="font-bold"
+                        className="text-md lg:text-lg font-semibold"
                         key={value}
                         value={value}
                       >
@@ -218,10 +216,6 @@ export default function ItemDetails({ slug, lang }: Props) {
                   />
                 </TabsContent>
 
-                <TabsContent value="visitor-information" className="mt-4">
-                  <ProductLocation />
-                </TabsContent>
-
                 <TabsContent value="reviews" className="mt-4">
                   <Review rating={200} reviews={product?.customerReviews} />
                 </TabsContent>
@@ -232,67 +226,72 @@ export default function ItemDetails({ slug, lang }: Props) {
           {/* ================================================================= */}
           {/* RIGHT SIDEBAR COMPONENT: STICKY CHECKOUT BOOKING CARD (4 / 12 Columns) */}
           {/* ================================================================= */}
-          <div className="lg:col-span-4 lg:sticky lg:top-6 space-y-4">
+          <div className="lg:col-span-5 lg:sticky lg:top-6 space-y-4">
             <div className="flex items-center justify-end gap-2">
               <Check />
-              Best Price Guarantee
+              <span className="font-medium text-[#2BC4CA]">
+                Best Price Guarantee
+              </span>
             </div>
             {/* Primary Action Panel wrapper card element layout */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
               <div>
-                <h4 className="text-2xl font-bold text-gray-900">
+                <h4 className="text-xl lg:text-3xl font-bold text-gray-900">
                   Single Day Ticket
                 </h4>
-                <div className="flex items-center gap-1 py-4">
+                <div className="flex items-center pt-2">
                   <Star
                     activeColor="#FFC107"
                     inactiveColor="#DFE3E8"
                     size={100}
                   />
-                  <span className="text-sm font-bold text-gray-900">
+                  <span className="text-lg font-bold text-gray-900">
                     {product?.rating}
                   </span>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-[#637381]">
                     ({product?.reviewsCount} reviews)
                   </span>
                 </div>
               </div>
               <div>
-                <span className="text-xs text-gray-400 line-through block font-light">
+                <span className="text-xl text-gray-400 line-through block font-normal">
                   {product.priceOriginal}
                 </span>
                 <div className="flex items-baseline gap-2 mt-0.5">
-                  <span className="text-2xl sm:text-3xl font-extrabold text-gray-900">
+                  <span className="text-2xl sm:text-3xl font-bold text-gray-900">
                     {product.priceOriginal}
                   </span>
-                  <span className="bg-[#E1F7F5] text-[#31BFC8] font-bold text-xs px-2 py-0.5 rounded-md">
+                  <span className="bg-[#E1F7F5] text-[#31BFC8] font-semibold text-xs px-2 py-0.5 rounded-xl">
                     Save {product.discountBadge}%
                   </span>
                 </div>
               </div>
 
+              <div className="border-t border-[#DFE3E8]" />
               {/* Simple Feature Checklist */}
               <div className="space-y-3 pt-2 text-xs text-gray-600 font-light">
                 <div className="flex items-start gap-2.5">
-                  <div className="shrink-0 w-9 h-9 rounded-full bg-[#e5f7f8]  border-gray-300 flex items-center justify-center">
-                    <CheckMark color="#31BFC8" />
+                  <div className="shrink-0 p-3 rounded-full bg-[#e5f7f8]  border-gray-300 flex items-center justify-center">
+                    <CheckMark size={24} color="#31BFC8" />
                   </div>
                   <div>
-                    <p className="font-bold text-gray-900">
+                    <p className="text-xl  font-bold text-gray-900">
                       Instant Confirmation
                     </p>
-                    <p className="text-gray-400 text-[11px] mt-0.5">
+                    <p className=" text-gray-400 mt-0.5">
                       Get your tickets instantly
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <div className="shrink-0 w-9 h-9 rounded-full bg-[#e5f7f8]  border-gray-300 flex items-center justify-center">
-                    <Mobile color="#31BFC8" />
+                  <div className="shrink-0 p-3 rounded-full bg-[#e5f7f8]  border-gray-300 flex items-center justify-center">
+                    <Mobile size={24} color="#31BFC8" />
                   </div>
                   <div>
-                    <p className="font-bold text-gray-900">Mobile Ticket</p>
-                    <p className="text-gray-400 text-[11px] mt-0.5">
+                    <p className="text-xl  font-bold text-gray-900">
+                      Mobile Ticket
+                    </p>
+                    <p className=" text-gray-400 mt-0.5">
                       Show your ticket on your phone
                     </p>
                   </div>
@@ -310,14 +309,14 @@ export default function ItemDetails({ slug, lang }: Props) {
               <div className="space-y-2.5 pt-1">
                 <Button
                   onClick={() => handleAddToCart()}
-                  className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-sm  transition-all active:scale-[0.99]"
+                  className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg  transition-all active:scale-[0.99]"
                 >
                   {productIsInCart ? "Remove From Cart" : "Add to Cart"}
                 </Button>
                 <Button
                   onClick={() => handleAddToWishlist()}
                   variant="ghost"
-                  className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-xs font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
+                  className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg  font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
                 >
                   <Heart color={productIsInWishlist ? "red" : "#31BFC8"} />
                   {productIsInWishlist
@@ -327,7 +326,7 @@ export default function ItemDetails({ slug, lang }: Props) {
                 <Link href={`/en/chat`}>
                   <Button
                     variant="ghost"
-                    className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-xs font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
+                    className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg  font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
                   >
                     <Message size={17} /> Chat with support
                   </Button>
@@ -355,6 +354,8 @@ export default function ItemDetails({ slug, lang }: Props) {
                 </p>
               </div>
             </div>
+            <ProductLocation />
+            <VouchadoCount />
           </div>
         </div>
         <SimilarItem lang={lang} />

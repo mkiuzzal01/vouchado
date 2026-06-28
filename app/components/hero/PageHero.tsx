@@ -33,9 +33,7 @@ export default function PageHero({
           {/* Changed text-center lg:text-left to text-left */}
           <div className="max-w-xl text-left">
             {title && (
-              <h1 className="text-[30px] lg:text-[48px] font-normal ">
-                {title}
-              </h1>
+              <h1 className="text-[30px] lg:text-[48px] font-bold">{title}</h1>
             )}
 
             {description && (

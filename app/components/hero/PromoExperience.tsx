@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import promoTag from "@/public/section-headers/Hero Section (7).png";
 import Container from "../shared/Container";
+import { ArrowRight } from "lucide-react";
 
 interface Props {
   lang: string;
@@ -37,10 +38,10 @@ export default function PromoExperience({ lang }: Props) {
           </div>
 
           {/* Right Side */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-end gap-4">
             <Link href={`/${lang}/nearby`}>
-              <button className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0e6a70] transition hover:bg-white/90">
-                Explore Deals
+              <button className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0e6a70] transition hover:bg-white/90">
+                Explore Deals <ArrowRight />
               </button>
             </Link>
 

@@ -24,11 +24,11 @@ export default function ViewAllReview({ reviews }: Props) {
               <span className="text-gray-400">{review.date}</span>
             </div>
 
-            <h5 className="text-sm font-semibold text-gray-900">
+            <h5 className="text-2xl font-semibold text-gray-900">
               {review.name}
             </h5>
 
-            <p className="text-sm leading-relaxed text-gray-600 line-clamp-4">
+            <p className="leading-relaxed text-gray-600 line-clamp-4">
               "{review.comment}"
             </p>
           </div>

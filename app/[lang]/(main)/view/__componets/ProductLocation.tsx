@@ -52,6 +52,14 @@ export default function ProductLocation() {
       <div className="relative w-full bg-slate-50 border border-gray-100 rounded-xl overflow-hidden flex flex-col justify-between">
         <ItemMap center={{ lat: 23.8103, lng: 90.4125 }} />
       </div>
+      <div className="space-y-1">
+        <h1 className="text-black text-xl font-medium">
+          US Olympic & Paralympic Museum
+        </h1>
+        <p className="text-[#454F5B]">
+          200 S Sierra Madre St, Colorado prings, CO 80903, United States
+        </p>
+      </div>
       <Button
         variant="ghost"
         className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-xs font-medium  hover:bg-gray-50 flex items-center justify-between px-8"
