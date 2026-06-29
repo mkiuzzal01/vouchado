@@ -10,7 +10,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="w-full bg-white p-6 sm:p-10 md:p-12 rounded-[32px] shadow-sm border border-[#EDF2F7]/60">
+    <div className="w-full bg-white p-6  lg:p-8 rounded-[32px] shadow-sm border border-[#EDF2F7]/60">
       <AppForm onSubmit={onSubmit}>
         <div className="space-y-6">
           <div className="w-full">
