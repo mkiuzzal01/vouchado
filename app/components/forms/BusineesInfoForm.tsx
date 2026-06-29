@@ -15,13 +15,13 @@ export default function BusineesInfoForm({ lang }: Props) {
   };
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-2 lg:space-y-6">
       {/* Section Header */}
       <div>
-        <h2 className="text-lg font-bold text-gray-900 tracking-tight">
+        <h2 className=" text-2xl lg:text-[32px] font-bold text-gray-900 tracking-tight">
           Business Settings
         </h2>
-        <p className="text-[11px] text-gray-400 font-medium mt-0.5">
+        <p className="text-[#637381] font-normal mt-0.5">
           Please set up your business information
         </p>
       </div>
@@ -90,11 +90,11 @@ export default function BusineesInfoForm({ lang }: Props) {
 
           <SubmitButton
             title="Register Now - It's Free"
-            className="w-full rounded-full h-12 text-base font-bold"
+            className="w-full rounded-full h-12  font-semibold"
           />
         </div>
         <div className="mt-4">
-          <p className="text-[11px] text-gray-400 font-medium text-center">
+          <p className="text-[#637381] text-sm lg:text-base font-semibold text-center">
             Already have an account yet?
             <Link
               href={`/${lang}/provider-login`}

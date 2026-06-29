@@ -19,37 +19,37 @@ const PARTNER_FEATURES: FeatureCard[] = [
     id: 1,
     title: "Reach New Customers",
     description: "Connect with people actively looking for local experiences.",
-    iconPath: <ReachNewCustomer size={24} />,
+    iconPath: <ReachNewCustomer size={40} />,
   },
   {
     id: 2,
     title: "Increase Local Visibility",
     description: "Appear in searches, categories, and city recommendations.",
-    iconPath: <IncressLocal size={24} />,
+    iconPath: <IncressLocal size={40} />,
   },
   {
     id: 3,
     title: "Fill Quiet Periods",
     description: "Promote offers during slower business hours.",
-    iconPath: <FillQuite size={24} />,
+    iconPath: <FillQuite size={40} />,
   },
   {
     id: 4,
     title: "Build Customer Loyalty",
     description: "Turn first-time visitors into returning customers.",
-    iconPath: <Love size={24} />,
+    iconPath: <Love size={40} />,
   },
   {
     id: 5,
     title: "Easy Deal Management",
     description: "Create and manage offers from a simple dashboard.",
-    iconPath: <EasyDeal />,
+    iconPath: <EasyDeal size={40} />,
   },
   {
     id: 6,
     title: "Performance-Based Growth",
     description: "Generate revenue through targeted campaigns.",
-    iconPath: <Performance size={24} />,
+    iconPath: <Performance size={40} />,
   },
 ];
 
@@ -59,10 +59,10 @@ export default function WhyBusiness() {
       <Container>
         {/* --- HEADER BLOCK --- */}
         <div className="text-center max-w-3xl mx-auto space-y-3 mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-[40px] font-extrabold text-[#1F2937] tracking-tight">
+          <h2 className="text-xl md:text-4xl lg:text-[48px] font-bold text-[#1F2937] tracking-tight">
             Why businesses partner with us
           </h2>
-          <p className="text-[#6B7280] text-sm sm:text-base font-normal tracking-wide">
+          <p className="text-[#6B7280] text-sm lg:text-lg font-semibold">
             A modern toolkit designed to grow revenue without growing fixed
             costs
           </p>
@@ -77,16 +77,16 @@ export default function WhyBusiness() {
               className="flex gap-5 bg-white p-5 rounded-3xl items-center"
             >
               {/* Soft Teal Rounded Decorative Icon Container */}
-              <div className="w-12 h-12 rounded-full bg-[#2DE2EA]/10 flex items-center justify-center text-[#0E6A70]">
+              <div className="p-4 rounded-full bg-[#2DE2EA]/10 flex items-center justify-center text-[#0E6A70]">
                 {feature.iconPath}
               </div>
 
               {/* Text Layout blocks */}
               <div className="space-y-2">
-                <h3 className="text-lg font-bold text-[#111827] tracking-tight">
+                <h3 className="text-xl lg:text-2xl font-bold text-[#111827] tracking-tight">
                   {feature.title}
                 </h3>
-                <p className="text-sm  text-[#4B5563] font-normal leading-relaxed">
+                <p className="text-[#454F5B] font-normal leading-relaxed">
                   {feature.description}
                 </p>
               </div>
