@@ -28,7 +28,7 @@ export default function Overview({ description, highlights }: Product) {
           {highlights?.map((h) => (
             <div
               key={h.id}
-              className="bg-[#FAFAFA] border border-gray-100 rounded-xl p-4  gap-3"
+              className="bg-[#DFE3E833] border border-gray-100 rounded-xl p-4  gap-3"
             >
               <Batch />
               <span className="text-sm text-gray-700 leading-snug">

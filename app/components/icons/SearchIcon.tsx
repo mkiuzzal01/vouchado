@@ -1,9 +1,9 @@
 interface props {
   color?: string;
-  size?: string;
+  size?: number;
 }
 
-export default function SearchIcon({ color = "#637381 ", size = "28" }: props) {
+export default function SearchIcon({ color = "#637381 ", size = 28 }: props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -1,5 +1,5 @@
 "use client";
-
+``;
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 import { Controller, useFormContext } from "react-hook-form";
 
@@ -22,6 +23,7 @@ type Props = {
   placeholder?: string;
   options: Option[];
   required?: boolean;
+  className?: string;
 };
 
 export default function SelectInput({
@@ -30,6 +32,7 @@ export default function SelectInput({
   placeholder = "Select an option...",
   options,
   required,
+  className,
 }: Props) {
   const {
     control,
@@ -39,7 +42,7 @@ export default function SelectInput({
   const errorMessage = errors?.[name]?.message as string | undefined;
 
   return (
-    <div className="w-full space-y-1">
+    <div className={cn(`w-full space-y-1 ${className}`)}>
       {/* Label */}
       {label && (
         <Label htmlFor={name} className="text-sm font-medium text-gray-600">
@@ -47,7 +50,6 @@ export default function SelectInput({
         </Label>
       )}
 
-      {/* Select */}
       <Controller
         name={name}
         control={control}

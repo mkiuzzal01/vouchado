@@ -37,26 +37,27 @@ import InstantConfirm from "@/app/components/icons/InstantConfirm";
 import SecurePayment from "@/app/components/icons/SecurePayment";
 import { ProductMetrics } from "./ProductMetrics";
 import VouchadoCount from "./VouchadoCount";
+import GiftVoucher from "./GiftVoucher";
 
 export const promos = [
   {
-    title: "Best Price Guarantee",
-    description: "Vouchado Deals are always 20% cheaper and MORE!",
+    title: "Vouchado Guarantee",
+    description: "Always save 20% and MORE!",
     icon: <Save />,
-  },
-  {
-    title: "Easy & Secure Booking",
-    description: "Your data is safe with us.",
-    icon: <SecurePayment />,
   },
   {
     title: "Instant Confirmation",
     description: "Book & get confirmed instantly.",
+    icon: <SecurePayment />,
+  },
+  {
+    title: "Secure Payments",
+    description: "100% secure and protected.",
     icon: <InstantConfirm />,
   },
   {
-    title: "In Person Support",
-    description: "We're here to help anytime.",
+    title: "24/7 Support",
+    description: "In person support - no chatboot",
     icon: <Contact />,
   },
 ];
@@ -139,7 +140,7 @@ export default function ItemDetails({ slug, lang }: Props) {
     <section className="w-full  min-h-screen py-6 md:py-10 selection:bg-[#2BC4CA]/20">
       <Container>
         {/* --- TWO-COLUMN MASTER CONTENT TRACK GRID --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
           <div className="lg:col-span-7 space-y-8  rounded-2xl ">
             {/* Header Content Info Block */}
             <div className="space-y-3">
@@ -307,12 +308,20 @@ export default function ItemDetails({ slug, lang }: Props) {
 
               {/* Action Routes Button Modules */}
               <div className="space-y-2.5 pt-1">
-                <Button
-                  onClick={() => handleAddToCart()}
-                  className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg  transition-all active:scale-[0.99]"
-                >
-                  {productIsInCart ? "Remove From Cart" : "Add to Cart"}
-                </Button>
+                {productIsInCart ? (
+                  <Link href={`/${lang}/cart`}>
+                    <Button className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg  transition-all active:scale-[0.99]">
+                      View Cart
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button
+                    onClick={() => handleAddToCart()}
+                    className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg  transition-all active:scale-[0.99]"
+                  >
+                    Add to Cart
+                  </Button>
+                )}
                 <Button
                   onClick={() => handleAddToWishlist()}
                   variant="ghost"
@@ -356,6 +365,7 @@ export default function ItemDetails({ slug, lang }: Props) {
             </div>
             <ProductLocation />
             <VouchadoCount />
+            {/* <GiftVoucher /> */}
           </div>
         </div>
         <SimilarItem lang={lang} />

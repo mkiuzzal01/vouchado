@@ -3,6 +3,7 @@ import Filtered from "@/app/components/forms/quires/Filtered";
 import FilterWithCategory from "@/app/components/forms/quires/FilterWithCategory";
 import ModernSearch from "@/app/components/forms/quires/ModernSearch";
 import ReusablePagination from "@/app/components/forms/quires/ReusablePagination";
+import Sort from "@/app/components/forms/quires/Sort";
 import PromoSteps from "@/app/components/hero/PromoSteps";
 import Contact from "@/app/components/icons/Contact";
 import InstantConfirm from "@/app/components/icons/InstantConfirm";
@@ -43,15 +44,16 @@ export default async function page({ params }: Props) {
   return (
     <div>
       <Container>
-        <ModernSearch buttonClass="text-[#1ec6cc] font-semibold bg-[#1ec6cc]/10 hover:bg-[#1ec6cc]/30" />
+        <ModernSearch />
         <div className="mt-8">
           <FilterWithCategory />
         </div>
         <div className="flex flex-col lg:flex-row gap-2 mt-4">
-          <div className="w-full lg:w-1/4">
+          <div className="w-full lg:w-1/5">
             <Filtered />
           </div>
-          <div className="flex flex-col gap-2 w-full lg:w-3/4">
+          <div className="flex flex-col gap-2 w-full lg:w-4/5">
+            <Sort />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-3 gap-4">
               {productItems.map((deal, index) => (
                 <ProductCard

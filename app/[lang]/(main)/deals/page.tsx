@@ -51,10 +51,10 @@ export default async function page({ params }: Props) {
         <FilterWithCategory />
       </div>
       <div className="flex flex-col lg:flex-row gap-2 mt-4">
-        <div className="w-full lg:w-1/4">
+        <div className="w-full lg:w-1/5">
           <Filtered />
         </div>
-        <div className="flex flex-col gap-2 w-full lg:w-3/4">
+        <div className="flex flex-col gap-2 w-full lg:w-4/5">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-3 gap-4">
             {productItems.map((product, index) => (
               <ProductCard

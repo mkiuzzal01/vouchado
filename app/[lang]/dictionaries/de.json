@@ -55,7 +55,7 @@
   },
   "nav": {
     "home": "Startseite",
-    "offers": "Angebote",
+    "deals": "Deals",
     "nearby": "In der Nähe",
     "how_it_works": "So funktioniert's",
     "for_business": "Für Unternehmen",
@@ -73,7 +73,7 @@
     "links": {
       "wishlist": "Wunschliste",
       "category": "Kategorie",
-      "offers": "Angebote",
+      "deals": "Deals",
       "faq": "FAQ",
       "contact_us": "Kontakt",
       "privacy_policy": "Datenschutzrichtlinie",

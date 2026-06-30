@@ -91,7 +91,6 @@ export default function Footer({ footerLinks }: FooterLinks) {
                       href="#"
                       className={cn(
                         "size-9 flex items-center justify-center rounded-full bg-[#212B36] text-white",
-                        "transition hover:bg-white hover:text-black",
                       )}
                     >
                       <Icon size={14} />

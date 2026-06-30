@@ -55,7 +55,7 @@ export default function MegaMenu({
     <>
       {/* ================= DESKTOP ================= */}
       <NavigationMenu className="hidden xl:block w-full">
-        <NavigationMenuList className="flex items-center gap-2 xl:gap-1 2xl:gap-2">
+        <NavigationMenuList className="flex items-center gap-2 xl:gap-1 2xl:gap-8">
           {/* HOME */}
           {/* <NavigationMenuItem>
             <NavigationMenuLink
@@ -108,20 +108,22 @@ export default function MegaMenu({
           </NavigationMenuItem>
 
           {/* LINKS */}
-          {navLinks.map((item: any) => (
-            <NavigationMenuItem key={item.href}>
-              <NavigationMenuLink
-                href={item.href}
-                className={`px-3 xl:px-1.5 2xl:px-3 rounded-none  text-xs lg:text-sm xl:text-xs 2xl:text-base font-medium transition ${
-                  isActive(item.href)
-                    ? "border-b-2 border-[#2EC4C6] text-black"
-                    : "hover:border-b-2 hover:border-[#2EC4C6]"
-                }`}
-              >
-                {item.title}
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          ))}
+          <div className="flex">
+            {navLinks.map((item: any) => (
+              <NavigationMenuItem key={item.href}>
+                <NavigationMenuLink
+                  href={item.href}
+                  className={`px-3 xl:px-1.5 2xl:px-3 rounded-none  text-xs lg:text-sm xl:text-xs 2xl:text-base font-medium transition ${
+                    isActive(item.href)
+                      ? "border-b-2 border-[#2EC4C6] text-black"
+                      : "hover:border-b-2 hover:border-[#2EC4C6]"
+                  }`}
+                >
+                  {item.title}
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
+          </div>
 
           {/* LOCATION */}
           <NavigationMenuItem>

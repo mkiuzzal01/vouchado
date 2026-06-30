@@ -62,7 +62,7 @@ export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
 
               <h5 className="text-xl font-bold text-gray-900">{rev.name}</h5>
 
-              <p className="text-xs text-gray-600 leading-relaxed line-clamp-4">
+              <p className="text-base font-normal text-gray-600">
                 "{rev.comment}"
               </p>
             </div>

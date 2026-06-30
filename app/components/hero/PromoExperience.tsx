@@ -43,7 +43,7 @@ export default function PromoExperience({ lang }: Props) {
               </button>
             </Link>
 
-            <Link href={`/${lang}/provider`}>
+            <Link href={`/${lang}/provider-login`}>
               <button className="rounded-full border border-white px-10 py-4  font-semibold text-white transition hover:bg-white/10">
                 Become a Partner
               </button>

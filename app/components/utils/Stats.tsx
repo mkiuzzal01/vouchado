@@ -39,7 +39,7 @@ export default function Stats() {
 
   return (
     <section className="relative w-full z-20 -bottom-24">
-      <Container className="bg-white rounded-[24px] xl:rounded-[40px] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100/50 p-5 md:p-6 lg:p-8 xl:py-[32px] xl:px-4 shadow-2xl shadow-gray-200">
+      <div className="bg-white rounded-[24px] xl:rounded-[40px] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100/50 p-5 md:p-6 lg:p-8 xl:py-[32px] xl:px-4 shadow-2xl shadow-gray-200">
         <div className="flex flex-wrap xl:flex-nowrap items-center justify-center xl:justify-between w-full xl:divide-x divide-gray-200/80 gap-y-6 md:gap-y-8 lg:gap-y-10 xl:gap-y-0 gap-x-2 md:gap-x-4 lg:gap-x-6 xl:gap-x-0">
           {stats.map((stat, index) => (
             <div
@@ -91,7 +91,7 @@ export default function Stats() {
             </AvatarGroup>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

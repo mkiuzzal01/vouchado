@@ -13,6 +13,7 @@ import Chat from "../icons/Chat";
 import { usePathname } from "next/navigation";
 import Cart from "../icons/Cart";
 import WishList from "../icons/WishList";
+import Voucher from "../icons/Voucher";
 
 interface Props {
   lang: string;
@@ -83,18 +84,39 @@ export default function Navbar({
 
             {/* Auth */}
             <div className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full lg:bg-[#F4F6F8] lg:border lg:p-1 xl:p-0.5 2xl:p-1">
-              <Link
-                href={`/${lang}/wishlist`}
-                className="flex h-10 w-7 lg:w-10 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 items-center justify-center rounded-full bg-white hover:bg-gray-200 transition"
-              >
-                <WishList className="size-5 lg:size-6 xl:size-4 2xl:size-6" />
-              </Link>
-              <Link
-                href={`/${lang}/cart`}
-                className="flex h-10 w-7 lg:w-10 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 items-center justify-center rounded-full bg-white hover:bg-gray-200 transition"
-              >
-                <Cart className="size-5 lg:size-6 xl:size-4 2xl:size-6" />
-              </Link>
+              <div className="bg-white rounded-full">
+                <Link
+                  href={`/${lang}/wishlist`}
+                  className={`flex h-10 w-7 lg:w-10 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/wishlist") && "bg-[#2EC4C6]"}`}
+                >
+                  <WishList
+                    color={path.includes("/wishlist") ? "white" : "#292D32"}
+                    className="size-5 lg:size-6 xl:size-4 2xl:size-6"
+                  />
+                </Link>
+              </div>
+              <div className="bg-white rounded-full">
+                <Link
+                  href={`/${lang}/coupons`}
+                  className={`flex h-10 w-7 lg:w-10 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/coupons") && "bg-[#2EC4C6]"}`}
+                >
+                  <Voucher
+                    color={path.includes("/coupons") ? "white" : "#292D32"}
+                  />
+                </Link>
+              </div>
+              <div className="bg-white rounded-full">
+                <Link
+                  href={`/${lang}/cart`}
+                  className={`flex h-10 w-7 lg:w-10 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/cart") && "bg-[#2EC4C6]"}`}
+                >
+                  <Cart
+                    color={path.includes("/cart") ? "white" : "#292D32"}
+                    className="size-5 lg:size-6 xl:size-4 2xl:size-6"
+                  />
+                </Link>
+              </div>
+
               {token ? (
                 <UserDropdown lang={lang} />
               ) : (

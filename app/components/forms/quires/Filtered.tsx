@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useEffect, useState, useTransition, useRef } from "react";
+import { useEffect, useState, useTransition, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Slider } from "@/components/ui/slider";
 
-// Configuration constants matched precisely with your visual layout mocks
 const MAX_RANGE = 250;
 const DEFAULT_MIN = 50;
 const DEFAULT_MAX = 200;
@@ -117,7 +116,6 @@ export default function Filtered() {
     setAvailability([]);
   };
 
-  // Determine if parameters vary from initial load conditions
   const hasActiveFilters =
     minPrice !== DEFAULT_MIN ||
     maxPrice !== DEFAULT_MAX ||
@@ -126,7 +124,7 @@ export default function Filtered() {
     availability.length > 0;
 
   return (
-    <div className="sticky top-12 z-10 w-full bg-white lg:max-w-[340px] rounded-3xl border border-slate-100 p-6">
+    <div className="sticky top-12 z-10 w-full bg-white lg:max-w-[340px] rounded-2xl border border-slate-100 p-6">
       {/* Title Header */}
       <div className="text-[17px] font-semibold text-[#1F2E3D] pb-4 border-b border-slate-100 flex items-center justify-between">
         <span>Filters</span>

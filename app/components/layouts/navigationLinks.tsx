@@ -146,7 +146,7 @@ export const getServices = async (lang: string): Promise<INavbar[]> => {
 export const getNavLinks = async (lang: string) => {
   const dict = await getDictionary(lang);
   return [
-    { title: dict.nav?.offers || "Offers", href: `/${lang}/offers` },
+    { title: dict.nav?.deals || "Deals", href: `/${lang}/deals` },
     { title: dict.nav?.nearby || "Nearby", href: `/${lang}/nearby` },
     {
       title: dict.nav?.how_it_works || "How it works",
@@ -170,8 +170,8 @@ export const footerLinks = async (lang: string) => {
         href: `/${lang}/wishlist`,
       },
       {
-        title: dict.footer?.links?.offers || "Offers",
-        href: `/${lang}/offers`,
+        title: dict.footer?.links?.deals || "Deals",
+        href: `/${lang}/deals`,
       },
       {
         title: dict.footer?.links?.contact_us || "Contact us",

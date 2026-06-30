@@ -1,4 +1,5 @@
 import Container from "@/app/components/shared/Container";
+import Image from "next/image";
 import Link from "next/link";
 
 interface props {
@@ -6,6 +7,21 @@ interface props {
 }
 
 export default function PromoContact({ lang }: props) {
+  const partnerAvatars = [
+    {
+      src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80",
+      alt: "Vouchado partner business owner avatar female",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
+      alt: "Vouchado partner business owner avatar male",
+    },
+    {
+      src: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=100&q=80",
+      alt: "Vouchado partner business owner avatar executive",
+    },
+  ];
+
   return (
     <section className="w-full bg-white py-12 px-4 sm:px-8">
       <Container>
@@ -13,7 +29,7 @@ export default function PromoContact({ lang }: props) {
         <div className="w-full rounded-[24px] bg-[#EAF5F6] border border-[#2DE2EA] px-8 py-10 md:py-12 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 shadow-sm">
           {/* LEFT CONTENT BLOCK: Headings & Text */}
           <div className="space-y-3 text-left max-w-3xl">
-            <h2 className="text-2xl font-semibold  sm:text-3xl md:text-[34px]  text-[#0E6A70]">
+            <h2 className="text-2xl font-semibold sm:text-3xl md:text-[34px] text-[#0E6A70]">
               Grow Your Business with VOUCHADO
             </h2>
             <p className="text-[#4A6B6C] max-w-2xl">
@@ -34,23 +50,18 @@ export default function PromoContact({ lang }: props) {
 
             {/* Social Proof Trust Layer */}
             <div className="flex items-center gap-3">
-              {/* Overlapping Avatar Group Stack */}
+              {/* Overlapping Avatar Group Stack mapped from Array */}
               <div className="flex -space-x-2.5 overflow-hidden">
-                <img
-                  className="inline-block h-8 w-8 rounded-full ring-2 ring-[#EAF5F6] object-cover"
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
-                  alt="Vouchado partner business owner avatar"
-                />
-                <img
-                  className="inline-block h-8 w-8 rounded-full ring-2 ring-[#EAF5F6] object-cover"
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
-                  alt="Vouchado partner business owner avatar"
-                />
-                <img
-                  className="inline-block h-8 w-8 rounded-full ring-2 ring-[#EAF5F6] object-cover"
-                  src="https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=100&q=80"
-                  alt="Vouchado partner business owner avatar"
-                />
+                {partnerAvatars.map((avatar, index) => (
+                  <Image
+                    key={index}
+                    className="inline-block h-8 w-8 rounded-full ring-2 ring-[#EAF5F6] object-cover"
+                    src={avatar.src}
+                    alt={avatar.alt}
+                    width={32}
+                    height={32}
+                  />
+                ))}
               </div>
 
               {/* Text Descriptor Label */}

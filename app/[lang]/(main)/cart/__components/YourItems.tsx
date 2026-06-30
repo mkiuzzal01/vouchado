@@ -34,7 +34,7 @@ export default function YourItems({ lang }: Props) {
 
   return (
     <div>
-      <div className="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
+      <div className="bg-white rounded-2xl p-4 ">
         <div className="flex justify-between items-center pb-4 mb-4 border-b border-slate-100">
           <h2 className="text-xl font-bold text-slate-900">
             Your Items ({items?.length})
@@ -68,7 +68,7 @@ export default function YourItems({ lang }: Props) {
           <Button
             variant="outline"
             onClick={onContinueShopping}
-            className="w-full sm:w-auto rounded-full border-[#31BFC8] text-[#31BFC8] hover:border-[#31BFC8] hover:bg-[#31BFC8]/10 hover:text-[#31BFC8] font-semibold px-6 transition-colors"
+            className="w-full sm:w-auto rounded-full border-2 bg-transparent border-[#31BFC8] text-[#31BFC8] hover:border-[#31BFC8] hover:bg-[#31BFC8]/10 hover:text-[#31BFC8] font-semibold p-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Continue Shopping

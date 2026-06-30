@@ -25,7 +25,7 @@ export default function Steps() {
 
   return (
     <Container>
-      <div className="rounded-3xl bg-[#F4F6F8] border border-gray-300 mt-32">
+      <div className="rounded-3xl bg-gray-200/20 border border-gray-300 mt-44">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 p-6">
           {steps.map((step, idx) => (
             <div key={idx} className="relative flex items-center gap-5">

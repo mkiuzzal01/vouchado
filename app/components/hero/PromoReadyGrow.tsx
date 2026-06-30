@@ -51,7 +51,7 @@ export default function PromoReadyGrow({ lang }: Props) {
         {/* RIGHT SIDE: Action Buttons Block */}
         <div className="relative z-10 flex flex-col gap-3.5 w-full sm:w-auto shrink-0 ">
           {/* Primary Action Button */}
-          <Link href={`/${lang}/provider`} className="w-full sm:w-auto">
+          <Link href={`/${lang}/provider-login`} className="w-full sm:w-auto">
             <button className="w-full bg-[#49c2c9] hover:bg-[#3db3ba] text-white font-semibold text-sm sm:text-base px-6 py-3.5 rounded-full active:scale-[0.99] transition-all duration-200 shadow-sm flex items-center justify-center gap-2 group whitespace-nowrap">
               <span>Become a Partner</span>
               <svg

@@ -1,12 +1,10 @@
 import RedeemForm from "@/app/components/forms/RedeemForm";
-import FreeCancellation from "@/app/components/icons/FreeCancellation";
-import InstantConfirm from "@/app/components/icons/InstantConfirm";
-import SecurePayment from "@/app/components/icons/SecurePayment";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
-import { Award, Clock, ShieldCheck, Coins } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import TrustSection from "./TrustSection";
+import OrderSummery from "@/app/components/icons/OrderSummery";
 
 export default function OrderSummary() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,47 +19,46 @@ export default function OrderSummary() {
   const vatAmount = subTotal * vatRate;
 
   return (
-    <div className="w-full max-w-md flex flex-col gap-4 font-sans">
+    <div className="w-full max-w-md flex flex-col gap-4">
       {/* Main Order Summary Card */}
-      <div className="w-full bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+      <div className="w-full bg-white p-6 rounded-2xl">
         {/* Header */}
         <div className="flex items-center gap-2 mb-6">
-          <div className="text-[#2bb3bb]">
-            <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 6H7V6h10v2zm0 4H7v-2h10v2zm0 4H7v-2h10v2z" />
-            </svg>
-          </div>
-
-          <h2 className="text-xl font-bold text-gray-800">Order Summary</h2>
+          <OrderSummery />
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Order Summary
+          </h2>
         </div>
 
         {/* Pricing Breakdown */}
         <div className="space-y-4 mb-6">
           <div className="flex justify-between items-center">
-            <span className="text-gray-600 font-medium">
+            <span className="text-gray-600 text-xl font-medium">
               Items ({totalItems})
             </span>
 
-            <span className="font-bold text-gray-800">
+            <span className="font-bold text-xl text-gray-800">
               € {subTotal.toFixed(2)}
             </span>
           </div>
 
           <div className="flex justify-between items-center">
-            <span className="text-gray-600 font-medium">
+            <span className="text-gray-600 text-xl font-medium">
               VAT ({(vatRate * 100).toFixed(0)}%)
             </span>
 
-            <span className="font-bold text-gray-800">
+            <span className="font-bold text-xl text-gray-800">
               € {vatAmount.toFixed(2)}
             </span>
           </div>
 
           {couponDiscount > 0 && (
             <div className="flex justify-between items-center">
-              <span className="text-gray-600 font-medium">Coupon Discount</span>
+              <span className="text-gray-600 text-xl font-medium">
+                Coupon Discount
+              </span>
 
-              <span className="font-bold text-red-500">
+              <span className="font-bold text-xl text-red-500">
                 -€ {couponDiscount.toFixed(2)}
               </span>
             </div>
@@ -69,13 +66,13 @@ export default function OrderSummary() {
         </div>
 
         {/* Divider */}
-        <hr className="border-gray-100 mb-6" />
+        <hr className="border-gray-400 mb-6" />
 
         {/* Total */}
         <div className="flex justify-between items-center mb-6">
-          <span className="text-lg font-medium text-gray-600">Total</span>
+          <span className="text-xl font-medium text-gray-600">Total</span>
 
-          <span className="text-xl font-extrabold text-gray-900">
+          <span className="text-xl font-extrabold text-gray-800">
             € {totalPrice.toFixed(2)}
           </span>
         </div>
@@ -93,7 +90,7 @@ export default function OrderSummary() {
 
           <button
             onClick={() => setIsOpen(true)}
-            className="bg-[#2bb3bb] hover:bg-[#239aa1] text-white text-xs font-semibold px-3 py-2 rounded-xl transition-colors"
+            className="bg-[#2bb3bb] hover:bg-[#239aa1] text-white text-xs font-semibold px-3 py-2 rounded-full"
           >
             Redeem Points
           </button>
@@ -121,66 +118,10 @@ export default function OrderSummary() {
             Proceed to Checkout
           </button>
         </Link>
+        {/* Trust Section */}
+        <TrustSection totalPrice={totalPrice} />
       </div>
 
-      {/* Trust Section */}
-      <div className="bg-white rounded-2xl">
-        <div className="w-full p-6 flex flex-col gap-5">
-          <div className="flex items-start gap-4">
-            <div className="text-[#2bb3bb] mt-0.5">
-              <InstantConfirm />
-            </div>
-
-            <div>
-              <h4 className="font-bold text-gray-800">Best Price Guarantee</h4>
-
-              <p className="text-sm text-gray-500">
-                Find a better price? We'll match it.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="text-[#2bb3bb] mt-0.5">
-              <FreeCancellation />
-            </div>
-
-            <div>
-              <h4 className="font-bold text-gray-800">Free Cancellation</h4>
-
-              <p className="text-sm text-gray-500">
-                Cancel up to 24 hours before your visit for a full refund.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-4">
-            <div className="text-[#2bb3bb] mt-0.5">
-              <SecurePayment />
-            </div>
-
-            <div>
-              <h4 className="font-bold text-gray-800">Secure Payments</h4>
-
-              <p className="text-sm text-gray-500">
-                Your payment information is 100% secure.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full px-6 py-4 flex items-center gap-3">
-          <div className="text-[#10b981] bg-emerald-50 p-1.5 rounded-full">
-            <Coins size={20} />
-          </div>
-
-          <p className="text-[15px] font-semibold text-gray-600">
-            You'll earn{" "}
-            <span className="text-[#2bb3bb]">{Math.floor(totalPrice)}</span>{" "}
-            points with this purchase
-          </p>
-        </div>
-      </div>
       <ModalContainer
         title="Redeem Your Loyalty Points"
         isOpen={isOpen}

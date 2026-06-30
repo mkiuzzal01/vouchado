@@ -12,7 +12,7 @@ interface Props {
 export default function SimilarItem({ lang }: Props) {
   return (
     <div className="py-6 md:py-10">
-      <h1 className="text-xl font-bold text-gray-900 tracking-tight mb-6">
+      <h1 className="text-2xl font-semibold text-gray-800 mb-6">
         Similar Experiences
       </h1>
 

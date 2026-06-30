@@ -1,6 +1,6 @@
 "use client";
 
-import { MapPin, Zap, RefreshCw, X } from "lucide-react";
+import { MapPin, X } from "lucide-react";
 import Image from "next/image";
 import product_cart from "@/public/services/service_details.png";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,9 @@ import {
 import ItemCounter from "./ItemCounter";
 import { ICartItem } from "@/redux/features/cart/cart.slice";
 import Link from "next/link";
+import Instant from "@/app/components/icons/Instant";
+import DaysCancellation from "@/app/components/icons/DaysCancellation";
+import CartItemLocation from "@/app/components/icons/CartItemLocation";
 
 interface ItemCardProps {
   item: ICartItem;
@@ -54,34 +57,36 @@ export default function ItemCard({ item, lang }: ItemCardProps) {
       </div>
 
       {/* 3. Core Details Context Section */}
-      <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5 pr-4">
-        <div>
+      <div className="flex-1 flex flex-col justify-between">
+        <div className="space-y-4">
           <Link href={`/${lang}/view/${item?.id}`}>
-            <h3 className="text-base md:text-xl font-bold text-slate-900 hover:text-primary tracking-tight line-clamp-2 leading-snug">
+            <h3 className="text-base md:text-xl lg:text-[32px] font-semibold text-slate-900 hover:text-primary tracking-tight line-clamp-2 leading-snug">
               {item.title}
             </h3>
           </Link>
 
           {item.tagline && (
-            <p className="text-xs md:text-sm font-medium text-slate-500 mt-1 line-clamp-1">
+            <p className="text-xs md:text-sm lg:text-xl font-medium text-gray-500 mt-1 line-clamp-1">
               {item.tagline}
             </p>
           )}
 
-          <div className="flex items-center gap-1.5 text-xs text-slate-500 mt-2 font-medium">
-            <MapPin size={13} className="text-slate-400 shrink-0" />
-            <span className="line-clamp-1 text-slate-600">{item.location}</span>
+          <div className="flex items-center gap-1.5 text-xs text-gray-500 mt-2 font-medium">
+            <CartItemLocation />
+            <span className="text-base lg:text-xl font-semibold text-gray-600">
+              {item.location}
+            </span>
           </div>
         </div>
 
         {/* Informative Value Badges */}
-        <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-xs font-medium text-slate-500 mt-3 md:mt-2">
-          <div className="flex items-center gap-1 text-slate-600">
-            <Zap size={13} className="text-[#2BC4CA]" />
+        <div className="flex gap-4 mt-6">
+          <div className="text-xl flex items-center gap-1 text-gray-600">
+            <Instant size={20} />
             Instant Confirmation
           </div>
-          <div className="flex items-center gap-1 text-slate-600">
-            <RefreshCw size={13} className="text-emerald-500" />
+          <div className="text-xl flex items-center gap-1 text-gray-600">
+            <DaysCancellation size={20} />
             Free Cancellation
           </div>
         </div>

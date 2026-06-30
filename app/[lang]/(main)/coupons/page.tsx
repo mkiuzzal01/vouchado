@@ -2,7 +2,7 @@ import PageHero from "@/app/components/hero/PageHero";
 import QRCode from "@/app/components/icons/QRCode";
 import UsedVoucher from "@/app/components/icons/UsedVoucher";
 import Container from "@/app/components/shared/Container";
-import Promotions from "@/public/cart/coupons.png";
+import Promotions from "@/public/section-headers/Hero Section (3).png";
 import { Info, RotateCw } from "lucide-react";
 
 export default function Page() {
@@ -17,14 +17,9 @@ export default function Page() {
 
   return (
     <div>
-      <PageHero
-        backgroundImage={Promotions.src}
-        title="Voucher"
-        description="Your vouchers are stored securely here for easy access when you need them."
-      />
-
-      <Container>
-        <div className="py-4">
+      <PageHero backgroundImage={Promotions.src} title="Voucher" />
+      <Container className="my-20">
+        <div className="w-full lg:max-w-7xl mx-auto ">
           {/* Title */}
           <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
             <UsedVoucher />
@@ -36,64 +31,68 @@ export default function Page() {
             {vouchers.map((voucher, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-100 rounded-2xl  flex flex-col md:flex-row items-stretch overflow-hidden"
+                className="bg-white border border-gray-100 rounded-2xl flex flex-col md:flex-row overflow-hidden"
               >
-                {/* Left Content Area - Key-Value Structure matching image_30a065.png */}
-                <div className="flex-1 pt-6 pb-6 pl-6 pr-4 md:pt-6 md:pb-6 md:pl-12 md:pr-12 flex flex-col justify-between gap-4 text-xs font-medium text-slate-500">
-                  {/* Row 1: Voucher ID & Qty */}
-                  <div className="flex justify-between items-start">
+                {/* Left Content */}
+                <div className="flex-1 p-5 md:pt-6 md:pb-6 md:pl-12 md:pr-12 flex flex-col gap-5">
+                  {/* Voucher ID & Qty */}
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
                     <div>
-                      <span className="block text-[11px] font-semibold text-slate-600 mb-0.5">
+                      <span className="block text-sm md:text-lg font-semibold text-slate-600 mb-1">
                         Voucher ID
                       </span>
-                      <span className="text-base font-bold text-slate-950">
+                      <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 break-all">
                         {voucher.id}
                       </span>
                     </div>
-                    <div className="text-right">
-                      <span className="block text-[11px] font-semibold text-slate-600 mb-0.5">
+
+                    <div className="sm:text-right">
+                      <span className="block text-sm md:text-lg font-semibold text-gray-600 mb-1">
                         Qty
                       </span>
-                      <span className="text-base font-bold text-slate-950">
+                      <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">
                         {voucher.qty}
                       </span>
                     </div>
                   </div>
 
-                  {/* Row 2: Deal Name */}
-                  <div className="flex justify-between items-start gap-6">
-                    <span className="block text-[11px] font-semibold text-slate-600 shrink-0 pt-0.5">
+                  {/* Deal Name */}
+                  <div className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-6">
+                    <span className="text-sm md:text-lg font-semibold text-gray-600 shrink-0">
                       Deal Name
                     </span>
-                    <p className="flex-1 text-right text-slate-800 font-semibold leading-relaxed max-w-md">
+
+                    <p className="text-sm sm:text-base md:text-lg text-gray-800 font-semibold md:text-right md:max-w-md">
                       {voucher.dealName}
                     </p>
                   </div>
 
-                  {/* Row 3: Payment */}
-                  <div className="flex justify-between items-center">
-                    <span className="block text-[11px] font-semibold text-slate-600">
+                  {/* Payment */}
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
+                    <span className="text-sm md:text-lg font-semibold text-gray-600">
                       Payment
                     </span>
-                    <span className="text-base font-bold text-slate-950">
+
+                    <span className="text-lg md:text-2xl font-semibold text-gray-950">
                       € {voucher.payment}
                     </span>
                   </div>
 
-                  {/* Row 4: Expire date */}
-                  <div className="flex justify-between items-center">
-                    <span className="block text-[11px] font-semibold text-slate-600">
+                  {/* Expire Date */}
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
+                    <span className="text-sm md:text-lg font-semibold text-gray-600">
                       Expire date
                     </span>
-                    <span className="text-sm font-medium text-slate-950">
+
+                    <span className="text-sm md:text-lg font-medium text-gray-950">
                       {voucher.expiryDate}
                     </span>
                   </div>
                 </div>
 
-                {/* Right QR Code Container */}
-                <div className="flex items-center justify-center p-6 border-t md:border-t-0 md:border-l border-gray-100 bg-gray-50/10 shrink-0">
-                  <div className="p-1 bg-white select-none">
+                {/* QR Code */}
+                <div className="flex items-center justify-center p-5 md:p-6 border-t md:border-t-0 md:border-l border-gray-100 bg-gray-50/10 shrink-0">
+                  <div className="bg-white p-1">
                     <QRCode />
                   </div>
                 </div>
@@ -102,13 +101,13 @@ export default function Page() {
           </div>
 
           {/* Info/Help Banner at bottom */}
-          <div className="mt-8 bg-white border border-gray-100 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-start gap-3">
+          <div className="mt-8 bg-white border border-gray-100 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
               <div className="p-2 bg-teal-50 rounded-xl text-teal-600 mt-0.5 sm:mt-0">
                 <Info className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="font-bold text-gray-900 text-sm">
+                <h4 className="font-bold text-gray-900 text-sm lg:text-2xl">
                   Can't find your coupon?
                 </h4>
                 <p className="text-xs text-gray-500 mt-0.5">
@@ -116,8 +115,8 @@ export default function Page() {
                 </p>
               </div>
             </div>
-            <button className="flex items-center gap-2 px-4 py-2 border border-teal-500 rounded-full text-teal-600 font-medium text-xs hover:bg-teal-50/50 transition bg-white shadow-sm self-end sm:self-auto">
-              <RotateCw className="w-3.5 h-3.5" />
+            <button className="flex items-center gap-2 px-4 py-2 border border-teal-500 rounded-full text-teal-600 font-medium text-sm lg:text-lg hover:bg-teal-50/50 transition bg-white shadow-sm self-end sm:self-auto">
+              <RotateCw className="w-5 h-5" />
               Refresh
             </button>
           </div>

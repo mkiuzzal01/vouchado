@@ -1,38 +1,58 @@
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
-interface props {
+interface Props {
   color?: string;
   className?: string;
+  size?: number;
 }
 
-export default function Cart({ color = "#212B36", className="" }: props) {
+export default function Cart({
+  color = "#212B36",
+  className = "",
+  size = 24,
+}: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
       viewBox="0 0 24 24"
-      className={cn("size-6", className)}
       fill="none"
+      className={cn(className)}
     >
       <path
-        d="M8.40002 6.5H15.6C19 6.5 19.34 8.09 19.57 10.03L20.47 17.53C20.76 19.99 20 22 16.5 22H7.51003C4.00003 22 3.24002 19.99 3.54002 17.53L4.44003 10.03C4.66003 8.09 5.00002 6.5 8.40002 6.5Z"
+        d="M8 16L16.7201 15.2733C19.4486 15.046 20.0611 14.45 20.3635 11.7289L21 6"
         stroke={color}
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth={1.5}
+        strokeLinecap="round"
       />
       <path
-        d="M8 8V4.5C8 3 9 2 10.5 2H13.5C15 2 16 3 16 4.5V8"
+        d="M6 6H22"
         stroke={color}
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth={1.5}
+        strokeLinecap="round"
       />
       <path
-        d="M20.41 17.03H8"
+        d="M6 22C7.10457 22 8 21.1046 8 20C8 18.8954 7.10457 18 6 18C4.89543 18 4 18.8954 4 20C4 21.1046 4.89543 22 6 22Z"
         stroke={color}
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth={1.5}
+      />
+      <path
+        d="M17 22C18.1046 22 19 21.1046 19 20C19 18.8954 18.1046 18 17 18C15.8954 18 15 18.8954 15 20C15 21.1046 15.8954 22 17 22Z"
+        stroke={color}
+        strokeWidth={1.5}
+      />
+      <path
+        d="M8 20H15"
+        stroke={color}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+      />
+      <path
+        d="M2 2H2.966C3.91068 2 4.73414 2.62459 4.96326 3.51493L7.93852 15.0765C8.08887 15.6608 7.9602 16.2797 7.58824 16.7616L6.63213 18"
+        stroke={color}
+        strokeWidth={1.5}
+        strokeLinecap="round"
       />
     </svg>
   );
