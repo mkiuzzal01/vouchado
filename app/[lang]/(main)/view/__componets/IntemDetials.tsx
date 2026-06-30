@@ -37,7 +37,9 @@ import InstantConfirm from "@/app/components/icons/InstantConfirm";
 import SecurePayment from "@/app/components/icons/SecurePayment";
 import { ProductMetrics } from "./ProductMetrics";
 import VouchadoCount from "./VouchadoCount";
-import GiftVoucher from "./GiftVoucher";
+import GiftVoucher from "@/app/components/icons/GiftVoucher";
+import ModalContainer from "@/app/components/shared/ModalContainer";
+import GiftVoucherForm from "@/app/components/forms/GiftVoucherForm";
 
 export const promos = [
   {
@@ -68,6 +70,7 @@ interface Props {
 }
 
 export default function ItemDetails({ slug, lang }: Props) {
+  const [openGiftVoucherModal, setOpenGiftVoucherModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const { items } = useAppSelector((state) => state.cart);
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
@@ -140,8 +143,8 @@ export default function ItemDetails({ slug, lang }: Props) {
     <section className="w-full  min-h-screen py-6 md:py-10 selection:bg-[#2BC4CA]/20">
       <Container>
         {/* --- TWO-COLUMN MASTER CONTENT TRACK GRID --- */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 items-start">
-          <div className="lg:col-span-7 space-y-8  rounded-2xl ">
+        <div className="flex gap-20">
+          <div className="w-full lg:min-w-[992px] rounded-2xl ">
             {/* Header Content Info Block */}
             <div className="space-y-3">
               <h1 className="text-2xl md:text-3xl lg:text-[64px] font-bold text-[#212B36] tracking-tight leading-tight">
@@ -150,6 +153,26 @@ export default function ItemDetails({ slug, lang }: Props) {
               <p className="text-[#212B36] text-md sm:text-2xl font-semibold">
                 {product.tagline}
               </p>
+
+              <div className="flex items-center gap-2">
+                <Link href={`/${lang}/provider/provider-profile`}>
+                  <div className="flex items-center gap-2">
+                    <GiftVoucher color="#637381" size={24} />
+
+                    <p className="lg:text-xl text-[#637381] hover:underline">
+                      {product?.gift_voucher}
+                    </p>
+                  </div>
+                </Link>
+                <div>
+                  <button
+                    onClick={() => setOpenGiftVoucherModal(true)}
+                    className="text-[#2BC4CA] underline lg:text-xl cursor-pointer"
+                  >
+                    Buy Gift Voucher
+                  </button>
+                </div>
+              </div>
 
               {/* Dynamic Badging Row */}
               <div className="flex flex-wrap items-center gap-4 pt-1.5">
@@ -227,7 +250,7 @@ export default function ItemDetails({ slug, lang }: Props) {
           {/* ================================================================= */}
           {/* RIGHT SIDEBAR COMPONENT: STICKY CHECKOUT BOOKING CARD (4 / 12 Columns) */}
           {/* ================================================================= */}
-          <div className="lg:col-span-5 lg:sticky lg:top-6 space-y-4">
+          <div className="w-full lg:min-w-[608px]  space-y-4">
             <div className="flex items-center justify-end gap-2">
               <Check />
               <span className="font-medium text-[#2BC4CA]">
@@ -371,6 +394,14 @@ export default function ItemDetails({ slug, lang }: Props) {
         <SimilarItem lang={lang} />
         <PromoSteps steps={promos} />
       </Container>
+
+      <ModalContainer
+        title="Gift Voucher"
+        isOpen={openGiftVoucherModal}
+        onClose={() => setOpenGiftVoucherModal(false)}
+      >
+        <GiftVoucherForm />
+      </ModalContainer>
     </section>
   );
 }

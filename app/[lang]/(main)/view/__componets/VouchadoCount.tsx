@@ -33,9 +33,9 @@ export default function VouchadoCount() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row w-full max-w-[850px] min-h-[180px] rounded-3xl border border-slate-100  overflow-hidden shadow-sm">
+    <div className="flex flex-col md:flex-row w-full  min-h-[144px] rounded-3xl border border-slate-100  overflow-hidden shadow-sm">
       {/* Left side: Background Image Banner with Data Overlays */}
-      <div className="relative flex flex-1 flex-col sm:flex-row items-center gap-6 p-6 text-white min-h-[180px]">
+      <div className="relative flex flex-1 flex-col sm:flex-row items-center gap-6 pt-[15px] pb-[13px] pr-[45px] text-white min-h-[144px]">
         <Image
           src={left_side_image}
           alt="Vouchado banner countdown background"
@@ -45,7 +45,7 @@ export default function VouchadoCount() {
           sizes="(max-width: 768px) 100vw, 550px"
         />
 
-        <div className="flex ml-25 flex-col gap-3 w-full z-10">
+        <div className="flex ml-auto flex-col gap-3 z-10">
           <div>
             <p className="text-sm font-medium">Vouchado Countdown</p>
             <h2 className="text-3xl font-extrabold tracking-tight">
@@ -73,23 +73,27 @@ export default function VouchadoCount() {
       </div>
 
       {/* Right side: Information panel & Warning Actions */}
-      <div className="flex flex-col justify-between p-6 bg-white min-w-[280px]">
+      <div className="flex flex-col justify-between py-5.5 px-5 bg-white min-w-[190px]">
         {/* Deal Target Info */}
-        <div className="flex items-start gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-cyan-50 text-cyan-500">
-            <Calendar size={22} />
+        <div className="flex items-start gap-3">
+          <div className="flex size-[30px] shrink-0 items-center justify-center rounded-full bg-cyan-50 text-cyan-500">
+            <Calendar size={18} />
           </div>
           <div>
             <p className="text-xs font-medium text-[#637381]">Deal ends</p>
-            <h3 className="font-bold text-[#212B36]">{dealDetails.date}</h3>
-            <p className="text-sm text-[#637381] mt-0.5">{dealDetails.time}</p>
+            <h3 className="font-bold text-[#212B36] text-[15px]">
+              {dealDetails.date}
+            </h3>
+            <p className="text-[11px] text-[#637381] mt-0.5">
+              {dealDetails.time}
+            </p>
           </div>
         </div>
 
         {/* Urgent Action Link Tag/Pill */}
         <div className="mt-4 flex items-center justify-center gap-2 rounded-full bg-[#EAF9FA]  px-4 py-2.5 text-sm  text-[#1B696E]">
-          <AlertCircle size={18} className="shrink-0" />
-          <span>Act now, before it's gone!</span>
+          <AlertCircle size={15} className="shrink-0" />
+          <span className="text-[11px]">Act now, before it's gone!</span>
         </div>
       </div>
     </div>

@@ -33,7 +33,7 @@ export default function TrustSection({ totalPrice }: Props) {
         <div className="space-y-6 p-6">
           {trustItems.map(({ title, description, icon: Icon }) => (
             <div key={title} className="flex items-start gap-4">
-              <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full bg-cyan-50 text-[#2bb3bb]">
+              <div className="mt-0.5 flex h-10 w-10 items-center justify-center  text-[#2bb3bb]">
                 <Icon />
               </div>
 

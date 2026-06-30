@@ -16,6 +16,7 @@ export interface IProduct {
   title: string;
   image: string;
   tagline: string;
+  gift_voucher: string;
   quantity: number;
   rating: number;
   reviewsCount: number;

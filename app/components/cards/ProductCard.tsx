@@ -44,7 +44,6 @@ export default function ProductCard({
   endsIn,
 }: ProductCardProps) {
   const dispatch = useAppDispatch();
-
   const wishlistItems = useAppSelector((state) => state.wishlist.items);
 
   const product = useMemo(
@@ -83,7 +82,11 @@ export default function ProductCard({
     [wishlistItems, id],
   );
 
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Prevents clicking the wishlist icon from navigating to the view page
+    e.preventDefault();
+    e.stopPropagation();
+
     dispatch(toggleWishlist(product));
     if (isWishlisted) {
       toast.warn("Removed from wishlist");
@@ -93,8 +96,11 @@ export default function ProductCard({
   };
 
   return (
-    <div className="w-full rounded-2xl bg-white overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-      {/* Image */}
+    <Link
+      href={`/${lang}/view/${id}`}
+      className="block w-full rounded-2xl bg-white overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+    >
+      {/* Image Container */}
       <div className="relative w-full md:aspect-4/3 aspect-16/10 md:h-[200px]">
         <Image
           src={imageUrl}
@@ -111,8 +117,8 @@ export default function ProductCard({
           </div>
         )}
 
-        {/* Top Right */}
-        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex items-center gap-2">
+        {/* Top Right Actions */}
+        <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex items-center gap-2 z-10">
           {distance && (
             <div className="flex justify-center items-center gap-1 bg-white/80 text-gray-800 text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full shadow-sm">
               <PinLocation />
@@ -126,7 +132,7 @@ export default function ProductCard({
               isWishlisted ? "Remove from wishlist" : "Add to wishlist"
             }
             onClick={handleFavoriteClick}
-            className="bg-white/80 p-1.5 rounded-full shadow-sm transition-all duration-200"
+            className="bg-white/80 p-1.5 rounded-full shadow-sm transition-all duration-200 hover:bg-white"
           >
             <svg
               className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors ${
@@ -153,11 +159,9 @@ export default function ProductCard({
       {/* Content */}
       <div className="space-y-3 p-5">
         {/* Title */}
-        <Link href={`/${lang}/view/${id}`}>
-          <h3 className="text-sm md:text-[20px] font-medium text-gray-900 leading-snug mb-2 sm:mb-3 line-clamp-2 hover:text-[#1ec6cc] transition-colors">
-            {title}
-          </h3>
-        </Link>
+        <h3 className="text-sm md:text-[20px] font-medium text-gray-900 hover:text-[#1ec6cc] leading-snug mb-2 sm:mb-3 line-clamp-2 transition-colors">
+          {title}
+        </h3>
 
         {/* Rating + Location */}
         <div className="flex items-center text-[16px] sm:text-sm text-gray-500 mb-3 sm:mb-5">
@@ -167,7 +171,7 @@ export default function ProductCard({
 
           <div className="w-px h-3 bg-gray-300 mx-2 sm:mx-3" />
 
-          <div className="flex text-[16px]  items-center gap-1 truncate">
+          <div className="flex text-[16px] items-center gap-1 truncate">
             <MapPin size={20} />
             <span className="text-[#637381]">{location}</span>
           </div>
@@ -198,6 +202,6 @@ export default function ProductCard({
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

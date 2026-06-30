@@ -4,6 +4,8 @@ export const product: IProduct = {
   id: "1",
   title: "US Olympic & Paralympic Museum Ticket",
   tagline: "Experience America's Olympic history through interactive exhibits.",
+  gift_voucher:
+    "United States Olympic & Paralympic Museum - Colorado Springs, CO",
   image:
     "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=60",
   rating: 4.8,

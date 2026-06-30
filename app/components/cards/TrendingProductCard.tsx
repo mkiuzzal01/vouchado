@@ -37,7 +37,6 @@ export default function TrendingProductCard({
   discountPercentage,
 }: TrendingProductCardProps) {
   const dispatch = useAppDispatch();
-
   const wishlistItems = useAppSelector((state) => state.wishlist.items);
 
   const product = useMemo(
@@ -65,13 +64,16 @@ export default function TrendingProductCard({
     ],
   );
 
-  // Check wishlist state
   const isWishlisted = useMemo(
     () => wishlistItems.some((item) => item.id === productId),
     [wishlistItems, productId],
   );
 
-  const handleWishlist = () => {
+  const handleWishlist = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Prevents clicking the wishlist button from routing to the view details page
+    e.preventDefault();
+    e.stopPropagation();
+
     dispatch(
       toggleWishlist({
         ...product,
@@ -82,14 +84,17 @@ export default function TrendingProductCard({
     );
 
     if (isWishlisted) {
-      toast.warn("Added to wishlist");
+      toast.warn("Removed from wishlist");
     } else {
-      toast.success("Removed from wishlist");
+      toast.success("Added to wishlist");
     }
   };
 
   return (
-    <div className="w-full rounded-2xl sm:rounded-3xl bg-white border border-gray-100  overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+    <Link
+      href={`/${lang}/view/${productId}`}
+      className="block w-full rounded-2xl sm:rounded-3xl bg-white border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+    >
       {/* Image Section */}
       <div className="relative md:h-[220px] h-48 w-full flex justify-center items-center">
         <Image src={imageUrl} alt={title} fill className="object-cover" />
@@ -101,12 +106,12 @@ export default function TrendingProductCard({
           </div>
         )}
 
-        {/* Favorite */}
+        {/* Favorite Button */}
         <button
           type="button"
           onClick={handleWishlist}
           aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-          className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/90 backdrop-blur-sm p-1.5 sm:p-2 rounded-full shadow-sm transition-all"
+          className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/90 backdrop-blur-sm p-1.5 sm:p-2 rounded-full shadow-sm transition-all z-10 hover:bg-white"
         >
           <svg
             className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${
@@ -131,14 +136,9 @@ export default function TrendingProductCard({
 
       {/* Content */}
       <div className="px-4 sm:px-5 pt-6 sm:pt-8 pb-4 sm:pb-5">
-        <Link href={`/${lang}/view/${productId}`}>
-          <h3
-            className="text-sm md:text-xl font-medium text-gray-800 line-clamp-2 mb-3 sm:mb-4 hover:text-primary transition-colors"
-            title={title}
-          >
-            {title}
-          </h3>
-        </Link>
+        <h3 className="text-sm md:text-xl hover:text-[#1ec6cc] font-medium text-gray-800 line-clamp-2 mb-3 sm:mb-4 transition-colors">
+          {title}
+        </h3>
 
         <div className="flex items-center justify-between gap-2 mb-4 sm:mb-5">
           <div className="flex items-center gap-1 font-semibold text-gray-800">
@@ -164,6 +164,6 @@ export default function TrendingProductCard({
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
