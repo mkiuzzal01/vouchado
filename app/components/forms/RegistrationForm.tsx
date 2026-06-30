@@ -53,9 +53,9 @@ export default function RegistrationForm({
   return (
     <Container>
       <div className="flex items-center justify-center min-h-screen px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-7xl bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
+        <div className="grid grid-cols-1 lg:grid-cols-2 w-full max-w-8xl bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
           {/* ================= LEFT IMAGE ================= */}
-          <div className="hidden md:flex items-center justify-center">
+          <div className="hidden lg:flex items-center justify-center">
             <Image
               src={img}
               alt="signin"
@@ -64,13 +64,13 @@ export default function RegistrationForm({
           </div>
 
           {/* ================= RIGHT FORM ================= */}
-          <div className="p-6 md:p-10 flex flex-col justify-center">
+          <div className="p-4 lg:p-10 flex flex-col justify-center">
             {/* HEADER */}
             <div className="flex justify-center items-center flex-col gap-1 mb-8">
-              <h2 className="font-semibold text-2xl md:text-3xl lg:text-4xl mb-2">
+              <h2 className="font-semibold text-2xl lg:text-3xl mb-2">
                 {t.auth.register.title}
               </h2>
-              <p className="text-xs md:text-sm text-muted-foreground">
+              <p className="text-xs lg:text-sm text-muted-foreground">
                 {t.auth.register.description}
               </p>
             </div>

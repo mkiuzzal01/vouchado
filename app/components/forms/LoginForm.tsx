@@ -103,7 +103,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
       <div className="flex items-center justify-center min-h-screen px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 w-full max-w-7xl bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
           {/* ================= LEFT IMAGE ================= */}
-          <div className="hidden md:flex items-center justify-center">
+          <div className="hidden lg:flex items-center justify-center">
             <Image
               src={img}
               alt="signin"

@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import Location from "../../icons/Location";
+import Search from "../../icons/Search";
+import SearchIcon from "../../icons/SearchIcon";
 
 export interface ModernSearchProps {
   buttonClass?: string;
@@ -12,7 +14,6 @@ export interface ModernSearchProps {
 }
 
 export default function HeroSearch({
-  buttonClass,
   onSearch,
   locationPlaceholder = "Search your location",
   servicePlaceholder = "Search category or service",
@@ -38,18 +39,7 @@ export default function HeroSearch({
       >
         {/* Location Input */}
         <div className="flex items-center gap-2 rounded-xl bg-gray-50 border border-gray-100 px-3 py-2.5 text-gray-400 focus-within:text-[#1ec6cc] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#1ec6cc] transition-all">
-          <svg
-            className="w-[28px] h-[28px] shrink-0"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
+          <Location />
           <input
             type="text"
             value={location}
@@ -61,18 +51,7 @@ export default function HeroSearch({
 
         {/* Service Input */}
         <div className="flex items-center gap-2 rounded-xl bg-gray-50 border border-gray-100 px-3 py-2.5 text-gray-400 focus-within:text-[#1ec6cc] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#1ec6cc] transition-all">
-          <svg
-            className="w-4 h-4 shrink-0 mx-0.5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+          <Search />
           <input
             type="text"
             value={service}
@@ -113,18 +92,7 @@ export default function HeroSearch({
 
         {/* Service Box */}
         <div className="flex items-center gap-2 px-5 py-2 w-full text-gray-400 focus-within:text-[#1ec6cc] transition-colors">
-          <svg
-            className="w-[28px] h-[28px] shrink-0 mx-0.5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
+          <SearchIcon color="#637381 " />
           <input
             type="text"
             value={service}

@@ -28,11 +28,11 @@ export default function PromoBanner({ lang }: Props) {
         <div className="relative flex flex-col md:flex-row min-h-[372px]">
           {/* LEFT CONTENT BLOCK */}
           <div className="relative z-20 w-full md:w-[48%] p-8 sm:p-10 lg:p-14 flex flex-col justify-center text-left">
-            <h2 className="text-2xl sm:text-3xl lg:text-[36px] xl:text-[40px] leading-[1.15] font-semibold">
+            <h2 className="text-2xl md:text-3xl lg:text-[36px] xl:text-[40px] leading-[1.15] font-semibold">
               Grow Your Business <br /> With VOUCHADO
             </h2>
 
-            <p className="mt-4 text-xs sm:text-sm  max-w-sm leading-relaxed font-medium">
+            <p className="text-sm lg:text-xl mt-5 font-semibold">
               Join 300+ local businesses and reach <br /> thousands of new
               customers
             </p>
@@ -41,7 +41,7 @@ export default function PromoBanner({ lang }: Props) {
               <Link href={`/${lang}/provider-login`}>
                 <button
                   type="button"
-                  className="w-full sm:w-fit bg-white text-[#0c4d52] text-xs font-semibold px-8 py-4 rounded-full hover:bg-teal-50 transition-all active:scale-[0.98] shadow-md hover:shadow-lg"
+                  className="w-full sm:w-fit bg-white text-[#0c4d52] text-lg font-semibold px-8 py-4 rounded-full hover:bg-teal-50 transition-all active:scale-[0.98] shadow-md hover:shadow-lg"
                 >
                   {ctaText}
                 </button>

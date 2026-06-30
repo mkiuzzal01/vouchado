@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 import footer_logo from "@/public/logo/logo_for_footer.png";
 import Container from "../shared/Container";
 import { cn } from "@/lib/utils";
@@ -14,6 +13,10 @@ import Payment from "../icons/Payment";
 import SupportOnline from "../icons/SupportOnline";
 import AppleStore from "../icons/AppleStore";
 import PlayStore from "../icons/PlayStore";
+import Facebook from "../icons/Facebook";
+import X from "../icons/X";
+import Linkedin from "../icons/Linkedin";
+import V from "../icons/V";
 
 interface FooterLinks {
   footerLinks: any;
@@ -23,7 +26,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const socialIcons = [FaFacebook, FaTwitter, FaInstagram, FaLinkedin];
+  const socialIcons = [Facebook, X, Linkedin, V];
 
   const features = [
     {
@@ -77,7 +80,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
 
               {/* SOCIAL */}
               <div className="space-y-2.5">
-                <h3 className="text-xs xl:text-base text-[#DFE3E8]">
+                <h3 className="text-xs xl:text-base font-normal text-[#DFE3E8]">
                   Follow Us On
                 </h3>
 
@@ -124,7 +127,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-400">
                   {footerLinks?.customer?.map((item: any) => (
-                    <li key={item.href}>
+                    <li className="text-sm font-normal" key={item.href}>
                       <Link
                         className="hover:text-white transition"
                         href={item.href}
@@ -139,9 +142,9 @@ export default function Footer({ footerLinks }: FooterLinks) {
 
             {/* NEWSLETTER */}
             <div className="space-y-4 xl:col-span-1">
-              <p className="text-sm text-gray-400 leading-relaxed">
-                Subscribe to our newsletter & get exclusive 
-                <br className="block" /> 
+              <p className="text-sm font-normal text-gray-400 leading-relaxed">
+                Subscribe to our newsletter & get exclusive
+                <br className="block" />
                 10% off your first order.
               </p>
 
@@ -157,7 +160,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter Your Email"
                   className={cn(
-                    "h-11 border-0 bg-transparent px-4 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 flex-1",
+                    "h-11 border-0 bg-transparent px-4 text-white placeholder:text-white focus-visible:ring-0 focus-visible:ring-offset-0 flex-1",
                   )}
                 />
 
@@ -173,9 +176,9 @@ export default function Footer({ footerLinks }: FooterLinks) {
               </form>
 
               {/* APP BUTTONS */}
-              <div className="flex justify-start xl:justify-end items-center gap-3 pt-2">
-                <PlayStore />
-                <AppleStore />
+              <div className="flex justify-start xl:justify-end items-center gap-5 pt-8">
+                <PlayStore size={145} />
+                <AppleStore size={145} />
               </div>
             </div>
           </div>
@@ -192,9 +195,9 @@ export default function Footer({ footerLinks }: FooterLinks) {
               >
                 <div className="flex items-center gap-3">
                   <div>{item.icon}</div>
-                  <div>
-                    <h4 className="text-sm mb-1">{item.title}</h4>
-                    <p className="text-xs text-gray-400 leading-relaxed">
+                  <div className="font-normal">
+                    <h4 className="text-xl mb-1">{item.title}</h4>
+                    <p className="text-sm text-gray-400 leading-relaxed">
                       {item.desc}
                     </p>
                   </div>
@@ -205,7 +208,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
 
           {/* ================= BOTTOM ================= */}
           <div className="border-t border-gray-800 py-4 sm:py-6 xl:py-8">
-            <p className="text-sm text-gray-500 text-center">
+            <p className="text-base font-semibold text-[#919EAB] text-center">
               © {new Date().getFullYear()} 2026 All Rights Reserved | HTML Site
               by
               <Link href="#">
