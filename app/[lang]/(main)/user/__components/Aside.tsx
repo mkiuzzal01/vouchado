@@ -4,10 +4,12 @@ import AsideAction from "./AsideAction";
 
 export default function Aside() {
   return (
-    <div className="flex flex-col gap-4 w-full">
-      <AsidePoint />
-      <AsideActivity />
+    <>
+      <div className="bg-white flex flex-col gap-4 w-full p-6  rounded-2xl">
+        <AsidePoint />
+        <AsideActivity />
+      </div>
       <AsideAction />
-    </div>
+    </>
   );
 }

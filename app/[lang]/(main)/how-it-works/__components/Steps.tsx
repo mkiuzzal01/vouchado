@@ -38,89 +38,89 @@ interface StepItem {
   features: SubFeature[];
 }
 
-export default function Steps() {
-  const steps: StepItem[] = [
-    {
-      id: "step-1",
-      number: "01",
-      title: "Discover Deals",
-      description:
-        "Browse nearby offers, explore curated categories or search for experiences that match your interests.",
-      imageSrc: step_1,
-      features: [
-        { label: "Curated offers", icon: <Curated size={30} /> },
-        { label: "Nearby deals", icon: <Nearby size={30} /> },
-        { label: "Easy search", icon: <EasySearch size={30} /> },
-      ],
-    },
-    {
-      id: "step-2",
-      number: "02",
-      title: "Purchase Your Voucher",
-      description:
-        "Choose your favourite deal and securely purchase your service in just a few taps.",
-      imageSrc: step_2,
-      features: [
-        { label: "Secure payments", icon: <SPayment size={30} /> },
-        {
-          label: "Instant confirmation",
-          icon: <InstantConfiremation size={30} />,
-        },
-        {
-          label: "Best price guarantee",
-          icon: <BestPriceGuranted size={30} />,
-        },
-      ],
-    },
-    {
-      id: "step-3",
-      number: "03",
-      title: "Receive Your Voucher",
-      description:
-        "Your voucher is instantly stored in your account, ready to use whenever you are.",
-      imageSrc: step_3,
-      features: [
-        { label: "Instant voucher", icon: <InstantVoucher size={30} /> },
-        { label: "Stored in your account", icon: <StoredAcct size={30} /> },
-        { label: "Always accessible", icon: <Accessible size={30} /> },
-      ],
-    },
-    {
-      id: "step-4",
-      number: "04",
-      title: "Redeem & Enjoy",
-      description:
-        "Visit the business, present your QR code, and enjoy your experience while saving money.",
-      imageSrc: step_4,
-      features: [
-        { label: "Quick & easy redemption", icon: <Quick size={30} /> },
-        { label: "Enjoy exclusive experiences", icon: <Enjoy size={30} /> },
-        { label: "Save more on every visit", icon: <SaveMore size={30} /> },
-      ],
-    },
-    {
-      id: "step-5",
-      number: "05",
-      title: "Earn Loyalty Points",
-      description:
-        "Collect points with every purchase and redeem them for future Vouchado vouchers.",
-      imageSrc: step_5,
-      features: [
-        { label: "Collect points", icon: <Collect size={30} /> },
-        { label: "Unlock rewards", icon: <Unlock size={30} /> },
-        { label: "More benefits", icon: <Benefits size={30} /> },
-      ],
-    },
-  ];
+const steps: StepItem[] = [
+  {
+    id: "step-1",
+    number: "01",
+    title: "Discover Deals",
+    description:
+      "Browse nearby offers, explore curated categories or search for experiences that match your interests.",
+    imageSrc: step_1,
+    features: [
+      { label: "Curated offers", icon: <Curated size={30} /> },
+      { label: "Nearby deals", icon: <Nearby size={30} /> },
+      { label: "Easy search", icon: <EasySearch size={30} /> },
+    ],
+  },
+  {
+    id: "step-2",
+    number: "02",
+    title: "Purchase Your Voucher",
+    description:
+      "Choose your favourite deal and securely purchase your service in just a few taps.",
+    imageSrc: step_2,
+    features: [
+      { label: "Secure payments", icon: <SPayment size={30} /> },
+      {
+        label: "Instant confirmation",
+        icon: <InstantConfiremation size={30} />,
+      },
+      {
+        label: "Best price guarantee",
+        icon: <BestPriceGuranted size={30} />,
+      },
+    ],
+  },
+  {
+    id: "step-3",
+    number: "03",
+    title: "Receive Your Voucher",
+    description:
+      "Your voucher is instantly stored in your account, ready to use whenever you are.",
+    imageSrc: step_3,
+    features: [
+      { label: "Instant voucher", icon: <InstantVoucher size={30} /> },
+      { label: "Stored in your account", icon: <StoredAcct size={30} /> },
+      { label: "Always accessible", icon: <Accessible size={30} /> },
+    ],
+  },
+  {
+    id: "step-4",
+    number: "04",
+    title: "Redeem & Enjoy",
+    description:
+      "Visit the business, present your QR code, and enjoy your experience while saving money.",
+    imageSrc: step_4,
+    features: [
+      { label: "Quick & easy redemption", icon: <Quick size={30} /> },
+      { label: "Enjoy exclusive experiences", icon: <Enjoy size={30} /> },
+      { label: "Save more on every visit", icon: <SaveMore size={30} /> },
+    ],
+  },
+  {
+    id: "step-5",
+    number: "05",
+    title: "Earn Loyalty Points",
+    description:
+      "Collect points with every purchase and redeem them for future Vouchado vouchers.",
+    imageSrc: step_5,
+    features: [
+      { label: "Collect points", icon: <Collect size={30} /> },
+      { label: "Unlock rewards", icon: <Unlock size={30} /> },
+      { label: "More benefits", icon: <Benefits size={30} /> },
+    ],
+  },
+];
 
+export default function Steps() {
   return (
-    <section className="w-full py-12 md:py-16 lg-18 xl:py-24 overflow-hidden selection:bg-[#23888E]/10">
+    <section className="w-full py-12 md:py-16 lg-18 xl:py-24">
       <Container>
         <div className="relative max-w-[1114px] mx-auto px-4 sm:px-6">
           {/* ── VERTICAL TIMELINE LINE ── */}
           <div
             className="
-              absolute top-40 bottom-0
+              hidden lg:block absolute top-40 bottom-0
               left-6 lg:left-1/2
               w-[2px] bg-[#E2E8F0]
               z-10 lg:-translate-x-1/2
@@ -146,14 +146,14 @@ export default function Steps() {
                       ${
                         isOdd
                           ? "left-6 top-0 lg:left-1/2 lg:top-42 lg:-translate-y-1/2 lg:-translate-x-1/2"
-                          : "left-6 top-0 lg:left-[-30px] lg:top-[175px] lg:-translate-y-1/2 lg:-translate-x-1/2"
+                          : "left-6 top-0 lg:left-[-45px] lg:top-[175px] lg:-translate-y-1/2 lg:-translate-x-1/2"
                       }
                     `}
                   >
                     <span
                       className="
-                        text-sm md:text-base
-                        w-10 h-10 rounded-full
+                        text-sm lg:text-2xl
+                        w-10 h-10 lg:w-16 lg:h-16 rounded-full
                         bg-[#23888E] text-white
                         flex items-center justify-center
                         font-bold tracking-wide
@@ -166,24 +166,15 @@ export default function Steps() {
                   {/* ── IMAGE CONTAINER SIDE ── */}
                   <div
                     className={`
-                      w-full flex items-center pl-16 lg:pl-0
-                      ${isImageLeft ? "lg:order-first lg:justify-end lg:pr-4" : "lg:order-last lg:justify-start lg:pl-4"}
+                      w-full flex items-center
+                      ${isImageLeft ? "lg:order-first lg:justify-end" : "lg:order-last lg:justify-start"}
                     `}
                   >
-                    <div
-                      className="
-                        relative w-full aspect-[1/1]
-                        rounded-xl p-6
-                        flex items-center justify-center
-                        border border-slate-100/80
-                      "
-                    >
+                    <div className="relative w-full aspect-square flex items-center justify-center">
                       <Image
                         src={step.imageSrc}
                         alt={step.title}
-                        quality={100}
-                        priority={index < 2}
-                        className="object-contain max-h-[400px] w-auto select-none"
+                        className="object-cover h-full w-full"
                       />
                     </div>
                   </div>

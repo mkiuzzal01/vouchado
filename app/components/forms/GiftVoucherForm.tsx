@@ -13,14 +13,16 @@ export default function GiftVoucherForm() {
         <div className="flex flex-col">
           {/* Email Input Field */}
           <TextInput
+            required
             name="email"
-            label="Person’s email address"
+            label="Person's email address"
             placeholder="johncarter@brix.com"
             type="email"
           />
 
           {/* Amount Input Field */}
           <TextInput
+            required
             name="amount"
             label="Gift amount"
             placeholder="150"

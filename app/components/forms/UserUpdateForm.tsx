@@ -97,7 +97,7 @@ export default function UserUpdateForm({ onClose }: UserUpdateFormProps) {
             <div className="w-full sm:w-auto">
               <SubmitButton
                 title="Update"
-                className="w-full h-10 sm:w-auto px-8 py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
+                className="w-full h-10 sm:w-auto px-8 py-2.5 bg-[#31BFC8] hover:bg-[#31BF96]/90 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
               />
             </div>
           </div>

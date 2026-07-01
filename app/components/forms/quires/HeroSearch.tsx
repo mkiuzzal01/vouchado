@@ -29,9 +29,7 @@ export default function HeroSearch({
   };
 
   return (
-    <div
-      className={`mt-6 sm:mt-8 w-full max-w-4xl mx-auto font-sans ${className}`}
-    >
+    <div className={`w-full mx-auto ${className}`}>
       {/* ================= MOBILE VIEW (Card style) ================= */}
       <form
         onSubmit={handleSubmit}

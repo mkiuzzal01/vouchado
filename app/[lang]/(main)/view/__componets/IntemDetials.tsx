@@ -154,7 +154,7 @@ export default function ItemDetails({ slug, lang }: Props) {
                 {product.tagline}
               </p>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-2">
                 <Link href={`/${lang}/provider/provider-profile`}>
                   <div className="flex items-center gap-2">
                     <GiftVoucher color="#637381" size={24} />
@@ -396,7 +396,8 @@ export default function ItemDetails({ slug, lang }: Props) {
       </Container>
 
       <ModalContainer
-        title="Gift Voucher"
+        title="Buy Gift Voucher"
+        className="w-[593px]"
         isOpen={openGiftVoucherModal}
         onClose={() => setOpenGiftVoucherModal(false)}
       >

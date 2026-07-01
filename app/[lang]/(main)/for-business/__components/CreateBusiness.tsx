@@ -5,6 +5,7 @@ import bgImage from "@/public/section-headers/Hero Section (6).png";
 import CheckIcon from "@/app/components/icons/CheckIcon";
 import homeIcon from "@/public/for-business/Frame 2147240661.png";
 import ArrowUp from "@/app/components/icons/ArrowUp";
+import batch from "@/public/for-business/Frame 2147240691.png";
 
 interface Props {
   lang: string;
@@ -28,6 +29,14 @@ export default function CreateBusiness({ lang }: Props) {
           fill
           priority
           className="object-cover"
+        />
+        <Image
+          src={batch}
+          alt="batch"
+          width={211}
+          height={58}
+          priority
+          className="relative pb-10 lg:pb-0 lg:absolute left-10 top-10"
         />
 
         {/* Content */}

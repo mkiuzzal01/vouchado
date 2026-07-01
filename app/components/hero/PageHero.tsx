@@ -31,13 +31,13 @@ export default function PageHero({
       <Container className="relative z-10 w-full py-10 text-white">
         <div className="flex flex-col justify-center gap-4">
           {/* Changed text-center lg:text-left to text-left */}
-          <div className="max-w-xl text-left">
+          <div className="ml-[75px]">
             {title && (
               <h1 className="text-[30px] lg:text-[48px] font-bold">{title}</h1>
             )}
 
             {description && (
-              <p className="mt-2 text-xs font-medium tracking-wide text-white/80 sm:mt-3 sm:text-sm">
+              <p className="mt-2 text-xs font-medium tracking-wide sm:mt-3 sm:text-sm">
                 {description}
               </p>
             )}

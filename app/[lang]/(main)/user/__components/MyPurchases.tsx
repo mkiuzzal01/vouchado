@@ -2,6 +2,8 @@
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import { useState } from "react";
 import OrderDetails from "./OrderDetails";
+import Image from "next/image";
+import Location from "@/app/components/icons/Location";
 
 const purchaseGroups = [
   {
@@ -33,11 +35,13 @@ const purchaseGroups = [
 export default function MyPurchases() {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
+    <div className="bg-white border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm">
       {/* Section Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-base font-bold text-gray-900">My Purchases</h2>
-        <button className="text-xs font-semibold text-teal-600 flex items-center gap-0.5 hover:underline">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 mb-6">
+        <h2 className="text-xl lg:text-2xl font-semibold text-gray-900">
+          My Purchases
+        </h2>
+        <button className="text-sm sm:text-lg font-semibold text-[#31BFC8] flex items-center gap-0.5 hover:underline self-start sm:self-auto">
           View Purchases History
           <svg
             className="w-3 h-3"
@@ -60,19 +64,21 @@ export default function MyPurchases() {
         {purchaseGroups.map((group, idx) => (
           <div
             key={idx}
-            className="border border-gray-100 rounded-2xl p-4 space-y-4 bg-gray-50/20"
+            className="border border-gray-100 rounded-2xl p-3 sm:p-4 space-y-4 bg-gray-50/20"
           >
             {/* Order Meta row */}
-            <div className="flex justify-between items-center text-xs border-b border-gray-100 pb-3">
-              <div className="flex items-center gap-3">
-                <span className="font-bold text-gray-900">{group.date}</span>
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-gray-100 pb-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-sm sm:text-lg">
+                <span className="font-semibold text-gray-900">
+                  {group.date}
+                </span>
                 <span className="text-gray-400 font-medium">
                   Order ID: {group.orderId}
                 </span>
               </div>
               <button
                 onClick={() => setShowOrderDetails(true)}
-                className="text-gray-500 font-medium flex items-center gap-0.5 hover:text-gray-800"
+                className="text-xs sm:text-base text-gray-500 font-semibold flex items-center gap-0.5 hover:text-gray-800 self-end sm:self-auto"
               >
                 View details
                 <svg
@@ -96,49 +102,34 @@ export default function MyPurchases() {
               {group.items.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white border border-gray-100 rounded-xl p-3 flex flex-col sm:flex-row items-start sm:items-center gap-4 transition-shadow hover:shadow-sm"
+                  className="bg-white border border-gray-100 rounded-xl p-3 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 transition-shadow hover:shadow-sm"
                 >
-                  {/* Item Image */}
-                  <img
-                    src={item.img}
-                    alt=""
-                    className="w-full sm:w-24 h-24 sm:h-20 object-cover rounded-lg border border-gray-100 shrink-0"
-                  />
+                  {/* Item Image Layout */}
+                  <div className="relative w-full h-44 sm:w-[140px] sm:h-[110px] shrink-0">
+                    <Image
+                      src={item.img}
+                      alt={item.title}
+                      fill
+                      className="object-cover rounded-lg border border-gray-100"
+                    />
+                  </div>
 
                   {/* Item Details */}
                   <div className="flex-1 min-w-0 space-y-1">
-                    <h4 className="text-xs font-bold text-gray-900 line-clamp-2 leading-snug">
+                    <h4 className="text-base sm:text-xl font-bold text-gray-900 line-clamp-2 leading-snug">
                       {item.title}
                     </h4>
-                    <p className="text-[11px] text-gray-400 font-medium">
+                    <p className="text-sm sm:text-lg text-gray-400 font-semibold">
                       {item.ticketType}
                     </p>
-                    <div className="flex items-center gap-1 text-[11px] text-gray-400">
-                      <svg
-                        className="w-3 h-3 text-teal-600 shrink-0"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                        />
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                      </svg>
+                    <div className="flex items-center gap-1 text-xs sm:text-base font-semibold text-gray-400">
+                      <Location size={16} />
                       <span className="truncate">{item.location}</span>
                     </div>
                   </div>
 
-                  {/* Price Tag */}
-                  <div className="text-teal-600 font-bold text-base whitespace-nowrap self-end sm:self-center pt-2 sm:pt-0 border-t sm:border-none w-full sm:w-auto text-right">
+                  {/* Pricing Output */}
+                  <div className="text-teal-600 font-bold text-base sm:text-xl whitespace-nowrap self-end sm:self-center pt-2 sm:pt-0 border-t sm:border-none w-full sm:w-auto text-right">
                     € {item.price}
                   </div>
                 </div>
@@ -147,6 +138,7 @@ export default function MyPurchases() {
           </div>
         ))}
       </div>
+
       <ModalContainer
         title="Order Details"
         isOpen={showOrderDetails}

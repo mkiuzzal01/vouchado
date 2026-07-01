@@ -42,7 +42,7 @@ export default function Hero() {
 
           <div className="relative grow flex items-center">
             {/* Text Content */}
-            <div className="relative z-10 w-full max-w-2xl md:max-w-md lg:max-w-lg xl:max-w-5xl space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-4 xl:space-y-3 text-center md:text-left mt-20">
+            <div className="relative z-10 w-full max-w-2xl md:max-w-md lg:max-w-lg xl:max-w-5xl left-[18px] space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-4 xl:space-y-3 text-center md:text-left mt-20">
               {/* Badge */}
               <div className="inline-flex items-center rounded-full bg-[#BFEBEE1F]  px-4 py-1.5 md:px-3 md:py-1 lg:px-4 lg:py-2 text-[10px] sm:text-xs md:text-[10px] lg:text-[11px] xl:text-xs font-semibold tracking-widest text-white backdrop-blur-md shadow-sm">
                 YOUR CITY. YOUR DEALS.
@@ -70,7 +70,7 @@ export default function Hero() {
               </p>
 
               <div>
-                <div className="pt-2 w-full max-w-[912px] mx-auto md:mx-0 md:scale-[0.9] lg:scale-[0.95] xl:scale-100 origin-center md:origin-left">
+                <div className="w-full max-w-[800px] mx-auto md:mx-0 md:scale-[0.9] lg:scale-[0.95] xl:scale-100 origin-center md:origin-left">
                   <HeroSearch />
                 </div>
 

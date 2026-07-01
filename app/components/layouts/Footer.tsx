@@ -62,12 +62,12 @@ export default function Footer({ footerLinks }: FooterLinks) {
 
   return (
     <footer className="bg-[#161C24] text-white">
-      <Container className="">
+      <Container>
         <div className="pt-20 space-y-14">
           {/* ================= TOP GRID ================= */}
           <div className="grid gap-8 xl:gap-10 sm:grid-cols-2 lg:grid-cols-3">
             {/* LOGO + ABOUT */}
-            <div className="space-y-5">
+            <div className="space-y-5 ml-[57px]">
               <Link href="/" className="inline-block">
                 <Image
                   src={footer_logo}
