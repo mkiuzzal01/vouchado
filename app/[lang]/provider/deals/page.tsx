@@ -51,11 +51,6 @@ export const metricsData = [
 export default function DealsPage() {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
 
-  const handleScanVoucher = () => {
-    setIsScannerOpen(true);
-    console.log("Scanner opened");
-  };
-
   return (
     <Container className="py-6 space-y-8 bg-slate-50/50 min-h-screen">
       {/* HEADER SECTION */}

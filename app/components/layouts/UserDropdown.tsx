@@ -1,9 +1,9 @@
 "use client";
+
 import { User, LogOut, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -16,13 +16,14 @@ import { logout } from "@/redux/features/auth/auth.slice";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import Dashboard from "../icons/Dasboard";
 
 interface Props {
   lang?: string;
   totalMoney?: number;
 }
 
-export default function UserDropdown({ lang, totalMoney }: Props) {
+export default function UserDropdown({ lang = "en", totalMoney }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -46,21 +47,21 @@ export default function UserDropdown({ lang, totalMoney }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-3 rounded-full border border-gray-200 bg-white p-1 hover:bg-gray-50 transition">
+        <button className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-100 p-1 hover:bg-gray-50 transition outline-none focus-visible:ring-2 focus-visible:ring-slate-200">
           {/* Avatar */}
-          <Avatar className="h-8 w-8 border border-[#2EC4C6]">
+          <Avatar className="h-8 w-8 border border-[#2EC4C6] shrink-0">
             <AvatarFallback className="bg-[#31BFC8] text-white text-xs font-bold">
               {initials}
             </AvatarFallback>
           </Avatar>
 
-          {/* Money */}
+          {/* Money Display Panel */}
           {typeof totalMoney === "number" && (
-            <div className="hidden sm:flex items-center gap-2 px-2">
-              <span className="text-sm font-semibold text-slate-700">
+            <div className="hidden sm:flex items-center gap-1.5 pr-2 pl-0.5">
+              <span className="text-sm font-semibold text-slate-700 whitespace-nowrap">
                 ${totalMoney.toLocaleString()}
               </span>
-              <ChevronDown className="w-4 h-4 text-slate-400" />
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
             </div>
           )}
         </button>
@@ -82,23 +83,36 @@ export default function UserDropdown({ lang, totalMoney }: Props) {
           </div>
         </DropdownMenuLabel>
 
-        <DropdownMenuSeparator className="bg-slate-50 my-1" />
+        <DropdownMenuSeparator className="bg-slate-100 my-1" />
 
+        {/* Individualized menu wrappers preventing hydration/node cloning errors */}
         <DropdownMenuItem asChild>
           <Link
             href={`/${lang}/${role}`}
-            className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-semibold text-slate-600 rounded-xl hover:bg-slate-50"
+            className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-semibold text-slate-600 rounded-xl hover:bg-slate-50 cursor-pointer w-full"
           >
-            <User className="w-4 h-4 text-slate-400" />
-            My Profile
+            <Dashboard />
+            Dashboard
           </Link>
         </DropdownMenuItem>
 
-        <DropdownMenuSeparator className="bg-slate-50 my-1" />
+        {role === "provider" && (
+          <DropdownMenuItem asChild>
+            <Link
+              href={`/${lang}/provider/provider-profile`}
+              className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-semibold text-slate-600 rounded-xl hover:bg-slate-50 cursor-pointer w-full"
+            >
+              <User className="w-4 h-4 text-slate-400" />
+              My Profile
+            </Link>
+          </DropdownMenuItem>
+        )}
+
+        <DropdownMenuSeparator className="bg-slate-100 my-1" />
 
         <DropdownMenuItem
           onClick={handleLogout}
-          className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-semibold text-rose-600 rounded-xl hover:bg-rose-50"
+          className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-semibold text-rose-600 rounded-xl focus:bg-rose-50 focus:text-rose-600 cursor-pointer"
         >
           <LogOut className="w-4 h-4 text-rose-400" />
           Log out

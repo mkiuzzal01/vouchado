@@ -3,7 +3,7 @@ interface Props {
   size?: number;
 }
 
-export default function Dasboard({ color = "#637381", size = 24 }: Props) {
+export default function Dashboard({ color = "#637381", size = 24 }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
