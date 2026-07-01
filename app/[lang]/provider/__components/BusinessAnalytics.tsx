@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-// --- Mock Data representing 30 days ---
 const chartData = [
   { day: "01", revenue: 7.0, purchase: 2.0 },
   { day: "02", revenue: 7.5, purchase: 2.0 },
@@ -37,7 +36,7 @@ const chartData = [
   { day: "10", revenue: 6.5, purchase: 3.0 },
   { day: "11", revenue: 6.5, purchase: 2.5 },
   { day: "12", revenue: 6.8, purchase: 2.2 },
-  { day: "13", revenue: 7.2, purchase: 2.1 }, // Highlighted day in image
+  { day: "13", revenue: 7.2, purchase: 2.1 },
   { day: "14", revenue: 7.7, purchase: 2.1 },
   { day: "15", revenue: 8.1, purchase: 2.2 },
   { day: "16", revenue: 8.3, purchase: 2.3 },
@@ -57,7 +56,6 @@ const chartData = [
   { day: "30", revenue: 8.5, purchase: 1.9 },
 ];
 
-// --- Shadcn Chart Style Configuration ---
 const chartConfig = {
   revenue: {
     label: "Revenue",
@@ -78,7 +76,6 @@ export default function BusinessAnalytics() {
           Business Analytics
         </h1>
 
-        {/* Shadcn Dropdown Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button

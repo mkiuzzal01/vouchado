@@ -1,4 +1,5 @@
 import SMS from "@/app/components/icons/SMS";
+import Start from "@/app/components/icons/Start";
 import {
   Table,
   TableBody,
@@ -9,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 
-// Extended data array matching all items in the UI screenshot
 const tableData = [
   {
     id: 1,
@@ -110,31 +110,31 @@ export default function DealsTable() {
       <Table className="min-w-[1100px]">
         <TableHeader className="bg-[#F4F6F8]">
           <TableRow className="border-b border-gray-100 hover:bg-transparent">
-            <TableHead className="text-[14px] font-semibold text-[#212B36] py-4 px-4">
+            <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
               Service Name
             </TableHead>
-            <TableHead className="text-[14px] font-semibold text-[#212B36] py-4 px-4">
+            <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
               Category
             </TableHead>
-            <TableHead className="text-[14px] font-semibold text-[#212B36] py-4 px-4">
+            <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
               Customer
             </TableHead>
-            <TableHead className="text-[14px] font-semibold text-[#212B36] py-4 px-4">
+            <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
               Voucher ID
             </TableHead>
-            <TableHead className="text-[14px] font-semibold text-[#212B36] py-4 px-4">
+            <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
               Expire Date
             </TableHead>
-            <TableHead className="text-[14px] font-semibold text-[#212B36] py-4 px-4">
+            <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
               Reating
             </TableHead>
-            <TableHead className="text-[14px] font-semibold text-[#212B36] py-4 px-4">
+            <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
               Purchase
             </TableHead>
-            <TableHead className="text-[14px] font-semibold text-[#212B36] py-4 px-4">
+            <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
               Revenue
             </TableHead>
-            <TableHead className="text-[14px] font-semibold text-[#212B36] py-4 px-4">
+            <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
               Status
             </TableHead>
             <TableHead className="w-16 py-4 px-4"></TableHead>
@@ -162,22 +162,22 @@ export default function DealsTable() {
               </TableCell>
 
               {/* Category */}
-              <TableCell className="py-3.5 px-4 text-gray-400 font-medium">
+              <TableCell className="py-3.5 px-4 text-sm text-gray-400 font-semibold">
                 {row.category}
               </TableCell>
 
               {/* Customer */}
-              <TableCell className="py-3.5 px-4 text-gray-500 font-medium">
+              <TableCell className="py-3.5 px-4 text-sm text-gray-500 font-semibold">
                 {row.customer}
               </TableCell>
 
               {/* Voucher ID */}
-              <TableCell className="py-3.5 px-4 text-gray-400 font-medium">
+              <TableCell className="py-3.5 px-4 text-sm text-gray-400 font-semibold">
                 {row.voucherId}
               </TableCell>
 
               {/* Expire Date */}
-              <TableCell className="py-3.5 px-4 text-gray-500 font-medium">
+              <TableCell className="py-3.5 px-4 text-sm text-gray-500 font-semibold">
                 {row.expireDate}
               </TableCell>
 
@@ -186,35 +186,30 @@ export default function DealsTable() {
                 {row.rating ? (
                   <div className="flex items-center gap-1">
                     {/* Inline Star Icon */}
-                    <svg
-                      className="w-3.5 h-3.5 text-amber-400 fill-amber-400"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                    </svg>
-                    <span className="text-gray-500 font-bold">
+                    <Start />
+                    <span className=" text-sm text-gray-500 font-semibold">
                       {row.rating}
                     </span>
                   </div>
                 ) : (
-                  <span className="text-gray-400 font-medium">—</span>
+                  <span className="text-sm text-gray-500 font-semibold">—</span>
                 )}
               </TableCell>
 
               {/* Purchase */}
-              <TableCell className="py-3.5 px-4 font-bold text-gray-500">
+              <TableCell className="py-3.5 px-4 text-sm text-gray-500 font-semibold">
                 {row.purchase}
               </TableCell>
 
               {/* Revenue */}
-              <TableCell className="py-3.5 px-4 font-bold text-gray-500">
+              <TableCell className="py-3.5 px-4 text-sm text-gray-500 font-semibold">
                 {row.revenue}
               </TableCell>
 
               {/* Dynamic Badging */}
               <TableCell className="py-3.5 px-4">
                 <span
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-sm font-semibold border ${
                     row.status === "Redeemed"
                       ? "bg-emerald-50 border-emerald-100 text-emerald-600"
                       : row.status === "Unredeemed"

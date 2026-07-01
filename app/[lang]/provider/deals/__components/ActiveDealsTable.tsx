@@ -1,8 +1,20 @@
 "use client";
-
 import Deals from "@/app/components/icons/Deals";
 import { Search, Edit2, Trash2, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import Edit from "@/app/components/icons/Edit";
+import Delete from "@/app/components/icons/Delete";
 
 const dealItems = [
   {
@@ -125,134 +137,185 @@ export default function ActiveDealsTable({
   description = "Currently running",
 }: Props) {
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-6">
-      {/* Outer Layout Top Bar: Title on Left, Floating Search Bar on Right */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+    <div className="bg-white rounded-2xl border border-gray-100 p-4 sm:p-6">
+      {/* Outer Layout Top Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold">
+          <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold shrink-0">
             <Deals />
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-slate-800 tracking-tight">
+          <div className="min-w-0">
+            <h1 className="text-xl font-bold text-slate-800 tracking-tight truncate">
               {title}
             </h1>
-            <p className="text-xs font-medium text-slate-400 mt-0.5">
+            <p className="text-xs font-medium text-slate-400 mt-0.5 truncate">
               {description}
             </p>
           </div>
         </div>
 
-        <div className="relative w-full md:w-80">
-          <input
+        {/* Input field structured under shadcn guidelines */}
+        <div className="relative w-full sm:w-80">
+          <Input
             type="text"
             placeholder="Search here..."
-            className="w-full pl-4 pr-10 py-2.5 bg-white border border-slate-200 rounded-full text-xs  focus:outline-none focus:border-slate-300 placeholder-slate-400 text-slate-700"
+            className="w-full pl-4 pr-10 h-10 rounded-full text-xs placeholder:text-slate-400 focus-visible:ring-1 text-slate-700"
           />
-          <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
         </div>
       </div>
 
-      {/* Primary Container Panel Card */}
-      <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="border-b border-slate-100 text-xs font-bold text-slate-700 bg-slate-50/40">
-                <th className="py-4 px-6 font-semibold">Deals Name</th>
-                <th className="py-4 px-4 font-semibold">Category</th>
-                <th className="py-4 px-4 font-semibold">Discount</th>
-                <th className="py-4 px-4 font-semibold">Revenue</th>
-                <th className="py-4 px-4 font-semibold">Sold</th>
-                <th className="py-4 px-4 font-semibold">Redemption</th>
-                <th className="py-4 px-4 font-semibold">Remaining</th>
-                <th className="py-4 px-6 text-center font-semibold">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100 text-xs text-slate-500 font-medium">
+      {/* Primary Container Table Panel */}
+      <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden">
+        <div className="w-full overflow-x-auto">
+          <Table className="w-full text-xs">
+            <TableHeader className="bg-slate-50/40">
+              <TableRow className="border-b border-slate-100 hover:bg-transparent">
+                <TableHead className="h-12 px-6 font-semibold text-slate-700 text-left">
+                  Deals Name
+                </TableHead>
+                <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
+                  Category
+                </TableHead>
+                <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
+                  Discount
+                </TableHead>
+                <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
+                  Revenue
+                </TableHead>
+                <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
+                  Sold
+                </TableHead>
+                <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
+                  Redemption
+                </TableHead>
+                <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
+                  Remaining
+                </TableHead>
+                <TableHead className="h-12 px-6 font-semibold text-slate-700 text-center">
+                  Actions
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody className="text-slate-500 font-medium">
               {dealItems.map((deal) => (
-                <tr
+                <TableRow
                   key={deal.id}
-                  className="hover:bg-slate-50/30 transition-colors duration-150"
+                  className="border-b border-slate-100 hover:bg-slate-50/30 transition-colors duration-150"
                 >
-                  <td className="py-3 px-6 min-w-[240px]">
+                  <TableCell className="py-3 px-6 min-w-[240px]">
                     <div className="flex items-center gap-3.5">
-                      <Image
-                        src={deal.image}
-                        alt={deal.name}
-                        width={50}
-                        height={50}
-                        className="w-14 h-9 rounded-xl object-cover object-center border border-slate-100 shadow-2xl shrink-0"
-                      />
-                      <span className="font-bold text-slate-800">
+                      <div className="relative w-[72px] h-[40px] rounded-lg overflow-hidden shrink-0">
+                        <Image
+                          src={deal.image}
+                          alt={deal.name}
+                          fill
+                          sizes="56px"
+                          className="object-cover object-center"
+                        />
+                      </div>
+                      <span className="text-sm font-semibold text-slate-800">
                         {deal.name}
                       </span>
                     </div>
-                  </td>
-                  <td className="py-3 px-4 text-slate-400 font-normal">
+                  </TableCell>
+                  <TableCell className="py-3 px-4 text-sm text-slate-400 font-normal">
                     {deal.category}
-                  </td>
-                  <td className="py-3 px-4 font-bold text-slate-700">
-                    {deal.discount}
-                  </td>
-                  <td className="py-3 px-4 text-slate-500 font-medium">
+                  </TableCell>
+                  <TableCell className="py-3 px-4">
+                    <Badge
+                      variant="secondary"
+                      className="font-normal text-slate-700 bg-slate-100/80 hover:bg-slate-100 rounded-md px-2 py-0.5"
+                    >
+                      {deal.discount}
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="py-3 px-4 text-sm text-slate-500 font-normal">
                     {deal.revenue}
-                  </td>
-                  <td className="py-3 px-4 text-slate-400 font-normal">
+                  </TableCell>
+                  <TableCell className="py-3 px-4 text-sm text-slate-400 font-normal">
                     {deal.sold}
-                  </td>
-                  <td className="py-3 px-4 text-slate-400 font-normal">
+                  </TableCell>
+                  <TableCell className="py-3 px-4 text-sm text-slate-400 font-normal">
                     {deal.redemption}
-                  </td>
-                  <td className="py-3 px-4 text-slate-400 font-normal">
+                  </TableCell>
+                  <TableCell className="py-3 px-4 text-sm text-slate-400 font-normal">
                     {deal.remaining}
-                  </td>
-                  <td className="py-3 px-6 text-center">
-                    <div className="flex items-center justify-center gap-4">
-                      {/* Action buttons matching exact layout shades */}
-                      <button className="text-[#00C3DA] hover:opacity-70 transition-opacity">
-                        <Edit2 className="w-4 h-4 stroke-[2.2]" />
-                      </button>
-                      <button className="text-[#FF5B5C] hover:opacity-70 transition-opacity">
-                        <Trash2 className="w-4 h-4 stroke-[2.2]" />
-                      </button>
+                  </TableCell>
+                  <TableCell className="py-3 px-6 text-center">
+                    <div className="flex items-center justify-center gap-3">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="w-8 h-8 rounded-full text-[#00C3DA] hover:text-[#00C3DA] hover:bg-[#00C3DA]/10 transition-colors"
+                      >
+                        <Edit />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="w-8 h-8 rounded-full text-[#FF5B5C] hover:text-[#FF5B5C] hover:bg-[#FF5B5C]/10 transition-colors"
+                      >
+                        <Delete />
+                      </Button>
                     </div>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
 
-        {/* Compact Center Pagination Panel matching layout mock */}
+        {/* Center Pagination Block natively handled with shadcn Buttons */}
         <div className="py-5 border-t border-slate-100 flex justify-center items-center gap-1 text-xs font-bold text-slate-400">
-          <button
-            className="p-2 text-slate-300 hover:text-slate-500 cursor-not-allowed"
+          <Button
+            variant="ghost"
+            size="icon"
+            className="w-8 h-8 text-slate-300 p-0 hover:bg-transparent"
             disabled
           >
             <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
-          </button>
+          </Button>
 
-          <button className="w-7 h-7 rounded-full bg-slate-100 text-slate-800 flex items-center justify-center">
+          <Button className="w-7 h-7 rounded-full bg-slate-100 text-slate-800 font-bold hover:bg-slate-200 p-0 shadow-none">
             1
-          </button>
-          <button className="w-7 h-7 rounded-full hover:bg-slate-50 text-slate-600 flex items-center justify-center transition">
+          </Button>
+          <Button
+            variant="ghost"
+            className="w-7 h-7 rounded-full text-slate-600 font-bold hover:bg-slate-50 p-0"
+          >
             2
-          </button>
-          <button className="w-7 h-7 rounded-full hover:bg-slate-50 text-slate-600 flex items-center justify-center transition">
+          </Button>
+          <Button
+            variant="ghost"
+            className="w-7 h-7 rounded-full text-slate-600 font-bold hover:bg-slate-50 p-0"
+          >
             3
-          </button>
-          <button className="w-7 h-7 rounded-full hover:bg-slate-50 text-slate-600 flex items-center justify-center transition">
+          </Button>
+          <Button
+            variant="ghost"
+            className="w-7 h-7 rounded-full text-slate-600 font-bold hover:bg-slate-50 p-0"
+          >
             4
-          </button>
-          <button className="w-7 h-7 rounded-full hover:bg-slate-50 text-slate-600 flex items-center justify-center transition">
+          </Button>
+          <Button
+            variant="ghost"
+            className="w-7 h-7 rounded-full text-slate-600 font-bold hover:bg-slate-50 p-0"
+          >
             5
-          </button>
+          </Button>
 
-          <span className="px-1 text-slate-300 font-normal text-sm">...</span>
+          <span className="px-1 text-slate-300 font-normal text-sm select-none">
+            ...
+          </span>
 
-          <button className="p-2 text-slate-500 hover:text-slate-800 transition">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="w-8 h-8 text-slate-500 hover:text-slate-800 hover:bg-slate-50 p-0"
+          >
             <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-          </button>
+          </Button>
         </div>
       </div>
     </div>

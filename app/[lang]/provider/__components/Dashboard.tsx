@@ -3,12 +3,7 @@ import MetricCards from "../__components/MetricCards";
 import DealsTable from "../__components/DealsTable";
 import Container from "@/app/components/shared/Container";
 import Link from "next/link";
-import ModalContainer from "@/app/components/shared/ModalContainer";
-import CreateDealForm from "@/app/components/forms/muti-steps/CreateDealForm";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
-import { setOpenDealModal } from "@/redux/features/provider/deal.slice";
 import PromoCreateDeals from "./PromoCreateDeals";
-
 import DealSold from "@/app/components/icons/DealSold";
 import DealsRedeem from "@/app/components/icons/DealsRedeem";
 import DealYet from "@/app/components/icons/DealYet";
@@ -58,19 +53,16 @@ interface Props {
 }
 
 export default function Dashboard({ lang }: Props) {
-  const dispatch = useAppDispatch();
-  const { openDealModal } = useAppSelector((state) => state.deal);
-
   return (
     <Container>
       <div className="space-y-7 p-4 w-full text-gray-800">
         {/* Welcome Bar Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl font-bold text-gray-900 tracking-tight flex items-center gap-1.5">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 flex items-center gap-1.5">
               Hi Eva <span className="animate-pulse">👋</span>
             </h1>
-            <p className="text-xs text-gray-400 font-medium mt-0.5">
+            <p className="text-base text-gray-400 font-normal mt-0.5">
               Let's grow your business today
             </p>
           </div>
@@ -83,11 +75,9 @@ export default function Dashboard({ lang }: Props) {
         {/* Primary Analytical Data Feed Layout Container */}
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-[24px] font-bold text-gray-900">
-              Deal Purchased
-            </h2>
+            <h2 className="text-2xl font-bold text-gray-900">Deal Purchased</h2>
             <Link href={`/${lang}/provider/purchases`}>
-              <span className="text-xs font-se text-teal-500 underline">
+              <span className="text-base font-se text-teal-500 underline">
                 View all
               </span>
             </Link>
@@ -96,13 +86,6 @@ export default function Dashboard({ lang }: Props) {
           {/* Dynamic Inner Table Grid */}
           <DealsTable />
         </div>
-        <ModalContainer
-          title="Create new deal"
-          isOpen={openDealModal}
-          onClose={() => dispatch(setOpenDealModal(!openDealModal))}
-        >
-          <CreateDealForm />
-        </ModalContainer>
       </div>
     </Container>
   );

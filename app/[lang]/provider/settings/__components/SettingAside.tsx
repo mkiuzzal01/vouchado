@@ -11,7 +11,6 @@ export default function SettingAside({ lang }: SettingAsideProps) {
 
   const navItems = [
     { name: "Analytics", href: `/${lang}/provider/settings` },
-    { name: "Business Settings", href: `/${lang}/provider/settings/business` },
     { name: "Payment Information", href: `/${lang}/provider/settings/payment` },
     { name: "Notifications", href: `/${lang}/provider/settings/notifications` },
     {

@@ -17,7 +17,7 @@ export default function ProviderChangePassForm() {
           <TextInput name="confirmPassword" label="Confirm New Password" />
         </div>
         <div className="flex justify-end">
-          <SubmitButton title="Update" className="py-6 w-1/4" />
+          <SubmitButton title="Update" className="py-6 w-1/4 rounded-full" />
         </div>
       </AppForm>
     </div>
