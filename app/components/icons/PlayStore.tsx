@@ -8,6 +8,7 @@ export default function PlayStore({ color = "#212B36", size = 150 }: props) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
+      height={size}
       viewBox="0 0 177 56"
       fill="none"
     >

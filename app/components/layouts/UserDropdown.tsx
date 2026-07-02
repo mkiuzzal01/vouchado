@@ -91,8 +91,18 @@ export default function UserDropdown({ lang = "en", totalMoney }: Props) {
             href={`/${lang}/${role}`}
             className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-semibold text-slate-600 rounded-xl hover:bg-slate-50 cursor-pointer w-full"
           >
-            <Dashboard />
-            Dashboard
+            {role === "user" ? (
+              <>
+                <User className="w-4 h-4 text-slate-400" />
+                My Profile
+              </>
+            ) : (
+              <>
+                {" "}
+                <Dashboard />
+                Dashboard
+              </>
+            )}
           </Link>
         </DropdownMenuItem>
 

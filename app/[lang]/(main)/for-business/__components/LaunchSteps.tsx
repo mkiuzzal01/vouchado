@@ -2,9 +2,9 @@
 
 import ArrowRightIcon from "@/app/components/icons/ArrowRightIcon";
 import Container from "@/app/components/shared/Container";
-import step_1 from "@/public/for-business/Frame 2147240241.png";
-import step_2 from "@/public/for-business/Image (1).png";
-import step_3 from "@/public/for-business/Image.png";
+import step_1 from "@/public/business/launch_step (2).png";
+import step_2 from "@/public/business/launch_step (3).png";
+import step_3 from "@/public/business/launch_step (4).png";
 import Image, { StaticImageData } from "next/image";
 
 interface StepItem {
@@ -67,7 +67,7 @@ export default function LaunchSteps() {
           <div key={step.id} className="relative lg:w-[80%] m-auto">
             {/* Main Step Card Container with themed shadow styling */}
             <div
-              className={`relative bg-white border-2 ${step.borderColor} ${step.shadowClass} rounded-[2rem] p-6 pt-12 pb-10 flex flex-col items-center justify-between text-center h-full min-h-[380px]`}
+              className={`relative bg-white border-2 ${step.borderColor} ${step.shadowClass} rounded-4xl p-6 pt-12 pb-10 flex flex-col items-center justify-between text-center h-full min-h-[380px]`}
             >
               {/* Overlapping Top-Left Badge */}
               <div

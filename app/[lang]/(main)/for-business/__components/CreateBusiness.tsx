@@ -3,9 +3,9 @@ import Image from "next/image";
 import Container from "@/app/components/shared/Container";
 import bgImage from "@/public/section-headers/Hero Section (6).png";
 import CheckIcon from "@/app/components/icons/CheckIcon";
-import homeIcon from "@/public/for-business/Frame 2147240661.png";
 import ArrowUp from "@/app/components/icons/ArrowUp";
-import batch from "@/public/for-business/Frame 2147240691.png";
+import batch from "@/public/business/Frame 2147240691.png";
+import homeIcon from "@/public/business/Frame 2147240661.png";
 
 interface Props {
   lang: string;

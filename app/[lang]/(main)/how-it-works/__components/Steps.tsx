@@ -3,11 +3,11 @@
 import React from "react";
 import Image from "next/image";
 import Container from "@/app/components/shared/Container";
-import step_1 from "@/public/howToWork/step_1.png";
-import step_2 from "@/public/howToWork/step_2.png";
-import step_3 from "@/public/howToWork/step_3.png";
-import step_4 from "@/public/howToWork/step_4.png";
-import step_5 from "@/public/howToWork/step_5.png";
+import step_1 from "@/public/business/step (1).png";
+import step_2 from "@/public/business/step (2).png";
+import step_3 from "@/public/business/step (3).png";
+import step_4 from "@/public/business/step (4).png";
+import step_5 from "@/public/business/step (5).png";
 import Curated from "@/app/components/icons/Curated";
 import Nearby from "@/app/components/icons/Nearby";
 import EasySearch from "@/app/components/icons/EasySearch";
@@ -120,7 +120,7 @@ export default function Steps() {
           {/* ── VERTICAL TIMELINE LINE ── */}
           <div
             className="
-              hidden lg:block absolute top-40 bottom-0
+              hidden lg:block absolute top-35 bottom-0
               left-6 lg:left-1/2
               w-[2px] bg-[#E2E8F0]
               z-10 lg:-translate-x-1/2
@@ -145,8 +145,8 @@ export default function Steps() {
                       absolute z-10
                       ${
                         isOdd
-                          ? "left-6 top-0 lg:left-1/2 lg:top-42 lg:-translate-y-1/2 lg:-translate-x-1/2"
-                          : "left-6 top-0 lg:left-[-45px] lg:top-[175px] lg:-translate-y-1/2 lg:-translate-x-1/2"
+                          ? "left-6 top-0 lg:left-1/2 lg:top-30 lg:-translate-y-1/2 lg:-translate-x-1/2"
+                          : "left-6 top-0 lg:left-[-45px] lg:top-[120px] lg:-translate-y-1/2 lg:-translate-x-1/2"
                       }
                     `}
                   >
@@ -170,7 +170,7 @@ export default function Steps() {
                       ${isImageLeft ? "lg:order-first lg:justify-end" : "lg:order-last lg:justify-start"}
                     `}
                   >
-                    <div className="relative w-full aspect-square flex items-center justify-center">
+                    <div className="relative w-full flex items-center justify-center">
                       <Image
                         src={step.imageSrc}
                         alt={step.title}

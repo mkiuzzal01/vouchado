@@ -17,6 +17,7 @@ import Facebook from "../icons/Facebook";
 import X from "../icons/X";
 import Linkedin from "../icons/Linkedin";
 import V from "../icons/V";
+import co2 from "@/public/hero/image 12.png";
 
 interface FooterLinks {
   footerLinks: any;
@@ -26,7 +27,12 @@ export default function Footer({ footerLinks }: FooterLinks) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const socialIcons = [Facebook, X, Linkedin, V];
+  const socialIcons = [
+    { icon: Facebook, link: "https://www.facebook.com/" },
+    { icon: X, link: "https://twitter.com/" },
+    { icon: Linkedin, link: "https://www.linkedin.com/" },
+    { icon: V, link: "https://www.youtube.com/" },
+  ];
 
   const features = [
     {
@@ -53,7 +59,6 @@ export default function Footer({ footerLinks }: FooterLinks) {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     setIsLoading(true);
     await new Promise((res) => setTimeout(res, 1000));
     setEmail("");
@@ -63,47 +68,26 @@ export default function Footer({ footerLinks }: FooterLinks) {
   return (
     <footer className="bg-[#161C24] text-white">
       <Container>
-        <div className="pt-20 space-y-14">
+        <div className="pt-12 md:pt-20">
           {/* ================= TOP GRID ================= */}
-          <div className="grid gap-8 xl:gap-10 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-8 xl:gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {/* LOGO + ABOUT */}
-            <div className="space-y-5 ml-[57px]">
+            <div className="space-y-5 ml-0 lg:ml-[57px] flex justify-center sm:justify-start">
               <Link href="/" className="inline-block">
                 <Image
                   src={footer_logo}
                   alt="Footer Logo"
                   width={230}
                   height={230}
-                  className="h-28 lg:h-35 xl:h-41 w-auto object-contain"
+                  className="h-20 sm:h-28 lg:h-35 xl:h-41 w-auto object-contain"
                 />
               </Link>
-
-              {/* SOCIAL */}
-              <div className="space-y-2.5">
-                <h3 className="text-xs xl:text-base font-normal text-[#DFE3E8]">
-                  Follow Us On
-                </h3>
-
-                <div className="flex items-center gap-3">
-                  {socialIcons.map((Icon, i) => (
-                    <Link
-                      key={i}
-                      href="#"
-                      className={cn(
-                        "size-9 flex items-center justify-center rounded-full bg-[#212B36] text-white",
-                      )}
-                    >
-                      <Icon size={14} />
-                    </Link>
-                  ))}
-                </div>
-              </div>
             </div>
 
             {/* LINKS */}
             <div className="grid grid-cols-2 gap-5 xl:gap-10">
               <div>
-                <h3 className="mb-4 sm:text-lg xl:text-xl font-semibold text-white">
+                <h3 className="mb-4 text-base sm:text-lg xl:text-xl font-semibold text-white">
                   Shopping
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-400">
@@ -121,7 +105,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
               </div>
 
               <div>
-                <h3 className="mb-4 sm:text-lg xl:text-xl font-semibold text-white">
+                <h3 className="mb-4 text-base sm:text-lg xl:text-xl font-semibold text-white">
                   Customer Services
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-400">
@@ -140,11 +124,10 @@ export default function Footer({ footerLinks }: FooterLinks) {
             </div>
 
             {/* NEWSLETTER */}
-            <div className="space-y-4 xl:col-span-1">
+            <div className="space-y-4 col-span-1 sm:col-span-2 lg:col-span-1">
               <p className="text-sm font-normal text-gray-400 leading-relaxed">
                 Subscribe to our newsletter & get exclusive
-                <br className="block" />
-                10% off your first order.
+                <br className="hidden sm:block" /> 10% off your first order.
               </p>
 
               <form
@@ -159,7 +142,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter Your Email"
                   className={cn(
-                    "h-11 border-0 bg-transparent px-4 text-white placeholder:text-white focus-visible:ring-0 focus-visible:ring-offset-0 flex-1",
+                    "h-11 border-0 bg-transparent px-4 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 flex-1 min-w-0 text-sm",
                   )}
                 />
 
@@ -167,18 +150,64 @@ export default function Footer({ footerLinks }: FooterLinks) {
                   type="submit"
                   disabled={isLoading}
                   className={cn(
-                    "h-11 cursor-pointer bg-linear-to-r from-[#4cd3e3] to-[#25a5b5] text-white rounded-full px-4 sm:px-8 font-semibold tracking-wider uppercase text-xs hover:opacity-90 transition-opacity",
+                    "h-11 cursor-pointer bg-linear-to-r from-[#4cd3e3] to-[#25a5b5] text-white rounded-full px-4 sm:px-8 font-semibold tracking-wider uppercase text-xs hover:opacity-90 transition-opacity shrink-0",
                   )}
                 >
                   {isLoading ? "..." : "SUBSCRIBE"}
                 </Button>
               </form>
+            </div>
+          </div>
 
-              {/* APP BUTTONS */}
-              <div className="flex justify-start xl:justify-end items-center gap-5 pt-8">
-                <PlayStore size={145} />
-                <AppleStore size={145} />
+          <div className="flex flex-col gap-6 lg:flex-row justify-between items-center">
+            <div className="space-y-2.5  lg:ml-[57px] flex flex-col items-center lg:items-start">
+              <h3 className="text-xs xl:text-base font-normal text-[#DFE3E8]">
+                Follow Us On
+              </h3>
+              <div className="flex items-center gap-3">
+                {socialIcons.map((item, i) => (
+                  <Link
+                    key={i}
+                    target="_blank"
+                    href={item.link}
+                    className={cn(
+                      "size-9 flex items-center justify-center rounded-full bg-[#212B36] text-white hover:bg-[#2BC4CA] transition-colors",
+                    )}
+                  >
+                    <item.icon size={14} />
+                  </Link>
+                ))}
               </div>
+            </div>
+
+            <div className="flex flex-wrap justify-center lg:justify-end  gap-4 sm:gap-5">
+              <Link
+                href="https://co2offsetit.com/"
+                className="cursor-pointer transition-transform hover:scale-105"
+                target="_blank"
+              >
+                <Image
+                  src={co2}
+                  alt="co2"
+                  width={145}
+                  height={45}
+                  className="w-[120px] sm:w-[145px] h-auto"
+                />
+              </Link>
+              <Link
+                href="https://play.google.com"
+                className="cursor-pointer transition-transform hover:scale-105"
+                target="_blank"
+              >
+                <PlayStore size={145} />
+              </Link>
+              <Link
+                href="https://www.apple.com/"
+                className="cursor-pointer transition-transform hover:scale-105"
+                target="_blank"
+              >
+                <AppleStore size={145} />
+              </Link>
             </div>
           </div>
 
@@ -188,14 +217,16 @@ export default function Footer({ footerLinks }: FooterLinks) {
               <div
                 key={item.title}
                 className={cn(
-                  "rounded-xl border border-gray-800 bg-[#1C232D] p-4",
+                  "rounded-xl border border-gray-800 bg-[#1C232D] p-5",
                   "hover:border-gray-600 transition",
                 )}
               >
-                <div className="flex items-center gap-3">
-                  <div>{item.icon}</div>
+                <div className="flex items-start gap-4">
+                  <div className="shrink-0 mt-1">{item.icon}</div>
                   <div className="font-normal">
-                    <h4 className="text-xl mb-1">{item.title}</h4>
+                    <h4 className="text-lg font-bold mb-1 text-white">
+                      {item.title}
+                    </h4>
                     <p className="text-sm text-gray-400 leading-relaxed">
                       {item.desc}
                     </p>
@@ -206,12 +237,14 @@ export default function Footer({ footerLinks }: FooterLinks) {
           </div>
 
           {/* ================= BOTTOM ================= */}
-          <div className="border-t border-gray-800 py-4 sm:py-6 xl:py-8">
-            <p className="text-base font-semibold text-[#919EAB] text-center">
-              © {new Date().getFullYear()} 2026 All Rights Reserved | HTML Site
-              by
-              <Link href="#">
-                <span className="text-white"> VUCHADO</span>
+          <div className="border-t border-gray-800 my-8">
+            <p className="text-sm sm:text-base font-semibold text-[#919EAB] text-center py-6">
+              © 2026 All Rights Reserved | HTML Site by{" "}
+              <Link
+                href="#"
+                className="text-white hover:text-[#2BC4CA] transition"
+              >
+                VUCHADO
               </Link>
             </p>
           </div>
