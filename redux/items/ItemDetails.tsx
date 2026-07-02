@@ -14,7 +14,7 @@ export const product: IProduct = {
   discountBadge: 17,
   quantity: 5,
   overview:
-    "Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life. From viewing artifacts like the Olympic torch to collecting personalized memories in your digital locker, it is an inspiring journey through sports history Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life.Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life. From viewing artifacts like the Olympic torch to collecting personalized memories in your digital locker, it is an inspiring journey through sports history Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to lifeExperience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life. From viewing artifacts like the Olympic torch to collecting personalized memories in your digital locker, it is an inspiring journey through sports history Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life",
+    "Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life. From viewing artifacts like the Olympic torch to collecting personalized memories in your digital locker, it is an inspiring journey through sports history Experience American athletic excellence,",
   location: "1 Olympic Plaza, Colorado Springs, CO 80909",
   highlights: [
     { id: 1, text: "Explore the inspiring history of Team USA" },
@@ -56,6 +56,22 @@ export const product: IProduct = {
     },
     {
       id: 3,
+      name: "Liam B.",
+      rating: 5,
+      date: "1 month ago",
+      comment:
+        "The fabric of this scarf is luxurious and warm. It adds a nice touch to any outfit, and I find myself reaching for it almost every day!",
+    },
+    {
+      id: 4,
+      name: "Liam B.",
+      rating: 5,
+      date: "1 month ago",
+      comment:
+        "The fabric of this scarf is luxurious and warm. It adds a nice touch to any outfit, and I find myself reaching for it almost every day!",
+    },
+    {
+      id: 5,
       name: "Liam B.",
       rating: 5,
       date: "1 month ago",

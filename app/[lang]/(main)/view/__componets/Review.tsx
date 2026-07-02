@@ -1,6 +1,8 @@
-import ModalContainer from "@/app/components/shared/ModalContainer";
-import { useState } from "react";
-import ViewAllReview from "./ViewAllReview";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/pagination";
 
 interface ReviewItem {
   id: string | number;
@@ -17,10 +19,8 @@ interface Props {
 }
 
 export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
-  const [showAllReviews, setShowAllReviews] = useState(false);
-
   return (
-    <div className="space-y-6 pt-8 border-t border-gray-100">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -29,53 +29,54 @@ export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
           </h3>
 
           <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
-            <span className="text-gray-900 font-extrabold text-sm">
+            <span className="text-gray-900 font-extrabold text-4xl">
               {rating.toFixed(1)}
             </span>
 
-            <span className="text-amber-500">★★★★★</span>
-
-            <span>Based on {totalReviews}+ reviews</span>
+            <span className="text-5xl text-amber-500">★★★★★</span>
           </div>
+          <p>Based on {totalReviews || reviews.length}+ reviews</p>
         </div>
+      </div>
 
-        <button
-          onClick={() => setShowAllReviews(true)}
-          className="rounded-full cursor-pointer border border-gray-200 px-4 py-1.5 text-xs font-bold text-[#0E6A70] hover:bg-gray-50 transition"
+      {/* Swiper Slider Wrapper Instead of Grid */}
+      <div className="w-full pb-10 review-swiper-container">
+        <Swiper
+          modules={[Pagination]}
+          spaceBetween={16}
+          slidesPerView={1}
+          breakpoints={{
+            640: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+          }}
+          className="w-full"
         >
-          View all reviews
-        </button>
-      </div>
+          {reviews.map((rev) => (
+            <SwiperSlide key={rev.id} className="h-auto flex">
+              <div className="shadow bg-white my-2 flex flex-col justify-between w-full h-full rounded-2xl border border-gray-100 p-5 transition">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-xs text-gray-400">
+                    <span className="text-amber-500 font-medium">★★★★★</span>
+                    <span>{rev.date}</span>
+                  </div>
 
-      {/* Reviews Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {reviews.map((rev) => (
-          <div
-            key={rev.id}
-            className="flex flex-col justify-between my-2 rounded-2xl shadow-md bg-[#FAFAFA]/60 p-4 transition hover:shadow-sm"
-          >
-            <div className="space-y-2">
-              <div className="flex items-center justify-between text-xs text-gray-400">
-                <span className="text-amber-500 font-medium">★★★★★</span>
-                <span>{rev.date}</span>
+                  <h5 className="text-lg font-bold text-gray-900">
+                    {rev.name}
+                  </h5>
+
+                  <p className="text-sm font-normal text-gray-600 line-clamp-4">
+                    "{rev.comment}"
+                  </p>
+                </div>
               </div>
-
-              <h5 className="text-xl font-bold text-gray-900">{rev.name}</h5>
-
-              <p className="text-base font-normal text-gray-600">
-                "{rev.comment}"
-              </p>
-            </div>
-          </div>
-        ))}
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
-      <ModalContainer
-        title="All Reviews"
-        isOpen={showAllReviews}
-        onClose={() => setShowAllReviews(false)}
-      >
-        <ViewAllReview reviews={reviews} />
-      </ModalContainer>
     </div>
   );
 }

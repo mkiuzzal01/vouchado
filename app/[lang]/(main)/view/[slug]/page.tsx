@@ -1,4 +1,4 @@
-import ItemDetails from "../__componets/IntemDetials";
+import ItemDetails from "../__componets/ItemDetials";
 
 interface Props {
   params: Promise<{ slug: string; lang: string }>;

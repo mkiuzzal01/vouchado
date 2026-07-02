@@ -14,8 +14,8 @@ export default function AsidePoint() {
         />
 
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-          <h1 className="text-2xl font-bold">Sarah Lee</h1>
-          <h3 className="mt-2 text-4xl font-extrabold">1,800</h3>
+          <h1 className="text-xl font-bold">Sarah Lee</h1>
+          <h3 className="mt-2 text-[40px] font-extrabold">1,800</h3>
           <p className="mt-1 text-sm text-white/70">Points you've collected</p>
         </div>
       </div>

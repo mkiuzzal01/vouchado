@@ -22,7 +22,7 @@ export default function Overview({ description, highlights }: Product) {
 
       {/* Highlights */}
       <div className="space-y-4 pt-6 border-t border-gray-100">
-        <h3 className="text-base font-bold text-gray-900">Highlights</h3>
+        <h3 className="text-2xl font-bold text-gray-900">Highlights</h3>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 text-wrap gap-4">
           {highlights?.map((h) => (

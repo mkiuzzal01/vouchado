@@ -28,7 +28,7 @@ export default function Header({ lang }: HeaderProps) {
 
   return (
     <Container>
-      <header className="sticky top-0 z-40 h-[72px] w-full">
+      <header className="py-[40px] w-full">
         <div className="mx-auto flex h-full w-full items-center justify-between px-4 md:px-6">
           {/* Logo */}
           <div className="shrink-0">
@@ -36,8 +36,8 @@ export default function Header({ lang }: HeaderProps) {
               <Image
                 src={logo}
                 alt="Vouchado Logo"
-                width={130}
-                height={32}
+                width={145}
+                height={42}
                 priority
                 className="h-8 w-auto object-contain"
               />
@@ -72,9 +72,8 @@ export default function Header({ lang }: HeaderProps) {
           <div className="flex items-center gap-4">
             <div className="hidden lg:flex items-center gap-2">
               <Link href={`/${lang}/provider/settings/notifications`}>
-                <button className="relative p-2 rounded-full border border-gray-200 bg-white shadow-xs hover:bg-gray-50 transition-colors">
+                <button className="relative p-2 rounded-full border-2 border-gray-200 bg-white hover:bg-gray-50">
                   <Bell size={20} className="text-gray-600" />
-                  <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-red-500"></span>
                 </button>
               </Link>
             </div>

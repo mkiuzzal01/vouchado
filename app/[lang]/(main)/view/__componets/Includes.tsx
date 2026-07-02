@@ -19,17 +19,11 @@ export default function Includes({ included = [], notIncluded = [] }: Props) {
           exhibits, interactive challenges, and incredible athlete stories,
           it&apos;s an unforgettable experience for the whole family. Discover
           the legacy of the Olympic & Paralympic Games at the world&apos;s first
-          Olympic & Paralympic museum. With immersive exhibits, interactive
-          challenges, and incredible athlete stories, it&apos;s an unforgettable
-          experience for the whole family. Discover the legacy of the Olympic &
-          Paralympic Games at the world&apos;s first Olympic & Paralympic
-          museum. With immersive exhibits, interactive challenges, and
-          incredible athlete stories, it&apos;s an unforgettable experience for
-          the whole family.
+          Olympic & Paralympic museum.
         </p>
       </div>
       {/* Two-Column Grid Setup */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
         {/* Included Column */}
         {included.length > 0 && (
           <div className="space-y-4 bg-gray-200 rounded-lg p-4">

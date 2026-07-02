@@ -5,7 +5,6 @@ import product_1 from "@/public/services/service_details.png";
 import product_2 from "@/public/services/service_details.png";
 import product_3 from "@/public/services/service_details.png";
 import product_4 from "@/public/services/service_details.png";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Contact from "@/app/components/icons/Contact";
 import Lock from "@/app/components/icons/Lock";
 import Message from "@/app/components/icons/Message";
@@ -15,10 +14,10 @@ import Check from "@/app/components/icons/Check";
 import Mobile from "@/app/components/icons/Mobile";
 import CheckMark from "@/app/components/icons/CheckMark";
 import Star from "@/app/components/icons/Star";
-import Includes from "../__componets/Includes";
-import Review from "../__componets/Review";
-import Overview from "../__componets/Overview";
-import ItemPhotos from "../__componets/ItemPhotos";
+import Includes from "./Includes";
+import Review from "./Review";
+import Overview from "./Overview";
+import ItemPhotos from "./ItemPhotos";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { addToCart, removeFromCart } from "@/redux/features/cart/cart.slice";
 import { toast } from "react-toastify";
@@ -40,6 +39,7 @@ import VouchadoCount from "./VouchadoCount";
 import GiftVoucher from "@/app/components/icons/GiftVoucher";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import GiftVoucherForm from "@/app/components/forms/GiftVoucherForm";
+import GiftVoucherCart from "./GiftVoucherCart";
 
 export const promos = [
   {
@@ -72,6 +72,8 @@ interface Props {
 export default function ItemDetails({ slug, lang }: Props) {
   const [openGiftVoucherModal, setOpenGiftVoucherModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [activeSection, setActiveSection] = useState("overview");
+
   const { items } = useAppSelector((state) => state.cart);
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
@@ -130,6 +132,19 @@ export default function ItemDetails({ slug, lang }: Props) {
 
   const tabItems = ["Overview", "What's Included", "Reviews"];
 
+  const getSectionId = (tab: string) => {
+    if (tab.toLowerCase() === "what's included") return "whats-included";
+    return tab.toLowerCase().replace(/\s+/g, "-");
+  };
+
+  const handleScrollToSection = (id: string) => {
+    setActiveSection(id);
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const guarantees = [
     { label: "Instant Confirmation", icon: <CheckMark size={18} /> },
     { label: "Mobile Ticket", icon: <Mobile size={18} /> },
@@ -140,11 +155,11 @@ export default function ItemDetails({ slug, lang }: Props) {
   ];
 
   return (
-    <section className="w-full  min-h-screen py-6 md:py-10 selection:bg-[#2BC4CA]/20">
+    <section className="w-full min-h-screen py-6 md:py-10 selection:bg-[#2BC4CA]/20">
       <Container>
         {/* --- TWO-COLUMN MASTER CONTENT TRACK GRID --- */}
-        <div className="flex gap-20">
-          <div className="w-full lg:min-w-[992px] rounded-2xl ">
+        <div className="flex flex-col lg:flex-row gap-5 lg:gap-20">
+          <div className="w-full lg:min-w-[992px] rounded-2xl">
             {/* Header Content Info Block */}
             <div className="space-y-3">
               <h1 className="text-2xl md:text-3xl lg:text-[64px] font-bold text-[#212B36] tracking-tight leading-tight">
@@ -158,7 +173,6 @@ export default function ItemDetails({ slug, lang }: Props) {
                 <Link href={`/${lang}/provider/provider-profile`}>
                   <div className="flex items-center gap-2">
                     <GiftVoucher color="#637381" size={24} />
-
                     <p className="lg:text-xl text-[#637381] hover:underline">
                       {product?.gift_voucher}
                     </p>
@@ -179,7 +193,7 @@ export default function ItemDetails({ slug, lang }: Props) {
                 {guarantees.map((guarantee) => (
                   <div
                     key={guarantee.label}
-                    className="flex items-center gap-1.5 "
+                    className="flex items-center gap-1.5"
                   >
                     {guarantee.icon}
                     <span className="text-[#454F5B] font-normal">
@@ -192,7 +206,7 @@ export default function ItemDetails({ slug, lang }: Props) {
             </div>
 
             {/* PRODUCT HERO MEDIA CONTAINER CAROUSEL BLOCK */}
-            <div className="space-y-3">
+            <div className="space-y-3 mt-6">
               <ItemPhotos
                 images={[
                   product_1.src,
@@ -203,61 +217,61 @@ export default function ItemDetails({ slug, lang }: Props) {
               />
             </div>
 
-            {/* TAB SYSTEM SECTION INTERFACES */}
-            <div className="flex items-center gap-6 overflow-x-auto scrollbar-none text-sm font-semibold text-gray-400">
-              <Tabs defaultValue="overview" className="w-full">
-                {/* --- TAB NAVIGATION HEADER --- */}
-                <TabsList
-                  variant={"line"}
-                  className="w-full h-auto gap-6 overflow-x-auto scrollbar-none"
-                >
-                  {tabItems.map((tab) => {
-                    const value = tab.toLowerCase().replace(/\s+/g, "-");
-                    return (
-                      <TabsTrigger
-                        className="text-md lg:text-lg font-semibold"
-                        key={value}
-                        value={value}
-                      >
-                        {tab}
-                      </TabsTrigger>
-                    );
-                  })}
-                </TabsList>
-                <TabsContent value="overview" className="mt-4">
-                  <Overview
-                    description={product?.overview}
-                    highlights={product?.highlights}
-                    included={product?.included}
-                    notIncluded={product?.notIncluded}
-                  />
-                </TabsContent>
+            {/* --- ANCHOR SCROLL LINK NAVIGATION BAR --- */}
+            <div className="sticky top-0 z-30 border-b border-gray-200 py-4">
+              <div className="flex items-center gap-6 overflow-x-auto scrollbar-none">
+                {tabItems.map((tab) => {
+                  const sectionId = getSectionId(tab);
+                  const isActive = activeSection === sectionId;
+                  return (
+                    <button
+                      key={sectionId}
+                      onClick={() => handleScrollToSection(sectionId)}
+                      className={`text-md lg:text-lg font-semibold whitespace-nowrap h-full relative transition-colors border-b-2 ${
+                        isActive
+                          ? "text-[#2BC4CA] border-[#2BC4CA]"
+                          : "border-transparent text-black"
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-                <TabsContent value="what's-included" className="mt-4">
-                  <Includes
-                    included={product?.included}
-                    notIncluded={product?.notIncluded}
-                  />
-                </TabsContent>
+            {/* --- LAYOUT CONTENT SECTIONS --- */}
+            <div className="mt-8 space-y-16">
+              <section id="overview" className="scroll-mt-24">
+                <Overview
+                  description={product?.overview}
+                  highlights={product?.highlights}
+                  included={product?.included}
+                  notIncluded={product?.notIncluded}
+                />
+              </section>
 
-                <TabsContent value="reviews" className="mt-4">
-                  <Review rating={200} reviews={product?.customerReviews} />
-                </TabsContent>
-              </Tabs>
+              <section id="whats-included" className="scroll-mt-24">
+                <Includes
+                  included={product?.included}
+                  notIncluded={product?.notIncluded}
+                />
+              </section>
+
+              <section id="reviews" className="scroll-mt-24">
+                <Review rating={8.4} reviews={product?.customerReviews} />
+              </section>
             </div>
           </div>
 
-          {/* ================================================================= */}
-          {/* RIGHT SIDEBAR COMPONENT: STICKY CHECKOUT BOOKING CARD (4 / 12 Columns) */}
-          {/* ================================================================= */}
-          <div className="w-full lg:min-w-[608px]  space-y-4">
+          {/* RIGHT SIDEBAR COMPONENT: STICKY CHECKOUT BOOKING CARD */}
+          <div className="w-full lg:min-w-[608px] space-y-4">
             <div className="flex items-center justify-end gap-2">
               <Check />
               <span className="font-medium text-[#2BC4CA]">
                 Best Price Guarantee
               </span>
             </div>
-            {/* Primary Action Panel wrapper card element layout */}
             <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
               <div>
                 <h4 className="text-xl lg:text-3xl font-bold text-gray-900">
@@ -292,55 +306,52 @@ export default function ItemDetails({ slug, lang }: Props) {
               </div>
 
               <div className="border-t border-[#DFE3E8]" />
-              {/* Simple Feature Checklist */}
               <div className="space-y-3 pt-2 text-xs text-gray-600 font-light">
                 <div className="flex items-start gap-2.5">
-                  <div className="shrink-0 p-3 rounded-full bg-[#e5f7f8]  border-gray-300 flex items-center justify-center">
+                  <div className="shrink-0 p-3 rounded-full bg-[#e5f7f8] flex items-center justify-center">
                     <CheckMark size={24} color="#31BFC8" />
                   </div>
                   <div>
-                    <p className="text-xl  font-bold text-gray-900">
+                    <p className="text-xl font-bold text-gray-900">
                       Instant Confirmation
                     </p>
-                    <p className=" text-gray-400 mt-0.5">
+                    <p className="text-gray-400 mt-0.5">
                       Get your tickets instantly
                     </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <div className="shrink-0 p-3 rounded-full bg-[#e5f7f8]  border-gray-300 flex items-center justify-center">
+                  <div className="shrink-0 p-3 rounded-full bg-[#e5f7f8] flex items-center justify-center">
                     <Mobile size={24} color="#31BFC8" />
                   </div>
                   <div>
-                    <p className="text-xl  font-bold text-gray-900">
+                    <p className="text-xl font-bold text-gray-900">
                       Mobile Ticket
                     </p>
-                    <p className=" text-gray-400 mt-0.5">
+                    <p className="text-gray-400 mt-0.5">
                       Show your ticket on your phone
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Core Input Quantity Ticket Selector Panel Wrapper */}
               <CounterItem
                 max={product.quantity}
                 defaultValue={1}
                 onChange={setQuantity}
               />
 
-              {/* Action Routes Button Modules */}
               <div className="space-y-2.5 pt-1">
                 {productIsInCart ? (
                   <Link href={`/${lang}/cart`}>
-                    <Button className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg  transition-all active:scale-[0.99]">
+                    <Button className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg transition-all active:scale-[0.99]">
                       View Cart
                     </Button>
                   </Link>
                 ) : (
                   <Button
                     onClick={() => handleAddToCart()}
-                    className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg  transition-all active:scale-[0.99]"
+                    className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg transition-all active:scale-[0.99]"
                   >
                     Add to Cart
                   </Button>
@@ -348,7 +359,7 @@ export default function ItemDetails({ slug, lang }: Props) {
                 <Button
                   onClick={() => handleAddToWishlist()}
                   variant="ghost"
-                  className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg  font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
+                  className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-1.5"
                 >
                   <Heart color={productIsInWishlist ? "red" : "#31BFC8"} />
                   {productIsInWishlist
@@ -358,22 +369,20 @@ export default function ItemDetails({ slug, lang }: Props) {
                 <Link href={`/en/chat`}>
                   <Button
                     variant="ghost"
-                    className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg  font-medium  hover:bg-gray-50 flex items-center justify-center gap-1.5"
+                    className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-1.5"
                   >
                     <Message size={17} /> Chat with support
                   </Button>
                 </Link>
               </div>
 
-              {/* Micro Secured Footers Info */}
-              <div className="pt-3  border-gray-100 flex items-center justify-center gap-1.5 text-[11px] text-gray-400 font-light">
+              <div className="pt-3 flex items-center justify-center gap-1.5 text-[11px] text-gray-400 font-light">
                 <Lock />
                 <span>Secure checkout</span>
               </div>
             </div>
 
-            {/* Support/Assistance secondary side widget component panel */}
-            <div className="bg-white rounded-2xl border border-gray-100 p-4  flex items-center gap-3 text-left">
+            <div className="bg-white rounded-2xl border border-gray-100 p-4 flex items-center gap-3 text-left">
               <div className="shrink-0 w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center">
                 <Contact size={25} />
               </div>
@@ -388,7 +397,7 @@ export default function ItemDetails({ slug, lang }: Props) {
             </div>
             <ProductLocation />
             <VouchadoCount />
-            {/* <GiftVoucher /> */}
+            <GiftVoucherCart />
           </div>
         </div>
         <SimilarItem lang={lang} />
