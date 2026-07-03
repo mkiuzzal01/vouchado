@@ -14,7 +14,7 @@ interface Props {
 export default function CreateBusiness({ lang }: Props) {
   const features = [
     "Get Free of fee (provision) for 6 months",
-    "get bootsed for 12 month",
+    "Create Deals that fit your business",
     "get featured in our newsletter",
     "no risk - only win",
   ];

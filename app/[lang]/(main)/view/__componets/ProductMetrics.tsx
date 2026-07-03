@@ -1,6 +1,5 @@
 import { Hourglass } from "lucide-react";
 import { cn } from "@/lib/utils";
-import Star from "@/app/components/icons/Star";
 import Start from "@/app/components/icons/Start";
 
 interface ProductMetricsProps {
@@ -25,7 +24,7 @@ export function ProductMetrics({ className }: ProductMetricsProps) {
       </div>
 
       {/* Divider */}
-      <div className="h-4 w-[1px] bg-border" aria-hidden="true" />
+      <div className="h-4 w-px bg-border" aria-hidden="true" />
 
       {/* Selling Status */}
       <div className="flex items-center gap-1.5">
@@ -36,7 +35,7 @@ export function ProductMetrics({ className }: ProductMetricsProps) {
       </div>
 
       {/* Divider */}
-      <div className="h-4 w-[1px] bg-border" aria-hidden="true" />
+      <div className="h-4 w-px bg-border" aria-hidden="true" />
 
       {/* Countdown */}
       <div className="text-lg font-medium text-red-500">Ends in 3h</div>

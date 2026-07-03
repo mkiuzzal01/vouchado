@@ -33,8 +33,8 @@ export default function ProviderUpdateForm({ setIsOpen }: Props) {
         <div className="flex flex-col gap-6">
           {/* Top Row: File Uploads Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FileInput name="logo" />
-            <FileInput name="cover_image" />
+            <FileInput label="Business Logo" name="logo" />
+            <FileInput label="Cover Image" name="cover_image" />
           </div>
 
           <hr className="border-gray-100" />

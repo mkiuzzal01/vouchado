@@ -19,7 +19,7 @@ export default function OrderSummary() {
   const vatAmount = subTotal * vatRate;
 
   return (
-    <div className="w-full max-w-md flex flex-col gap-4">
+    <div className="w-full flex flex-col gap-4">
       {/* Main Order Summary Card */}
       <div className="w-full bg-white p-6 rounded-2xl">
         {/* Header */}

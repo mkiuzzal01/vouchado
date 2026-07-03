@@ -17,7 +17,7 @@ export default function Page() {
 
   return (
     <div>
-      <PageHero backgroundImage={Promotions.src} title="Voucher" />
+      <PageHero backgroundImage={Promotions.src} title="Unused Voucher" />
       <Container className="my-20">
         <div className="w-full lg:max-w-7xl mx-auto ">
           {/* Title */}

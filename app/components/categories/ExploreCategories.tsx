@@ -1,11 +1,8 @@
 "use client";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-
 import "swiper/css";
 import "swiper/css/navigation";
-
 import Adventures from "../icons/Avantures";
 import Beauty from "../icons/Beauty";
 import Cultural from "../icons/Caltural";
@@ -16,6 +13,7 @@ import Container from "../shared/Container";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeader from "../shared/SectionHeader";
 import Link from "next/link";
+import Fashion from "../icons/Fashion";
 
 export default function ExploreCategories() {
   const categories = [
@@ -50,8 +48,8 @@ export default function ExploreCategories() {
       tranding: false,
     },
     {
-      icon: <Beauty size={64} />,
-      name: "Beauty & Wellness",
+      icon: <Fashion />,
+      name: "Fashion",
       tranding: false,
     },
   ];

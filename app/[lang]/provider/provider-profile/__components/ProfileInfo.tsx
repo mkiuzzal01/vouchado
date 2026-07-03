@@ -75,7 +75,7 @@ export default function ProfileInfo() {
         {CONTACT_ITEMS.map((item, idx) => (
           <div
             key={idx}
-            className="flex items-center gap-3 bg-white p-3 px-4 rounded-xl border border-gray-100 shadow-sm"
+            className="flex items-center gap-3 bg-white p-3 px-4 rounded-full border border-gray-100"
           >
             <span className="text-teal-600 bg-teal-50 p-2 rounded-xl flex items-center justify-center">
               {item.icon}

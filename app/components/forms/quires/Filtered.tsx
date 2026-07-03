@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState, useTransition, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Slider } from "@/components/ui/slider";
@@ -8,6 +7,13 @@ const MAX_RANGE = 250;
 const DEFAULT_MIN = 50;
 const DEFAULT_MAX = 200;
 const DEBOUNCE_DELAY = 400;
+
+const RATING_OPTIONS = ["5.0", "4.0+", "3.0+", "2.0+", "1.0+"];
+const AVAILABILITY_OPTIONS = [
+  { id: "last_day", label: "Last Day Offers" },
+  { id: "in_stock", label: "Only one week to go" },
+  { id: "out_stock", label: "50% Discounted and More" },
+];
 
 export default function Filtered() {
   const router = useRouter();
@@ -38,7 +44,6 @@ export default function Filtered() {
     () => searchParams.get("rating") || null,
   );
 
-  // CHANGED: Shifted from string[] to string | null
   const [availability, setAvailability] = useState<string | null>(
     () => searchParams.get("availability") || null,
   );
@@ -51,7 +56,6 @@ export default function Filtered() {
     let max = maxPrice;
     if (min > max) [min, max] = [max, min];
 
-    // Strip parameters only if they match initial layout states to keep URL clean
     if (min !== DEFAULT_MIN) params.set("min_price", String(min));
     else params.delete("min_price");
 
@@ -64,7 +68,6 @@ export default function Filtered() {
     if (selectedRating) params.set("rating", selectedRating);
     else params.delete("rating");
 
-    // CHANGED: Updated URL parsing logic for single availability selection
     if (availability) params.set("availability", availability);
     else params.delete("availability");
 
@@ -103,7 +106,6 @@ export default function Filtered() {
     setSelectedRating((prev) => (prev === val ? null : val));
   };
 
-  // CHANGED: Reconfigured toggle handler to enforce single selection
   const handleAvailabilityToggle = (val: string) => {
     setAvailability((prev) => (prev === val ? null : val));
   };
@@ -113,7 +115,7 @@ export default function Filtered() {
     setMaxPrice(DEFAULT_MAX);
     setLocation("");
     setSelectedRating(null);
-    setAvailability(null); // CHANGED: Resets to null
+    setAvailability(null);
   };
 
   const hasActiveFilters =
@@ -121,11 +123,11 @@ export default function Filtered() {
     maxPrice !== DEFAULT_MAX ||
     location !== "" ||
     selectedRating !== null ||
-    availability !== null; // CHANGED: Validates against null
+    availability !== null;
 
   return (
     <div className="sticky top-12 z-10 w-full bg-white lg:max-w-[340px] rounded-2xl border border-slate-100 p-6">
-      {/* Title Header */}
+      {/* Header */}
       <div className="text-[17px] font-semibold text-[#1F2E3D] pb-4 border-b border-slate-100 flex items-center justify-between">
         <span>Filters</span>
         {hasActiveFilters && (
@@ -138,173 +140,196 @@ export default function Filtered() {
         )}
       </div>
 
-      {/* ================= PRICE FILTER SECTION ================= */}
-      <div className="mt-5 flex flex-col gap-4">
-        <span className="text-[15px] font-semibold text-[#1F2E3D]">Price</span>
+      {/* Price Filter Section */}
+      <PriceFilter
+        minPrice={minPrice}
+        maxPrice={maxPrice}
+        setMinPrice={setMinPrice}
+        setMaxPrice={setMaxPrice}
+        onSliderChange={handleSliderChange}
+      />
 
-        {/* Slider track with moving indicators */}
-        <div className="relative pt-2 pb-6 px-2">
-          <Slider
-            value={[minPrice, maxPrice]}
-            onValueChange={handleSliderChange}
-            max={MAX_RANGE}
-            min={0}
-            step={1}
-            className="w-full"
+      <hr className="my-5 border-slate-100" />
+
+      {/* Ratings Accordion Section */}
+      <AccordionSection
+        title="Rating"
+        isOpen={isRatingOpen}
+        onToggle={() => setIsRatingOpen(!isRatingOpen)}
+      >
+        {RATING_OPTIONS.map((ratingOption) => (
+          <label
+            key={ratingOption}
+            className="flex items-center gap-3 group cursor-pointer text-[14px] font-medium text-[#1F2E3D] transition-colors"
+          >
+            <input
+              type="checkbox"
+              checked={selectedRating === ratingOption}
+              onChange={() => handleRatingToggle(ratingOption)}
+              className="w-[18px] h-[18px] rounded-md border-[#919EAB] text-[#1ec6cc] focus:ring-[#1ec6cc]/30 accent-[#1ec6cc] cursor-pointer transition-all"
+            />
+            <div className="flex items-center gap-1">
+              <svg
+                className="w-4 h-4 text-[#ffb800]"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <span>{ratingOption}</span>
+            </div>
+          </label>
+        ))}
+      </AccordionSection>
+
+      <hr className="my-5 border-slate-100" />
+
+      {/* Availability Accordion Section */}
+      <AccordionSection
+        title="Availability"
+        isOpen={isAvailabilityOpen}
+        onToggle={() => setIsAvailabilityOpen(!isAvailabilityOpen)}
+      >
+        {AVAILABILITY_OPTIONS.map((option) => (
+          <label
+            key={option.id}
+            className="flex items-center gap-3 group cursor-pointer text-[14px] font-medium text-[#1F2E3D] transition-colors"
+          >
+            <input
+              type="checkbox"
+              checked={availability === option.id}
+              onChange={() => handleAvailabilityToggle(option.id)}
+              className="w-[18px] h-[18px] rounded-md border-[#919EAB] text-[#1ec6cc] focus:ring-[#1ec6cc]/30 accent-[#1ec6cc] cursor-pointer transition-all"
+            />
+            <span>{option.label}</span>
+          </label>
+        ))}
+      </AccordionSection>
+    </div>
+  );
+}
+
+// --- SUB-COMPONENTS ---
+
+interface PriceFilterProps {
+  minPrice: number;
+  maxPrice: number;
+  setMinPrice: (val: number) => void;
+  setMaxPrice: (val: number) => void;
+  onSliderChange: (values: number[]) => void;
+}
+
+function PriceFilter({
+  minPrice,
+  maxPrice,
+  setMinPrice,
+  setMaxPrice,
+  onSliderChange,
+}: PriceFilterProps) {
+  return (
+    <div className="mt-5 flex flex-col gap-4">
+      <span className="text-[15px] font-semibold text-[#1F2E3D]">Price</span>
+
+      {/* Slider */}
+      <div className="relative pt-2 pb-6 px-2">
+        <Slider
+          value={[minPrice, maxPrice]}
+          onValueChange={onSliderChange}
+          max={MAX_RANGE}
+          min={0}
+          step={1}
+          className="w-full"
+        />
+
+        {/* Dynamic Labels */}
+        <div className="absolute left-0 right-0 top-6 text-[13px] font-bold text-[#1F2E3D] pointer-events-none select-none">
+          <span
+            className="absolute -translate-x-1/2 transition-all duration-75"
+            style={{ left: `${(minPrice / MAX_RANGE) * 100}%` }}
+          >
+            ${minPrice}
+          </span>
+          <span
+            className="absolute -translate-x-1/2 transition-all duration-75"
+            style={{ left: `${(maxPrice / MAX_RANGE) * 100}%` }}
+          >
+            ${maxPrice}
+          </span>
+        </div>
+      </div>
+
+      {/* Inputs */}
+      <div className="grid grid-cols-2 gap-4 pt-1">
+        <input
+          type="number"
+          value={minPrice || ""}
+          min={0}
+          max={MAX_RANGE}
+          onChange={(e) =>
+            setMinPrice(Math.min(MAX_RANGE, Number(e.target.value)))
+          }
+          placeholder="Min. price"
+          className="w-full bg-[#F4F6F8] text-sm font-medium text-[#1F2E3D] placeholder-[#919EAB] rounded-xl px-4 py-3 outline-none border border-transparent focus:bg-white focus:border-[#1ec6cc]/40 transition-all"
+        />
+        <input
+          type="number"
+          value={maxPrice || ""}
+          min={0}
+          max={MAX_RANGE}
+          onChange={(e) =>
+            setMaxPrice(Math.min(MAX_RANGE, Number(e.target.value)))
+          }
+          placeholder="Max. price"
+          className="w-full bg-[#F4F6F8] text-sm font-medium text-[#1F2E3D] placeholder-[#919EAB] rounded-xl px-4 py-3 outline-none border border-transparent focus:bg-white focus:border-[#1ec6cc]/40 transition-all"
+        />
+      </div>
+    </div>
+  );
+}
+
+interface AccordionSectionProps {
+  title: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  children: React.ReactNode;
+}
+
+function AccordionSection({
+  title,
+  isOpen,
+  onToggle,
+  children,
+}: AccordionSectionProps) {
+  return (
+    <div>
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between text-[15px] font-semibold text-[#1F2E3D] focus:outline-none group"
+      >
+        <span>{title}</span>
+        <svg
+          className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          strokeWidth="2.5"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M19.5 8.25l-7.5 7.5-7.5-7.5"
           />
+        </svg>
+      </button>
 
-          {/* Dynamic Label Indicators placed exactly beneath the thumbs */}
-          <div className="absolute left-0 right-0 top-6 text-[13px] font-bold text-[#1F2E3D] pointer-events-none select-none">
-            <span
-              className="absolute -translate-x-1/2 transition-all duration-75"
-              style={{ left: `${(minPrice / MAX_RANGE) * 100}%` }}
-            >
-              ${minPrice}
-            </span>
-            <span
-              className="absolute -translate-x-1/2 transition-all duration-75"
-              style={{ left: `${(maxPrice / MAX_RANGE) * 100}%` }}
-            >
-              ${maxPrice}
-            </span>
-          </div>
-        </div>
-
-        {/* Input Fields Container */}
-        <div className="grid grid-cols-2 gap-4 pt-1">
-          <div className="relative">
-            <input
-              type="number"
-              value={minPrice || ""}
-              min={0}
-              max={MAX_RANGE}
-              onChange={(e) =>
-                setMinPrice(Math.min(MAX_RANGE, Number(e.target.value)))
-              }
-              placeholder="Min. price"
-              className="w-full bg-[#F4F6F8] text-sm font-medium text-[#1F2E3D] placeholder-[#919EAB] rounded-xl px-4 py-3 outline-none border border-transparent focus:bg-white focus:border-[#1ec6cc]/40 transition-all"
-            />
-          </div>
-
-          <div className="relative">
-            <input
-              type="number"
-              value={maxPrice || ""}
-              min={0}
-              max={MAX_RANGE}
-              onChange={(e) =>
-                setMaxPrice(Math.min(MAX_RANGE, Number(e.target.value)))
-              }
-              placeholder="Max. price"
-              className="w-full bg-[#F4F6F8] text-sm font-medium text-[#1F2E3D] placeholder-[#919EAB] rounded-xl px-4 py-3 outline-none border border-transparent focus:bg-white focus:border-[#1ec6cc]/40 transition-all"
-            />
-          </div>
-        </div>
-      </div>
-
-      <hr className="my-5 border-slate-100" />
-
-      {/* ================= RATINGS ACCORDION ================= */}
-      <div>
-        <button
-          onClick={() => setIsRatingOpen(!isRatingOpen)}
-          className="w-full flex items-center justify-between text-[15px] font-semibold text-[#1F2E3D] focus:outline-none group"
-        >
-          <span>Rating</span>
-          <svg
-            className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${isRatingOpen ? "rotate-180" : ""}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2.5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-            />
-          </svg>
-        </button>
-
-        <div
-          className={`grid transition-all duration-200 ease-in-out ${isRatingOpen ? "grid-rows-[1fr] opacity-100 mt-4" : "grid-rows-[0fr] opacity-0"}`}
-        >
-          <div className="overflow-hidden space-y-3.5 pt-0.5">
-            {["5.0", "4.0+", "3.0+", "2.0+", "1.0+"].map((ratingOption) => (
-              <label
-                key={ratingOption}
-                className="flex items-center gap-3 group cursor-pointer text-[14px] font-medium text-[#1F2E3D] transition-colors"
-              >
-                <input
-                  type="checkbox"
-                  checked={selectedRating === ratingOption}
-                  onChange={() => handleRatingToggle(ratingOption)}
-                  className="w-[18px] h-[18px] rounded-md border-[#919EAB] text-[#1ec6cc] focus:ring-[#1ec6cc]/30 accent-[#1ec6cc] cursor-pointer transition-all"
-                />
-                <div className="flex items-center gap-1">
-                  <svg
-                    className="w-4 h-4 text-[#ffb800]"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                  <span>{ratingOption}</span>
-                </div>
-              </label>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <hr className="my-5 border-slate-100" />
-
-      {/* ================= AVAILABILITY ACCORDION ================= */}
-      <div>
-        <button
-          onClick={() => setIsAvailabilityOpen(!isAvailabilityOpen)}
-          className="w-full flex items-center justify-between text-[15px] font-semibold text-[#1F2E3D] focus:outline-none group"
-        >
-          <span>Availability</span>
-          <svg
-            className={`w-3.5 h-3.5 text-slate-500 transition-transform duration-200 ${isAvailabilityOpen ? "rotate-180" : ""}`}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2.5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-            />
-          </svg>
-        </button>
-
-        <div
-          className={`grid transition-all duration-200 ease-in-out ${isAvailabilityOpen ? "grid-rows-[1fr] opacity-100 mt-4" : "grid-rows-[0fr] opacity-0"}`}
-        >
-          <div className="overflow-hidden space-y-3.5 pt-0.5">
-            {[
-              { id: "last_day", label: "Last Day Offers" },
-              { id: "in_stock", label: "In Stock" },
-              { id: "out_stock", label: "Out of Stock" },
-            ].map((option) => (
-              <label
-                key={option.id}
-                className="flex items-center gap-3 group cursor-pointer text-[14px] font-medium text-[#1F2E3D] transition-colors"
-              >
-                <input
-                  type="checkbox"
-                  checked={availability === option.id}
-                  onChange={() => handleAvailabilityToggle(option.id)}
-                  className="w-[18px] h-[18px] rounded-md border-[#919EAB] text-[#1ec6cc] focus:ring-[#1ec6cc]/30 accent-[#1ec6cc] cursor-pointer transition-all"
-                />
-                <span>{option.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
+      <div
+        className={`grid transition-all duration-200 ease-in-out ${
+          isOpen
+            ? "grid-rows-[1fr] opacity-100 mt-4"
+            : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden space-y-3.5 pt-0.5">{children}</div>
       </div>
     </div>
   );
