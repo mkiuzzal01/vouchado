@@ -38,8 +38,9 @@ export default function Filtered() {
     () => searchParams.get("rating") || null,
   );
 
-  const [availability, setAvailability] = useState<string[]>(
-    () => searchParams.get("availability")?.split(",").filter(Boolean) || [],
+  // CHANGED: Shifted from string[] to string | null
+  const [availability, setAvailability] = useState<string | null>(
+    () => searchParams.get("availability") || null,
   );
 
   // --- Synchronize parameters to URL ---
@@ -63,8 +64,8 @@ export default function Filtered() {
     if (selectedRating) params.set("rating", selectedRating);
     else params.delete("rating");
 
-    if (availability.length > 0)
-      params.set("availability", availability.join(","));
+    // CHANGED: Updated URL parsing logic for single availability selection
+    if (availability) params.set("availability", availability);
     else params.delete("availability");
 
     return params;
@@ -102,10 +103,9 @@ export default function Filtered() {
     setSelectedRating((prev) => (prev === val ? null : val));
   };
 
+  // CHANGED: Reconfigured toggle handler to enforce single selection
   const handleAvailabilityToggle = (val: string) => {
-    setAvailability((prev) =>
-      prev.includes(val) ? prev.filter((item) => item !== val) : [...prev, val],
-    );
+    setAvailability((prev) => (prev === val ? null : val));
   };
 
   const handleClearAll = () => {
@@ -113,7 +113,7 @@ export default function Filtered() {
     setMaxPrice(DEFAULT_MAX);
     setLocation("");
     setSelectedRating(null);
-    setAvailability([]);
+    setAvailability(null); // CHANGED: Resets to null
   };
 
   const hasActiveFilters =
@@ -121,7 +121,7 @@ export default function Filtered() {
     maxPrice !== DEFAULT_MAX ||
     location !== "" ||
     selectedRating !== null ||
-    availability.length > 0;
+    availability !== null; // CHANGED: Validates against null
 
   return (
     <div className="sticky top-12 z-10 w-full bg-white lg:max-w-[340px] rounded-2xl border border-slate-100 p-6">
@@ -296,7 +296,7 @@ export default function Filtered() {
               >
                 <input
                   type="checkbox"
-                  checked={availability.includes(option.id)}
+                  checked={availability === option.id}
                   onChange={() => handleAvailabilityToggle(option.id)}
                   className="w-[18px] h-[18px] rounded-md border-[#919EAB] text-[#1ec6cc] focus:ring-[#1ec6cc]/30 accent-[#1ec6cc] cursor-pointer transition-all"
                 />

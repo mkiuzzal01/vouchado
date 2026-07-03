@@ -21,11 +21,8 @@ export default function Sort() {
             options={[
               { value: "", label: "Sort By" },
               { value: "popular", label: "Popularity" },
-              { value: "oldest", label: "Oldest First" },
-              { value: "newest", label: "Newest First" },
-              { value: "rating_desc", label: "Highest Rating" },
-              { value: "distance_asc", label: "Closest First" },
-              { value: "distance_desc", label: "Farthest First" },
+              { value: "low_to_high", label: "Price: Low to High" },
+              { value: "high_to_low", label: "Price: High to Low" },
             ]}
           />
         </AppForm>

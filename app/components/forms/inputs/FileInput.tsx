@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 interface FileInputProps {
-  label: string;
+  label?: string;
   name: string;
   accept?: string;
   className?: string;
@@ -41,9 +41,11 @@ export default function FileInput({
   return (
     <div className={cn("space-y-1.5 w-full mb-6", className)}>
       {/* LABEL */}
-      <Label htmlFor={name} className="text-sm font-medium text-gray-300">
-        {label}
-      </Label>
+      {label && (
+        <Label htmlFor={name} className="text-sm font-medium text-gray-300">
+          {label}
+        </Label>
+      )}
 
       <Controller
         name={name}
