@@ -178,14 +178,6 @@ export default function ItemDetails({ slug, lang }: Props) {
                     </p>
                   </div>
                 </Link>
-                <div>
-                  <button
-                    onClick={() => setOpenGiftVoucherModal(true)}
-                    className="text-[#2BC4CA] underline lg:text-xl cursor-pointer"
-                  >
-                    Buy Gift Voucher
-                  </button>
-                </div>
               </div>
 
               {/* Dynamic Badging Row */}
