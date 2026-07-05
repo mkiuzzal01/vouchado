@@ -63,6 +63,7 @@ export default function CreateDealAction({ title }: Props) {
         <CreateDealForm />
       </ModalContainer>
       <ModalContainer
+        width="lg"
         title="Create new voucher"
         isOpen={openVoucherModal}
         onClose={() => setOpenVoucherModal(!openVoucherModal)}
@@ -71,6 +72,7 @@ export default function CreateDealAction({ title }: Props) {
       </ModalContainer>
       {/* OPTIONAL SCANNER MODAL OVERLAY */}
       <ModalContainer
+        width="lg"
         isOpen={isScannerOpen}
         onClose={() => setIsScannerOpen(!isScannerOpen)}
       >
