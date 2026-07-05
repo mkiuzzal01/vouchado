@@ -126,7 +126,7 @@ export default function Filtered() {
     availability !== null;
 
   return (
-    <div className="sticky top-12 z-10 w-full bg-white lg:max-w-[340px] rounded-2xl border border-slate-100 p-6">
+    <div className="sticky top-12 z-10 w-full bg-white rounded-2xl border border-slate-100 p-6">
       {/* Header */}
       <div className="text-[17px] font-semibold text-[#1F2E3D] pb-4 border-b border-slate-100 flex items-center justify-between">
         <span>Filters</span>

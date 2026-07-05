@@ -4,13 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
 
 import {
   Accordion,
@@ -22,7 +21,7 @@ import {
 import Menu from "../icons/Menu";
 import Location from "../icons/Location";
 import { Button } from "@/components/ui/button";
-import { Home, X } from "lucide-react";
+import { X } from "lucide-react";
 
 interface MegaMenuProps {
   lang: string;
@@ -54,97 +53,86 @@ export default function MegaMenu({
   return (
     <>
       {/* ================= DESKTOP ================= */}
-      <NavigationMenu className="hidden xl:block w-full">
-        <NavigationMenuList className="flex items-center gap-2 xl:gap-1 2xl:gap-8">
-          {/* HOME */}
-          {/* <NavigationMenuItem>
-            <NavigationMenuLink
-              href={`/${lang}`}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition ${
-                isActive(`/${lang}`)
-                  ? "bg-gray-200 text-black"
-                  : "hover:bg-gray-100"
-              }`}
-            >
-              <Home size={15} />
-            </NavigationMenuLink>
-          </NavigationMenuItem> */}
-
-          {/* SERVICES */}
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full bg-gray-50 border px-4 py-2 xl:px-2 xl:py-1 2xl:py-3 2xl:px-5 2xl:py-2 text-sm xl:text-xs 2xl:text-base font-medium hover:bg-gray-200 transition 2xl:h-auto">
+      <div className="hidden xl:flex  justify-center items-center w-full gap-4">
+        <Menubar className="border-none bg-transparent shadow-none p-0 space-x-2">
+          {/* SERVICES MEGAMENU */}
+          <MenubarMenu>
+            <MenubarTrigger className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full bg-gray-50 border px-4 py-2 xl:px-2 xl:py-1 2xl:py-3 2xl:px-5 text-sm xl:text-xs 2xl:text-base font-medium hover:bg-gray-200 transition cursor-pointer">
               <Menu className="size-4 lg:size-5 2xl:size-6" />
               {menuTitle}
-            </NavigationMenuTrigger>
+            </MenubarTrigger>
 
-            <NavigationMenuContent className="bg-white shadow-xl rounded-2xl  p-5 w-fit">
+            <MenubarContent className="bg-white shadow-xl rounded-2xl p-5 min-w-[500px]">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {services.map((service: any) => (
                   <div key={service.href} className="rounded-xl bg-white p-3">
-                    <Link
-                      href={service.href}
-                      className="block text-md px-2 py-2 font-medium text-gray-900 hover:bg-gray-100 rounded-md"
-                    >
-                      {service.title}
-                    </Link>
+                    <MenubarItem asChild>
+                      <Link
+                        href={service.href}
+                        className="block text-md px-2 py-2 font-medium text-gray-900 hover:bg-gray-100 rounded-md cursor-pointer"
+                      >
+                        {service.title}
+                      </Link>
+                    </MenubarItem>
 
                     {service.subMenu?.length && (
-                      <div className="mt-2  space-y-1 pl-3">
+                      <div className="mt-2 space-y-1 pl-3">
                         {service.subMenu.map((sub: any) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            className="block px-2 py-1 text-sm text-gray-600 hover:text-black hover:bg-gray-100 rounded-md"
-                          >
-                            {sub.title}
-                          </Link>
+                          <MenubarItem key={sub.href} asChild>
+                            <Link
+                              href={sub.href}
+                              className="block px-2 py-1 text-sm text-gray-600 hover:text-black hover:bg-gray-100 rounded-md cursor-pointer"
+                            >
+                              {sub.title}
+                            </Link>
+                          </MenubarItem>
                         ))}
                       </div>
                     )}
                   </div>
                 ))}
               </div>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
 
-          {/* LINKS */}
-          <div className="flex">
+        {/* NAV LINKS & LOCATION (Rendered safely alongside Menubar) */}
+        <div className="flex items-center gap-4">
+          <nav className="flex items-center gap-2">
             {navLinks.map((item: any) => (
-              <NavigationMenuItem key={item.href}>
-                <NavigationMenuLink
-                  href={item.href}
-                  className={`px-3 xl:px-1.5 2xl:px-3 rounded-none  text-xs lg:text-sm xl:text-xs 2xl:text-base font-medium transition ${
-                    isActive(item.href)
-                      ? "border-b-2 border-[#2EC4C6] text-black"
-                      : "hover:border-b-2 hover:border-[#2EC4C6]"
-                  }`}
-                >
-                  {item.title}
-                </NavigationMenuLink>
-              </NavigationMenuItem>
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`px-3 xl:px-1.5 2xl:px-3 py-1 text-xs lg:text-sm xl:text-xs 2xl:text-base font-medium transition ${
+                  isActive(item.href)
+                    ? "border-b-2 border-[#2EC4C6] text-black"
+                    : "hover:border-b-2 hover:border-[#2EC4C6]"
+                }`}
+              >
+                {item.title}
+              </Link>
             ))}
-          </div>
+          </nav>
+        </div>
 
-          {/* LOCATION */}
-          <NavigationMenuItem>
-            <Link
-              href="/contact"
-              className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full bg-gray-50 border px-4 py-2 xl:px-2 xl:py-1 2xl:px-4 2xl:py-2 text-xs lg:text-sm xl:text-xs 2xl:text-base font-medium hover:bg-gray-200 transition"
-            >
-              <Location size={15} />
-              Berlin, Germany
-            </Link>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
+        {/* Location */}
+        <div>
+          <Link
+            href="/contact"
+            className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full bg-gray-50 border px-4 py-2 xl:px-2 xl:py-1 2xl:px-4 2xl:py-2 text-xs lg:text-sm xl:text-xs 2xl:text-base font-medium hover:bg-gray-200 transition"
+          >
+            <Location size={15} />
+            Berlin, Germany
+          </Link>
+        </div>
+      </div>
 
-      {/* ================= MOBILE (PROFESSIONAL DRAWER STYLE) ================= */}
+      {/* ================= MOBILE (DRAWER STYLE) ================= */}
       {showNavbar && (
-        <div className="xl:hidden fixed inset-0 z-50 bg-white p-4 overflow-y-auto">
+        <div className="xl:hidden fixed inset-0 z-50 bg-white p-4 overflow-y-auto flex flex-col">
           {/* HEADER */}
-          <div className="flex justify-between items-center mb-4">
+          <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold pl-4">{menu}</h2>
-
             <Button
               variant="ghost"
               onClick={() => setShowNavbar(false)}
@@ -155,16 +143,16 @@ export default function MegaMenu({
           </div>
 
           {/* SERVICES ACCORDION */}
-          <Accordion>
-            <AccordionItem value="services">
-              <AccordionTrigger className="p-3 font-medium">
+          <Accordion className="w-full">
+            <AccordionItem value="services" className="border-none">
+              <AccordionTrigger className="p-3 font-medium hover:no-underline">
                 {menuTitle}
               </AccordionTrigger>
 
-              <AccordionContent unselectable="on">
+              <AccordionContent>
                 <div className="space-y-3 ml-2 p-4">
                   {services.map((service: any) => (
-                    <div key={service.href}>
+                    <div key={service.href} className="space-y-1">
                       <Link
                         href={service.href}
                         className="block font-semibold text-sm"
@@ -216,23 +204,26 @@ export default function MegaMenu({
           <Link
             href="/contact"
             onClick={() => setShowNavbar(false)}
-            className="flex items-center gap-2 px-2 lg:px-3 py-2 rounded-md bg-gray-100 text-xs lg:text-sm mt-4"
+            className="flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 text-xs lg:text-sm mt-2"
           >
             <Location size={15} />
             Berlin, Germany
           </Link>
 
-          <div className="mt-4 sm:hidden flex items-center gap-2">
+          {/* AUTH BUTTONS */}
+          <div className="mt-auto sm:hidden flex items-center gap-2 pt-4">
             <Link
               href={`/${lang}/login`}
-              className="rounded-full px-4 py-2 bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
+              onClick={() => setShowNavbar(false)}
+              className="w-1/2 text-center rounded-full px-4 py-2 bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
             >
               {login}
             </Link>
 
             <Link
               href={`/${lang}/registration`}
-              className="rounded-full bg-[#2EC4C6] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
+              onClick={() => setShowNavbar(false)}
+              className="w-1/2 text-center rounded-full bg-[#2EC4C6] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
             >
               {register}
             </Link>

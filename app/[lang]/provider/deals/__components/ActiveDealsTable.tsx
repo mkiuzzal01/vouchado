@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Edit from "@/app/components/icons/Edit";
 import Delete from "@/app/components/icons/Delete";
+import Link from "next/link";
 
 const dealItems = [
   {
@@ -244,13 +245,15 @@ export default function ActiveDealsTable({
                   </TableCell>
                   <TableCell className="py-3 px-6 text-center">
                     <div className="flex items-center justify-center gap-3">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="w-8 h-8 rounded-full text-[#00C3DA] hover:text-[#00C3DA] hover:bg-[#00C3DA]/10 transition-colors"
-                      >
-                        <Edit />
-                      </Button>
+                      <Link href={`/en/provider/deals/${deal.id}`}>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="w-8 h-8 rounded-full text-[#00C3DA] hover:text-[#00C3DA] hover:bg-[#00C3DA]/10 transition-colors"
+                        >
+                          <Edit />
+                        </Button>
+                      </Link>
                       <Button
                         variant="ghost"
                         size="icon"

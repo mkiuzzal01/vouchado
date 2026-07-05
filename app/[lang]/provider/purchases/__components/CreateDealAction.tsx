@@ -5,7 +5,7 @@ import CreateGiftVoucherIcon from "@/app/components/icons/CreateGiftVoucherIcon"
 import Plus from "@/app/components/icons/Pluse";
 import Scan from "@/app/components/icons/Scan";
 import ModalContainer from "@/app/components/shared/ModalContainer";
-import { Button } from "@/components/ui/button";
+import ScanVoucher from "@/app/components/utils/ScanVoucher";
 import { setOpenDealModal } from "@/redux/features/provider/deal.slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { useState } from "react";
@@ -16,8 +16,10 @@ interface Props {
 
 export default function CreateDealAction({ title }: Props) {
   const [openVoucherModal, setOpenVoucherModal] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { openDealModal } = useAppSelector((state) => state.deal);
+
   return (
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       {/* Page Title */}
@@ -36,7 +38,10 @@ export default function CreateDealAction({ title }: Props) {
           <span>Create gift Voucher</span>
         </button>
 
-        <button className="flex items-center justify-center gap-2 p-4 bg-white border border-[#2EC1CC] font-semibold rounded-full text-[15px] text-[#2EC1CC] hover:bg-[#2EC1CC]/5 transition-colors shadow-sm w-full sm:w-auto tracking-wide">
+        <button
+          onClick={() => setIsScannerOpen(!isScannerOpen)}
+          className="flex items-center justify-center gap-2 p-4 bg-white border border-[#2EC1CC] font-semibold rounded-full text-[15px] text-[#2EC1CC] hover:bg-[#2EC1CC]/5 transition-colors shadow-sm w-full sm:w-auto tracking-wide"
+        >
           <Scan />
           <span>Scan Voucher</span>
         </button>
@@ -63,6 +68,13 @@ export default function CreateDealAction({ title }: Props) {
         onClose={() => setOpenVoucherModal(!openVoucherModal)}
       >
         <GiftVoucherForm />
+      </ModalContainer>
+      {/* OPTIONAL SCANNER MODAL OVERLAY */}
+      <ModalContainer
+        isOpen={isScannerOpen}
+        onClose={() => setIsScannerOpen(!isScannerOpen)}
+      >
+        <ScanVoucher />
       </ModalContainer>
     </div>
   );

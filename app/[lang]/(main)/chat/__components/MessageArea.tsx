@@ -1,3 +1,6 @@
+import ChatArrow from "@/app/components/icons/ChatArrow";
+import Option from "@/app/components/icons/Option";
+import Image from "next/image";
 import { useState } from "react";
 
 interface UserType {
@@ -53,19 +56,7 @@ export default function MessageArea({ user, onBack }: Props) {
         </div>
 
         <button className="text-gray-400 hover:text-gray-600 p-2 rounded-full border border-gray-200">
-          <svg
-            className="w-5 h-5 text-teal-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-            ></path>
-          </svg>
+          <Option />
         </button>
       </div>
 
@@ -73,10 +64,12 @@ export default function MessageArea({ user, onBack }: Props) {
       <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 bg-gray-50/50">
         {/* Left message (Inbound) */}
         <div className="flex items-start gap-3 max-w-xl">
-          <img
+          <Image
             src={user.avatar}
-            className="w-8 h-8 rounded-full object-cover mt-1"
             alt=""
+            width={20}
+            height={20}
+            className="rounded-full object-cover mt-1"
           />
           <div>
             <div className="bg-white border border-gray-100 p-3.5 rounded-2xl rounded-tl-none text-sm text-gray-800 shadow-sm leading-relaxed">
@@ -85,9 +78,11 @@ export default function MessageArea({ user, onBack }: Props) {
             </div>
             {/* Embedded Shared Image */}
             <div className="mt-2 max-w-xs rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white p-1">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80"
                 alt="Shared meal"
+                width={20}
+                height={20}
                 className="rounded-lg object-cover w-full h-40"
               />
             </div>
@@ -108,7 +103,7 @@ export default function MessageArea({ user, onBack }: Props) {
       </div>
 
       {/* Message Input Dock */}
-      <div className="p-4 border-t border-gray-200 bg-white flex-shrink-0">
+      <div className="p-4 border-t border-gray-200 bg-white shrink-0">
         <form
           onSubmit={(e) => e.preventDefault()}
           className="flex items-center gap-3"
@@ -142,21 +137,9 @@ export default function MessageArea({ user, onBack }: Props) {
 
           <button
             type="submit"
-            className="p-2.5 bg-teal-500 hover:bg-teal-600 text-white rounded-full transition-colors shadow-sm"
+            className="p-2.5 bg-[#31BFC8] hover:bg-[#31BFC8]/80 text-white rounded-full transition-colors shadow-sm"
           >
-            <svg
-              className="w-5 h-5 transform rotate-90"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 19l9-2-9-18-9 18 9 2zm0 0v-8"
-              ></path>
-            </svg>
+            <ChatArrow />
           </button>
         </form>
       </div>

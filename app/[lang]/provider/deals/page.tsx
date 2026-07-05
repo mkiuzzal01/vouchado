@@ -1,5 +1,3 @@
-"use client";
-import { useState } from "react";
 import Container from "@/app/components/shared/Container";
 import ActiveDealsTable from "./__components/ActiveDealsTable";
 import CreateDealAction from "../purchases/__components/CreateDealAction";
@@ -49,38 +47,11 @@ export const metricsData = [
 ];
 
 export default function DealsPage() {
-  const [isScannerOpen, setIsScannerOpen] = useState(false);
-
   return (
     <Container className="py-6 space-y-8 bg-slate-50/50 min-h-screen">
-      {/* HEADER SECTION */}
       <CreateDealAction title="Deals" />
-
-      {/* METRIC SUMMARY CARDS MODULE */}
       <MetricCards metrics={metricsData} />
-
-      {/* DATA TABLE MODULE */}
       <ActiveDealsTable />
-
-      {/* OPTIONAL SCANNER MODAL OVERLAY */}
-      {isScannerOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white p-6 rounded-2xl max-w-md w-full  space-y-4 text-center">
-            <h3 className="text-lg font-bold text-slate-800">
-              Voucher Scanner Active
-            </h3>
-            <div className="aspect-video bg-slate-900 rounded-xl flex items-center justify-center text-slate-400 text-xs">
-              [ Camera Feed Preview Container ]
-            </div>
-            <button
-              onClick={() => setIsScannerOpen(false)}
-              className="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-medium text-sm transition"
-            >
-              Close Scanner
-            </button>
-          </div>
-        </div>
-      )}
     </Container>
   );
 }

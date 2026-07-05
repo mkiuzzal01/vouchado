@@ -12,7 +12,7 @@ export default function Fashion({ color = "#1B696E", size = 64 }: Props) {
       viewBox="0 0 64 64"
       fill="none"
     >
-      <g clip-path="url(#clip0_16181_10185)">
+      <g clipPath="url(#clip0_16181_10185)">
         <path
           d="M10.0741 50.378C9.93644 49.0935 9.99407 47.8429 10.2202 46.6523L12.7337 33.4265C13.4009 29.9153 15.7944 27.2462 18.8082 26.0233L18.7718 26.0087C12.9304 23.6722 6.40831 27.2457 5.23369 33.4264L2.72006 46.6522C2.49406 47.8429 2.43631 49.0934 2.57394 50.3779C3.26694 56.8458 9.20356 61.5 15.7084 61.5H23.2084C16.7036 61.5 10.7669 56.8458 10.0741 50.378Z"
           fill="#BFEBEE"
@@ -20,18 +20,18 @@ export default function Fashion({ color = "#1B696E", size = 64 }: Props) {
         <path
           d="M46.1922 36.3945C46.2553 41.7337 41.9577 46.5 36.1835 46.5H27.8179C22.0435 46.5 17.7459 41.7334 17.8093 36.3942M32.0007 51.5V46.5"
           stroke={color}
-          stroke-width="5"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="5"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M17.0367 16.4436C17.5788 8.65225 24.0709 2.5 32.0001 2.5C39.9292 2.5 46.4214 8.65225 46.9634 16.4436M61.2801 46.6521L58.7666 33.4264C57.5919 27.2456 51.0698 23.6721 45.2284 26.0086L38.9278 28.5289C34.1596 30.4361 29.8404 30.4361 25.0722 28.5289L18.7716 26.0086C12.9302 23.6721 6.40806 27.2456 5.23344 33.4264L2.72006 46.6521C2.49406 47.8429 2.43631 49.0934 2.57394 50.3779C3.26694 56.8458 9.20369 61.5 15.7084 61.5H48.2931C54.7981 61.5 60.7341 56.8446 61.4263 50.3765C61.5637 49.0925 61.5059 47.8425 61.2801 46.6521Z"
           stroke={color}
-          stroke-width="5"
-          stroke-miterlimit="10"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="5"
+          strokeMiterlimit="10"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </g>
       <defs>

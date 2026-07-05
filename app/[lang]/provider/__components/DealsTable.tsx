@@ -9,6 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Image from "next/image";
+import Link from "next/link";
 
 const tableData = [
   {
@@ -232,9 +233,11 @@ export default function DealsTable() {
 
               {/* Action Chat Trigger */}
               <TableCell className="py-3.5 px-4 text-center">
-                <button className="p-1.5 border-3 border-gray-100 text-teal-400 rounded-full bg-white hover:bg-teal-50/30 hover:border-teal-100 transition-all inline-flex items-center justify-center">
-                  <SMS />
-                </button>
+                <Link href={"/chat"}>
+                  <button className="p-1.5 border-3 border-gray-100 text-teal-400 rounded-full bg-white hover:bg-teal-50/30 hover:border-teal-100 transition-all inline-flex items-center justify-center">
+                    <SMS />
+                  </button>
+                </Link>
               </TableCell>
             </TableRow>
           ))}
