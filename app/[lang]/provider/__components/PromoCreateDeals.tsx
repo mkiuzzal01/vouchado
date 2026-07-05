@@ -7,15 +7,18 @@ import ModalContainer from "@/app/components/shared/ModalContainer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import CreateDealForm from "@/app/components/forms/muti-steps/CreateDealForm";
 import { setOpenDealModal } from "@/redux/features/provider/deal.slice";
+import { useState } from "react";
+import ScanVoucher from "@/app/components/utils/ScanVoucher";
 
 export default function PromoCreateDeals() {
+  const [scanModal, setScanModal] = useState(false);
   const dispatch = useAppDispatch();
   const { openDealModal } = useAppSelector((state) => state.deal);
 
   return (
     <div className="relative flex flex-col md:flex-row gap-4 w-full items-stretch">
       {/* Left Card: Scan Voucher */}
-      <div className="relative flex-1 rounded-[24px] overflow-hidden min-h-[200px] flex items-center p-8 bg-gradient-to-r from-[#eef9fa] to-[#e6f4f7]">
+      <div className="relative flex-1 rounded-[24px] overflow-hidden min-h-[200px] flex items-center p-8 bg-linear-to-r from-[#eef9fa] to-[#e6f4f7]">
         {/* Background Graphic Asset */}
         <div className="absolute inset-0 pointer-events-none">
           <Image
@@ -30,16 +33,19 @@ export default function PromoCreateDeals() {
         {/* Content Layer (shifted right slightly to accommodate the phone graphics) */}
         <div className="relative z-10 ml-auto w-full max-w-[58%] flex flex-col items-start space-y-4">
           <div className="flex items-center gap-3">
-            <h3 className="text-[20px] lg:text-[24px] xl:text-[32px] font-bold text-gray-900">
+            <button className="text-[20px] lg:text-[24px] xl:text-[32px] font-bold text-gray-900">
               Scan Voucher
-            </h3>
+            </button>
           </div>
 
           <p className="text-[12px] lg:text-[14px] xl:text-[16px] font-medium text-gray-500 max-w-xs leading-relaxed">
             Scan a voucher QR code to redeem and validate instantly
           </p>
 
-          <Button className="rounded-full px-[30px] xl:py-[24px] text-[14px] font-medium">
+          <Button
+            onClick={() => setScanModal(!scanModal)}
+            className="rounded-full px-[30px] xl:py-[24px] text-[14px] font-medium"
+          >
             <QrCode size={20} />
             <span className="ml-2">Scan Now</span>
             <ChevronRight
@@ -56,7 +62,7 @@ export default function PromoCreateDeals() {
       </div>
 
       {/* Right Card: Create New Deal */}
-      <div className="relative flex-1 rounded-[24px] overflow-hidden min-h-[200px] flex items-center p-8 bg-gradient-to-r from-[#f0f7fc] to-[#ebf3f9]">
+      <div className="relative flex-1 rounded-[24px] overflow-hidden min-h-[200px] flex items-center p-8 bg-linear-to-r from-[#f0f7fc] to-[#ebf3f9]">
         {/* Background Graphic Asset */}
         <div className="absolute inset-0 pointer-events-none">
           <Image
@@ -98,6 +104,12 @@ export default function PromoCreateDeals() {
         onClose={() => dispatch(setOpenDealModal(!openDealModal))}
       >
         <CreateDealForm />
+      </ModalContainer>
+      <ModalContainer
+        isOpen={scanModal}
+        onClose={() => setScanModal(!scanModal)}
+      >
+        <ScanVoucher />
       </ModalContainer>
     </div>
   );

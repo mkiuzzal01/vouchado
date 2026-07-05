@@ -8,6 +8,7 @@ import DealSold from "@/app/components/icons/DealSold";
 import DealsRedeem from "@/app/components/icons/DealsRedeem";
 import DealYet from "@/app/components/icons/DealYet";
 import Bag from "@/app/components/icons/Bag";
+import CreateGiftVoucher from "./CreateGiftVoucher";
 
 export const metricsData = [
   {
@@ -57,16 +58,7 @@ export default function Dashboard({ lang }: Props) {
     <Container>
       <div className="space-y-7 p-4 w-full text-gray-800">
         {/* Welcome Bar Header Section */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 flex items-center gap-1.5">
-              Hi Eva <span className="animate-pulse">👋</span>
-            </h1>
-            <p className="text-base text-gray-400 font-normal mt-0.5">
-              Let's grow your business today
-            </p>
-          </div>
-        </div>
+        <CreateGiftVoucher />
 
         {/* Metric Cards Section Block Row */}
         <MetricCards metrics={metricsData} />
