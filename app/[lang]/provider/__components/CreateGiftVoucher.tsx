@@ -25,6 +25,7 @@ export default function CreateGiftVoucher() {
         <span>Create gift Voucher</span>
       </button>
       <ModalContainer
+        width="lg"
         title="Create new voucher"
         isOpen={openVoucherModal}
         onClose={() => setOpenVoucherModal(!openVoucherModal)}

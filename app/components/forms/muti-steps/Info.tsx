@@ -22,9 +22,9 @@ export default function Info() {
         <AppForm onSubmit={onSubmit} defaultValues={dealInfo}>
           <div className="space-y-4">
             <TextInput
-              name="name"
-              label="Deals name"
-              placeholder="Give your deals a name..."
+              name="voucher_name"
+              label="Name your voucher"
+              placeholder="Summer Offer 2024"
               required
             />
 

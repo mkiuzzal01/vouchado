@@ -34,7 +34,7 @@ export default function FileInput({
   // Helper to convert single files, arrays, or string URLs into standard preview strings
   const getPreviewUrl = (file: any) => {
     if (file instanceof File) return URL.createObjectURL(file);
-    if (typeof file === "string") return file; // handles existing network images
+    if (typeof file === "string") return file;
     return null;
   };
 
@@ -42,7 +42,7 @@ export default function FileInput({
     <div className={cn("space-y-1.5 w-full mb-6", className)}>
       {/* LABEL */}
       {label && (
-        <Label htmlFor={name} className="text-sm font-medium text-gray-300">
+        <Label htmlFor={name} className="text-sm font-medium">
           {label}
         </Label>
       )}
@@ -84,16 +84,13 @@ export default function FileInput({
 
           return (
             <div className="space-y-4">
-              {/* Flex wrapper for the grid matching your dashboard layout */}
               <div className="flex flex-wrap gap-4 items-start">
-                {/* UPLOAD BUTTON SKELETON */}
-                {/* Always visible if 'multiple' is true, or hidden when a single image is active */}
                 {(multiple || filesArray.length === 0) && (
                   <div
                     onClick={() => inputRef.current?.click()}
                     className={cn(
-                      "relative overflow-hidden rounded-2xl border border-white/10",
-                      "bg-[#0b111a]/20 backdrop-blur-xl",
+                      "relative overflow-hidden rounded-2xl border-2 border-dashed border-[#0b111a]/10",
+                      "bg-gray-200 backdrop-blur-xl",
                       "hover:border-[#5a9e8e]/40 transition cursor-pointer",
                       "flex flex-col items-center justify-center",
                       multiple
@@ -111,7 +108,7 @@ export default function FileInput({
                       onChange={handleFileChange}
                     />
 
-                    <div className="flex flex-col items-center text-center">
+                    <div className="flex flex-col items-center text-center gap-2">
                       <div
                         className={cn(
                           "flex items-center justify-center rounded-full",
@@ -124,24 +121,23 @@ export default function FileInput({
                           className="text-[#5a9e8e]"
                         />
                       </div>
+                      {!multiple && (
+                        <p className="mt-1 text-xs text-gray-500">
+                          Click to browse your files
+                        </p>
+                      )}
                       <h3
                         className={cn(
-                          "font-medium text-white",
+                          "font-medium text-[#17AFAD] p-2 bg-[#17AFAD]/10 rounded-md",
                           multiple ? "text-xs" : "text-sm",
                         )}
                       >
                         Browse File
                       </h3>
-                      {!multiple && (
-                        <p className="mt-1 text-xs text-white/50">
-                          Click to browse your files
-                        </p>
-                      )}
                     </div>
                   </div>
                 )}
 
-                {/* IMAGES PREVIEW TILES */}
                 {filesArray.map((file, index) => {
                   const imgUrl = getPreviewUrl(file);
                   if (!imgUrl) return null;
@@ -159,10 +155,9 @@ export default function FileInput({
                         alt={`Preview ${index + 1}`}
                         fill
                         className="object-cover"
-                        unoptimized={imgUrl.startsWith("blob:")} // prevents performance warnings on local object URLs
+                        unoptimized={imgUrl.startsWith("blob:")}
                       />
 
-                      {/* REMOVE BUTTON */}
                       <button
                         type="button"
                         onClick={(e) => {
@@ -183,8 +178,6 @@ export default function FileInput({
                   );
                 })}
               </div>
-
-              {/* ERROR */}
               {errorMessage && (
                 <p className="text-xs text-red-500 mt-1">{errorMessage}</p>
               )}

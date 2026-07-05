@@ -48,7 +48,7 @@ export default function TimeInput({
         render={({ field }) => (
           <>
             <Popover>
-              <PopoverTrigger>
+              <PopoverTrigger className="w-full">
                 <Button
                   type="button"
                   variant="outline"
@@ -65,10 +65,7 @@ export default function TimeInput({
                 </Button>
               </PopoverTrigger>
 
-              <PopoverContent
-                align="start"
-                className="w-(--radix-popover-trigger-width) p-3"
-              >
+              <PopoverContent align="start" className="p-3 w-fit">
                 <input
                   id={name}
                   type="time"
