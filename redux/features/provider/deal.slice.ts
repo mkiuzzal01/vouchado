@@ -6,7 +6,7 @@ export interface MediaState {
 }
 
 export interface DealInfoState {
-  name: string;
+  voucher_name: string;
   regularPrice: string;
   discountedPrice: string;
   totalPurchaseLimit: string;
@@ -14,7 +14,7 @@ export interface DealInfoState {
 }
 
 export interface DealDetailsState {
-  name: string;
+  deal_name: string;
   category: string;
   shortDescription: string;
   availableTime: string;
@@ -53,14 +53,14 @@ const initialState: CreateDealState = {
     galleryImages: [],
   },
   dealInfo: {
-    name: "",
+    voucher_name: "",
     regularPrice: "",
     discountedPrice: "",
     totalPurchaseLimit: "",
     maxPurchasePerCustomer: "",
   },
   dealDetails: {
-    name: "",
+    deal_name: "",
     category: "",
     shortDescription: "",
     availableTime: "",

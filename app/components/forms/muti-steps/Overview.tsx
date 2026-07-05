@@ -5,6 +5,7 @@ import TextInput from "../inputs/TextInput";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { setStep, updateOverview } from "@/redux/features/provider/deal.slice";
 import TextArea from "../inputs/TextArea";
+import TagInput from "../inputs/TagInput";
 
 export default function Overview() {
   const dispatch = useDispatch();
@@ -26,10 +27,10 @@ export default function Overview() {
           label="Description"
           placeholder="Describe your service..."
         />
-        <TextInput
+        <TagInput
           name="highlightedPoints"
           label="Add highlighted points"
-          placeholder="Use comma (,) to separate your highlighted points"
+          placeholder="Use comma (Enter) to separate your highlighted points"
         />
 
         <div className="text-slate-900 font-bold text-sm border-b border-gray-100 pb-2 pt-2">
@@ -40,25 +41,20 @@ export default function Overview() {
           label="Discription (Optional)"
           placeholder="Describe your included experiences..."
         />
-        <TextInput
+        <TagInput
           name="includedPoints"
           label="Included points"
-          placeholder="Use comma (,) to separate your included points"
+          placeholder="Use comma (Enter) to separate your included points"
         />
-        <TextInput
+        <TagInput
           name="notIncludedPoints"
           label="Not included points"
-          placeholder="Use comma (,) to separate your not included points"
+          placeholder="Use comma (Enter) to separate your not included points"
         />
 
         <div className="text-slate-900 font-bold text-sm border-b border-gray-100 pb-2 pt-2">
           Visitor Information
         </div>
-        <TextInput
-          name="location"
-          label="Location"
-          placeholder="Select your location from map"
-        />
         <TextInput
           name="openingHours"
           label="Opening Hours"

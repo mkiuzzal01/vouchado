@@ -132,7 +132,7 @@ export default function Details() {
     <AppForm onSubmit={onSubmit} defaultValues={dealDetails}>
       <div className="space-y-6">
         <TextInput
-          name="name"
+          name="deal_name"
           label="Deal name"
           placeholder="Enter your service name..."
         />
@@ -168,7 +168,7 @@ export default function Details() {
                 onClick={() => toggleItem(d, days, setDays)}
                 className={`px-4 py-2 text-xs font-semibold border rounded-xl transition ${
                   days.includes(d)
-                    ? "bg-teal-500 text-white border-teal-500"
+                    ? "bg-[#31BFC8] text-white border-[#31BFC8]"
                     : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
                 }`}
               >
@@ -191,7 +191,7 @@ export default function Details() {
                 onClick={() => toggleItem(m, months, setMonths)}
                 className={`px-4 py-2 text-xs font-semibold border rounded-xl transition ${
                   months.includes(m)
-                    ? "bg-teal-500 text-white border-teal-500"
+                    ? "bg-[#31BFC8] text-white border-[#31BFC8]"
                     : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
                 }`}
               >
@@ -312,7 +312,7 @@ export default function Details() {
           </button>
           <button
             type="submit"
-            className="px-6 py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-full text-sm flex items-center gap-1 shadow-sm"
+            className="px-6 py-2.5 bg-[#31BFC8] hover:bg-[#31BFC8]/80 text-white font-medium rounded-full text-sm flex items-center gap-1 shadow-sm"
           >
             Next <ChevronRight className="w-4 h-4" />
           </button>

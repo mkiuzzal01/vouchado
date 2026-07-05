@@ -65,7 +65,7 @@ export default function TimeInput({
                 </Button>
               </PopoverTrigger>
 
-              <PopoverContent align="start" className="p-3 w-fit">
+              <PopoverContent align="start" className="p-3 w-full">
                 <input
                   id={name}
                   type="time"
