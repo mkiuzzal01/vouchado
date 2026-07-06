@@ -2,11 +2,18 @@
 import { Check, X } from "lucide-react";
 
 interface Props {
+  title?: string;
+  description?: string;
   included?: string[];
   notIncluded?: string[];
 }
 
-export default function Includes({ included = [], notIncluded = [] }: Props) {
+export default function Includes({
+  title,
+  description,
+  included = [],
+  notIncluded = [],
+}: Props) {
   return (
     <div className="space-y-8">
       <div>
@@ -14,12 +21,8 @@ export default function Includes({ included = [], notIncluded = [] }: Props) {
           What You&apos;ll Experience
         </h1>
         <p className="text-[#637381] mt-4 text-sm lg:text-md xl:text-xl">
-          Discover the legacy of the Olympic & Paralympic Games at the
-          world&apos;s first Olympic & Paralympic museum. With immersive
-          exhibits, interactive challenges, and incredible athlete stories,
-          it&apos;s an unforgettable experience for the whole family. Discover
-          the legacy of the Olympic & Paralympic Games at the world&apos;s first
-          Olympic & Paralympic museum.
+          {description ||
+            "Discover the legacy of the Olympic & Paralympic Games at the world&apos;s first Olympic & Paralympic museum. With immersive exhibits, interactive challenges, and incredible athlete stories, it&apos;s an unforgettable experience for the whole family. Discover the legacy of the Olympic & Paralympic Games at the world&apos;s first Olympic & Paralympic museum."}
         </p>
       </div>
       {/* Two-Column Grid Setup */}

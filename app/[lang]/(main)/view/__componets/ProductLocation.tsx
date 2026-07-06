@@ -5,7 +5,16 @@ import ItemMap from "./ItemMap";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
-export default function ProductLocation() {
+interface LatLng {
+  lat: number;
+  lng: number;
+}
+
+interface Props {
+  location?: LatLng;
+}
+
+export default function ProductLocation({ location }: Props) {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4 text-left">
       <h4 className="text-sm font-bold text-gray-900 tracking-tight">
@@ -50,7 +59,9 @@ export default function ProductLocation() {
 
       {/* Miniature Map Segment Frame Layout */}
       <div className="relative w-full bg-slate-50 border border-gray-100 rounded-xl overflow-hidden flex flex-col justify-between">
-        <ItemMap center={{ lat: 23.8103, lng: 90.4125 }} />
+        <ItemMap
+          center={location ? location : { lat: 23.8103, lng: 90.4125 }}
+        />
       </div>
       <div className="space-y-1">
         <h1 className="text-black text-xl font-medium">

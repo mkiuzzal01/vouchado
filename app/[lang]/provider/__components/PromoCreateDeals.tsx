@@ -6,9 +6,9 @@ import { Button } from "@/components/ui/button";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import CreateDealForm from "@/app/components/forms/muti-steps/CreateDealForm";
-import { setOpenDealModal } from "@/redux/features/provider/deal.slice";
 import { useState } from "react";
 import ScanVoucher from "@/app/components/utils/ScanVoucher";
+import { setOpenDealModal } from "@/redux/features/provider/deal.slice";
 
 export default function PromoCreateDeals() {
   const [scanModal, setScanModal] = useState(false);
@@ -99,7 +99,7 @@ export default function PromoCreateDeals() {
         </div>
       </div>
       <ModalContainer
-        width="5xl"
+        width="7xl"
         title="Create new voucher"
         isOpen={openDealModal}
         onClose={() => dispatch(setOpenDealModal(!openDealModal))}

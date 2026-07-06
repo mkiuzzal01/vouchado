@@ -6,13 +6,18 @@ import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { setStep, updateOverview } from "@/redux/features/provider/deal.slice";
 import TextArea from "../inputs/TextArea";
 import TagInput from "../inputs/TagInput";
+import { FieldValues } from "react-hook-form";
+import MapInput from "../inputs/MapInput";
+import { useState } from "react";
+import type L from "leaflet";
 
 export default function Overview() {
+  const [selectedLocation, setSelectedLocation] = useState<L.LatLng | null>(null);
   const dispatch = useDispatch();
   const { overview } = useAppSelector((state) => state.deal);
 
-  const handleOverviewSubmit = (formData: any) => {
-    dispatch(updateOverview(formData));
+  const handleOverviewSubmit = (value: FieldValues) => {
+    dispatch(updateOverview({ ...value, location: selectedLocation }));
     dispatch(setStep(5));
   };
 
@@ -55,6 +60,9 @@ export default function Overview() {
         <div className="text-slate-900 font-bold text-sm border-b border-gray-100 pb-2 pt-2">
           Visitor Information
         </div>
+
+        <MapInput value={selectedLocation} onChange={setSelectedLocation} />
+
         <TextInput
           name="openingHours"
           label="Opening Hours"
@@ -74,10 +82,7 @@ export default function Overview() {
           >
             <ChevronLeft className="w-4 h-4" /> Back
           </button>
-          <button
-            type="submit"
-            className="px-6 h-11 bg-[#29b6be] hover:bg-[#1fa0a7] text-white font-semibold rounded-full text-sm flex items-center gap-1 shadow-md transition-colors"
-          >
+          <button className="px-6 h-11 bg-[#29b6be] hover:bg-[#1fa0a7] text-white font-semibold rounded-full text-sm flex items-center gap-1 shadow-md transition-colors">
             Next <ChevronRight className="w-4 h-4" />
           </button>
         </div>

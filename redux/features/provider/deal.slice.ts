@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
+export interface LocationState {
+  lat: number;
+  lng: number;
+}
+
 export interface MediaState {
   coverImage: string | null;
   galleryImages: string[];
@@ -26,10 +31,10 @@ export interface DealDetailsState {
 export interface OverviewState {
   description: string;
   highlightedPoints: string;
-  whatsIncludedDescription: string;
+  includedDescription: string;
   includedPoints: string;
   notIncludedPoints: string;
-  location: string;
+  location: LocationState | null;
   openingHours: string;
   accessibility: string;
 }
@@ -71,10 +76,10 @@ const initialState: CreateDealState = {
   overview: {
     description: "",
     highlightedPoints: "",
-    whatsIncludedDescription: "",
+    includedDescription: "",
     includedPoints: "",
     notIncludedPoints: "",
-    location: "",
+    location: null,
     openingHours: "",
     accessibility: "",
   },

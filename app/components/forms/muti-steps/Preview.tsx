@@ -1,336 +1,283 @@
 "use client";
 
-import React, { useState } from "react";
-import { useAppSelector } from "@/redux/hooks/globalhooks";
+import { useEffect, useState, useMemo } from "react";
+import Image from "next/image";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/redux/hooks/globalhooks";
 import {
   ChevronLeft,
-  MapPin,
-  Clock,
-  Accessibility,
-  CheckCircle2,
-  Sparkles,
   Star,
-  Layers,
-  Flame,
   Smartphone,
   Zap,
   Heart,
   MessageSquare,
   Lock,
-  Minus,
-  Plus,
-  ChevronRight,
 } from "lucide-react";
-import { setStep } from "@/redux/features/provider/deal.slice";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
 
-type TabType = "overview" | "included" | "visitor" | "reviews";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+import { Badge } from "@/components/ui/badge";
+import Container from "../../shared/Container";
+import Includes from "@/app/[lang]/(main)/view/__componets/Includes";
+import ProductLocation from "@/app/[lang]/(main)/view/__componets/ProductLocation";
+import ItemCounter from "@/app/[lang]/(main)/cart/__components/ItemCounter";
+import CheckMark from "../../icons/CheckMark";
+import Mobile from "../../icons/Mobile";
+import InstantConfirm from "../../icons/InstantConfirm";
+import Batch from "../../icons/Batch";
+import {
+  getPreviewUrl,
+  getPreviewUrls,
+  revokePreviewUrls,
+  isBlobUrl,
+} from "../../utils/imagePreview";
+import { setStep } from "@/redux/features/provider/deal.slice";
+
+type TabType = "overview" | "included";
+
+const FALLBACK_MAIN_IMAGE =
+  "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80";
+
+const parsePoints = (input: unknown): string[] => {
+  if (!input) return [];
+  if (Array.isArray(input)) {
+    return input.map((p) => String(p).trim()).filter(Boolean);
+  }
+  if (typeof input === "string") {
+    return input
+      .split(",")
+      .map((p) => p.trim())
+      .filter(Boolean);
+  }
+  return [];
+};
 
 export default function Preview() {
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
   const dispatch = useDispatch();
-  const dealState = useAppSelector((state) => state.deal);
-  const { media, dealInfo, dealDetails, overview } = dealState;
-
-  // Track the active UI tab matching the design navigation
+  const { dealInfo, media, dealDetails, overview } = useAppSelector(
+    (state) => state.deal,
+  );
   const [activeTab, setActiveTab] = useState<TabType>("overview");
-  const [ticketCount, setTicketCount] = useState(1);
+  const [coverPreviewUrl, setCoverPreviewUrl] = useState<string>("");
+  const [galleryPreviewUrls, setGalleryPreviewUrls] = useState<string[]>([]);
 
-  // Helper safely handling both arrays and comma-separated strings
-  const parsePoints = (input: unknown): string[] => {
-    if (!input) return [];
-    if (Array.isArray(input)) {
-      return input.map((p) => String(p).trim()).filter(Boolean);
-    }
+  const guarantees = useMemo(
+    () => [
+      { label: "Instant Confirmation", icon: <CheckMark size={14} /> },
+      { label: "Mobile Ticket", icon: <Mobile size={14} /> },
+      {
+        label: "Vouchado Guarantee: always safe 20% or more",
+        icon: <InstantConfirm size={14} />,
+      },
+    ],
+    [],
+  );
 
-    if (typeof input === "string") {
-      return input
-        .split(",")
-        .map((p) => p.trim())
-        .filter(Boolean);
-    }
+  const allImages = useMemo(() => {
+    const images = [];
+    if (coverPreviewUrl) images.push(coverPreviewUrl);
+    if (galleryPreviewUrls.length > 0) images.push(...galleryPreviewUrls);
 
-    return [];
-  };
+    if (images.length === 0) images.push(FALLBACK_MAIN_IMAGE);
+    return images;
+  }, [coverPreviewUrl, galleryPreviewUrls]);
 
-  const submitCompletedPayload = () => {
-    console.log("Final State Submitted:", dealState);
+  useEffect(() => {
+    if (!media) return;
+
+    const coverUrl = getPreviewUrl(media?.coverImage);
+    const galleryUrls = getPreviewUrls(media?.galleryImages);
+
+    setCoverPreviewUrl(coverUrl);
+    setGalleryPreviewUrls(galleryUrls);
+  }, [media]);
+
+  useEffect(() => {
+    const currentCover = coverPreviewUrl;
+    const currentGallery = galleryPreviewUrls;
+
+    return () => {
+      const urlsToRevoke = [currentCover, ...currentGallery].filter(
+        (url) => url && isBlobUrl(url),
+      );
+
+      if (urlsToRevoke.length > 0) {
+        revokePreviewUrls(urlsToRevoke);
+      }
+    };
+  }, []);
+
+  const handlePublishPayload = () => {
+    console.log("Publishing Final State:", {
+      dealInfo,
+      media,
+      dealDetails,
+      overview,
+    });
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6 space-y-8">
-      {/* 2-COLUMN GRID SYSTEM (Left: 8 Cols | Right: 4 Cols) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* ================= LEFT COLUMN ================= */}
+    <Container>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <div className="lg:col-span-8 space-y-6">
-          {/* Main Title & Hero Description */}
           <div className="space-y-2">
-            <h1 className="text-2xl md:text-4xl font-extrabold text-slate-950 tracking-tight">
-              {dealDetails.deal_name || "US Olympic & Paralympic Museum Ticket"}
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
+              {dealDetails?.deal_name ||
+                "US Olympic & Paralympic Museum Ticket"}
             </h1>
-            <p className="text-sm md:text-base text-slate-600 font-medium">
-              {dealDetails.shortDescription ||
+            <p className="text-base font-medium text-slate-600 leading-relaxed">
+              {dealDetails?.shortDescription ||
                 "Experience America's Olympic history through interactive exhibits."}
             </p>
           </div>
 
-          {/* Quick Info Feature Badges Row */}
-          <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-emerald-600">
-            <Badge
-              variant="secondary"
-              className="bg-emerald-50 text-emerald-700 hover:bg-emerald-50 border-emerald-100 py-1 px-2.5 flex items-center gap-1 rounded-md"
-            >
-              <Zap size={13} className="fill-emerald-600 text-emerald-600" />{" "}
-              Instant Confirmation
-            </Badge>
-            <Badge
-              variant="secondary"
-              className="bg-cyan-50 text-cyan-700 hover:bg-cyan-50 border-cyan-100 py-1 px-2.5 flex items-center gap-1 rounded-md"
-            >
-              <Smartphone size={13} /> Mobile Ticket
-            </Badge>
-            <Badge
-              variant="secondary"
-              className="bg-amber-50 text-amber-700 hover:bg-amber-50 border-amber-100 py-1 px-2.5 flex items-center gap-1 rounded-md"
-            >
-              <Flame size={13} className="fill-amber-600" /> Likely to sell out
-            </Badge>
-          </div>
-
-          {/* Reviews Star Score Metric line */}
-          <div className="flex items-center gap-2 text-sm text-slate-600">
-            <div className="flex items-center text-amber-400 font-bold gap-1">
-              <Star size={16} className="fill-amber-400" />
-              <span className="text-slate-900 font-extrabold">4.8</span>
-            </div>
-            <span className="text-slate-400">(12,500+ reviews)</span>
-          </div>
-
-          {/* Main Showcase Hero Banner Image & Thumbnails */}
-          <div className="space-y-3">
-            <div className="rounded-2xl overflow-hidden aspect-square w-full max-h-[420px] relative border bg-slate-100 shadow-sm">
-              <Image
-                src={
-                  media.coverImage ||
-                  "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80"
-                }
-                alt="Main Showcase Screen Display"
-                fill
-                priority
-                className="object-cover"
-              />
-            </div>
-
-            {/* Micro Thumbnail Row Layout */}
-            {media.galleryImages && media.galleryImages.length > 0 && (
-              <div className="flex gap-2 overflow-x-auto pb-1">
-                {media.galleryImages.map((img, idx) => (
-                  <div
-                    key={idx}
-                    className="relative w-20 h-14 rounded-lg overflow-hidden border bg-muted shrink-0"
-                  >
-                    <Image
-                      src={img}
-                      alt={`Thumbnail preview ${idx}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                ))}
+          <div className="flex items-center gap-4 pt-1.5">
+            {guarantees.map((guarantee) => (
+              <div key={guarantee.label} className="flex items-center gap-1.5">
+                {guarantee.icon}
+                <span className="text-[#454F5B] font-normal">
+                  {guarantee.label}
+                </span>
               </div>
-            )}
+            ))}
           </div>
 
-          {/* TABBED INTERFACE SYSTEM NAVIGATION */}
-          <div className="border-b flex gap-6 text-sm font-bold text-slate-400">
-            {(["overview", "included", "visitor", "reviews"] as TabType[]).map(
-              (tab) => (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => setActiveTab(tab)}
-                  className={`pb-3 capitalize transition-all border-b-2 font-bold ${
-                    activeTab === tab
-                      ? "text-[#29b6be] border-[#29b6be]"
-                      : "border-transparent hover:text-slate-600"
-                  }`}
-                >
-                  {tab === "visitor"
-                    ? "Visitor Info"
-                    : tab === "included"
-                      ? "What's Included"
-                      : tab}
-                </button>
-              ),
-            )}
+          <div className="space-y-3 preview-swiper-container">
+            <div className="space-y-3">
+              <Swiper
+                spaceBetween={10}
+                navigation
+                modules={[FreeMode, Navigation, Thumbs]}
+                thumbs={{
+                  swiper:
+                    thumbsSwiper && !thumbsSwiper.destroyed
+                      ? thumbsSwiper
+                      : null,
+                }}
+                className="rounded-2xl overflow-hidden"
+              >
+                {allImages?.map((image, index) => (
+                  <SwiperSlide key={index}>
+                    <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-100">
+                      <Image
+                        src={image}
+                        alt={`Photo ${index + 1}`}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 700px"
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              <Swiper
+                onSwiper={setThumbsSwiper}
+                modules={[FreeMode, Thumbs]}
+                watchSlidesProgress
+                freeMode
+                spaceBetween={12}
+                slidesPerView={4}
+                className="thumb-swiper"
+              >
+                {allImages.map((image) => (
+                  <SwiperSlide key={image}>
+                    <div className="relative aspect-4/3 rounded-xl overflow-hidden border-2 border-transparent cursor-pointer">
+                      <Image
+                        src={image}
+                        alt="Thumbnail"
+                        fill
+                        className="object-cover"
+                        sizes="100px"
+                      />
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
           </div>
 
-          {/* DYNAMIC TAB BODY VIEWS */}
-          {activeTab === "overview" && (
-            <div className="space-y-8 animate-in fade-in duration-200">
-              {/* Overview Long Text Segment */}
-              <p className="text-sm text-slate-600 leading-relaxed">
-                {overview.description ||
-                  "Experience American athletic excellence, where 12 galleries bring the triumphs & stories of Team USA to life. From viewing artifacts like the Olympic torch to collecting personalized memories in your digital locker, it is an inspiring journey through sports history."}
-              </p>
+          <div className="flex gap-6 font-bold">
+            {(["overview", "included"] as TabType[]).map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                onClick={() => setActiveTab(tab)}
+                className={`pb-3 capitalize transition-all relative font-bold ${
+                  activeTab === tab
+                    ? "text-[#29b6be] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#29b6be]"
+                    : "text-slate-400 hover:text-slate-600"
+                }`}
+              >
+                {tab === "included" ? "What's Included" : tab}
+              </button>
+            ))}
+          </div>
+          <div className="pt-2">
+            {activeTab === "overview" && (
+              <div className="space-y-6 animate-in fade-in duration-300">
+                <div className="space-y-2">
+                  <h2 className="text-xl font-bold text-slate-900">Overview</h2>
+                  <p className="text-slate-600 text-base leading-relaxed whitespace-pre-line">
+                    {dealDetails?.shortDescription}
+                  </p>
+                </div>
 
-              {/* Highlights 2x2 Grid Component Box */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
-                  Highlights
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {parsePoints(overview.highlightedPoints).length > 0
-                    ? parsePoints(overview.highlightedPoints).map(
-                        (highlight, idx) => (
-                          <div
-                            key={idx}
-                            className="p-4 bg-slate-50/60 border border-slate-100 rounded-xl flex gap-3 items-start"
-                          >
-                            <div className="w-8 h-8 rounded-full bg-cyan-50 flex items-center justify-center shrink-0 border border-cyan-100">
-                              <Sparkles size={14} className="text-[#29b6be]" />
-                            </div>
-                            <span className="text-xs font-semibold text-slate-700 mt-1.5">
-                              {highlight}
-                            </span>
-                          </div>
-                        ),
-                      )
-                    : // Default fallbacks matching picture
-                      [
-                        "Explore the inspiring history of Team USA",
-                        "Interactive exhibits & hands-on activities",
-                        "Iconic memorabilia & athlete stories",
-                        "Fun for all ages & fully accessible",
-                      ].map((text, idx) => (
+                <div className="space-y-3 pt-2">
+                  <h3 className="text-base font-bold text-slate-900 tracking-tight">
+                    Highlights
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {parsePoints(overview?.highlightedPoints).map(
+                      (highlight, idx) => (
                         <div
                           key={idx}
-                          className="p-4 bg-slate-50/60 border border-slate-100 rounded-xl flex gap-3 items-start"
+                          className="flex items-start bg-slate-50/60 border border-slate-100 rounded-xl p-4 gap-3"
                         >
-                          <div className="w-8 h-8 rounded-full bg-cyan-50 flex items-center justify-center shrink-0 border border-cyan-100">
-                            <Sparkles size={14} className="text-[#29b6be]" />
+                          <div className="mt-0.5 shrink-0">
+                            <Batch />
                           </div>
-                          <span className="text-xs font-semibold text-slate-700 mt-1.5">
-                            {text}
+                          <span className="text-sm text-slate-700 font-medium leading-snug">
+                            {highlight}
                           </span>
                         </div>
-                      ))}
+                      ),
+                    )}
+                  </div>
                 </div>
               </div>
+            )}
 
-              {/* What You'll Experience */}
-              <div className="space-y-2">
-                <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
-                  What You'll Experience
-                </h3>
-                <p className="text-sm text-slate-600 leading-relaxed">
-                  Discover the legacy of the Olympic & Paralympic Games at the
-                  world's first Olympic & Paralympic museum. With immersive
-                  exhibits, interactive challenges, and incredible athlete
-                  stories, it's an unforgettable experience for the whole
-                  family.
-                </p>
+            {activeTab === "included" && (
+              <div>
+                <Includes
+                  description={overview?.description}
+                  included={parsePoints(overview?.includedPoints || [])}
+                  notIncluded={parsePoints(overview?.notIncludedPoints || [])}
+                />
               </div>
-
-              {/* Inclusions Card Block Side-by-Side Containers */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-                <div className="bg-slate-50/50 border rounded-xl p-5 space-y-3">
-                  <h4 className="text-sm font-bold text-[#29b6be]">Included</h4>
-                  <ul className="space-y-2.5">
-                    {(parsePoints(overview.includedPoints).length > 0
-                      ? parsePoints(overview.includedPoints)
-                      : [
-                          "Museum admission",
-                          "All permanent exhibits",
-                          "Interactive experiences",
-                          "Digital guide",
-                        ]
-                    ).map((item, idx) => (
-                      <li
-                        key={idx}
-                        className="flex gap-2 text-xs font-medium text-slate-600 items-center"
-                      >
-                        <CheckCircle2
-                          size={14}
-                          className="text-[#29b6be] shrink-0"
-                        />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="bg-slate-50/50 border rounded-xl p-5 space-y-3">
-                  <h4 className="text-sm font-bold text-slate-800">
-                    Not Included
-                  </h4>
-                  <ul className="space-y-2.5">
-                    {(parsePoints(overview.notIncludedPoints).length > 0
-                      ? parsePoints(overview.notIncludedPoints)
-                      : [
-                          "Parking",
-                          "Food & beverages",
-                          "Special exhibitions (if any)",
-                          "Transportation",
-                        ]
-                    ).map((item, idx) => (
-                      <li
-                        key={idx}
-                        className="flex gap-2 text-xs font-medium text-slate-600 items-center"
-                      >
-                        <CheckCircle2
-                          size={14}
-                          className="text-slate-400 shrink-0"
-                        />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "included" && (
-            <div className="p-4 border rounded-xl bg-slate-50/50 text-sm text-slate-600 space-y-2 animate-in fade-in duration-200">
-              <h4 className="font-bold text-slate-900">
-                Detailed Structural Inclusions Checklist
-              </h4>
-              <p>
-                {overview.whatsIncludedDescription ||
-                  "Review your full inclusions manifest under the main summary panel grids."}
-              </p>
-            </div>
-          )}
-
-          {activeTab === "visitor" && (
-            <div className="p-4 border rounded-xl bg-slate-50/50 text-sm text-slate-600 animate-in fade-in duration-200">
-              Operational Window Scope: {dealDetails.availableTime} -{" "}
-              {dealDetails.serviceEndTime}
-            </div>
-          )}
-
-          {activeTab === "reviews" && (
-            <div className="p-8 text-center text-muted-foreground border border-dashed rounded-xl animate-in fade-in duration-200">
-              No community reviews indexed at this stage. Live testing preview
-              module active.
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
-        {/* ================= RIGHT COLUMN (SIDEBAR MODULES) ================= */}
         <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-6">
-          {/* TICKET / VOUCHER BOOKING CARD BOX */}
-          <div className="bg-white border rounded-2xl shadow-sm p-6 space-y-5">
+          <div className="rounded-2xl p-6 space-y-5">
             <div className="space-y-1">
-              <h3 className="text-lg font-extrabold text-slate-900 tracking-tight">
+              <h3 className="text-lg font-bold text-slate-900 tracking-tight">
                 {dealInfo.voucher_name || "Single Day Ticket"}
               </h3>
-              <div className="flex items-center gap-1 text-xs text-slate-500">
+              <div className="flex items-center gap-1 text-xs text-slate-500 font-medium">
                 <div className="flex text-amber-400">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={12} className="fill-amber-400" />
+                    <Star
+                      key={i}
+                      size={12}
+                      className="fill-amber-400 text-amber-400"
+                    />
                   ))}
                 </div>
                 <span className="font-bold text-slate-700 ml-1">4.8</span>
@@ -338,27 +285,25 @@ export default function Preview() {
               </div>
             </div>
 
-            {/* Price Line Items Layout Block */}
-            <div className="space-y-0.5">
+            <div className="space-y-0.5 pt-1">
               {dealInfo.regularPrice && (
-                <span className="text-xs line-through text-slate-400 font-medium block">
+                <span className="text-xs line-through text-slate-400 font-semibold block">
                   € {dealInfo.regularPrice}
                 </span>
               )}
               <div className="flex items-center gap-2">
-                <span className="text-3xl font-black text-slate-950">
+                <span className="text-3xl font-black text-slate-900 tracking-tight">
                   € {dealInfo.discountedPrice || "124.50"}
                 </span>
-                <Badge className="bg-cyan-50 text-[#29b6be] hover:bg-cyan-50 font-bold border border-cyan-100 rounded-md py-0.5 px-1.5 text-xs">
+                <Badge className="bg-cyan-50 text-[#29b6be] hover:bg-cyan-50 font-bold border border-cyan-100 rounded-md py-0.5 px-1.5 text-xs shadow-sm">
                   Save 17%
                 </Badge>
               </div>
             </div>
 
-            {/* Embedded Mini Badges inside card */}
-            <div className="space-y-3 pt-2 border-t text-xs font-semibold text-slate-700">
+            <div className="space-y-3 pt-4 border-t border-slate-100 text-xs font-semibold text-slate-700">
               <div className="flex items-center gap-2.5">
-                <Zap size={15} className="text-[#29b6be] fill-cyan-50" />
+                <Zap size={15} className="text-[#29b6be] fill-cyan-50/50" />
                 <span>Instant Confirmation</span>
               </div>
               <div className="flex items-center gap-2.5">
@@ -367,156 +312,59 @@ export default function Preview() {
               </div>
             </div>
 
-            {/* Counter Numeric Row Input Dummy widget */}
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setTicketCount(Math.max(1, ticketCount - 1))}
-                className="w-8 h-8 rounded-full border flex items-center justify-center text-slate-500 hover:bg-slate-50"
-              >
-                <Minus size={14} />
-              </button>
-              <span className="w-6 text-center font-bold text-sm text-slate-900">
-                {ticketCount}
-              </span>
-              <button
-                type="button"
-                onClick={() => setTicketCount(ticketCount + 1)}
-                className="w-8 h-8 rounded-full border flex items-center justify-center text-slate-500 hover:bg-slate-50"
-              >
-                <Plus size={14} />
-              </button>
+            <div className="flex justify-end pt-1">
+              <ItemCounter />
             </div>
 
-            {/* Buttons Row Array stacked */}
-            <div className="space-y-2 pt-2">
+            <div className="space-y-2.5 pt-2">
               <button
                 type="button"
-                onClick={submitCompletedPayload}
-                className="w-full h-11 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-full text-sm transition-colors"
+                disabled
+                onClick={handlePublishPayload}
+                className="w-full h-11 bg-[#C4CDD5] text-white font-bold rounded-full text-sm"
               >
                 Book now
               </button>
               <button
                 type="button"
-                className="w-full h-11 border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-full text-sm flex items-center justify-center gap-2 transition-colors"
+                className="w-full h-11 border border-slate-200  text-[#C4CDD5] font-bold rounded-full text-sm flex items-center justify-center gap-2 transition-colors"
               >
-                <Heart size={15} className="text-slate-400" /> Add to wishlist
+                <Heart size={15} className="text-[#C4CDD5]" /> Add to wishlist
               </button>
               <button
                 type="button"
-                className="w-full h-11 border border-slate-200 hover:bg-slate-50 text-slate-600 font-bold rounded-full text-sm flex items-center justify-center gap-2 transition-colors"
+                className="w-full h-11  border border-slate-200 text-[#C4CDD5] font-bold rounded-full text-sm flex items-center justify-center gap-2 transition-colors"
               >
-                <MessageSquare size={15} className="text-slate-400" /> Chat with
+                <MessageSquare size={15} className="text-[#C4CDD5]" /> Chat with
                 seller
               </button>
             </div>
 
-            {/* Checkout footer caption */}
-            <div className="flex items-center justify-center gap-1.5 text-slate-400 text-[11px] font-medium">
+            <div className="flex items-center justify-center gap-1.5 text-slate-400 text-[11px] font-semibold pt-1">
               <Lock size={12} /> Secure checkout
             </div>
           </div>
 
-          {/* VISITOR INFORMATION MODULE CARD PANEL */}
-          <div className="bg-white border rounded-2xl shadow-sm p-6 space-y-4">
-            <h3 className="text-base font-extrabold text-slate-900 tracking-tight">
-              Visitor Information
-            </h3>
-
-            <div className="space-y-4 text-xs">
-              {/* Location Box Block info */}
-              <div className="flex gap-3 items-start">
-                <MapPin size={16} className="text-[#29b6be] shrink-0 mt-0.5" />
-                <div className="space-y-0.5">
-                  <h4 className="font-extrabold text-slate-900">Location</h4>
-                  <p className="text-slate-500 leading-normal font-medium">
-                    {overview.location ||
-                      "200 S Sierra Madre St, Colorado Springs, CO 80903, United States"}
-                  </p>
-                </div>
-              </div>
-
-              {/* Operational Hours segment */}
-              <div className="flex gap-3 items-start">
-                <Clock size={16} className="text-[#29b6be] shrink-0 mt-0.5" />
-                <div className="space-y-0.5">
-                  <h4 className="font-extrabold text-slate-900">
-                    Opening Hours
-                  </h4>
-                  <p className="text-slate-500 leading-normal font-medium">
-                    {overview.openingHours ||
-                      "Mon - Sun: 8:00 AM - 5:00 PM, Last entry: 4:00 PM"}
-                  </p>
-                </div>
-              </div>
-
-              {/* Accessibility options info text */}
-              <div className="flex gap-3 items-start">
-                <Accessibility
-                  size={16}
-                  className="text-[#29b6be] shrink-0 mt-0.5"
-                />
-                <div className="space-y-0.5">
-                  <h4 className="font-extrabold text-slate-900">
-                    Accessibility
-                  </h4>
-                  <p className="text-slate-500 leading-normal font-medium">
-                    {overview.accessibility ||
-                      "Fully accessible for wheelchairs and strollers."}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Miniature Map Visual Embed Wrapper Layout */}
-            <div className="border rounded-xl overflow-hidden mt-2 bg-slate-50">
-              <div className="h-28 w-full bg-slate-200 relative">
-                {/* Visual placeholder for map imagery look */}
-                <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] bg-size-[16px_16px] bg-slate-100 flex items-center justify-center">
-                  <div className="w-5 h-5 rounded-full bg-[#29b6be] border-2 border-white shadow-md flex items-center justify-center animate-pulse">
-                    <MapPin size={10} className="text-white fill-white" />
-                  </div>
-                </div>
-              </div>
-              <div className="p-3 space-y-1.5 bg-white border-t">
-                <h4 className="text-xs font-extrabold text-slate-950">
-                  US Olympic & Paralympic Museum
-                </h4>
-                <p className="text-[10px] text-slate-400 line-clamp-1 font-medium">
-                  {overview.location ||
-                    "200 S Sierra Madre St, Colorado Springs, CO 80903, United States"}
-                </p>
-                <button
-                  type="button"
-                  className="w-full flex items-center justify-between text-[11px] font-bold text-slate-400 hover:text-slate-600 pt-1 border-t transition-colors"
-                >
-                  <span>Get Directions</span>
-                  <ChevronRight size={14} />
-                </button>
-              </div>
-            </div>
-          </div>
+          <ProductLocation location={overview.location ?? undefined} />
         </div>
       </div>
 
-      {/* FIXED STEP SUBMISSION ACTIONS FOOTER FOOTPRINT BAR */}
-      <div className="flex justify-between pt-6 border-t border-gray-100 mt-8">
+      <div className="flex justify-between items-center mt-12 pt-6 border-t border-slate-100">
         <button
           type="button"
           onClick={() => dispatch(setStep(4))}
-          className="px-5 h-11 border border-gray-200 rounded-full font-semibold text-gray-500 hover:bg-gray-50 text-sm flex items-center gap-1.5 transition-colors shadow-sm"
+          className="px-5 h-11 border border-slate-200 rounded-full font-bold text-slate-600 bg-white hover:bg-slate-50 text-sm flex items-center gap-1.5"
         >
           <ChevronLeft className="w-4 h-4" /> Back
         </button>
         <button
           type="button"
-          onClick={submitCompletedPayload}
-          className="px-8 h-11 bg-[#29b6be] hover:bg-[#1fa0a7] text-white font-bold rounded-full text-sm shadow-md transition-colors"
+          onClick={handlePublishPayload}
+          className="px-8 h-11 bg-[#29b6be] hover:bg-[#1fa0a7] text-white font-bold rounded-full text-sm "
         >
           Publish Deal
         </button>
       </div>
-    </div>
+    </Container>
   );
 }

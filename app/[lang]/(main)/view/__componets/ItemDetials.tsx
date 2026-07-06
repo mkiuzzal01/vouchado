@@ -194,6 +194,7 @@ export default function ItemDetails({ slug, lang }: Props) {
                   </div>
                 ))}
               </div>
+
               <ProductMetrics />
             </div>
 

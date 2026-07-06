@@ -5,9 +5,9 @@ import Media from "./Media";
 import Info from "./Info";
 import Details from "./Details";
 import Preview from "./Preview";
-import { setStep } from "@/redux/features/provider/deal.slice";
 import Check from "../../icons/Check";
 import Overview from "./Overview";
+import { setStep } from "@/redux/features/provider/deal.slice";
 
 const WIZARD_STEPS = [
   { id: 1, label: "Media" },

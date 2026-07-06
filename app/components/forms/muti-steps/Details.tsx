@@ -5,16 +5,17 @@ import AppForm from "../AppForm";
 import TextInput from "../inputs/TextInput";
 import SelectInput from "../inputs/SelectInput";
 import TimeInput from "../inputs/TimeInput";
-import {
-  setStep,
-  updateDealDetails,
-} from "@/redux/features/provider/deal.slice";
 import Award from "../../icons/Award";
 import BarCode from "../../icons/BarCode";
 import Bell from "../../icons/Bell";
 import Boots from "../../icons/Boots";
 import Sparkles from "../../icons/Sparkles";
 import Grow from "../../icons/Grow";
+import { useAppSelector } from "@/redux/hooks/globalhooks";
+import {
+  setStep,
+  updateDealDetails,
+} from "@/redux/features/provider/deal.slice";
 
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const MONTHS = [
@@ -89,22 +90,20 @@ const BOOSTER_ITEMS = [
 
 export default function Details() {
   const dispatch = useDispatch();
-  const dealDetails = useSelector((state: any) => state.deal.dealDetails);
+  const { dealDetails } = useAppSelector((state) => state.deal);
 
   const [days, setDays] = useState<string[]>(dealDetails.availableDays || []);
   const [months, setMonths] = useState<string[]>(
     dealDetails.availableMonths || [],
   );
 
-  const [boosters, setBoosters] = useState<Record<string, boolean>>(
-    dealDetails.boosters || {
-      newsletter: true,
-      trending: false,
-      push: false,
-      lastMinute: false,
-      priority: false,
-    },
-  );
+  const [boosters, setBoosters] = useState<Record<string, boolean>>({
+    newsletter: true,
+    trending: false,
+    push: false,
+    lastMinute: false,
+    priority: false,
+  });
 
   const toggleItem = (item: string, list: string[], setList: Function) => {
     setList(
@@ -142,6 +141,10 @@ export default function Details() {
           options={[
             { label: "Select a service category", value: "" },
             { label: "Museum Entry", value: "museum" },
+            { label: "Events & Attractions", value: "event" },
+            { label: "Food & Dining", value: "food" },
+            { label: "Hotel & Stay", value: "hotel" },
+            { label: "Tour & Travel", value: "tour" },
           ]}
         />
         <TextInput

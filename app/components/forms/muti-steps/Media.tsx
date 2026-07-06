@@ -1,49 +1,53 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { FieldValues } from "react-hook-form";
 import AppForm from "../AppForm";
 import FileInput from "../inputs/FileInput";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import {
   setOpenDealModal,
   setStep,
-  updateDealInfo,
+  updateMedia,
 } from "@/redux/features/provider/deal.slice";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
-import { FieldValues } from "react-hook-form";
 
 export default function Media() {
   const dispatch = useAppDispatch();
-  const { dealInfo, openDealModal } = useAppSelector((state) => state.deal);
 
-  const onSubmit = (value: FieldValues) => {
-    dispatch(updateDealInfo(value));
+  const { media } = useAppSelector((state) => state.deal);
+
+  const onSubmit = (values: FieldValues) => {
+    dispatch(updateMedia(values));
     dispatch(setStep(2));
+  };
+
+  const handleBack = () => {
+    dispatch(setOpenDealModal(false));
   };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
       <div className="lg:col-span-3">
-        <AppForm onSubmit={onSubmit} defaultValues={dealInfo}>
+        <AppForm defaultValues={media} onSubmit={onSubmit}>
           <div className="space-y-6">
-            <div>
-              <FileInput name="coverImage" label="Cover Image" />
-            </div>
+            <FileInput name="coverImage" label="Cover Image" />
 
-            <div>
-              <FileInput multiple name="galleryImages" label="Gallery Images" />
-            </div>
-            <div className="flex justify-between pt-6 border-t border-slate-100 mt-6">
+            <FileInput multiple name="galleryImages" label="Gallery Images" />
+
+            <div className="flex justify-between pt-6 mt-6 border-t border-slate-100">
               <button
                 type="button"
-                onClick={() => dispatch(setOpenDealModal(!openDealModal))}
-                className="px-6 py-2.5 border border-slate-200 rounded-full font-medium text-slate-500 text-sm flex items-center gap-1 hover:bg-slate-50 transition"
+                onClick={handleBack}
+                className="flex items-center gap-1 rounded-full border border-slate-200 px-6 py-2.5 text-sm font-medium text-slate-500 transition hover:bg-slate-50"
               >
-                <ChevronLeft className="w-4 h-4" /> Back
+                <ChevronLeft className="h-4 w-4" />
+                Back
               </button>
 
               <button
                 type="submit"
-                className="px-6 py-2.5 bg-teal-500 hover:bg-teal-600 text-white font-medium rounded-full text-sm flex items-center gap-1 shadow-sm transition"
+                className="flex items-center gap-1 rounded-full bg-teal-500 px-6 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-teal-600"
               >
-                Next <ChevronRight className="w-4 h-4" />
+                Next
+                <ChevronRight className="h-4 w-4" />
               </button>
             </div>
           </div>
