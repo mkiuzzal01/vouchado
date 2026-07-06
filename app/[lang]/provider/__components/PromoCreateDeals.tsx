@@ -107,6 +107,7 @@ export default function PromoCreateDeals() {
         <CreateDealForm />
       </ModalContainer>
       <ModalContainer
+        width="2xl"
         isOpen={scanModal}
         onClose={() => setScanModal(!scanModal)}
       >
