@@ -28,8 +28,6 @@ export default function UserDropdown({ lang = "en", totalMoney }: Props) {
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
 
-  console.log(user);
-
   const userName = user?.name || "Guest";
   const userEmail = user?.email || "";
   const role = String(user?.role || "user");

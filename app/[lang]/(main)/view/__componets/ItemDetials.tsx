@@ -23,10 +23,6 @@ import { addToCart, removeFromCart } from "@/redux/features/cart/cart.slice";
 import { toast } from "react-toastify";
 import { product } from "@/redux/items/ItemDetails";
 import { useState } from "react";
-import {
-  removeFromWishlist,
-  toggleWishlist,
-} from "@/redux/features/wishlist/wishlinst.slice";
 import SimilarItem from "./SimilarItem";
 import ProductLocation from "./ProductLocation";
 import PromoSteps from "@/app/components/hero/PromoSteps";
@@ -40,6 +36,7 @@ import GiftVoucher from "@/app/components/icons/GiftVoucher";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import GiftVoucherForm from "@/app/components/forms/GiftVoucherForm";
 import GiftVoucherCart from "./GiftVoucherCart";
+import { TService } from "@/redux/types/service";
 
 export const promos = [
   {
@@ -65,11 +62,11 @@ export const promos = [
 ];
 
 interface Props {
-  slug: string;
   lang: string;
+  details: TService;
 }
 
-export default function ItemDetails({ slug, lang }: Props) {
+export default function ItemDetails({ lang, details }: Props) {
   const [openGiftVoucherModal, setOpenGiftVoucherModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [activeSection, setActiveSection] = useState("overview");
@@ -78,57 +75,37 @@ export default function ItemDetails({ slug, lang }: Props) {
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
 
-  const productIsInCart = items?.some((item) => item.id === product.id);
+  const productIsInCart = items?.some(
+    (item) => item.id === String(details?.deal?.id),
+  );
   const productIsInWishlist = wishlistItems?.some(
-    (item) => item.id === product.id,
+    (item) => item.id === String(details.deal?.id),
   );
 
   const handleAddToCart = () => {
     if (!productIsInCart) {
       dispatch(
         addToCart({
-          id: product?.id,
-          title: product?.title,
-          tagline: product?.tagline,
-          rating: product?.rating,
-          reviewsCount: product?.reviewsCount,
-          location: product?.location,
-          currentPrice: product?.priceOriginal,
-          totalQuantity: product?.quantity,
+          id: String(details?.deal?.id),
+          title: details?.deal?.service_title,
+          tagline: details?.deal?.short_description,
+          rating: details?.deal?.reviews_avg_rating || 0,
+          reviewsCount: details?.deal?.reviews_count || 0,
+          location: details?.deal?.longitude,
+          currentPrice: parseInt(details?.deal?.discounted_price) || 0,
+          originalPrice: parseInt(details?.deal?.original_price) || 0,
           selectedQuantity: quantity,
+          totalQuantity: quantity,
         }),
       );
       toast.success("Product added to cart");
     } else {
-      dispatch(removeFromCart(product?.id));
+      dispatch(removeFromCart(String(details?.deal?.id)));
       toast.warning("Product removed from cart");
     }
   };
 
-  const handleAddToWishlist = () => {
-    if (!productIsInWishlist) {
-      dispatch(
-        toggleWishlist({
-          id: product?.id,
-          imageUrl: product?.image,
-          category: "",
-          title: product?.title,
-          rating: product?.rating,
-          location: product?.location,
-          currentPrice: product?.priceOriginal,
-          originalPrice: product?.priceOriginal,
-          currencySymbol: "$",
-          discountPercentage: product?.discountBadge,
-          distance: "10km",
-          endsIn: "2d 10h",
-        }),
-      );
-      toast.success("Product added to wishlist");
-    } else {
-      dispatch(removeFromWishlist(product?.id));
-      toast.warning("Product removed from wishlist");
-    }
-  };
+  const handleAddToWishlist = () => {};
 
   const tabItems = ["Overview", "What's Included", "Reviews"];
 
@@ -163,10 +140,10 @@ export default function ItemDetails({ slug, lang }: Props) {
             {/* Header Content Info Block */}
             <div className="space-y-3">
               <h1 className="text-2xl md:text-3xl lg:text-[64px] font-bold text-[#212B36] tracking-tight leading-tight">
-                {product.title}
+                {details?.deal?.service_title}
               </h1>
               <p className="text-[#212B36] text-md sm:text-2xl font-semibold">
-                {product.tagline}
+                {details?.deal?.short_description}
               </p>
 
               <div className="flex flex-col lg:flex-row lg:items-center gap-2">
@@ -174,7 +151,7 @@ export default function ItemDetails({ slug, lang }: Props) {
                   <div className="flex items-center gap-2">
                     <GiftVoucher color="#637381" size={24} />
                     <p className="lg:text-xl text-[#637381] hover:underline">
-                      {product?.gift_voucher}
+                      {details?.deal?.service_title}
                     </p>
                   </div>
                 </Link>
@@ -237,17 +214,16 @@ export default function ItemDetails({ slug, lang }: Props) {
             <div className="mt-8 space-y-16">
               <section id="overview" className="scroll-mt-24">
                 <Overview
-                  description={product?.overview}
-                  highlights={product?.highlights}
-                  included={product?.included}
-                  notIncluded={product?.notIncluded}
+                  description={details?.deal?.overview_description}
+                  highlights={details?.deal?.highlight_points}
                 />
               </section>
 
               <section id="whats-included" className="scroll-mt-24">
                 <Includes
-                  included={product?.included}
-                  notIncluded={product?.notIncluded}
+                  description={details?.deal?.experience_description}
+                  included={details?.deal?.include_points}
+                  notIncluded={details?.deal?.not_include_points}
                 />
               </section>
 
@@ -268,32 +244,32 @@ export default function ItemDetails({ slug, lang }: Props) {
             <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
               <div>
                 <h4 className="text-xl lg:text-3xl font-bold text-gray-900">
-                  Single Day Ticket
+                  {details?.deal?.deal_name}
                 </h4>
-                <div className="flex items-center pt-2">
+                <div className="flex items-center pt-2 space-x-2">
                   <Star
                     activeColor="#FFC107"
                     inactiveColor="#DFE3E8"
-                    size={100}
+                    size={details?.deal?.reviews_avg_rating || 0}
                   />
                   <span className="text-lg font-bold text-gray-900">
-                    {product?.rating}
+                    {details?.deal?.reviews_avg_rating || 0}
                   </span>
                   <span className="text-sm text-[#637381]">
-                    ({product?.reviewsCount} reviews)
+                    ({details?.deal?.reviews_count} reviews)
                   </span>
                 </div>
               </div>
               <div>
                 <span className="text-xl text-gray-400 line-through block font-normal">
-                  {product.priceOriginal}
+                  {details?.deal?.original_price}
                 </span>
                 <div className="flex items-baseline gap-2 mt-0.5">
                   <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-                    {product.priceOriginal}
+                    {details.deal?.discounted_price}
                   </span>
                   <span className="bg-[#E1F7F5] text-[#31BFC8] font-semibold text-xs px-2 py-0.5 rounded-xl">
-                    Save {product.discountBadge}%
+                    Save {details?.deal?.discount_percentage || 0} %
                   </span>
                 </div>
               </div>
@@ -329,18 +305,21 @@ export default function ItemDetails({ slug, lang }: Props) {
               </div>
 
               <CounterItem
-                max={product.quantity}
+                max={details?.deal?.total_purchase_limit}
                 defaultValue={1}
                 onChange={setQuantity}
               />
 
               <div className="space-y-2.5 pt-1">
                 {productIsInCart ? (
-                  <Link href={`/${lang}/cart`}>
-                    <Button className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg transition-all active:scale-[0.99]">
-                      View Cart
+                  <div className="flex">
+                    <Button
+                      onClick={() => handleAddToCart()}
+                      className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg transition-all active:scale-[0.99]"
+                    >
+                      <Link href={`/${lang}/cart`}>View Cart</Link>
                     </Button>
-                  </Link>
+                  </div>
                 ) : (
                   <Button
                     onClick={() => handleAddToCart()}
@@ -388,12 +367,23 @@ export default function ItemDetails({ slug, lang }: Props) {
                 </p>
               </div>
             </div>
-            <ProductLocation />
-            <VouchadoCount />
+            <ProductLocation
+              location={{
+                lat: Number(details?.deal?.latitude),
+                lng: Number(details?.deal?.longitude),
+              }}
+              opening={details?.deal?.opening_hours}
+              accessibility={details?.deal?.accessibility_info}
+            />
+            <VouchadoCount
+              available_end_time={details?.deal?.available_end_time}
+              available_start_time={details?.deal?.available_start_time}
+              service_end_at={details?.deal?.service_end_at}
+            />
             <GiftVoucherCart />
           </div>
         </div>
-        <SimilarItem lang={lang} />
+        <SimilarItem lang={lang} similar_deals={details?.similar_deals} />
         <PromoSteps steps={promos} />
       </Container>
 

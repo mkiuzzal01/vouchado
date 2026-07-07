@@ -1,3 +1,5 @@
+import { getCategories } from "@/actions/quires/cateogries.api";
+import { getDeals } from "@/actions/quires/deals.api";
 import ProductCard from "@/app/components/cards/ProductCard";
 import Filtered from "@/app/components/forms/quires/Filtered";
 import FilterWithCategory from "@/app/components/forms/quires/FilterWithCategory";
@@ -7,9 +9,9 @@ import Contact from "@/app/components/icons/Contact";
 import InstantConfirm from "@/app/components/icons/InstantConfirm";
 import Save from "@/app/components/icons/Save";
 import SecurePayment from "@/app/components/icons/SecurePayment";
+import { Deal } from "@/app/components/sections/DealsNear";
 import Container from "@/app/components/shared/Container";
 import SectionHeader from "@/app/components/shared/SectionHeader";
-import { productItems } from "@/redux/items/ItemData";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -40,6 +42,9 @@ export const promos = [
 
 export default async function page({ params }: Props) {
   const { lang } = await params;
+  const deals = await getDeals();
+  const categories = await getCategories();
+
   return (
     <Container>
       <SectionHeader
@@ -48,7 +53,7 @@ export default async function page({ params }: Props) {
       />
 
       <div className="mt-8">
-        <FilterWithCategory />
+        <FilterWithCategory categories={categories?.data} />
       </div>
       <div className="flex flex-col lg:flex-row gap-8 mt-4">
         <div className="w-full lg:w-3/12">
@@ -56,22 +61,8 @@ export default async function page({ params }: Props) {
         </div>
         <div className="flex flex-col gap-2 w-full lg:w-9/12">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-3 gap-4">
-            {productItems.map((product, index) => (
-              <ProductCard
-                id={product?.id}
-                key={product?.id}
-                lang={lang}
-                category={product?.category}
-                distance={product?.distance}
-                discountPercentage={product?.discountPercentage}
-                endsIn={product?.endsIn}
-                imageUrl={product?.imageUrl}
-                location={product?.location}
-                originalPrice={product?.originalPrice}
-                rating={product?.rating}
-                currentPrice={product?.currentPrice}
-                title={product?.title}
-              />
+            {deals?.data?.map((product: Deal, idx: number) => (
+              <ProductCard key={idx} lang={lang} product={product} />
             ))}
           </div>
           <ReusablePagination currentPage={1} totalPages={10} />

@@ -1,15 +1,8 @@
 import Batch from "@/app/components/icons/Batch";
 
-interface Highlight {
-  id: string | number;
-  text: string;
-}
-
 interface Product {
   description?: string;
-  highlights?: Highlight[];
-  included?: string[];
-  notIncluded?: string[];
+  highlights?: string[];
 }
 
 export default function Overview({ description, highlights }: Product) {
@@ -27,13 +20,11 @@ export default function Overview({ description, highlights }: Product) {
         <div className="grid grid-cols-2 lg:grid-cols-4 text-wrap gap-4">
           {highlights?.map((h) => (
             <div
-              key={h.id}
+              key={h}
               className="bg-[#DFE3E833] border border-gray-100 rounded-xl p-4  gap-3"
             >
               <Batch />
-              <span className="text-sm text-gray-700 leading-snug">
-                {h.text}
-              </span>
+              <span className="text-sm text-gray-700 leading-snug">{h}</span>
             </div>
           ))}
         </div>

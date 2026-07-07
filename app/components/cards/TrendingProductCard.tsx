@@ -1,108 +1,59 @@
 "use client";
-
-import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
-import { toast } from "react-toastify";
-import { toggleWishlist } from "@/redux/features/wishlist/wishlinst.slice";
 import Discount from "../icons/Discount";
 import Start from "../icons/Start";
+import { title } from "process";
+import WishList from "../icons/WishList";
+import PinLocation from "../icons/PinLocation";
+import Location from "../icons/Location";
+import { MapPin } from "lucide-react";
+
+export interface Deal {
+  id: number;
+  image: string;
+  discount_percentage: number;
+  category: string;
+  title: string;
+  slug: string;
+  rating: number | null;
+  location: string;
+  distance: string;
+  original_price: string;
+  discounted_price: string;
+  service_end_at: string;
+  purchased_count: number;
+}
 
 export interface TrendingProductCardProps {
   lang: "en" | "de";
-  productId: string;
-  imageUrl: string;
-  category: string;
-  title: string;
-  rating: number;
-  purchasedText?: string;
-  currentPrice: number;
-  originalPrice?: number;
-  currencySymbol?: string;
-  discountPercentage?: number;
+  product: Deal;
 }
 
 export default function TrendingProductCard({
   lang,
-  productId,
-  imageUrl,
-  category,
-  title,
-  rating,
-  purchasedText,
-  currentPrice,
-  originalPrice,
-  currencySymbol = "€",
-  discountPercentage,
+  product,
 }: TrendingProductCardProps) {
-  const dispatch = useAppDispatch();
-  const wishlistItems = useAppSelector((state) => state.wishlist.items);
-
-  const product = useMemo(
-    () => ({
-      id: productId,
-      imageUrl,
-      category,
-      title,
-      rating,
-      currentPrice,
-      originalPrice,
-      currencySymbol,
-      discountPercentage,
-    }),
-    [
-      productId,
-      imageUrl,
-      category,
-      title,
-      rating,
-      currentPrice,
-      originalPrice,
-      currencySymbol,
-      discountPercentage,
-    ],
-  );
-
-  const isWishlisted = useMemo(
-    () => wishlistItems.some((item) => item.id === productId),
-    [wishlistItems, productId],
-  );
-
-  const handleWishlist = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Prevents clicking the wishlist button from routing to the view details page
-    e.preventDefault();
-    e.stopPropagation();
-
-    dispatch(
-      toggleWishlist({
-        ...product,
-        location: "not provided",
-        endsIn: "not provided",
-        distance: "not provided",
-      }),
-    );
-
-    if (isWishlisted) {
-      toast.warn("Removed from wishlist");
-    } else {
-      toast.success("Added to wishlist");
-    }
-  };
+  const handleWishlist = (e: React.MouseEvent<HTMLButtonElement>) => {};
 
   return (
     <Link
-      href={`/${lang}/view/${productId}`}
+      href={`/${lang}/view/${product?.slug}`}
       className="block w-full rounded-2xl sm:rounded-3xl bg-white border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
       {/* Image Section */}
       <div className="relative md:h-[220px] h-48 w-full flex justify-center items-center">
-        <Image src={imageUrl} alt={title} fill className="object-cover" />
+        <Image
+          src={product?.image}
+          alt={product?.title}
+          fill
+          className="object-cover"
+        />
 
         {/* Discount */}
-        {discountPercentage && (
+        {product?.discount_percentage && (
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-[#1ec6cc] text-white text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full flex items-center gap-1">
-            <Discount color="#fff" /> -{discountPercentage}%
+            <Discount color="#fff" /> -{product?.discount_percentage}%
           </div>
         )}
 
@@ -110,56 +61,41 @@ export default function TrendingProductCard({
         <button
           type="button"
           onClick={handleWishlist}
-          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
           className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/90 backdrop-blur-sm p-1.5 sm:p-2 rounded-full shadow-sm transition-all z-10 hover:bg-white"
         >
-          <svg
-            className={`w-4 h-4 sm:w-5 sm:h-5 transition-colors ${
-              isWishlisted
-                ? "text-[#1ec6cc]"
-                : "text-gray-600 hover:text-[#1ec6cc]"
-            }`}
-            viewBox="0 0 24 24"
-            fill={isWishlisted ? "currentColor" : "none"}
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg>
+          <WishList size={20} />
         </button>
 
         {/* Category */}
         <div className="absolute -bottom-3 left-3 sm:left-4 bg-[#eef0f2] text-gray-700 text-[10px] sm:text-xs font-semibold px-3 py-1.5 rounded-full border border-white shadow-sm">
-          {category}
+          {product?.category}
         </div>
       </div>
 
       {/* Content */}
       <div className="px-4 sm:px-5 pt-6 sm:pt-8 pb-4 sm:pb-5">
         <h3 className="text-sm md:text-xl hover:text-[#1ec6cc] font-medium text-gray-800 line-clamp-2 mb-3 sm:mb-4 transition-colors">
-          {title}
+          {product?.title}
         </h3>
 
         <div className="flex items-center justify-between gap-2 mb-4 sm:mb-5">
           <div className="flex items-center gap-1 font-semibold text-gray-800">
-            <Start size={20} /> {rating.toFixed(1)}
+            <Start size={20} /> {product?.rating || 0}
           </div>
 
-          {purchasedText && (
-            <span className="font-normal text-[#637381] truncate">
-              {purchasedText}
-            </span>
-          )}
+          <span className="font-normal text-[#637381] truncate">
+            {product?.purchased_count || 0} purchased
+          </span>
         </div>
 
         <div className="flex items-baseline gap-2 flex-wrap">
           <span className="text-sm md:text-xl font-black text-[#212B36]">
-            {currencySymbol} {currentPrice.toFixed(2)}
+            {product?.discounted_price}
           </span>
 
-          {originalPrice && (
+          {product?.original_price && (
             <span className="text-slate-400 line-through">
-              {currencySymbol} {originalPrice.toFixed(2)}
+              {product?.original_price}
             </span>
           )}
         </div>

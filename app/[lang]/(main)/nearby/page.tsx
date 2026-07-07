@@ -1,4 +1,7 @@
+import { getCategories } from "@/actions/quires/cateogries.api";
+import { getDeals } from "@/actions/quires/deals.api";
 import ProductCard from "@/app/components/cards/ProductCard";
+import { Deal } from "@/app/components/sections/DealsNear";
 import Filtered from "@/app/components/forms/quires/Filtered";
 import FilterWithCategory from "@/app/components/forms/quires/FilterWithCategory";
 import ModernSearch from "@/app/components/forms/quires/ModernSearch";
@@ -10,7 +13,6 @@ import InstantConfirm from "@/app/components/icons/InstantConfirm";
 import Save from "@/app/components/icons/Save";
 import SecurePayment from "@/app/components/icons/SecurePayment";
 import Container from "@/app/components/shared/Container";
-import { productItems } from "@/redux/items/ItemData";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -41,36 +43,24 @@ export const promos = [
 
 export default async function page({ params }: Props) {
   const { lang } = await params;
+  const deals = await getDeals();
+  const categories = await getCategories();
   return (
     <div>
       <Container>
         <ModernSearch />
         <div className="mt-8">
-          <FilterWithCategory />
+          <FilterWithCategory categories={categories?.data} />
         </div>
         <div className="flex flex-col lg:flex-row gap-8 mt-4">
           <div className="w-full lg:w-3/12">
             <Filtered />
           </div>
           <div className="flex flex-col gap-2 w-full lg:w-9/12">
-            <Sort />
+            <Sort total={deals?.data?.length} />
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-3 gap-4">
-              {productItems.map((deal, index) => (
-                <ProductCard
-                  id={`deal-${index}`}
-                  lang={lang}
-                  key={`deal-${index}`}
-                  imageUrl={deal.imageUrl}
-                  category={deal.category}
-                  title={deal.title}
-                  rating={deal.rating}
-                  location={deal.location}
-                  currentPrice={deal.currentPrice}
-                  originalPrice={deal.originalPrice}
-                  discountPercentage={deal.discountPercentage}
-                  distance={deal.distance}
-                  endsIn={deal.endsIn}
-                />
+              {deals?.data?.map((product: Deal) => (
+                <ProductCard key={product.id} lang={lang} product={product} />
               ))}
             </div>
             <ReusablePagination currentPage={1} totalPages={10} />

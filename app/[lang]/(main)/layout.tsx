@@ -7,6 +7,10 @@ import {
   getNavLinks,
   getServices,
 } from "@/app/components/layouts/navigationLinks";
+import {
+  getSocialLinks,
+  getSystemInfo,
+} from "@/actions/quires/system_info.api";
 
 interface RootLayout {
   children: React.ReactNode;
@@ -19,6 +23,8 @@ export default async function layout({ children, params }: RootLayout) {
   const navLinks = await getNavLinks(lang);
   const services = await getServices(lang);
   const footerLinksData = await footerLinks(lang);
+  const socialLinks = await getSocialLinks();
+  const systemInfo = await getSystemInfo();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -33,7 +39,11 @@ export default async function layout({ children, params }: RootLayout) {
         menuTitle={nav.nav.category}
       />
       <main className="flex-1">{children}</main>
-      <Footer footerLinks={footerLinksData} />
+      <Footer
+        footerLinks={footerLinksData}
+        socialLinks={socialLinks}
+        systemInfo={systemInfo}
+      />
     </div>
   );
 }

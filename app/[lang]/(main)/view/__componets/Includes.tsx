@@ -2,14 +2,12 @@
 import { Check, X } from "lucide-react";
 
 interface Props {
-  title?: string;
   description?: string;
   included?: string[];
   notIncluded?: string[];
 }
 
 export default function Includes({
-  title,
   description,
   included = [],
   notIncluded = [],

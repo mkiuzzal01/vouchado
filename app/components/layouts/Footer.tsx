@@ -23,18 +23,24 @@ import { toast } from "react-toastify";
 
 interface FooterLinks {
   footerLinks: any;
+  socialLinks: any;
+  systemInfo: any;
 }
 
-export default function Footer({ footerLinks }: FooterLinks) {
+export default function Footer({
+  footerLinks,
+  socialLinks,
+  systemInfo,
+}: FooterLinks) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [subscribe] = useSubscribeMutation();
 
   const socialIcons = [
-    { icon: Facebook, link: "https://www.facebook.com/" },
-    { icon: X, link: "https://twitter.com/" },
-    { icon: Linkedin, link: "https://www.linkedin.com/" },
-    { icon: V, link: "https://www.youtube.com/" },
+    { icon: Facebook, link: socialLinks?.data?.facebook_link || "#" },
+    { icon: X, link: socialLinks?.data?.twitter_link || "#" },
+    { icon: Linkedin, link: socialLinks?.data?.linkedin_link || "#" },
+    { icon: V, link: socialLinks?.data?.youtube_link || "#" },
   ];
 
   const features = [
@@ -75,6 +81,8 @@ export default function Footer({ footerLinks }: FooterLinks) {
       toast.error(error?.data?.message);
     }
   };
+
+  console.log(systemInfo);
 
   return (
     <footer className="bg-[#161C24] text-white">
@@ -250,7 +258,7 @@ export default function Footer({ footerLinks }: FooterLinks) {
           {/* ================= BOTTOM ================= */}
           <div className="border-t border-gray-800 my-8">
             <p className="text-sm sm:text-base font-semibold text-[#919EAB] text-center py-6">
-              © 2026 All Rights Reserved | HTML Site by{" "}
+              © {systemInfo?.data?.copyright_text}
               <Link
                 href="#"
                 className="text-white hover:text-[#2BC4CA] transition"

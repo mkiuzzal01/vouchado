@@ -4,14 +4,18 @@ import AppForm from "../AppForm";
 import SelectInput from "../inputs/SelectInput";
 import { FieldValues } from "react-hook-form";
 
-export default function Sort() {
+interface Props {
+  total: string;
+}
+
+export default function Sort({ total }: Props) {
   const handleSort = (values: FieldValues) => {
     console.log(values);
   };
   return (
     <div className="flex items-center justify-between">
       <div>
-        <h1 className="text-[#637381]">20 Deals Available</h1>
+        <h1 className="text-[#637381]">{total} Deals Available</h1>
       </div>
       <div className="w-1/6">
         <AppForm onSubmit={handleSort}>

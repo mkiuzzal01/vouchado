@@ -8,6 +8,7 @@ export interface ICartItem {
   reviewsCount?: number;
   location: string;
   currentPrice: number;
+  originalPrice?: number;
   discountBadge?: number;
   selectedQuantity: number;
   totalQuantity: number;

@@ -12,9 +12,15 @@ interface LatLng {
 
 interface Props {
   location?: LatLng;
+  accessibility?: string;
+  opening?: string;
 }
 
-export default function ProductLocation({ location }: Props) {
+export default function ProductLocation({
+  location,
+  opening,
+  accessibility,
+}: Props) {
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4 text-left">
       <h4 className="text-sm font-bold text-gray-900 tracking-tight">
@@ -40,7 +46,7 @@ export default function ProductLocation({ location }: Props) {
           <div className="space-y-0.5">
             <p className="font-bold text-gray-900">Opening Hours</p>
             <p className="text-gray-400 leading-normal text-[11px]">
-              Mon - Sun: 9:00 AM - 5:00 PM, Last entry: 4:00 PM
+              {opening ? opening : "Not Available"}
             </p>
           </div>
         </div>
@@ -51,7 +57,7 @@ export default function ProductLocation({ location }: Props) {
           <div className="space-y-0.5">
             <p className="font-bold text-gray-900">Accessibility</p>
             <p className="text-gray-400 leading-normal text-[11px]">
-              Fully accessible for wheelchairs and strollers.
+              {accessibility}
             </p>
           </div>
         </div>

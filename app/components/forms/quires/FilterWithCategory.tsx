@@ -1,79 +1,42 @@
 "use client";
 import React, { useState } from "react";
-import Deal from "../../icons/Deal";
-import AdventureIcon from "../../icons/AdventureIcon";
-import EatAndDrinks from "../../icons/EatAndDrinks";
-import Kid from "../../icons/Kid";
-import Wellness from "../../icons/Wellness";
-import Hotel from "../../icons/Hotel";
-import Pen from "../../icons/Pen";
-
-interface IconProps {
-  size?: number;
-  color?: string;
-}
-
-export interface CategoryItem {
-  id: string;
-  label: string;
-  icon: React.ComponentType<IconProps>;
-}
+import { Category } from "../../layouts/navigationLinks";
 
 export interface FilterWithCategoryProps {
-  onCategoryChange?: (id: string) => void;
-  initialSelectedId?: string;
+  onCategoryChange?: (id: string | number) => void;
+  initialSelectedId?: string | number;
   className?: string;
+  categories: Category[];
 }
 
 export default function FilterWithCategory({
   onCategoryChange,
   initialSelectedId = "all",
   className = "",
+  categories = [],
 }: FilterWithCategoryProps) {
-  const [selectedId, setSelectedId] = useState(initialSelectedId);
+  const [selectedId, setSelectedId] = useState<string | number>(
+    initialSelectedId,
+  );
 
-  const categories: CategoryItem[] = [
-    {
-      id: "all",
-      label: "All Deals",
-      icon: Deal,
-    },
-    {
-      id: "adventure",
-      label: "Adventure & Sports",
-      icon: AdventureIcon,
-    },
-    {
-      id: "food",
-      label: "Eat and Drink",
-      icon: EatAndDrinks,
-    },
-    {
-      id: "family",
-      label: "Family & Kids",
-      icon: Kid,
-    },
-    {
-      id: "beauty",
-      label: "Beauty & Wellness",
-      icon: Wellness,
-    },
-    {
-      id: "creative",
-      label: "Creative",
-      icon: Pen,
-    },
-    {
-      id: "hotel",
-      label: "Hotel and Culture",
-      icon: Hotel,
-    },
-  ];
-
-  const handleSelect = (id: string) => {
+  const handleSelect = (id: string | number) => {
     setSelectedId(id);
     onCategoryChange?.(id);
   };
+
+  // Shared button style generator to keep the code DRY
+  const getButtonClass = (isActive: boolean) => `
+    flex items-center gap-2 px-5 h-[46px]
+    rounded-xl text-sm font-medium
+    whitespace-nowrap shrink-0
+    border transition-all duration-200 snap-start
+    active:scale-97 outline-none
+    ${
+      isActive
+        ? "bg-[#2BBCC2] border-[#2BBCC2] text-white"
+        : "bg-white border-[#E2E8F0] text-[#1F2E3D] hover:border-slate-300"
+    }
+  `;
 
   return (
     <div className={`w-full py-2 ${className}`}>
@@ -89,35 +52,43 @@ export default function FilterWithCategory({
           snap-x snap-mandatory
         "
       >
-        {categories.map((cat) => {
-          const isActive = selectedId === cat.id;
+        {/* 1. Default "All" Button */}
+        <button
+          onClick={() => handleSelect("all")}
+          className={getButtonClass(selectedId === "all")}
+        >
+          <span>All</span>
+        </button>
 
-          const IconComponent = cat.icon;
+        {/* 2. Dynamic Categories List */}
+        {categories?.map((cat) => {
+          const isActive = selectedId === cat.id;
 
           return (
             <button
               key={cat.id}
               onClick={() => handleSelect(cat.id)}
-              className={`
-                flex items-center gap-2 px-5 h-[46px]
-                rounded-xl text-sm font-medium
-                whitespace-nowrap shrink-0
-                border transition-all duration-200 snap-start
-                active:scale-97 outline-none
-                ${
-                  isActive
-                    ? "bg-[#2BBCC2] border-[#2BBCC2] text-white"
-                    : "bg-white border-[#E2E8F0] text-[#1F2E3D] hover:border-slate-300"
-                }
-              `}
+              className={getButtonClass(isActive)}
             >
-              <span className="flex items-center justify-center shrink-0">
-                <IconComponent
-                  size={24}
-                  color={isActive ? "#ffffff" : "#292D32"}
-                />
-              </span>
-              <span>{cat.label}</span>
+              {cat.icon && (
+                <span className="flex items-center justify-center shrink-0">
+                  {cat.icon.startsWith("http") || cat.icon.includes("/") ? (
+                    <img
+                      src={cat.icon}
+                      alt={cat.name}
+                      className="w-6 h-6 object-contain"
+                    />
+                  ) : (
+                    <span
+                      className="text-lg"
+                      style={{ color: isActive ? "#ffffff" : "#292D32" }}
+                    >
+                      •
+                    </span>
+                  )}
+                </span>
+              )}
+              <span>{cat.name}</span>
             </button>
           );
         })}
