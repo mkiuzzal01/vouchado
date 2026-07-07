@@ -2,20 +2,18 @@
 import { FieldValues } from "react-hook-form";
 import Container from "../shared/Container";
 import AppForm from "./AppForm";
-// import TextInput from "./input-fields/TextInput";
 import { Lock, Mail, User } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
-// import SocialLogin from "../utils/SocialLogin";
 import SubmitButton from "../buttons/SubmitButton";
-// import logo from "@/public/auth/sign-in.jpg";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
-// import { useRegisterMutation } from "@/redux/features/auth/auth.api";
-// import { toast } from "react-toastify";
+import { useRegisterMutation } from "@/redux/features/auth/auth.api";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import SocialLogin from "../utils/SocilaLogin";
 import TextInput from "./inputs/TextInput";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import { useState } from "react";
 
 interface Props {
   t: Awaited<ReturnType<typeof getDictionary>>;
@@ -31,23 +29,30 @@ export default function RegistrationForm({
   register_type,
 }: Props) {
   const router = useRouter();
-  // const [register, { isLoading }] = useRegisterMutation();
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [register, { isLoading }] = useRegisterMutation();
 
   const onSubmit = async (values: FieldValues, reset: () => void) => {
-    console.log(values);
-    // try {
-    //   const res = await register(values).unwrap();
+    const data = {
+      ...values,
+      password_confirmation: values.password,
+      term_policy_agreed: true,
+      role: register_type,
+    };
 
-    //   if (res?.message) {
-    //     toast.info(res?.message);
-    //     reset();
-    //     router.push(`/verify?email=${res?.data?.email}`);
-    //   }
-    // } catch (error) {
-    //   if (error instanceof Error) {
-    //     toast.error(error.message);
-    //   }
-    // }
+    try {
+      const res = await register(data).unwrap();
+
+      if (res?.message) {
+        toast.info(res?.message);
+        reset();
+        router.push(`/${locale}/verify?email=${res?.data?.email}`);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
   };
 
   return (
@@ -123,7 +128,10 @@ export default function RegistrationForm({
                 />
 
                 <div className="flex items-center gap-2 py-2">
-                  <Checkbox />
+                  <Checkbox
+                    checked={agreedToTerms}
+                    onCheckedChange={(checked) => setAgreedToTerms(!!checked)}
+                  />
                   <label className="text-xs text-gray-700" htmlFor="terms">
                     I agree to Tech Takes{" "}
                     <Link
@@ -147,6 +155,7 @@ export default function RegistrationForm({
                 <SubmitButton
                   title="Register"
                   className="h-12 w-full rounded-full text-white bg-primary hover:bg-[#0f7275]"
+                  disabled={!agreedToTerms || isLoading}
                 />
                 <div>
                   <p className="text-xs text-gray-700 text-center">

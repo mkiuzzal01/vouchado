@@ -9,5 +9,12 @@ interface Props {
 export default async function page({ params }: Props) {
   const { lang } = await params;
   const t = await getDictionary(lang);
-  return <RegistrationForm img={userRegisterImg} t={t} locale={lang} />;
+  return (
+    <RegistrationForm
+      img={userRegisterImg}
+      t={t}
+      locale={lang}
+      register_type="user"
+    />
+  );
 }

@@ -2,14 +2,13 @@
 import Container from "../shared/Container";
 import AppForm from "./AppForm";
 import { FieldValues } from "react-hook-form";
-// import TextInput from "./input-fields/TextInput";
 import { ArrowLeft, Lock } from "lucide-react";
 import SubmitButton from "../buttons/SubmitButton";
 import { useRouter } from "next/navigation";
-// import { useResetPasswordMutation } from "@/redux/features/auth/auth.api";
+import { useResetPasswordMutation } from "@/redux/features/auth/auth.api";
 import { toast } from "react-toastify";
-import TextInput from "./inputs/TextInput";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import TextInput from "./inputs/TextInput";
 
 interface Props {
   locale: string;
@@ -18,23 +17,23 @@ interface Props {
 }
 
 export default function ResetForm({ locale, t, token }: Props) {
-  //   const [resetPassword] = useResetPasswordMutation();
+  const [resetPassword] = useResetPasswordMutation();
   const router = useRouter();
 
   const onSubmit = async (values: FieldValues, reset: () => void) => {
-    // try {
-    //   const res = await resetPassword({
-    //     ...values,
-    //     token,
-    //   }).unwrap();
-    //   if (res?.message) {
-    //     toast.success(res?.message);
-    //     reset();
-    //     router.push("/sign-in");
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error?.data?.message);
-    // }
+    try {
+      const res = await resetPassword({
+        ...values,
+        token,
+      }).unwrap();
+      if (res?.message) {
+        toast.success(res?.message);
+        reset();
+        router.push(`/${locale}/login`);
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
   return (
     <Container>

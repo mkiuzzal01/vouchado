@@ -11,7 +11,7 @@ export default async function page({ params }: props) {
   const { lang } = await params;
   return (
     <div>
-      <ContactUs />
+      <ContactUs lang={lang} />
       <PromoContact lang={lang} />
     </div>
   );

@@ -1,13 +1,12 @@
 "use client";
-
 import { FieldValues } from "react-hook-form";
 import Container from "../shared/Container";
 import AppForm from "./AppForm";
 import { ArrowLeft, Mail } from "lucide-react";
 import SubmitButton from "../buttons/SubmitButton";
 import { useRouter } from "next/navigation";
-// import { useForgotPasswordMutation } from "@/redux/features/auth/auth.api";
-// import { toast } from "react-toastify";
+import { useForgotPasswordMutation } from "@/redux/features/auth/auth.api";
+import { toast } from "react-toastify";
 import TextInput from "./inputs/TextInput";
 import { getDictionary } from "@/app/[lang]/dictionaries";
 
@@ -18,21 +17,20 @@ interface Props {
 
 export default function ForgotForm({ t, locale }: Props) {
   const router = useRouter();
-  // const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
 
   const onSubmit = async (values: FieldValues, reset: () => void) => {
-    console.log(values);
-    // try {
-    //   const res = await forgotPassword(values).unwrap();
+    try {
+      const res = await forgotPassword(values).unwrap();
 
-    //   if (res?.message) {
-    //     toast.info(res?.message);
-    //     reset();
-    //     router.push(`/verify?email=${values?.email}&from=forgot`);
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error?.data?.message);
-    // }
+      if (res?.message) {
+        toast.info(res?.message);
+        reset();
+        router.push(`/${locale}/verify?email=${values?.email}&from=forgot`);
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
 
   return (
@@ -81,7 +79,7 @@ export default function ForgotForm({ t, locale }: Props) {
                 {/* SUBMIT */}
                 <div className="pt-2">
                   <SubmitButton
-                    isLoading={false}
+                    isLoading={isLoading}
                     title={t.auth.forgot.reset_password}
                     className="h-12 w-full rounded-full"
                   />

@@ -4,7 +4,7 @@ import { Lock, Mail } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import AppForm from "./AppForm";
 import TextInput from "./inputs/TextInput";
 import { useSearchParams } from "next/navigation";
@@ -12,11 +12,11 @@ import Container from "../shared/Container";
 import SocialLogin from "../utils/SocilaLogin";
 import SubmitButton from "../buttons/SubmitButton";
 import Image from "next/image";
-import { getDictionary } from "@/app/[lang]/dictionaries";
-// import { useLoginMutation } from "@/app/redux/features/auth/auth.api";
 import { StaticImageData } from "next/image";
 import { useAppDispatch } from "@/redux/hooks/globalhooks";
 import { setUser } from "@/redux/features/auth/auth.slice";
+import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   t: Awaited<ReturnType<typeof getDictionary>>;
@@ -30,72 +30,39 @@ export default function Login({ t, locale, img, login_type }: Props) {
   const redirectUrl = searchParams.get("redirect");
   const dispatch = useAppDispatch();
   const router = useRouter();
-  // const [login, { isLoading }] = useLoginMutation();
+  const [login, { isLoading }] = useLoginMutation();
 
   const redirectPath = redirectUrl || `/${locale}`;
 
   const onSubmit = async (values: FieldValues, reset: () => void) => {
-    if (values.email && values.password && login_type === "user") {
-      dispatch(
-        setUser({
-          vuchado_token: "2345678",
-          user: {
-            email: values.email,
-            id: "123456789",
-            name: "John Doe",
-            avatar: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-            role: "user",
-          },
-        }),
-      );
-      router.push(redirectPath);
-    } else if (values.email && values.password && login_type === "provider") {
-      dispatch(
-        setUser({
-          vuchado_token: "2345678",
-          user: {
-            email: values.email,
-            id: "123456789",
-            name: "John Doe",
-            avatar: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-            role: "provider",
-          },
-        }),
-      );
-      reset();
-      router.push(redirectPath);
-    } else {
-      router.push(redirectPath);
+    try {
+      const res = await login(values).unwrap();
+
+      if (res?.token) {
+        toast.success(res.message || "Login successful");
+        dispatch(
+          setUser({
+            user: {
+              id: res.data.id,
+              email: res.data.email,
+              role: res.data.role,
+              name: res.data.name,
+              avatar: res.data.avatar,
+            },
+            token: res.data.token,
+            tokenType: res.data.token_type,
+            expiresAt: res.data.expires_at,
+          }),
+        );
+
+        document.cookie = `vuchado_token=${res.token}; path=/; max-age=86400`;
+        reset();
+        router.push(redirectPath);
+        router.refresh();
+      }
+    } catch (error: any) {
+      toast.error(error?.message || "Login failed");
     }
-
-    // try {
-    //   const res = await login(values).unwrap();
-
-    //   if (res?.data?.token) {
-    //     toast.success(res.message || "Login successful");
-    //     dispatch(
-    //       setUser({
-    //         user: {
-    //           id: res.data.user.id,
-    //           email: res.data.user.email,
-    //           role: res.data.user.role,
-    //           name: res.data.user.name,
-    //           avatar: res.data.user.avatar,
-    //         },
-    //         token: res.data.token,
-    //         tokenType: res.data.token_type,
-    //         expiresAt: res.data.expires_at,
-    //       }),
-    //     );
-
-    //     document.cookie = `metricas_token=${res.data.token}; path=/; max-age=86400`;
-    //     reset();
-    //     router.push(redirectPath);
-    //     router.refresh();
-    //   }
-    // } catch (error: any) {
-    //   toast.error(error?.data?.message || "Login failed");
-    // }
   };
 
   return (
@@ -174,7 +141,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
                 {/* SUBMIT */}
                 <div className="pt-2">
                   <SubmitButton
-                    isLoading={false}
+                    isLoading={isLoading}
                     title={t.auth.login.login}
                     className="h-12 w-full rounded-full text-white bg-primary hover:bg-[#0f7275]"
                   />

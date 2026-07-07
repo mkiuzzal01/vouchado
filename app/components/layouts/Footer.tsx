@@ -18,6 +18,8 @@ import X from "../icons/X";
 import Linkedin from "../icons/Linkedin";
 import V from "../icons/V";
 import co2 from "@/public/hero/image 12.png";
+import { useSubscribeMutation } from "@/redux/features/contact/contact.api";
+import { toast } from "react-toastify";
 
 interface FooterLinks {
   footerLinks: any;
@@ -26,6 +28,7 @@ interface FooterLinks {
 export default function Footer({ footerLinks }: FooterLinks) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [subscribe] = useSubscribeMutation();
 
   const socialIcons = [
     { icon: Facebook, link: "https://www.facebook.com/" },
@@ -60,9 +63,17 @@ export default function Footer({ footerLinks }: FooterLinks) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    await new Promise((res) => setTimeout(res, 1000));
-    setEmail("");
-    setIsLoading(false);
+    try {
+      const res = await subscribe({ email }).unwrap();
+
+      if (res.data) {
+        toast.success(res.message);
+        setIsLoading(false);
+        setEmail("");
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
 
   return (

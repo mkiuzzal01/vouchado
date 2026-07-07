@@ -70,7 +70,11 @@ const SIDEBAR_INFO: SidebarInfo[] = [
   },
 ];
 
-export default function ContactUs() {
+interface props {
+  lang: string;
+}
+
+export default function ContactUs({ lang }: props) {
   return (
     <section className="relative overflow-hidden py-16 lg:py-24">
       {/* Background Image */}
@@ -122,7 +126,7 @@ export default function ContactUs() {
 
           {/* CENTER COLUMN */}
           <div className="xl:col-span-5 w-full">
-            <ContactForm />
+            <ContactForm locale={lang} />
           </div>
 
           {/* RIGHT COLUMN */}

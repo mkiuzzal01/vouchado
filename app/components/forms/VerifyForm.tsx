@@ -1,20 +1,19 @@
 "use client";
-
 import Container from "../shared/Container";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import AppForm from "./AppForm";
 import SubmitButton from "../buttons/SubmitButton";
 import OtpInput from "./inputs/OTPInput";
 
-// import {
-//   useForgotVerifyOTPMutation,
-//   useResendOTPMutation,
-//   useVerifyOTPMutation,
-// } from "@/redux/features/auth/auth.api";
+import {
+  useForgotVerifyOTPMutation,
+  useResendOTPMutation,
+  useVerifyOTPMutation,
+} from "@/redux/features/auth/auth.api";
 
 interface Props {
   locale: string;
@@ -26,60 +25,61 @@ interface Props {
 export default function Verify({ locale, t, email, from }: Props) {
   const router = useRouter();
 
-  //   const [verifyOTP, { isLoading }] = useVerifyOTPMutation();
-  //   const [forgotVerifyOTP, { isLoading: forgotLoading }] =
-  //     useForgotVerifyOTPMutation();
+  const [verifyOTP, { isLoading }] = useVerifyOTPMutation();
+  const [forgotVerifyOTP, { isLoading: forgotLoading }] =
+    useForgotVerifyOTPMutation();
 
-  //   const [resendOTP, { isLoading: resendLoading }] = useResendOTPMutation();
+  const [resendOTP, { isLoading: resendLoading }] = useResendOTPMutation();
 
-  //   const loading = isLoading || forgotLoading;
+  const loading = isLoading || forgotLoading;
 
   const onSubmit = async (values: FieldValues, reset: () => void) => {
-    console.log(values);
-    // try {
-    //   const payload = {
-    //     email,
-    //     otp: values?.otp,
-    //   };
+    try {
+      const payload = {
+        email,
+        otp: values?.otp,
+      };
 
-    //   const response =
-    //     from === "forgot"
-    //       ? await forgotVerifyOTP(payload).unwrap()
-    //       : await verifyOTP(payload).unwrap();
+      const response =
+        from === "forgot"
+          ? await forgotVerifyOTP(payload).unwrap()
+          : await verifyOTP(payload).unwrap();
 
-    //   if (response?.message) {
-    //     toast.success(response.message);
-    //     reset();
+      if (response?.message) {
+        toast.success(response.message);
+        reset();
 
-    //     router.push(
-    //       from === "forgot" ? `/update?t=${response?.data?.token}` : "/sign-in",
-    //     );
-    //   }
-    // } catch (error: any) {
-    //   const message =
-    //     error?.data?.message || "Something went wrong. Please try again.";
+        router.push(
+          from === "forgot"
+            ? `/${locale}/reset?t=${response?.data?.token}`
+            : `/${locale}/login`,
+        );
+      }
+    } catch (error: any) {
+      const message =
+        error?.data?.message || "Something went wrong. Please try again.";
 
-    //   if (message === "Email already verified") {
-    //     toast.info(message);
-    //     router.push("/update");
-    //     return;
-    //   }
+      if (message === "Email already verified") {
+        toast.info(message);
+        router.push(`/${locale}/reset`);
+        return;
+      }
 
-    //   toast.error(message);
-    // }
+      toast.error(message);
+    }
   };
 
   const handleResend = async () => {
-    // try {
-    //   const response = await resendOTP({ email }).unwrap();
-    //   if (response?.message) {
-    //     toast.success(response.message);
-    //   }
-    // } catch (error: any) {
-    //   toast.error(
-    //     error?.data?.message || "Failed to resend verification code.",
-    //   );
-    // }
+    try {
+      const response = await resendOTP({ email }).unwrap();
+      if (response?.message) {
+        toast.success(response.message);
+      }
+    } catch (error: any) {
+      toast.error(
+        error?.data?.message || "Failed to resend verification code.",
+      );
+    }
   };
 
   return (
@@ -121,6 +121,7 @@ export default function Verify({ locale, t, email, from }: Props) {
                 </div>
 
                 <SubmitButton
+                  disabled={loading}
                   title={t?.auth?.verify?.verify}
                   className="h-12 w-full rounded-full"
                 />

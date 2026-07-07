@@ -10,6 +10,7 @@ type Props = {
   className?: string;
   onClick?: () => void;
   type?: "submit" | "button" | "reset";
+  disabled?: boolean;
 };
 
 export default function SubmitButton({
@@ -19,11 +20,12 @@ export default function SubmitButton({
   className,
   type = "submit",
   onClick,
+  disabled,
 }: Props) {
   return (
     <Button
       type={type}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
       onClick={onClick}
       className={cn(className)}
     >

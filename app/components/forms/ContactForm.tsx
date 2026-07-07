@@ -3,10 +3,30 @@ import AppForm from "./AppForm";
 import TextArea from "./inputs/TextArea";
 import SubmitButton from "../buttons/SubmitButton";
 import TextInput from "./inputs/TextInput";
+import { useContactMutation } from "@/redux/features/contact/contact.api";
+import { toast } from "react-toastify";
+import { FieldValues } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
-export default function ContactForm() {
-  const onSubmit = (data: any) => {
-    console.log("Form Submitted:", data);
+interface Props {
+  locale: string;
+}
+
+export default function ContactForm({ locale }: Props) {
+  const router = useRouter();
+  const [contact] = useContactMutation();
+
+  const onSubmit = async (data: FieldValues, reset: () => void) => {
+    try {
+      const res = await contact(data).unwrap();
+      if (res?.message) {
+        toast.success(res?.message);
+        reset();
+        router.refresh();
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
 
   return (
