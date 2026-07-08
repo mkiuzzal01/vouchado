@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import left_side_image from "@/public/cart/Frame 2147240700.png";
 import Calendar from "@/app/components/icons/Calendar";
@@ -22,47 +23,43 @@ function CountdownItem({ value, label }: CountdownItemProps) {
 }
 
 interface VouchadoCountProps {
-  available_start_time: string;
-  available_end_time: string;
   service_end_at: string;
 }
 
-export default function VouchadoCount({
-  available_start_time,
-  available_end_time,
-  service_end_at,
-}: VouchadoCountProps) {
+export default function VouchadoCount({ service_end_at }: VouchadoCountProps) {
   const [timeLeft, setTimeLeft] = useState({
+    days: "00",
     hrs: "00",
     mins: "00",
     secs: "00",
   });
   const [mounted, setMounted] = useState(false);
 
-  // Use available_end_time as primary target; fallback to service_end_at if needed
-  const targetTimeStr = available_end_time || service_end_at;
-
   useEffect(() => {
     setMounted(true);
-    if (!targetTimeStr) return;
+    if (!service_end_at) return;
 
-    const targetDate = new Date(targetTimeStr).getTime();
+    const targetDate = new Date(service_end_at).getTime();
 
     const updateTimer = () => {
       const now = new Date().getTime();
       const difference = targetDate - now;
 
       if (difference <= 0) {
-        setTimeLeft({ hrs: "00", mins: "00", secs: "00" });
+        setTimeLeft({ days: "00", hrs: "00", mins: "00", secs: "00" });
         return;
       }
 
-      // Calculates total cumulative hours remaining (even if > 24)
-      const hrs = Math.floor(difference / (1000 * 60 * 60));
+      // 24-Hour Cycle Base Multi-unit breakdown
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hrs = Math.floor(
+        (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
       const mins = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
       const secs = Math.floor((difference % (1000 * 60)) / 1000);
 
       setTimeLeft({
+        days: days.toString().padStart(2, "0"),
         hrs: hrs.toString().padStart(2, "0"),
         mins: mins.toString().padStart(2, "0"),
         secs: secs.toString().padStart(2, "0"),
@@ -73,14 +70,14 @@ export default function VouchadoCount({
     const intervalId = setInterval(updateTimer, 1000);
 
     return () => clearInterval(intervalId);
-  }, [targetTimeStr]);
+  }, [service_end_at]);
 
-  // Safe formatting to prevent Next.js hydration mismatches between Server and Client
-  const getFormattedEndDetails = () => {
-    if (!mounted || !targetTimeStr) {
+  // Derived display details avoiding hydration mismatch
+  const dealDetails = useMemo(() => {
+    if (!mounted || !service_end_at) {
       return { date: "Loading...", time: "" };
     }
-    const dateObj = new Date(targetTimeStr);
+    const dateObj = new Date(service_end_at);
 
     return {
       date: dateObj.toLocaleDateString("en-US", {
@@ -96,11 +93,19 @@ export default function VouchadoCount({
         })
         .toLowerCase(),
     };
-  };
+  }, [mounted, service_end_at]);
 
-  const dealDetails = getFormattedEndDetails();
+  // Conditional rendering based on remaining days
+  const displayHeading = useMemo(() => {
+    const daysNum = parseInt(timeLeft.days, 10);
+    if (daysNum > 0) {
+      return `${daysNum}d ${timeLeft.hrs}h left`;
+    }
+    return `${timeLeft.hrs}hrs left`;
+  }, [timeLeft.days, timeLeft.hrs]);
 
   const countdownMetrics = [
+    { value: timeLeft.days, label: "Days" },
     { value: timeLeft.hrs, label: "Hrs" },
     { value: timeLeft.mins, label: "Mins" },
     { value: timeLeft.secs, label: "Secs" },
@@ -109,7 +114,7 @@ export default function VouchadoCount({
   return (
     <div className="flex flex-col md:flex-row w-full min-h-[144px] rounded-3xl border border-slate-100 overflow-hidden shadow-sm">
       {/* Left side: Background Image Banner with Data Overlays */}
-      <div className="relative flex flex-1 flex-col sm:flex-row items-center gap-6 pt-[15px] pb-[13px] pr-[45px] text-white min-h-[144px]">
+      <div className="relative flex flex-1 flex-col sm:flex-row items-center gap-6 p-4 text-white min-h-[144px]">
         <Image
           src={left_side_image}
           alt="Vouchado banner countdown background"
@@ -123,7 +128,7 @@ export default function VouchadoCount({
           <div>
             <p className="text-sm font-medium">Vouchado Countdown</p>
             <h2 className="text-3xl font-extrabold tracking-tight">
-              {timeLeft.hrs}hrs left
+              {displayHeading}
             </h2>
             <p className="text-xs mt-0.5">
               Don't miss out! This deal expires soon.

@@ -8,7 +8,7 @@ export const getDeals = () =>
 
 export const getDealDetails = (slug: string) =>
   api.get<any>(`/deals/${slug}`, {
-    tags: ["deals"],
+    tags: [`deals-${slug}`],
     revalidate: 60,
   });
 

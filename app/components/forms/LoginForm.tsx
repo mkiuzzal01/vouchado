@@ -37,9 +37,9 @@ export default function Login({ t, locale, img, login_type }: Props) {
   const onSubmit = async (values: FieldValues, reset: () => void) => {
     try {
       const res = await login(values).unwrap();
-
       if (res?.token) {
-        toast.success(res.message || "Login successful");
+        toast.success(res?.message || "Login successful");
+
         dispatch(
           setUser({
             user: {
@@ -49,13 +49,12 @@ export default function Login({ t, locale, img, login_type }: Props) {
               name: res.data.name,
               avatar: res.data.avatar,
             },
-            token: res.data.token,
-            tokenType: res.data.token_type,
-            expiresAt: res.data.expires_at,
+            token: res.token,
+            tokenType: res.token_type,
+            expiresAt: res.expires_at,
           }),
         );
 
-        document.cookie = `vuchado_token=${res.token}; path=/; max-age=86400`;
         reset();
         router.push(redirectPath);
         router.refresh();
@@ -92,7 +91,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
 
             {/* SOCIAL LOGIN */}
             <div className="space-y-4">
-              <SocialLogin />
+              <SocialLogin login_type={login_type} />
 
               {/* DIVIDER */}
               <div className="flex items-center gap-3">

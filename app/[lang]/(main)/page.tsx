@@ -1,5 +1,6 @@
 import { getCategories } from "@/actions/quires/cateogries.api";
 import { getDeals, getDealTrending } from "@/actions/quires/deals.api";
+import { getBanner } from "@/actions/quires/system_info.api";
 import ExploreCategories from "@/app/components/categories/ExploreCategories";
 import TrendingNow from "@/app/components/categories/TrendingNow";
 import Hero from "@/app/components/hero/Hero";
@@ -14,13 +15,14 @@ interface Props {
 
 export default async function page({ params }: Props) {
   const { lang } = await params;
+  const banner = await getBanner();
   const categories = await getCategories();
   const deals = await getDeals();
   const trendingDeals = await getDealTrending();
 
   return (
     <>
-      <Hero />
+      <Hero banner={banner} />
       <Steps />
       <ExploreCategories categories={categories} />
       <DealsNear lang={lang} deals={deals} />

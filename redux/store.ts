@@ -4,7 +4,7 @@ import storage from "redux-persist/es/storage";
 import { baseApi } from "./API/baseAPI";
 import authReducer from "./features/auth/auth.slice";
 import cartReducer from "./features/cart/cart.slice";
-import wishlistReducer from "./features/wishlist/wishlinst.slice";
+import wishlistReducer from "./features/wishlist/wishlist.slice";
 import userReducer from "./features/user/user.slice";
 import providerReducer from "./features/provider/provider.slice";
 import dealReducer from "./features/provider/deal.slice";

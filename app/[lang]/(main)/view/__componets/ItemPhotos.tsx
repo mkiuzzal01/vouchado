@@ -10,8 +10,16 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
+interface IImages {
+  id: number;
+  deal_id: number;
+  image: string;
+  created_at: string;
+  updated_at: string;
+}
+
 interface ItemPhotosProps {
-  images: string[];
+  images: IImages[];
 }
 
 export default function ItemPhotos({ images }: ItemPhotosProps) {
@@ -29,11 +37,11 @@ export default function ItemPhotos({ images }: ItemPhotosProps) {
         }}
         className="rounded-2xl overflow-hidden"
       >
-        {images?.map((image, index) => (
+        {images?.map((item, index) => (
           <SwiperSlide key={index}>
             <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-100">
               <Image
-                src={image}
+                src={item?.image}
                 alt={`Photo ${index + 1}`}
                 fill
                 className="object-cover"
@@ -54,11 +62,11 @@ export default function ItemPhotos({ images }: ItemPhotosProps) {
         slidesPerView={4}
         className="thumb-swiper"
       >
-        {images.map((image) => (
-          <SwiperSlide key={image}>
+        {images.map((item) => (
+          <SwiperSlide key={item.id}>
             <div className="relative aspect-4/3 rounded-xl overflow-hidden border-2 border-transparent cursor-pointer">
               <Image
-                src={image}
+                src={item?.image}
                 alt="Thumbnail"
                 fill
                 className="object-cover"

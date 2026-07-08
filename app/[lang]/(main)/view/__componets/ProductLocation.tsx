@@ -21,6 +21,13 @@ export default function ProductLocation({
   opening,
   accessibility,
 }: Props) {
+  const handleGetDirection = () => {
+    if (!location) return;
+
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`;
+    window.open(url, "_blank");
+  };
+
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4 text-left">
       <h4 className="text-sm font-bold text-gray-900 tracking-tight">
@@ -78,6 +85,7 @@ export default function ProductLocation({
         </p>
       </div>
       <Button
+        onClick={handleGetDirection}
         variant="ghost"
         className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-xs font-medium  hover:bg-gray-50 flex items-center justify-between px-8"
       >

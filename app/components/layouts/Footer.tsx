@@ -82,8 +82,6 @@ export default function Footer({
     }
   };
 
-  console.log(systemInfo);
-
   return (
     <footer className="bg-[#161C24] text-white">
       <Container>

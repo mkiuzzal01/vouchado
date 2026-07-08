@@ -4,7 +4,7 @@ const LOCALES = ["en", "de"] as const;
 const DEFAULT_LOCALE = "en";
 const AUTH_COOKIE = "vuchado_token";
 
-const PRIVATE_ROUTES = ["/user", "/provider"];
+const PRIVATE_ROUTES = ["/user", "/provider", "/wishlist"];
 
 function getLocale(pathname: string): string | undefined {
   return LOCALES.find(
@@ -65,7 +65,7 @@ export function proxy(request: NextRequest) {
 
   // Protect authenticated routes
   if (isPrivateRoute(pathname) && !token) {
-    return NextResponse.redirect(new URL(`/${locale}`, request.url));
+    return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
   }
 
   // Prevent authenticated users from visiting auth pages

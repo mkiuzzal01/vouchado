@@ -1,13 +1,17 @@
-import heroBg from "@/public/hero/hero.png";
+"use client";
+// import heroBg from "@/public/hero/hero.png";
 import Container from "../shared/Container";
 import Stats from "../utils/Stats";
-import ModernSearch from "../forms/quires/ModernSearch";
 import Verified from "../icons/Verified";
 import CallSupport from "../icons/CallSupport";
 import Payment from "../icons/Payment";
 import hero from "@/public/hero/discount.png";
 import Image from "next/image";
 import HeroSearch from "../forms/quires/HeroSearch";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Autoplay } from "swiper/modules";
 
 const FEATURES = [
   { title: "100% Verified Deals", icon: <Verified size={20} /> },
@@ -15,19 +19,40 @@ const FEATURES = [
   { title: "24/7 Support", icon: <CallSupport size={20} /> },
 ];
 
-export default function Hero() {
+interface Props {
+  banner: any;
+}
+
+export default function Hero({ banner }: Props) {
   return (
     <div className="w-full xl:max-w-[90%] 2xl:max-w-[95%] mx-auto mt-4 sm:mt-6">
       <div className="relative rounded-2xl md:rounded-[32px] flex flex-col justify-between shadow-2xl min-h-[75vh]">
         {/* Background Image */}
         <div className="absolute inset-0 -z-10 rounded-2xl md:rounded-[32px] overflow-hidden">
-          <Image
-            src={heroBg.src}
-            alt="home banner image"
-            fill
-            className="object-cover object-[80%_center] md:object-top"
-            priority
-          />
+          <Swiper
+            modules={[Autoplay]}
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+            }}
+            speed={3000}
+            loop
+            className="w-full h-full"
+          >
+            {banner?.data?.map((item: any, index: number) => (
+              <SwiperSlide key={index}>
+                <div className="relative w-full h-full">
+                  <Image
+                    src={item?.image}
+                    alt={`Banner ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    className="object-cover object-[80%_center] md:object-top"
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
 
         <Container className="grow flex flex-col">

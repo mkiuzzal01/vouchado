@@ -11,3 +11,9 @@ export const getSystemInfo = () =>
     tags: ["system-info"],
     revalidate: 60,
   });
+
+export const getBanner = () =>
+  api.get<any>(`/homepage-banners`, {
+    tags: ["banner"],
+    revalidate: 60,
+  });

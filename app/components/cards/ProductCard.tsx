@@ -8,31 +8,35 @@ import Start from "../icons/Start";
 import { MapPin } from "lucide-react";
 import WishList from "../icons/WishList";
 import CountdownTimer from "../utils/CountdownTimer";
-
-export interface ProductCardProps {
-  id: number;
-  image: string;
-  discount_percentage: number;
-  category: string;
-  title: string;
-  slug: string;
-  rating: number;
-  location: string;
-  distance: number;
-  original_price: string;
-  discounted_price: string;
-  service_end_at: string;
-  purchased_count: number;
-}
+import { IDeals } from "@/redux/types/deals";
+import { useCreateWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 interface Props {
   lang: string;
-  product: ProductCardProps;
+  product: IDeals;
 }
 
 export default function ProductCard({ lang, product }: Props) {
-  const handleFavoriteClick = () => {
-    console.log("hello");
+  const router = useRouter();
+  const [createWishlist] = useCreateWishlistMutation();
+
+  const handleFavoriteClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      const res = await createWishlist({ deal_id: product?.id }).unwrap();
+      if (res?.message) {
+        toast.success(res?.message);
+        router.refresh();
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
 
   return (
@@ -43,7 +47,7 @@ export default function ProductCard({ lang, product }: Props) {
       {/* Image Container */}
       <div className="relative w-full md:aspect-4/3 aspect-16/10 md:h-[200px]">
         <Image
-          src={product?.image}
+          src={product?.image || "placeholder.jpg"}
           alt={product?.title}
           width={500}
           height={224}

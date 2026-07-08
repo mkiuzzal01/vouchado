@@ -3,11 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import Discount from "../icons/Discount";
 import Start from "../icons/Start";
-import { title } from "process";
+
 import WishList from "../icons/WishList";
-import PinLocation from "../icons/PinLocation";
-import Location from "../icons/Location";
-import { MapPin } from "lucide-react";
+import { toast } from "react-toastify";
+import { useCreateWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
+import { useRouter } from "next/navigation";
 
 export interface Deal {
   id: number;
@@ -34,7 +34,25 @@ export default function TrendingProductCard({
   lang,
   product,
 }: TrendingProductCardProps) {
-  const handleWishlist = (e: React.MouseEvent<HTMLButtonElement>) => {};
+  const router = useRouter();
+  const [createWishlist] = useCreateWishlistMutation();
+
+  const handleFavoriteClick = async (
+    e: React.MouseEvent<HTMLButtonElement>,
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    try {
+      const res = await createWishlist({ deal_id: product?.id }).unwrap();
+      if (res?.message) {
+        toast.success(res?.message);
+        router.refresh();
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
+  };
 
   return (
     <Link
@@ -60,7 +78,7 @@ export default function TrendingProductCard({
         {/* Favorite Button */}
         <button
           type="button"
-          onClick={handleWishlist}
+          onClick={handleFavoriteClick}
           className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/90 backdrop-blur-sm p-1.5 sm:p-2 rounded-full shadow-sm transition-all z-10 hover:bg-white"
         >
           <WishList size={20} />

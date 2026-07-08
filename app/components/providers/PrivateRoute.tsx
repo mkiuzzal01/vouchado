@@ -5,17 +5,20 @@ import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 
 interface PrivateRouteProps {
+  lang: string;
   children: React.ReactNode;
 }
 
-export default function PrivateRoute({ children }: PrivateRouteProps) {
+export default function PrivateRoute({ lang, children }: PrivateRouteProps) {
   const router = useRouter();
 
   const token = useAppSelector((state) => state.auth.vuchado_token);
 
+  console.log(token);
+
   useEffect(() => {
     if (!token) {
-      router.replace("/login");
+      router.replace(`/${lang}/login`);
     }
   }, [token, router]);
 

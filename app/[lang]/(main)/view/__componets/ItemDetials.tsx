@@ -1,10 +1,6 @@
 "use client";
 import Container from "@/app/components/shared/Container";
 import { Button } from "@/components/ui/button";
-import product_1 from "@/public/services/service_details.png";
-import product_2 from "@/public/services/service_details.png";
-import product_3 from "@/public/services/service_details.png";
-import product_4 from "@/public/services/service_details.png";
 import Contact from "@/app/components/icons/Contact";
 import Lock from "@/app/components/icons/Lock";
 import Message from "@/app/components/icons/Message";
@@ -21,7 +17,6 @@ import ItemPhotos from "./ItemPhotos";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { addToCart, removeFromCart } from "@/redux/features/cart/cart.slice";
 import { toast } from "react-toastify";
-import { product } from "@/redux/items/ItemDetails";
 import { useState } from "react";
 import SimilarItem from "./SimilarItem";
 import ProductLocation from "./ProductLocation";
@@ -36,7 +31,9 @@ import GiftVoucher from "@/app/components/icons/GiftVoucher";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import GiftVoucherForm from "@/app/components/forms/GiftVoucherForm";
 import GiftVoucherCart from "./GiftVoucherCart";
-import { TService } from "@/redux/types/service";
+import { TService } from "@/redux/types/deals_details";
+import { useCreateWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
+import { useRouter } from "next/navigation";
 
 export const promos = [
   {
@@ -67,19 +64,16 @@ interface Props {
 }
 
 export default function ItemDetails({ lang, details }: Props) {
+  const router = useRouter();
+  const [createWishlist] = useCreateWishlistMutation();
   const [openGiftVoucherModal, setOpenGiftVoucherModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [activeSection, setActiveSection] = useState("overview");
-
-  const { items } = useAppSelector((state) => state.cart);
-  const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
   const dispatch = useAppDispatch();
+  const { items } = useAppSelector((state) => state.cart);
 
   const productIsInCart = items?.some(
     (item) => item.id === String(details?.deal?.id),
-  );
-  const productIsInWishlist = wishlistItems?.some(
-    (item) => item.id === String(details.deal?.id),
   );
 
   const handleAddToCart = () => {
@@ -98,6 +92,7 @@ export default function ItemDetails({ lang, details }: Props) {
           totalQuantity: quantity,
         }),
       );
+
       toast.success("Product added to cart");
     } else {
       dispatch(removeFromCart(String(details?.deal?.id)));
@@ -105,7 +100,19 @@ export default function ItemDetails({ lang, details }: Props) {
     }
   };
 
-  const handleAddToWishlist = () => {};
+  const handleAddToWishlist = async () => {
+    try {
+      const res = await createWishlist({ deal_id: details?.deal?.id }).unwrap();
+      if (res?.message) {
+        toast.success(res?.message);
+        router.refresh();
+      }
+    } catch (error: any) {
+      if (!error?.data?.status) {
+        toast.warn("Please Login to add this item to your wishlist");
+      }
+    }
+  };
 
   const tabItems = ["Overview", "What's Included", "Reviews"];
 
@@ -177,14 +184,7 @@ export default function ItemDetails({ lang, details }: Props) {
 
             {/* PRODUCT HERO MEDIA CONTAINER CAROUSEL BLOCK */}
             <div className="space-y-3 mt-6">
-              <ItemPhotos
-                images={[
-                  product_1.src,
-                  product_2.src,
-                  product_3.src,
-                  product_4.src,
-                ]}
-              />
+              <ItemPhotos images={details?.deal?.images} />
             </div>
 
             {/* --- ANCHOR SCROLL LINK NAVIGATION BAR --- */}
@@ -228,7 +228,15 @@ export default function ItemDetails({ lang, details }: Props) {
               </section>
 
               <section id="reviews" className="scroll-mt-24">
-                <Review rating={8.4} reviews={product?.customerReviews} />
+                <Review
+                  reviews={details?.deal?.reviews}
+                  reviews_avg_rating={
+                    details?.deal?.reviews_avg_rating != null
+                      ? String(details.deal.reviews_avg_rating)
+                      : null
+                  }
+                  totalReviews={details?.deal?.reviews_count}
+                />
               </section>
             </div>
           </div>
@@ -311,34 +319,33 @@ export default function ItemDetails({ lang, details }: Props) {
               />
 
               <div className="space-y-2.5 pt-1">
-                {productIsInCart ? (
-                  <div className="flex">
+                <div>
+                  {productIsInCart ? (
+                    <Link href={`/${lang}/cart`}>
+                      <div className="flex">
+                        <Button className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white  font-bold h-12 rounded-full text-lg transition-all active:scale-[0.99]">
+                          View Cart
+                        </Button>
+                      </div>
+                    </Link>
+                  ) : (
                     <Button
                       onClick={() => handleAddToCart()}
                       className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg transition-all active:scale-[0.99]"
                     >
-                      <Link href={`/${lang}/cart`}>View Cart</Link>
+                      Add to Cart
                     </Button>
-                  </div>
-                ) : (
-                  <Button
-                    onClick={() => handleAddToCart()}
-                    className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg transition-all active:scale-[0.99]"
-                  >
-                    Add to Cart
-                  </Button>
-                )}
+                  )}
+                </div>
                 <Button
                   onClick={() => handleAddToWishlist()}
                   variant="ghost"
                   className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-1.5"
                 >
-                  <Heart color={productIsInWishlist ? "red" : "#31BFC8"} />
-                  {productIsInWishlist
-                    ? "Remove from wishlist"
-                    : "Add to wishlist"}
+                  <Heart color={"#31BFC8"} />
+                  Add to wishlist
                 </Button>
-                <Link href={`/en/chat`}>
+                <Link href={`/${lang}/chat`}>
                   <Button
                     variant="ghost"
                     className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-1.5"
@@ -375,11 +382,7 @@ export default function ItemDetails({ lang, details }: Props) {
               opening={details?.deal?.opening_hours}
               accessibility={details?.deal?.accessibility_info}
             />
-            <VouchadoCount
-              available_end_time={details?.deal?.available_end_time}
-              available_start_time={details?.deal?.available_start_time}
-              service_end_at={details?.deal?.service_end_at}
-            />
+            <VouchadoCount service_end_at={details?.deal?.service_end_at} />
             <GiftVoucherCart />
           </div>
         </div>

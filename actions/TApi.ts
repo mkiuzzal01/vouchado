@@ -2,7 +2,7 @@ import { apiFetch } from "./apiFetch";
 import { cookies } from "next/headers";
 
 async function getHeaders() {
-  const token = (await cookies()).get("metricas_token")?.value;
+  const token = (await cookies()).get("vuchado_token")?.value;
 
   return {
     "Content-Type": "application/json",

@@ -9,16 +9,20 @@ interface ReviewItem {
   name: string;
   date: string;
   comment: string;
-  rating?: number;
+  rating?: string;
 }
 
 interface Props {
-  rating: number;
   reviews: ReviewItem[];
+  reviews_avg_rating: string | null;
   totalReviews?: number;
 }
 
-export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
+export default function Review({
+  reviews,
+  reviews_avg_rating,
+  totalReviews = 0,
+}: Props) {
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -30,12 +34,12 @@ export default function Review({ rating, reviews, totalReviews = 0 }: Props) {
 
           <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
             <span className="text-gray-900 font-extrabold text-4xl">
-              {rating.toFixed(1)}
+              {reviews_avg_rating}
             </span>
 
             <span className="text-5xl text-amber-500">★★★★★</span>
           </div>
-          <p>Based on {totalReviews || reviews.length}+ reviews</p>
+          <p>Based on {totalReviews || reviews.length} reviews</p>
         </div>
       </div>
 

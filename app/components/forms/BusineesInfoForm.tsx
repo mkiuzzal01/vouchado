@@ -4,14 +4,17 @@ import TextInput from "./inputs/TextInput";
 import SelectInput from "./inputs/SelectInput";
 import SubmitButton from "../buttons/SubmitButton";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Props {
   lang: string;
 }
 
 export default function BusineesInfoForm({ lang }: Props) {
+  const router = useRouter();
+
   const handleSubmit = (data: any) => {
-    console.log("Form Data Submitted:", data);
+    router.push(`/${lang}/provider-registration`);
   };
 
   return (
@@ -32,21 +35,18 @@ export default function BusineesInfoForm({ lang }: Props) {
           {/* Input Grid Structure matching image_42eaf7.png */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             <TextInput
-              required
               label="Business Name"
               name="businessName"
               placeholder="Enter your business name"
             />
 
             <TextInput
-              required
               label="Contact Person"
               name="contactPerson"
               placeholder="Enter your name"
             />
 
             <TextInput
-              required
               label="Email Address"
               type="email"
               name="emailAddress"
@@ -54,7 +54,6 @@ export default function BusineesInfoForm({ lang }: Props) {
             />
 
             <TextInput
-              required
               label="Phone Number"
               type="tel"
               name="phoneNumber"
@@ -81,7 +80,6 @@ export default function BusineesInfoForm({ lang }: Props) {
             />
 
             <TextInput
-              required
               label="City"
               name="city"
               placeholder="Enter your city name"
