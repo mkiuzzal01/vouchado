@@ -8,6 +8,7 @@ import WishList from "../icons/WishList";
 import { toast } from "react-toastify";
 import { useCreateWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 export interface Deal {
   id: number;
@@ -35,7 +36,7 @@ export default function TrendingProductCard({
   product,
 }: TrendingProductCardProps) {
   const router = useRouter();
-  const [createWishlist] = useCreateWishlistMutation();
+  const [createWishlist, { isLoading }] = useCreateWishlistMutation();
 
   const handleFavoriteClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -50,7 +51,10 @@ export default function TrendingProductCard({
         router.refresh();
       }
     } catch (error: any) {
-      toast.error(error?.data?.message);
+      if (!error?.data?.status) {
+        toast.error("Login first to add to wishlist");
+        router.push(`/${lang}/login`);
+      }
     }
   };
 
@@ -78,10 +82,15 @@ export default function TrendingProductCard({
         {/* Favorite Button */}
         <button
           type="button"
+          disabled={isLoading}
           onClick={handleFavoriteClick}
           className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/90 backdrop-blur-sm p-1.5 sm:p-2 rounded-full shadow-sm transition-all z-10 hover:bg-white"
         >
-          <WishList size={20} />
+          {isLoading ? (
+            <Loader2 className="animate-spin size-5" />
+          ) : (
+            <WishList size={20} />
+          )}
         </button>
 
         {/* Category */}

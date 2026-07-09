@@ -28,9 +28,9 @@ export const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload.user;
-      state.vuchado_token = action.payload.token;
+      state.vuchado_token = action.payload.vuchado_token;
 
-      cookie.set("vuchado_token", action.payload.token, {
+      cookie.set("vuchado_token", action.payload.vuchado_token, {
         expires: 7,
         secure: true,
         sameSite: "strict",

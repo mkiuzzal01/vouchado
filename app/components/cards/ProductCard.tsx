@@ -5,7 +5,7 @@ import Link from "next/link";
 import PinLocation from "../icons/PinLocation";
 import Discount from "../icons/Discount";
 import Start from "../icons/Start";
-import { MapPin } from "lucide-react";
+import { Loader2, MapPin } from "lucide-react";
 import WishList from "../icons/WishList";
 import CountdownTimer from "../utils/CountdownTimer";
 import { IDeals } from "@/redux/types/deals";
@@ -20,7 +20,7 @@ interface Props {
 
 export default function ProductCard({ lang, product }: Props) {
   const router = useRouter();
-  const [createWishlist] = useCreateWishlistMutation();
+  const [createWishlist, { isLoading }] = useCreateWishlistMutation();
 
   const handleFavoriteClick = async (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -35,7 +35,10 @@ export default function ProductCard({ lang, product }: Props) {
         router.refresh();
       }
     } catch (error: any) {
-      toast.error(error?.data?.message);
+      if (!error?.data?.status) {
+        toast.error("Login first to add to wishlist");
+        router.push(`/${lang}/login`);
+      }
     }
   };
 
@@ -73,9 +76,14 @@ export default function ProductCard({ lang, product }: Props) {
           <button
             onClick={handleFavoriteClick}
             type="button"
+            disabled={isLoading}
             className="bg-white/80 p-1.5 rounded-full shadow-sm transition-all duration-200 hover:bg-white"
           >
-            <WishList size={20} />
+            {isLoading ? (
+              <Loader2 className="animate-spin size-5" />
+            ) : (
+              <WishList size={20} />
+            )}
           </button>
         </div>
 

@@ -4,32 +4,32 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
 import { toast } from "react-toastify";
-
 import AppForm from "./AppForm";
 import SubmitButton from "../buttons/SubmitButton";
 import OtpInput from "./inputs/OTPInput";
-
 import {
   useForgotVerifyOTPMutation,
   useResendOTPMutation,
   useVerifyOTPMutation,
 } from "@/redux/features/auth/auth.api";
+import { useAppDispatch } from "@/redux/hooks/globalhooks";
+import { setUser } from "@/redux/features/auth/auth.slice";
 
 interface Props {
-  locale: string;
   t: any;
+  locale: string;
   email?: string;
   from?: string;
+  role?: string;
 }
 
-export default function Verify({ locale, t, email, from }: Props) {
+export default function Verify({ locale, t, email, from, role }: Props) {
+  const dispatch = useAppDispatch();
   const router = useRouter();
-
   const [verifyOTP, { isLoading }] = useVerifyOTPMutation();
+  const [resendOTP, { isLoading: resendLoading }] = useResendOTPMutation();
   const [forgotVerifyOTP, { isLoading: forgotLoading }] =
     useForgotVerifyOTPMutation();
-
-  const [resendOTP, { isLoading: resendLoading }] = useResendOTPMutation();
 
   const loading = isLoading || forgotLoading;
 
@@ -46,13 +46,21 @@ export default function Verify({ locale, t, email, from }: Props) {
           : await verifyOTP(payload).unwrap();
 
       if (response?.message) {
-        toast.success(response.message);
+        toast?.success(response.message);
         reset();
 
-        router.push(
+        dispatch(
+          setUser({
+            vuchado_token: response?.token,
+          }),
+        );
+
+        router?.push(
           from === "forgot"
             ? `/${locale}/reset?t=${response?.data?.token}`
-            : `/${locale}/login`,
+            : role === "provider"
+              ? `/${locale}/business-info`
+              : `/${locale}/login`,
         );
       }
     } catch (error: any) {
@@ -60,12 +68,11 @@ export default function Verify({ locale, t, email, from }: Props) {
         error?.data?.message || "Something went wrong. Please try again.";
 
       if (message === "Email already verified") {
-        toast.info(message);
-        router.push(`/${locale}/reset`);
+        toast?.info(message);
+        router?.push(`/${locale}/reset`);
         return;
       }
-
-      toast.error(message);
+      toast?.error(message);
     }
   };
 
@@ -73,10 +80,10 @@ export default function Verify({ locale, t, email, from }: Props) {
     try {
       const response = await resendOTP({ email }).unwrap();
       if (response?.message) {
-        toast.success(response.message);
+        toast?.success(response.message);
       }
     } catch (error: any) {
-      toast.error(
+      toast?.error(
         error?.data?.message || "Failed to resend verification code.",
       );
     }
@@ -121,7 +128,7 @@ export default function Verify({ locale, t, email, from }: Props) {
                 </div>
 
                 <SubmitButton
-                  disabled={loading}
+                  isLoading={loading}
                   title={t?.auth?.verify?.verify}
                   className="h-12 w-full rounded-full"
                 />
@@ -135,10 +142,10 @@ export default function Verify({ locale, t, email, from }: Props) {
                   <button
                     type="button"
                     onClick={handleResend}
-                    // disabled={resendLoading}
+                    disabled={resendLoading}
                     className="font-semibold text-primary transition hover:underline disabled:cursor-not-allowed disabled:opacity-60"
                   >
-                    {t?.auth?.verify?.resend}
+                    {resendLoading ? "Resending..." : t?.auth?.verify?.resend}
                   </button>
                 </div>
               </div>

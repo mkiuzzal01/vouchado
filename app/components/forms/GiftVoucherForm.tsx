@@ -1,10 +1,38 @@
 import AppForm from "./AppForm";
 import TextInput from "./inputs/TextInput";
 import SubmitButton from "../buttons/SubmitButton";
+import { useGiftVoucherPurchaseMutation } from "@/redux/features/checkout/checkout.api";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
-export default function GiftVoucherForm() {
-  const handleSubmit = (values: any) => {
-    console.log("Form submitted with:", values);
+interface Props {
+  deal_id: number;
+  lang: string;
+}
+
+export default function GiftVoucherForm({ lang, deal_id }: Props) {
+  const router = useRouter();
+  const [giftVoucherPurchase, { isLoading }] = useGiftVoucherPurchaseMutation();
+
+  const handleSubmit = async (values: any) => {
+    try {
+      const res = await giftVoucherPurchase({
+        deal_id,
+        buyer_email: values?.email,
+        amount: values?.amount,
+      }).unwrap();
+
+      if (res?.url) {
+        setTimeout(() => {
+          toast.success("Redirecting to payment page");
+          router.push(res?.url || "/");
+        }, 1000);
+      }
+    } catch (error: any) {
+      if (!error?.data?.status) {
+        toast.error(error?.data?.message || "Something went wrong");
+      }
+    }
   };
 
   return (
@@ -31,6 +59,7 @@ export default function GiftVoucherForm() {
 
           <div className="pt-2">
             <SubmitButton
+              isLoading={isLoading}
               title="Continue"
               className="w-full py-6 rounded-full"
             />

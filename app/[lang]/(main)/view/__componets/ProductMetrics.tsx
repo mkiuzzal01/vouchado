@@ -1,12 +1,21 @@
 import { Hourglass } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Start from "@/app/components/icons/Start";
+import CountdownTimer from "@/app/components/utils/CountdownTimer";
 
 interface ProductMetricsProps {
+  rating?: number;
+  reviewsCount?: number;
+  remainingTime?: string;
   className?: string;
 }
 
-export function ProductMetrics({ className }: ProductMetricsProps) {
+export function ProductMetrics({
+  rating,
+  reviewsCount,
+  remainingTime,
+  className,
+}: ProductMetricsProps) {
   return (
     <div
       className={cn(
@@ -17,9 +26,9 @@ export function ProductMetrics({ className }: ProductMetricsProps) {
       {/* Ratings */}
       <div className="flex items-center gap-1.5">
         <Start size={24} />
-        <span className="font-bold text-foreground text-3xl">4.8</span>
+        <span className="font-bold text-foreground text-3xl">{rating}</span>
         <span className="text-lg font-medium text-[#454F5B]">
-          (12,500+ reviews)
+          ({reviewsCount} + reviews)
         </span>
       </div>
 
@@ -38,7 +47,7 @@ export function ProductMetrics({ className }: ProductMetricsProps) {
       <div className="h-4 w-px bg-border" aria-hidden="true" />
 
       {/* Countdown */}
-      <div className="text-lg font-medium text-red-500">Ends in 3h</div>
+      {remainingTime && <CountdownTimer endDate={remainingTime} />}
     </div>
   );
 }

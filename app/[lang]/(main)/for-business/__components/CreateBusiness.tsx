@@ -1,4 +1,3 @@
-import BusineesInfoForm from "@/app/components/forms/BusineesInfoForm";
 import Image from "next/image";
 import Container from "@/app/components/shared/Container";
 import bgImage from "@/public/section-headers/Hero Section (6).png";
@@ -6,6 +5,7 @@ import CheckIcon from "@/app/components/icons/CheckIcon";
 import ArrowUp from "@/app/components/icons/ArrowUp";
 import batch from "@/public/business/Frame 2147240691.png";
 import homeIcon from "@/public/business/Frame 2147240661.png";
+import ForBusinessForm from "@/app/components/forms/ForBusinessForm";
 
 interface Props {
   lang: string;
@@ -72,7 +72,7 @@ export default function CreateBusiness({ lang }: Props) {
           {/* Right */}
           <div className="w-full lg:w-[55%] xl:max-w-[800px]">
             <div className="bg-white rounded-4xl py-[32px] px-5 lg:px-[48px]">
-              <BusineesInfoForm lang={lang} />
+              <ForBusinessForm lang={lang} />
             </div>
           </div>
         </div>

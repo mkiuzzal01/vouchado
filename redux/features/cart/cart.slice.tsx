@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface ICartItem {
   id: string;
   title: string;
+  thumbnail: string;
   tagline?: string;
   rating: number;
   reviewsCount?: number;
@@ -23,7 +24,6 @@ interface CartState {
   totalPrice: number;
 }
 
-// Recalculates totals only factoring in items where isSelected === true
 const calculateTotals = (state: CartState) => {
   state.subTotal = state.items.reduce((total, item) => {
     return item.isSelected
@@ -32,8 +32,6 @@ const calculateTotals = (state: CartState) => {
   }, 0);
 
   const vatAmount = state.subTotal * state.vatRate;
-
-  // Guard against coupon discounts dropping the final total below zero
   const rawTotal = state.subTotal + vatAmount - state.couponDiscount;
   state.totalPrice = Math.max(0, rawTotal);
 };
@@ -64,7 +62,6 @@ const cartSlice = createSlice({
         existingItem.selectedQuantity += action.payload.selectedQuantity;
         existingItem.totalQuantity += action.payload.totalQuantity;
       } else {
-        // Fallback default to true if isSelected isn't explicitly passed
         state.items.push({
           ...action.payload,
           isSelected: action.payload.isSelected ?? true,
@@ -89,7 +86,6 @@ const cartSlice = createSlice({
       calculateTotals(state);
     },
 
-    // New Reducer: Toggles a single item's checkbox state
     toggleSelectItem: (
       state,
       action: PayloadAction<{ id: string; isSelected: boolean }>,
@@ -101,7 +97,6 @@ const cartSlice = createSlice({
       calculateTotals(state);
     },
 
-    // New Reducer: Handles the master checkout "Select All" toggle switch
     toggleSelectAll: (state, action: PayloadAction<boolean>) => {
       state.items.forEach((item) => {
         item.isSelected = action.payload;

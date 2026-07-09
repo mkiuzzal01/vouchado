@@ -44,13 +44,15 @@ export default function RegistrationForm({
       const res = await register(data).unwrap();
 
       if (res?.message) {
-        toast.info(res?.message);
+        toast?.info(res?.message);
         reset();
-        router.push(`/${locale}/verify?email=${res?.data?.email}`);
+        router?.push(
+          `/${locale}/verify?email=${res?.data?.email}&for=${register_type}`,
+        );
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(error.message);
+        toast?.error(error.message);
       }
     }
   };
@@ -153,9 +155,10 @@ export default function RegistrationForm({
 
                 {/* SUBMIT */}
                 <SubmitButton
+                  isLoading={isLoading}
                   title="Register"
                   className="h-12 w-full rounded-full text-white bg-primary hover:bg-[#0f7275]"
-                  disabled={!agreedToTerms || isLoading}
+                  disabled={!agreedToTerms}
                 />
                 <div>
                   <p className="text-xs text-gray-700 text-center">

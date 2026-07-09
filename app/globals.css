@@ -141,4 +141,7 @@
     @apply bg-background text-foreground;
     background-color: #f9fafb;
   }
+  button {
+    cursor: pointer;
+  }
 }

@@ -14,7 +14,7 @@ export const providerAPI = baseApi.injectEndpoints({
     updateProviderProfile: builder.mutation({
       query: (body) => ({
         url: "/provider/business-profile/update",
-        method: "PUT",
+        method: "POST",
         body,
       }),
       invalidatesTags: ["provider"],

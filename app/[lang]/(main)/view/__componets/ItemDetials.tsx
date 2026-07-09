@@ -28,12 +28,11 @@ import SecurePayment from "@/app/components/icons/SecurePayment";
 import { ProductMetrics } from "./ProductMetrics";
 import VouchadoCount from "./VouchadoCount";
 import GiftVoucher from "@/app/components/icons/GiftVoucher";
-import ModalContainer from "@/app/components/shared/ModalContainer";
-import GiftVoucherForm from "@/app/components/forms/GiftVoucherForm";
 import GiftVoucherCart from "./GiftVoucherCart";
 import { TService } from "@/redux/types/deals_details";
 import { useCreateWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
 import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 export const promos = [
   {
@@ -58,6 +57,8 @@ export const promos = [
   },
 ];
 
+const tabItems = ["Overview", "What's Included", "Reviews"];
+
 interface Props {
   lang: string;
   details: TService;
@@ -65,8 +66,7 @@ interface Props {
 
 export default function ItemDetails({ lang, details }: Props) {
   const router = useRouter();
-  const [createWishlist] = useCreateWishlistMutation();
-  const [openGiftVoucherModal, setOpenGiftVoucherModal] = useState(false);
+  const [createWishlist, { isLoading }] = useCreateWishlistMutation();
   const [quantity, setQuantity] = useState(1);
   const [activeSection, setActiveSection] = useState("overview");
   const dispatch = useAppDispatch();
@@ -77,26 +77,34 @@ export default function ItemDetails({ lang, details }: Props) {
   );
 
   const handleAddToCart = () => {
-    if (!productIsInCart) {
-      dispatch(
-        addToCart({
-          id: String(details?.deal?.id),
-          title: details?.deal?.service_title,
-          tagline: details?.deal?.short_description,
-          rating: details?.deal?.reviews_avg_rating || 0,
-          reviewsCount: details?.deal?.reviews_count || 0,
-          location: details?.deal?.longitude,
-          currentPrice: parseInt(details?.deal?.discounted_price) || 0,
-          originalPrice: parseInt(details?.deal?.original_price) || 0,
-          selectedQuantity: quantity,
-          totalQuantity: quantity,
-        }),
-      );
+    try {
+      if (!productIsInCart) {
+        dispatch(
+          addToCart({
+            id: String(details?.deal?.id),
+            thumbnail: details?.deal?.images[0].image,
+            title: details?.deal?.service_title,
+            tagline: details?.deal?.short_description,
+            rating: details?.deal?.reviews_avg_rating || 0,
+            reviewsCount: details?.deal?.reviews_count || 0,
+            location: details?.deal?.longitude,
+            currentPrice: parseInt(details?.deal?.discounted_price) || 0,
+            originalPrice: parseInt(details?.deal?.original_price) || 0,
+            totalQuantity: details?.deal?.max_purchase_per_customer || 1,
+            selectedQuantity: quantity,
+          }),
+        );
 
-      toast.success("Product added to cart");
-    } else {
-      dispatch(removeFromCart(String(details?.deal?.id)));
-      toast.warning("Product removed from cart");
+        toast.success("Product added to cart");
+      } else {
+        dispatch(removeFromCart(String(details?.deal?.id)));
+        toast.warning("Product removed from cart");
+      }
+    } catch (error: any) {
+      if (!error?.data?.status) {
+        toast.error("Please Login to add this item to your cart");
+        router.push(`/${lang}/login`);
+      }
     }
   };
 
@@ -113,8 +121,6 @@ export default function ItemDetails({ lang, details }: Props) {
       }
     }
   };
-
-  const tabItems = ["Overview", "What's Included", "Reviews"];
 
   const getSectionId = (tab: string) => {
     if (tab.toLowerCase() === "what's included") return "whats-included";
@@ -139,7 +145,7 @@ export default function ItemDetails({ lang, details }: Props) {
   ];
 
   return (
-    <section className="w-full min-h-screen py-6 md:py-10 selection:bg-[#2BC4CA]/20">
+    <div className="w-full min-h-screen py-6 md:py-10 selection:bg-[#2BC4CA]/20">
       <Container>
         {/* --- TWO-COLUMN MASTER CONTENT TRACK GRID --- */}
         <div className="flex flex-col lg:flex-row gap-5 lg:gap-20">
@@ -179,7 +185,11 @@ export default function ItemDetails({ lang, details }: Props) {
                 ))}
               </div>
 
-              <ProductMetrics />
+              <ProductMetrics
+                rating={details?.deal?.reviews_avg_rating || 0}
+                reviewsCount={details?.deal?.reviews_count || 0}
+                remainingTime={details?.deal?.service_end_at || ""}
+              />
             </div>
 
             {/* PRODUCT HERO MEDIA CONTAINER CAROUSEL BLOCK */}
@@ -313,7 +323,7 @@ export default function ItemDetails({ lang, details }: Props) {
               </div>
 
               <CounterItem
-                max={details?.deal?.total_purchase_limit}
+                max={details?.deal?.max_purchase_per_customer}
                 defaultValue={1}
                 onChange={setQuantity}
               />
@@ -338,11 +348,16 @@ export default function ItemDetails({ lang, details }: Props) {
                   )}
                 </div>
                 <Button
+                  disabled={isLoading}
                   onClick={() => handleAddToWishlist()}
                   variant="ghost"
                   className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-1.5"
                 >
-                  <Heart color={"#31BFC8"} />
+                  {isLoading ? (
+                    <Loader2 className="animate-spin size-5" />
+                  ) : (
+                    <Heart color={"#31BFC8"} />
+                  )}
                   Add to wishlist
                 </Button>
                 <Link href={`/${lang}/chat`}>
@@ -383,21 +398,13 @@ export default function ItemDetails({ lang, details }: Props) {
               accessibility={details?.deal?.accessibility_info}
             />
             <VouchadoCount service_end_at={details?.deal?.service_end_at} />
-            <GiftVoucherCart />
+            <GiftVoucherCart lang={lang} deal_id={details?.deal?.id} />
           </div>
         </div>
+
         <SimilarItem lang={lang} similar_deals={details?.similar_deals} />
         <PromoSteps steps={promos} />
       </Container>
-
-      <ModalContainer
-        title="Buy Gift Voucher"
-        className="w-[593px]"
-        isOpen={openGiftVoucherModal}
-        onClose={() => setOpenGiftVoucherModal(false)}
-      >
-        <GiftVoucherForm />
-      </ModalContainer>
-    </section>
+    </div>
   );
 }

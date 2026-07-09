@@ -39,7 +39,6 @@ export default function Login({ t, locale, img, login_type }: Props) {
       const res = await login(values).unwrap();
       if (res?.token) {
         toast.success(res?.message || "Login successful");
-
         dispatch(
           setUser({
             user: {
@@ -49,9 +48,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
               name: res.data.name,
               avatar: res.data.avatar,
             },
-            token: res.token,
-            tokenType: res.token_type,
-            expiresAt: res.expires_at,
+            vuchado_token: res.token,
           }),
         );
 

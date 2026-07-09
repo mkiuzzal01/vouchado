@@ -5,54 +5,17 @@ import SelectInput from "./inputs/SelectInput";
 import SubmitButton from "../buttons/SubmitButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import AddressInput from "./inputs/AddressInput";
-import { useState } from "react";
 import { FieldValues } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
-import { setBusinessForm } from "@/redux/features/provider/business_profile.slice";
-import { toast } from "react-toastify";
 
 interface Props {
   lang: string;
 }
 
-export default function BusineesInfoForm({ lang }: Props) {
-  const { vuchado_token } = useAppSelector((state) => state.auth);
+export default function ForBusinessForm({ lang }: Props) {
   const router = useRouter();
-  const dispatch = useAppDispatch();
-  const [address, setAddress] = useState("");
-  const [coordinates, setCoordinates] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
 
-  const handleAddressChange = (
-    value: string,
-    coords?: { lat: number; lng: number },
-  ) => {
-    setAddress(value);
-    if (coords) {
-      setCoordinates(coords);
-    }
-  };
-
-  const handleSubmit = async (values: FieldValues) => {
-    dispatch(
-      setBusinessForm({
-        business_name: values?.businessName,
-        business_email: values?.emailAddress,
-        phone: values?.phoneNumber,
-        business_category: values?.businessCategory,
-        latitude: coordinates?.lat,
-        longitude: coordinates?.lng,
-        business_address: address,
-      }),
-    );
-
-    toast.success("Moving to next step for profile setup");
-    setTimeout(() => {
-      router.push(`/${lang}/business-profile-setup`);
-    }, 1000);
+  const handleSubmit = (value: FieldValues) => {
+    router.push(`/${lang}/provider-registration`);
   };
 
   return (
@@ -66,13 +29,36 @@ export default function BusineesInfoForm({ lang }: Props) {
           Please set up your business information
         </p>
       </div>
+
+      {/* Form Context Shell */}
       <AppForm onSubmit={handleSubmit}>
         <div className="space-y-6">
-          <div className="gap-2">
+          {/* Input Grid Structure matching image_42eaf7.png */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             <TextInput
               label="Business Name"
               name="businessName"
               placeholder="Enter your business name"
+            />
+
+            <TextInput
+              label="Contact Person"
+              name="contactPerson"
+              placeholder="Enter your name"
+            />
+
+            <TextInput
+              label="Email Address"
+              type="email"
+              name="emailAddress"
+              placeholder="Enter your email"
+            />
+
+            <TextInput
+              label="Phone Number"
+              type="tel"
+              name="phoneNumber"
+              placeholder="XXXXXXXXXX"
             />
 
             <SelectInput
@@ -95,23 +81,9 @@ export default function BusineesInfoForm({ lang }: Props) {
             />
 
             <TextInput
-              label="Phone Number"
-              type="tel"
-              name="phoneNumber"
-              placeholder="XXXXXXXXXX"
-            />
-
-            <TextInput
-              label="Email Address"
-              type="email"
-              name="emailAddress"
-              placeholder="Enter your email"
-            />
-
-            <AddressInput
-              placeholder="Write full address"
-              onChange={handleAddressChange}
-              value={address}
+              label="City"
+              name="city"
+              placeholder="Enter your city name"
             />
           </div>
 

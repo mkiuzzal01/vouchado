@@ -1,6 +1,5 @@
 "use client";
-
-import { MapPin, X } from "lucide-react";
+import { X } from "lucide-react";
 import Image from "next/image";
 import product_cart from "@/public/services/service_details.png";
 import { Button } from "@/components/ui/button";
@@ -49,7 +48,7 @@ export default function ItemCard({ item, lang }: ItemCardProps) {
         <Image
           width={400}
           height={300}
-          src={product_cart}
+          src={item?.thumbnail || product_cart}
           alt={item.title}
           className="w-full h-full object-cover"
           priority={false}

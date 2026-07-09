@@ -5,7 +5,12 @@ import batch from "@/public/services/Frame 2147240724.png";
 import Image from "next/image";
 import { useState } from "react";
 
-export default function GiftVoucherCart() {
+interface Props {
+  lang: string;
+  deal_id: number;
+}
+
+export default function GiftVoucherCart({ lang, deal_id }: Props) {
   const [openGiftVoucherModal, setOpenGiftVoucherModal] = useState(false);
   return (
     <div className="rounded-3xl overflow-hidden max-w-[950px] w-full border border-gray-100 shadow-sm">
@@ -57,11 +62,11 @@ export default function GiftVoucherCart() {
       </div>
       <ModalContainer
         title="Buy Gift Voucher"
-        className="w-[593px]"
+        width="xl"
         isOpen={openGiftVoucherModal}
         onClose={() => setOpenGiftVoucherModal(false)}
       >
-        <GiftVoucherForm />
+        <GiftVoucherForm lang={lang} deal_id={deal_id} />
       </ModalContainer>
     </div>
   );

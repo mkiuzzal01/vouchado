@@ -8,6 +8,7 @@ import wishlistReducer from "./features/wishlist/wishlist.slice";
 import userReducer from "./features/user/user.slice";
 import providerReducer from "./features/provider/provider.slice";
 import dealReducer from "./features/provider/deal.slice";
+import businessReducer from "./features/provider/business_profile.slice";
 
 const rootReducer = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   provider: providerReducer,
   deal: dealReducer,
+  business: businessReducer,
 });
 
 const persistConfig = {

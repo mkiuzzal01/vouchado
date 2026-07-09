@@ -68,7 +68,7 @@ export default function CreateDealAction({ title }: Props) {
         isOpen={openVoucherModal}
         onClose={() => setOpenVoucherModal(!openVoucherModal)}
       >
-        <GiftVoucherForm />
+        <GiftVoucherForm deal_id={1} lang="en" />
       </ModalContainer>
       {/* OPTIONAL SCANNER MODAL OVERLAY */}
       <ModalContainer

@@ -3,8 +3,7 @@
 import React, { useEffect, useId } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { X } from "lucide-react"; // Recommended for standard UI icons
-
+import { X } from "lucide-react";
 export type ModalWidth =
   | "sm"
   | "md"
@@ -20,17 +19,13 @@ export type ModalWidth =
   | "9xl";
 
 export interface ModalContainerProps {
-  /** Determines if the modal is visible */
   isOpen: boolean;
-  /** Callback fired when the modal requests to be closed */
   onClose: () => void;
-  /** Content to render inside the modal body */
   children: React.ReactNode;
-  /** Optional title displayed in the sticky header */
   title?: string;
-  /** Maximum width of the modal on desktop screens. Defaults to '4xl' */
+
   width?: ModalWidth;
-  /** Optional CSS classes applied to the modal container */
+
   className?: string;
 }
 
@@ -49,10 +44,6 @@ const maxWidthClasses: Record<ModalWidth, string> = {
   "9xl": "max-w-[96rem]",
 };
 
-/**
- * A responsive, accessible modal container component.
- * Features mobile drag-indicator styling, body scroll-locking, and escape key handling.
- */
 export default function ModalContainer({
   isOpen,
   onClose,
@@ -61,7 +52,7 @@ export default function ModalContainer({
   width = "4xl",
   className,
 }: ModalContainerProps) {
-  const titleId = useId(); // Generates a unique ID for ARIA labeling
+  const titleId = useId();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -72,13 +63,11 @@ export default function ModalContainer({
       }
     };
 
-    // Lock body scroll
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      // Restore original scroll behavior
       document.body.style.overflow = originalOverflow;
       window.removeEventListener("keydown", handleKeyDown);
     };
@@ -90,7 +79,7 @@ export default function ModalContainer({
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-0 backdrop-blur-sm sm:items-center sm:p-4"
       onClick={onClose}
-      aria-hidden="true" // Hides the backdrop itself from screen readers
+      aria-hidden="true"
     >
       <div
         role="dialog"
@@ -105,12 +94,10 @@ export default function ModalContainer({
           className,
         )}
       >
-        {/* Mobile drag indicator (visual only) */}
         <div className="flex justify-center pt-3 sm:hidden" aria-hidden="true">
           <div className="h-1.5 w-12 rounded-full bg-slate-200" />
         </div>
 
-        {/* Header */}
         <header className="sticky top-0 z-10 flex items-center justify-between rounded-t-3xl bg-white px-5 py-4 sm:rounded-t-2xl">
           <h2
             id={titleId}
@@ -130,7 +117,6 @@ export default function ModalContainer({
           </Button>
         </header>
 
-        {/* Body */}
         <div className="flex-1 overflow-y-auto px-5 py-4 max-h-[calc(95vh-80px)]">
           {children}
         </div>

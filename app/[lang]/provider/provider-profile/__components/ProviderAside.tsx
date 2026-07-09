@@ -3,24 +3,30 @@ import providerImage from "@/public/hero/Ellipse 3334.png";
 import withdrawalImage from "@/public/hero/Hero Section (2).png";
 import OpeaningTime from "@/app/components/icons/OpeaningTime";
 
-const OPENING_HOURS = [
-  { day: "Monday", hours: "09:00 - 18:00" },
-  { day: "Tuesday", hours: "09:00 - 18:00" },
-  { day: "Wednesday", hours: "09:00 - 18:00" },
-  { day: "Thursday", hours: "09:00 - 20:00" },
-  { day: "Friday", hours: "09:00 - 20:00" },
-  { day: "Saturday", hours: "10:00 - 17:00" },
-  { day: "Sunday", hours: "Closed", color: "text-red-500 font-medium" },
-];
+export interface BusinessHour {
+  id: number;
+  business_profile_id: number;
+  day: string;
+  open_time: string;
+  close_time: string;
+  is_closed: boolean;
+  created_at: string;
+  updated_at: string;
+}
 
-export default function ProviderAside() {
+export interface Props {
+  openingHours?: BusinessHour[];
+  business_logo?: string;
+}
+
+export default function ProviderAside({ openingHours, business_logo }: Props) {
   return (
     <div className="flex flex-col gap-6 w-full ">
       {/* Profile Avatar Block overlapping the banner */}
       <div className="relative flex justify-center items-center -mt-16 md:-mt-28 z-20">
         <div className="relative h-40 w-40 rounded-full border-4 border-white bg-black overflow-hidden shadow-md">
           <Image
-            src={providerImage}
+            src={business_logo || providerImage}
             alt="Cannabis Shop"
             fill
             sizes="160px"
@@ -62,11 +68,21 @@ export default function ProviderAside() {
           <p className="text-sm font-bold text-gray-900">Opening Hours</p>
         </div>
         <ul className="space-y-3.5 text-xs text-gray-600">
-          {OPENING_HOURS.map((item, idx) => (
+          {openingHours?.map((item, idx) => (
             <li key={idx} className="flex justify-between items-center">
-              <span className="font-medium text-gray-800">{item.day}</span>
-              <span className={item.color || "text-gray-400 font-normal"}>
-                {item.hours}
+              <span className="font-medium text-gray-800">
+                {item.day.toLocaleUpperCase()}
+              </span>
+              <span
+                className={
+                  item.is_closed
+                    ? "text-red-500 font-medium"
+                    : "text-gray-400 font-normal"
+                }
+              >
+                {item.is_closed
+                  ? "Closed"
+                  : `${item.open_time} - ${item.close_time}`}
               </span>
             </li>
           ))}

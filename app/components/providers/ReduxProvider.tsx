@@ -13,7 +13,13 @@ export default function ReduxProvider({ children }: StoreProviderProps) {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <ToastContainer position="top-right" />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={1500}
+          closeOnClick
+          pauseOnHover
+          theme="colored"
+        />
         {children}
       </PersistGate>
     </Provider>

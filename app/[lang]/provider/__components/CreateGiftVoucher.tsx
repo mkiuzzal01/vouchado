@@ -30,7 +30,7 @@ export default function CreateGiftVoucher() {
         isOpen={openVoucherModal}
         onClose={() => setOpenVoucherModal(!openVoucherModal)}
       >
-        <GiftVoucherForm />
+        <GiftVoucherForm lang="en" deal_id={1} />
       </ModalContainer>
     </div>
   );

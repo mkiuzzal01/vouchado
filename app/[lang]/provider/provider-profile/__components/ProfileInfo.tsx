@@ -6,12 +6,7 @@ import Call from "@/app/components/icons/Call";
 import Internet from "@/app/components/icons/Internet";
 import Location from "@/app/components/icons/Location";
 import PaymentIcon from "@/app/components/icons/PaymentIcon";
-
-const CONTACT_ITEMS = [
-  { icon: <BuildingIcon size={18} />, label: "Akij Group" },
-  { icon: <Call size={18} />, label: "0152124985" },
-  { icon: <Internet size={18} />, label: "example.com" },
-];
+import ProfileMap from "./ProfileMap";
 
 const PAYMENT_HISTORY = [
   {
@@ -51,22 +46,37 @@ const PAYMENT_HISTORY = [
   },
 ];
 
-export default function ProfileInfo() {
+interface Props {
+  profileData: any;
+}
+
+export default function ProfileInfo({ profileData }: Props) {
+  console.log(profileData);
+
+  const CONTACT_ITEMS = [
+    {
+      icon: <BuildingIcon size={18} />,
+      label: profileData?.business_name || "N/A",
+    },
+    { icon: <Call size={18} />, label: profileData?.phone || "N/A" },
+    { icon: <Internet size={18} />, label: profileData?.website || "N/A" },
+  ];
+
   return (
     <div className="flex flex-col gap-6 w-full">
       {/* Header Info */}
       <div className="flex flex-col gap-2">
         <div className="flex items-center flex-wrap gap-3">
           <h1 className="text-3xl md:text-[40px] font-bold text-gray-800 leading-tight">
-            Johnathan Smith
+            {profileData?.business_name}
           </h1>
           <span className="text-xs bg-cyan-50 text-cyan-700 flex items-center gap-1.5 py-1 px-3 rounded-full font-semibold h-fit">
-            <Cloth size={12} /> Cloth
+            <Cloth size={12} /> {profileData?.business_category}
           </span>
         </div>
         <div className="inline-flex items-center gap-2 bg-gray-50 border border-gray-100 text-gray-600 text-sm font-medium px-3 py-1.5 rounded-xl w-fit">
           <Mail size={16} />{" "}
-          <span className="text-gray-700">johncarter@brix.com</span>
+          <span className="text-gray-700">{profileData?.email}</span>
         </div>
       </div>
 
@@ -95,9 +105,7 @@ export default function ProfileInfo() {
             <BusinessDescription size={18} /> Business Description
           </div>
           <p className="text-gray-600 bg-[#F3F6FA] rounded-xl p-4 text-sm leading-relaxed">
-            The landing page communicates trust, usability, and performance
-            through clean visuals, data-driven sections, and strong social
-            proof.
+            {profileData?.business_description || "No description available."}
           </p>
         </div>
 
@@ -106,15 +114,10 @@ export default function ProfileInfo() {
           <div className="flex items-center gap-2 font-bold text-gray-800 text-xl">
             <Location size={18} /> Address
           </div>
-          <div className="w-full h-32 rounded-xl overflow-hidden border border-gray-100 relative bg-gray-50">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2751425.771973583!2d10.707163345046963!3d47.666176930258914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x476d079b259d2a7f%3A0x1012d47bdde4c1af!2sAustria!5e0!3m2!1sen!2sbd!4v1783050954946!5m2!1sen!2sbd"
-              className="w-full h-full border-0 absolute inset-0"
-              allowFullScreen={false}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
+          <ProfileMap
+            latitude={Number(profileData?.latitude || 0)}
+            longitude={Number(profileData?.longitude || 0)}
+          />
         </div>
       </div>
 

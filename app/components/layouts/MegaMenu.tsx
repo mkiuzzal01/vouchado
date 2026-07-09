@@ -57,7 +57,7 @@ export default function MegaMenu({
         <Menubar className="border-none bg-transparent shadow-none p-0 space-x-2">
           {/* SERVICES MEGAMENU */}
           <MenubarMenu>
-            <MenubarTrigger className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full bg-gray-50 border px-4 py-2 xl:px-2 xl:py-1 2xl:py-3 2xl:px-5 text-sm xl:text-xs 2xl:text-base font-medium hover:bg-gray-200 transition cursor-pointer">
+            <MenubarTrigger className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full bg-gray-50 border px-4 py-2 xl:px-2 xl:py-1 2xl:py-2 2xl:px-5 text-sm xl:text-xs 2xl:text-base font-medium hover:bg-gray-200 transition cursor-pointer">
               <Menu className="size-4 lg:size-5 2xl:size-6" />
               {menuTitle}
             </MenubarTrigger>
