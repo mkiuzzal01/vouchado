@@ -11,6 +11,7 @@ interface FileInputProps {
   label?: string;
   name: string;
   accept?: string;
+  required?: boolean;
   className?: string;
   multiple?: boolean;
 }
@@ -18,6 +19,7 @@ interface FileInputProps {
 export default function FileInput({
   label,
   name,
+  required = false,
   accept = "image/*",
   className,
   multiple = false,
@@ -43,13 +45,19 @@ export default function FileInput({
       {/* LABEL */}
       {label && (
         <Label htmlFor={name} className="text-sm font-medium">
-          {label}
+          {label} {required && <span className="text-red-500">*</span>}
         </Label>
       )}
 
       <Controller
         name={name}
         control={control}
+        rules={{
+          required: {
+            value: required,
+            message: `${label || "File"} is required`,
+          },
+        }}
         render={({ field: { onChange, value } }) => {
           // Normalize value into an array for consistent rendering logic
           const filesArray: any[] = Array.isArray(value)

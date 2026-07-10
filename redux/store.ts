@@ -7,7 +7,7 @@ import cartReducer from "./features/cart/cart.slice";
 import wishlistReducer from "./features/wishlist/wishlist.slice";
 import userReducer from "./features/user/user.slice";
 import providerReducer from "./features/provider/provider.slice";
-import dealReducer from "./features/provider/deal.slice";
+import dealReducer from "./features/deal/deal.slice";
 import businessReducer from "./features/provider/business_profile.slice";
 
 const rootReducer = combineReducers({

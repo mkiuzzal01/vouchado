@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { useAppSelector } from "@/redux/hooks/globalhooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import {
   ChevronLeft,
   Star,
@@ -35,7 +35,13 @@ import {
   revokePreviewUrls,
   isBlobUrl,
 } from "../../utils/imagePreview";
-import { setStep } from "@/redux/features/provider/deal.slice";
+import {
+  resetDealForm,
+  setOpenDealModal,
+  setStep,
+} from "@/redux/features/deal/deal.slice";
+import { useCreateDealMutation } from "@/redux/features/deal/deal.api";
+import { toast } from "react-toastify";
 
 type TabType = "overview" | "included";
 
@@ -56,12 +62,35 @@ const parsePoints = (input: unknown): string[] => {
   return [];
 };
 
+// Helper to guarantee strict Y-m-d H:i:s output from a date string and optional time string
+const formatToBackendDateTime = (
+  dateInput: string | undefined,
+  timeInput?: string,
+): string => {
+  if (!dateInput) return "2026-01-01 00:00:00";
+
+  // Clean JavaScript Date or ISO string "T" formatting out
+  const baseDate = dateInput.split("T")[0];
+  let baseTime = "00:00:00";
+
+  if (timeInput) {
+    const timeParts = timeInput.split(":");
+    if (timeParts.length === 2) {
+      baseTime = `${timeInput}:00`;
+    } else if (timeParts.length === 3) {
+      baseTime = timeInput;
+    }
+  }
+  return `${baseDate} ${baseTime}`;
+};
+
 export default function Preview() {
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { dealInfo, media, dealDetails, overview } = useAppSelector(
     (state) => state.deal,
   );
+  const [createDeal, { isLoading }] = useCreateDealMutation();
   const [activeTab, setActiveTab] = useState<TabType>("overview");
   const [coverPreviewUrl, setCoverPreviewUrl] = useState<string>("");
   const [galleryPreviewUrls, setGalleryPreviewUrls] = useState<string[]>([]);
@@ -112,13 +141,136 @@ export default function Preview() {
     };
   }, []);
 
-  const handlePublishPayload = () => {
-    console.log("Publishing Final State:", {
-      dealInfo,
-      media,
-      dealDetails,
-      overview,
-    });
+  const handlePublishPayload = async () => {
+    // 1. Initialize FormData object
+    const formData = new FormData();
+
+    try {
+      // 2. Structural Timestamp Formatting Helper (Guarantees Y-m-d H:i:s)
+      const formatToBackendDateTime = (
+        dateInput: string | undefined,
+        timeInput?: string,
+      ): string => {
+        if (!dateInput) return "2026-01-01 00:00:00"; // Absolute fallback safe date
+
+        // Clean dates out of ISO formats ("T") or standard whitespace separations
+        const baseDate = dateInput.includes("T")
+          ? dateInput.split("T")[0]
+          : dateInput.split(" ")[0];
+        let baseTime = "00:00:00";
+
+        if (timeInput) {
+          const cleanTime = timeInput.includes("T")
+            ? timeInput.split("T")[1].split(".")[0]
+            : timeInput.split(" ")[0];
+          const timeParts = cleanTime.split(":");
+          if (timeParts.length === 2) baseTime = `${cleanTime}:00`;
+          if (timeParts.length === 3) baseTime = cleanTime;
+        } else if (dateInput.includes("T") || dateInput.includes(" ")) {
+          const extractedTime = dateInput.includes("T")
+            ? dateInput.split("T")[1]
+            : dateInput.split(" ")[1];
+          const cleanExtracted = extractedTime
+            .split(".")[0]
+            .split("Z")[0]
+            .trim();
+          const parts = cleanExtracted.split(":");
+          if (parts.length === 2) baseTime = `${cleanExtracted}:00`;
+          if (parts.length === 3) baseTime = cleanExtracted;
+        }
+
+        return `${baseDate} ${baseTime}`.trim();
+      };
+
+      // 3. Append Basic Deal Details & Info
+      formData.append("deal_name", dealDetails?.deal_name || "");
+      formData.append("original_price", dealInfo?.regularPrice || "0");
+      formData.append("discounted_price", dealInfo?.discountedPrice || "0");
+      formData.append(
+        "total_purchase_limit",
+        dealInfo?.totalPurchaseLimit || "0",
+      );
+      formData.append(
+        "max_purchase_per_customer",
+        dealInfo?.maxPurchasePerCustomer || "0",
+      );
+      formData.append("service_title", dealInfo?.voucher_name || "");
+      formData.append("short_description", dealDetails?.shortDescription || "");
+      formData.append("category_id", dealDetails?.category || "");
+
+      // 4. Append Formatted Strict Datetime Fields
+      formData.append(
+        "available_start_time",
+        formatToBackendDateTime(dealDetails?.available_start_time),
+      );
+      formData.append(
+        "available_end_time",
+        formatToBackendDateTime(dealDetails?.available_end_time),
+      );
+      // Merges the end date with the specific cut-off hours to clear the service_end_at validation error
+      formData.append(
+        "service_end_at",
+        formatToBackendDateTime(
+          dealDetails?.available_end_time,
+          dealDetails?.service_end_time,
+        ),
+      );
+
+      // 5. Append Overview & Location Descriptions
+      formData.append("overview_description", overview?.description || "");
+      formData.append(
+        "experience_description",
+        overview?.includedDescription || "",
+      );
+      formData.append(
+        "visit_location",
+        overview?.location?.visit_location || "",
+      );
+      formData.append("latitude", String(overview?.location?.lat || 0));
+      formData.append("longitude", String(overview?.location?.lng || 0));
+      formData.append("opening_hours", overview?.openingHours || "");
+      formData.append("accessibility_info", overview?.accessibility || "");
+
+      // 6. Append Native Arrays using Trailing Brackets []
+      parsePoints(overview?.highlightedPoints).forEach((point) => {
+        formData.append("highlight_points[]", point);
+      });
+      parsePoints(overview?.notIncludedPoints).forEach((point) => {
+        formData.append("not_include_points[]", point);
+      });
+
+      if (Array.isArray(dealDetails?.availableDays)) {
+        dealDetails.availableDays.forEach((day: string) => {
+          formData.append("days[]", day);
+        });
+      }
+      if (Array.isArray(dealDetails?.availableMonths)) {
+        dealDetails.availableMonths.forEach((month: string) => {
+          formData.append("months[]", month);
+        });
+      }
+
+      // 7. Append Media Files Streams
+      if (media?.coverImage) {
+        formData.append("images[]", media.coverImage);
+      }
+      if (Array.isArray(media?.galleryImages)) {
+        media.galleryImages.forEach((image) => {
+          formData.append("images[]", image);
+        });
+      }
+
+      // 8. Trigger Mutation Endpoint
+      const res = await createDeal(formData).unwrap();
+
+      if (res?.message) {
+        toast.success(res.message);
+        dispatch(setOpenDealModal(false));
+        dispatch(resetDealForm());
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message);
+    }
   };
 
   return (
@@ -127,12 +279,10 @@ export default function Preview() {
         <div className="lg:col-span-8 space-y-6">
           <div className="space-y-2">
             <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
-              {dealDetails?.deal_name ||
-                "US Olympic & Paralympic Museum Ticket"}
+              {dealDetails?.deal_name || "Not Available deal name"}
             </h1>
             <p className="text-base font-medium text-slate-600 leading-relaxed">
-              {dealDetails?.shortDescription ||
-                "Experience America's Olympic history through interactive exhibits."}
+              {dealDetails?.shortDescription || "Not Available description"}
             </p>
           </div>
 
@@ -359,10 +509,11 @@ export default function Preview() {
         </button>
         <button
           type="button"
+          disabled={isLoading}
           onClick={handlePublishPayload}
           className="px-8 h-11 bg-[#29b6be] hover:bg-[#1fa0a7] text-white font-bold rounded-full text-sm "
         >
-          Publish Deal
+          {isLoading ? "Publishing..." : "Publish Deal"}
         </button>
       </div>
     </Container>

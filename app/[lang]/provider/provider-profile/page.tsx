@@ -12,7 +12,7 @@ export default async function Page() {
 
   return (
     <Container>
-      <ProviderProfileAction />
+      <ProviderProfileAction profileInfo={profileInfo} />
       <CoverImage
         coverImageUrl={profileInfo?.data?.business_cover_image_full_url}
       />

@@ -5,7 +5,11 @@ import ModalContainer from "@/app/components/shared/ModalContainer";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
 
-export default function ProviderProfileAction() {
+interface Props {
+  profileInfo: any;
+}
+
+export default function ProviderProfileAction({ profileInfo }: Props) {
   const [openModal, setOpenModal] = useState(false);
   return (
     <Container>
@@ -34,7 +38,10 @@ export default function ProviderProfileAction() {
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
       >
-        <ProviderUpdateForm setIsOpen={setOpenModal} />
+        <ProviderUpdateForm
+          setIsOpen={setOpenModal}
+          profileInfo={profileInfo}
+        />
       </ModalContainer>
     </Container>
   );

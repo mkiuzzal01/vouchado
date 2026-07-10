@@ -121,6 +121,7 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
       toast.error(error.message);
     }
   };
+
   return (
     <Container className="py-4">
       <div className="flex items-center justify-center min-h-screen">

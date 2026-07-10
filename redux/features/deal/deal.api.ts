@@ -2,9 +2,17 @@ import { baseApi } from "@/redux/API/baseAPI";
 
 export const dealsAPI = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getCategories: builder.query({
+      query: () => ({
+        url: "/categories",
+        method: "GET",
+      }),
+      providesTags: ["deal"],
+    }),
+
     createDeal: builder.mutation({
       query: (body) => ({
-        url: "/deal/create",
+        url: "/provider/deals",
         method: "POST",
         body,
       }),
@@ -22,4 +30,8 @@ export const dealsAPI = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateDealMutation, useVoucherRedeemMutation } = dealsAPI;
+export const {
+  useGetCategoriesQuery,
+  useCreateDealMutation,
+  useVoucherRedeemMutation,
+} = dealsAPI;

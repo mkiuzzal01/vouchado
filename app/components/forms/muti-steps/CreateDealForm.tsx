@@ -7,7 +7,7 @@ import Details from "./Details";
 import Preview from "./Preview";
 import Check from "../../icons/Check";
 import Overview from "./Overview";
-import { setStep } from "@/redux/features/provider/deal.slice";
+import { setStep } from "@/redux/features/deal/deal.slice";
 
 const WIZARD_STEPS = [
   { id: 1, label: "Media" },

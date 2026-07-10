@@ -1,16 +1,6 @@
 import { getCategories } from "@/actions/quires/cateogries.api";
 import { getDictionary } from "@/app/[lang]/dictionaries";
-
-export interface Category {
-  id: number;
-  name: string;
-  slug: string;
-  icon: string;
-  is_trending: boolean;
-  created_at: string;
-  updated_at: string;
-  child_categories: Category[];
-}
+import { Category, ChildCategory } from "@/redux/types/categoris";
 
 export const getServices = async (lang: string): Promise<Category[]> => {
   // const dict = await getDictionary(lang);
@@ -19,7 +9,7 @@ export const getServices = async (lang: string): Promise<Category[]> => {
   return categories?.data?.map((category: Category) => ({
     title: category.name,
     href: `/${lang}/category/${category.slug}`,
-    subMenu: category.child_categories.map((subCategory: Category) => ({
+    subMenu: category.child_categories.map((subCategory: ChildCategory) => ({
       title: subCategory.name,
       href: `/${lang}/category/${subCategory.slug}`,
     })),

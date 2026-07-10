@@ -3,21 +3,43 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import AppForm from "../AppForm";
 import TextInput from "../inputs/TextInput";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
-import { setStep, updateOverview } from "@/redux/features/provider/deal.slice";
+import { setStep, updateOverview } from "@/redux/features/deal/deal.slice";
 import TextArea from "../inputs/TextArea";
 import TagInput from "../inputs/TagInput";
 import { FieldValues } from "react-hook-form";
-import MapInput from "../inputs/MapInput";
 import { useState } from "react";
-import type L from "leaflet";
+import AddressInput from "../inputs/AddressInput";
 
 export default function Overview() {
-  const [selectedLocation, setSelectedLocation] = useState<L.LatLng | null>(null);
+  const [address, setAddress] = useState("");
+  const [coordinates, setCoordinates] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
   const dispatch = useDispatch();
   const { overview } = useAppSelector((state) => state.deal);
 
+  const handleAddressChange = (
+    value: string,
+    coords?: { lat: number; lng: number },
+  ) => {
+    setAddress(value);
+    if (coords) {
+      setCoordinates(coords);
+    }
+  };
+
   const handleOverviewSubmit = (value: FieldValues) => {
-    dispatch(updateOverview({ ...value, location: selectedLocation }));
+    dispatch(
+      updateOverview({
+        ...value,
+        location: {
+          visit_location: address,
+          lat: coordinates?.lat || 0,
+          lng: coordinates?.lng || 0,
+        },
+      }),
+    );
     dispatch(setStep(5));
   };
 
@@ -61,7 +83,11 @@ export default function Overview() {
           Visitor Information
         </div>
 
-        <MapInput value={selectedLocation} onChange={setSelectedLocation} />
+        <AddressInput
+          placeholder="Write full address"
+          onChange={handleAddressChange}
+          value={address}
+        />
 
         <TextInput
           name="openingHours"

@@ -391,6 +391,7 @@ export default function ItemDetails({ lang, details }: Props) {
             </div>
             <ProductLocation
               location={{
+                visit_location: details?.deal?.visit_location,
                 lat: Number(details?.deal?.latitude),
                 lng: Number(details?.deal?.longitude),
               }}

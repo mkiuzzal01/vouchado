@@ -1,5 +1,5 @@
 "use client";
-``;
+
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -53,31 +53,43 @@ export default function SelectInput({
       <Controller
         name={name}
         control={control}
-        render={({ field }) => (
-          <Select
-            required={required}
-            value={field.value || ""}
-            onValueChange={field.onChange}
-          >
-            <SelectTrigger
-              id={name}
-              style={{ height: "42px" }}
-              className={`w-full ${
-                errorMessage ? "border-red-500 focus:ring-red-500" : ""
-              }`}
-            >
-              <SelectValue placeholder={placeholder} />
-            </SelectTrigger>
+        render={({ field }) => {
+          // Find the active option based on the form field value
+          const selectedOption = options.find(
+            (opt) => opt.value === field.value,
+          );
 
-            <SelectContent className="bg-white text-black border shadow-md">
-              {options.map((opt) => (
-                <SelectItem key={opt.value} value={opt.value}>
-                  {opt.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        )}
+          return (
+            <Select
+              required={required}
+              value={field.value || ""}
+              onValueChange={field.onChange}
+            >
+              <SelectTrigger
+                id={name}
+                style={{ height: "42px" }}
+                className={`w-full ${
+                  errorMessage ? "border-red-500 focus:ring-red-500" : ""
+                }`}
+              >
+                {/* Passing the selected option's label here ensures that 
+                  the trigger displays the label while holding the value underneath.
+                */}
+                <SelectValue placeholder={placeholder}>
+                  {selectedOption ? selectedOption.label : undefined}
+                </SelectValue>
+              </SelectTrigger>
+
+              <SelectContent className="bg-white text-black border shadow-md">
+                {options.map((opt) => (
+                  <SelectItem key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          );
+        }}
       />
 
       {/* Error message */}

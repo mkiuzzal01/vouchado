@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface LocationState {
+  visit_location: string;
   lat: number;
   lng: number;
 }
@@ -22,8 +23,9 @@ export interface DealDetailsState {
   deal_name: string;
   category: string;
   shortDescription: string;
-  availableTime: string;
-  serviceEndTime: string;
+  available_start_time: string;
+  available_end_time: string;
+  service_end_time: string;
   availableDays: string[];
   availableMonths: string[];
 }
@@ -68,8 +70,9 @@ const initialState: CreateDealState = {
     deal_name: "",
     category: "",
     shortDescription: "",
-    availableTime: "",
-    serviceEndTime: "",
+    available_start_time: "",
+    available_end_time: "",
+    service_end_time: "",
     availableDays: [],
     availableMonths: [],
   },

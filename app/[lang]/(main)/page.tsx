@@ -24,7 +24,7 @@ export default async function page({ params }: Props) {
     <>
       <Hero banner={banner} />
       <Steps />
-      <ExploreCategories categories={categories} />
+      <ExploreCategories categories={categories?.data} />
       <DealsNear lang={lang} deals={deals} />
       <TrendingNow lang={lang} deals={trendingDeals} />
       <Trusted />

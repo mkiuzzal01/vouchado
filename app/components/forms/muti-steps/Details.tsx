@@ -12,12 +12,19 @@ import Boots from "../../icons/Boots";
 import Sparkles from "../../icons/Sparkles";
 import Grow from "../../icons/Grow";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
-import {
-  setStep,
-  updateDealDetails,
-} from "@/redux/features/provider/deal.slice";
+import { setStep, updateDealDetails } from "@/redux/features/deal/deal.slice";
+import { useGetCategoriesQuery } from "@/redux/features/deal/deal.api";
+import Loader from "@/app/loading";
 
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const DAYS = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 const MONTHS = [
   "January",
   "February",
@@ -91,6 +98,7 @@ const BOOSTER_ITEMS = [
 export default function Details() {
   const dispatch = useDispatch();
   const { dealDetails } = useAppSelector((state) => state.deal);
+  const { data: category, isLoading } = useGetCategoriesQuery(null);
 
   const [days, setDays] = useState<string[]>(dealDetails.availableDays || []);
   const [months, setMonths] = useState<string[]>(
@@ -127,35 +135,55 @@ export default function Details() {
     dispatch(setStep(4));
   };
 
+  if (isLoading) return <Loader />;
+
   return (
     <AppForm onSubmit={onSubmit} defaultValues={dealDetails}>
       <div className="space-y-6">
         <TextInput
+          required
           name="deal_name"
           label="Deal name"
           placeholder="Enter your service name..."
         />
         <SelectInput
+          required
           name="category"
           label="Deal category"
           options={[
             { label: "Select a service category", value: "" },
-            { label: "Museum Entry", value: "museum" },
-            { label: "Events & Attractions", value: "event" },
-            { label: "Food & Dining", value: "food" },
-            { label: "Hotel & Stay", value: "hotel" },
-            { label: "Tour & Travel", value: "tour" },
+            ...(category?.data?.map((item: any) => ({
+              label: item?.name,
+              value: item?.id,
+            })) || []),
           ]}
         />
+
         <TextInput
           name="shortDescription"
           label="Deal short description"
           placeholder="Add a short description in 100 words..."
         />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <TimeInput name="availableTime" label="Available Time" />
-          <TimeInput name="serviceEndTime" label="Service end time" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <TimeInput
+            required
+            requiredType="datetime-local"
+            name="available_start_time"
+            label="Available Start Time"
+          />
+          <TimeInput
+            required
+            requiredType="datetime-local"
+            name="available_end_time"
+            label="Available End Time"
+          />
+          <TimeInput
+            required
+            requiredType="datetime-local"
+            name="service_end_time"
+            label="Service end time"
+          />
         </div>
 
         {/* Days Filter */}

@@ -1,6 +1,6 @@
 "use client";
-import React, { useState } from "react";
-import { Category } from "../../layouts/navigationLinks";
+import { Category } from "@/redux/types/categoris";
+import { useState } from "react";
 
 export interface FilterWithCategoryProps {
   onCategoryChange?: (id: string | number) => void;

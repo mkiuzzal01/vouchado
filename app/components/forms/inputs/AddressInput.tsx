@@ -181,7 +181,7 @@ export default function AddressInput({
   return (
     <div
       ref={containerRef}
-      className="w-full max-w-xl font-sans text-left relative"
+      className="w-full w-full font-sans text-left relative"
     >
       {/* Label */}
       <label

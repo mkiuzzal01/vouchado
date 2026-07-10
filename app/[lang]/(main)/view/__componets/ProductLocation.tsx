@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 interface LatLng {
+  visit_location: string;
   lat: number;
   lng: number;
 }
@@ -42,7 +43,7 @@ export default function ProductLocation({
           <div className="space-y-0.5">
             <p className="font-bold text-gray-900">Location</p>
             <p className="text-gray-400 leading-normal text-[11px]">
-              200 S Sierra Madre St, Colorado Springs, CO 80903, United States
+              {location?.visit_location || "Not Available"}
             </p>
           </div>
         </div>
@@ -78,11 +79,8 @@ export default function ProductLocation({
       </div>
       <div className="space-y-1">
         <h1 className="text-black text-xl font-medium">
-          US Olympic & Paralympic Museum
+          {location?.visit_location}
         </h1>
-        <p className="text-[#454F5B]">
-          200 S Sierra Madre St, Colorado prings, CO 80903, United States
-        </p>
       </div>
       <Button
         onClick={handleGetDirection}

@@ -7,11 +7,11 @@ import Container from "../shared/Container";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeader from "../shared/SectionHeader";
 import Link from "next/link";
-import { Category } from "../layouts/navigationLinks";
 import Image from "next/image";
+import { Category } from "@/redux/types/categoris";
 
 interface Props {
-  categories: any;
+  categories: Category[];
 }
 
 export default function ExploreCategories({ categories }: Props) {
@@ -52,7 +52,7 @@ export default function ExploreCategories({ categories }: Props) {
           },
         }}
       >
-        {categories?.data?.map((category: Category, index: any) => (
+        {categories?.map((category: Category, index: any) => (
           <SwiperSlide key={index}>
             <Link href={`/category/${category?.name}`} className="block">
               <div className="relative flex justify-between h-[176px] py-[32px] px-2 cursor-pointer flex-col items-center gap-3 rounded-2xl bg-white border transition  hover:shadow-xl hover:-translate-y-1">

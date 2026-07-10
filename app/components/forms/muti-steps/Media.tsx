@@ -7,7 +7,7 @@ import {
   setOpenDealModal,
   setStep,
   updateMedia,
-} from "@/redux/features/provider/deal.slice";
+} from "@/redux/features/deal/deal.slice";
 
 export default function Media() {
   const dispatch = useAppDispatch();
@@ -28,9 +28,14 @@ export default function Media() {
       <div className="lg:col-span-3">
         <AppForm defaultValues={media} onSubmit={onSubmit}>
           <div className="space-y-6">
-            <FileInput name="coverImage" label="Cover Image" />
+            <FileInput required name="coverImage" label="Cover Image" />
 
-            <FileInput multiple name="galleryImages" label="Gallery Images" />
+            <FileInput
+              required
+              multiple
+              name="galleryImages"
+              label="Gallery Images"
+            />
 
             <div className="flex justify-between pt-6 mt-6 border-t border-slate-100">
               <button

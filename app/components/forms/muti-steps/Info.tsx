@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import AppForm from "../AppForm";
 import TextInput from "../inputs/TextInput";
-import { setStep, updateDealInfo } from "@/redux/features/provider/deal.slice";
+import { setStep, updateDealInfo } from "@/redux/features/deal/deal.slice";
 import { FieldValues } from "react-hook-form";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 
@@ -34,12 +34,14 @@ export default function Info() {
                 label="Regular price"
                 placeholder="100"
                 type="number"
+                required
               />
               <TextInput
                 name="discountedPrice"
                 label="Discounted price"
                 placeholder="70"
                 type="number"
+                required
               />
             </div>
 
@@ -49,12 +51,14 @@ export default function Info() {
                 label="Total Purchase limit"
                 placeholder="100"
                 type="number"
+                required
               />
               <TextInput
                 name="maxPurchasePerCustomer"
                 label="Maximum Purchase Per Customer"
                 placeholder="70"
                 type="number"
+                required
               />
             </div>
 

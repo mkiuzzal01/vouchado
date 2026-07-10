@@ -8,17 +8,18 @@ import { useRouter } from "next/navigation";
 import AddressInput from "./inputs/AddressInput";
 import { useState } from "react";
 import { FieldValues } from "react-hook-form";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+import { useAppDispatch } from "@/redux/hooks/globalhooks";
 import { setBusinessForm } from "@/redux/features/provider/business_profile.slice";
 import { toast } from "react-toastify";
+import { useGetCategoriesQuery } from "@/redux/features/deal/deal.api";
 
 interface Props {
   lang: string;
 }
 
 export default function BusineesInfoForm({ lang }: Props) {
-  const { vuchado_token } = useAppSelector((state) => state.auth);
   const router = useRouter();
+  const { data, isLoading } = useGetCategoriesQuery(null);
   const dispatch = useAppDispatch();
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState<{
@@ -78,20 +79,12 @@ export default function BusineesInfoForm({ lang }: Props) {
             <SelectInput
               label="Business Category"
               name="businessCategory"
-              options={[
-                {
-                  label: "Select a category",
-                  value: "",
-                },
-                {
-                  label: "Beauty & Wellness",
-                  value: "beauty-wellness",
-                },
-                {
-                  label: "Food & Beverage",
-                  value: "food-beverage",
-                },
-              ]}
+              options={
+                data?.data?.map((item: any) => ({
+                  label: item?.name,
+                  value: item?.id,
+                })) || []
+              }
             />
 
             <TextInput

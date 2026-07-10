@@ -6,7 +6,7 @@ import Plus from "@/app/components/icons/Pluse";
 import Scan from "@/app/components/icons/Scan";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import ScanVoucher from "@/app/components/utils/ScanVoucher";
-import { setOpenDealModal } from "@/redux/features/provider/deal.slice";
+import { setOpenDealModal } from "@/redux/features/deal/deal.slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { useState } from "react";
 

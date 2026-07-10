@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import CreateDealForm from "@/app/components/forms/muti-steps/CreateDealForm";
 import { useState } from "react";
 import ScanVoucher from "@/app/components/utils/ScanVoucher";
-import { setOpenDealModal } from "@/redux/features/provider/deal.slice";
+import { setOpenDealModal } from "@/redux/features/deal/deal.slice";
 
 export default function PromoCreateDeals() {
   const [scanModal, setScanModal] = useState(false);

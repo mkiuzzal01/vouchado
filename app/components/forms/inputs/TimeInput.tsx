@@ -1,4 +1,5 @@
 "use client";
+
 import { Controller, useFormContext } from "react-hook-form";
 import { Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -13,6 +14,7 @@ import {
 interface TimeInputProps {
   label?: string;
   name: string;
+  requiredType?: "time" | "datetime-local";
   placeholder?: string;
   required?: boolean;
   className?: string;
@@ -23,8 +25,9 @@ export default function TimeInput({
   label,
   name,
   placeholder = "Select time",
-  required,
+  required = false,
   className,
+  requiredType = "time",
   disabled,
 }: TimeInputProps) {
   const {
@@ -38,13 +41,19 @@ export default function TimeInput({
     <div className={cn("w-full space-y-1.5", className)}>
       {label && (
         <Label htmlFor={name} className="text-sm font-medium text-gray-600">
-          {label}
+          {label} {required && <span className="text-red-500">*</span>}
         </Label>
       )}
 
       <Controller
         name={name}
         control={control}
+        rules={{
+          required: {
+            value: required,
+            message: `${label || "Time"} is required`,
+          },
+        }}
         render={({ field }) => (
           <>
             <Popover>
@@ -56,11 +65,10 @@ export default function TimeInput({
                   className={cn(
                     "h-11 w-full justify-start text-left font-normal",
                     !field.value && "text-muted-foreground",
-                    errorMessage && "border-red-500",
+                    errorMessage && "border-red-500 focus-visible:ring-red-500",
                   )}
                 >
                   <Clock className="mr-2 h-4 w-4 shrink-0" />
-
                   <span className="truncate">{field.value || placeholder}</span>
                 </Button>
               </PopoverTrigger>
@@ -68,10 +76,9 @@ export default function TimeInput({
               <PopoverContent align="start" className="p-3 w-full">
                 <input
                   id={name}
-                  type="time"
+                  type={requiredType}
                   value={field.value || ""}
                   onChange={(e) => field.onChange(e.target.value)}
-                  required={required}
                   className={cn(
                     "h-11 w-full rounded-md border bg-background px-3 py-2 text-sm",
                     "focus:outline-none focus:ring-2 focus:ring-primary/30",
@@ -81,7 +88,7 @@ export default function TimeInput({
             </Popover>
 
             {errorMessage && (
-              <p className="text-xs text-red-500">{errorMessage}</p>
+              <p className="text-xs text-red-500 mt-1">{errorMessage}</p>
             )}
           </>
         )}
