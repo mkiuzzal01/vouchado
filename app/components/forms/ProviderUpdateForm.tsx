@@ -1,6 +1,6 @@
 "use client";
 
-import { FieldValues } from "react-hook-form";
+import { FieldValues, useFormContext } from "react-hook-form";
 import AppForm from "./AppForm";
 import FileInput from "./inputs/FileInput";
 import TextInput from "./inputs/TextInput";
@@ -9,7 +9,7 @@ import TextArea from "./inputs/TextArea";
 import SubmitButton from "../buttons/SubmitButton";
 import { Building2, User, Mail, Phone, Globe } from "lucide-react";
 import AddressInput from "./inputs/AddressInput";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TimeInput from "./inputs/TimeInput";
 import { useUpdateProviderProfileMutation } from "@/redux/features/provider/provider.api";
 import { toast } from "react-toastify";
@@ -29,13 +29,65 @@ interface Props {
   profileInfo: any;
 }
 
+// Inner helper component to consume the form context and watch the Sunday field reactively
+function SundayHoursSection() {
+  const { watch, register } = useFormContext();
+  const hoursSunday = watch("hours_sunday", "closed");
+
+  return (
+    <div className="col-span-1 md:col-span-2 flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 border border-gray-100 px-4 py-2.5 rounded-2xl gap-3 transition-all">
+      <div className="flex items-center gap-3">
+        <span className="text-sm font-semibold text-gray-700">Sunday</span>
+        <select
+          {...register("hours_sunday")}
+          className={`text-xs font-medium rounded-xl px-2.5 py-1 focus:outline-none border ${
+            hoursSunday === "closed"
+              ? "bg-red-50 border-red-100 text-red-500"
+              : "bg-emerald-50 border-emerald-100 text-emerald-600"
+          }`}
+        >
+          <option value="closed">Closed</option>
+          <option value="open">Open</option>
+        </select>
+      </div>
+
+      {/* Conditionally reveal time selection inputs when Sunday is marked open */}
+      {hoursSunday === "open" && (
+        <div className="flex justify-between items-center gap-2 animate-fadeIn">
+          <TimeInput name="open_time_sunday" placeholder="09:00" />
+          <span className="text-gray-400">-</span>
+          <TimeInput name="close_time_sunday" placeholder="18:00" />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
   const router = useRouter();
-  const [address, setAddress] = useState("");
+  const data = profileInfo?.data || profileInfo;
+
+  const [address, setAddress] = useState(data?.business_address || "");
   const [coordinates, setCoordinates] = useState<{
     lat: number;
     lng: number;
-  } | null>(null);
+  } | null>(
+    data?.latitude && data?.longitude
+      ? { lat: Number(data.latitude), lng: Number(data.longitude) }
+      : null,
+  );
+
+  useEffect(() => {
+    if (data) {
+      if (data.business_address) setAddress(data.business_address);
+      if (data.latitude && data.longitude) {
+        setCoordinates({
+          lat: Number(data.latitude),
+          lng: Number(data.longitude),
+        });
+      }
+    }
+  }, [data]);
 
   const [updateProviderProfile, { isLoading }] =
     useUpdateProviderProfileMutation();
@@ -49,6 +101,40 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
       setCoordinates(coords);
     }
   };
+
+  const formDefaultValues: Record<string, any> = {
+    business_name: data?.business_name || "",
+    full_name: data?.name || "",
+    email: data?.email || "",
+    phone: data?.phone || "",
+    business_website: data?.business_website || "",
+    business_category: data?.business_category || "",
+    business_description: data?.business_description || "",
+    business_address: data?.business_address || "",
+    business_logo: data?.business_logo_full_url || "",
+    business_cover_image: data?.business_cover_image_full_url || "",
+    hours_sunday: "closed",
+    open_time_sunday: "09:00",
+    close_time_sunday: "17:00",
+  };
+
+  if (Array.isArray(data?.business_hours)) {
+    data.business_hours.forEach((item: any) => {
+      const targetDay = item?.day?.toLowerCase();
+      if (targetDay === "sunday") {
+        formDefaultValues["hours_sunday"] = item?.is_closed ? "closed" : "open";
+        if (!item?.is_closed) {
+          formDefaultValues["open_time_sunday"] = item?.open_time || "09:00";
+          formDefaultValues["close_time_sunday"] = item?.close_time || "17:00";
+        }
+      } else {
+        formDefaultValues[`open_time_${targetDay}`] =
+          item?.open_time || "09:00";
+        formDefaultValues[`close_time_${targetDay}`] =
+          item?.close_time || "17:00";
+      }
+    });
+  }
 
   const handleUpdate = async (formData: FieldValues) => {
     const formPayload = new FormData();
@@ -64,33 +150,34 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
       "business_description",
       formData.business_description || "",
     );
+
     if (formData.business_website) {
       formPayload.append("business_website", formData.business_website);
     }
 
-    // For Business Logo
     if (formData?.business_logo) {
       const logoFile =
         formData.business_logo instanceof FileList
           ? formData.business_logo[0]
           : formData.business_logo;
-      if (logoFile) formPayload.append("business_logo", logoFile);
+      if (logoFile instanceof File) {
+        formPayload.append("business_logo", logoFile);
+      }
     }
 
-    // For Cover Image
     if (formData?.business_cover_image) {
       const coverFile =
         formData.business_cover_image instanceof FileList
           ? formData.business_cover_image[0]
           : formData.business_cover_image;
-      if (coverFile) formPayload.append("business_cover_image", coverFile);
+      if (coverFile instanceof File) {
+        formPayload.append("business_cover_image", coverFile);
+      }
     }
 
-    // Process Monday to Saturday business hours
+    // Append Monday through Saturday
     DAYS_OF_WEEK.forEach((day, index) => {
       const backendDayName = day.toLowerCase();
-
-      // Match the names given to the TimeInput elements exactly
       const openTime = formData[`open_time_${backendDayName}`] || "09:00";
       const closeTime = formData[`close_time_${backendDayName}`] || "17:00";
 
@@ -100,14 +187,22 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
       formPayload.append(`business_hours[${index}][is_closed]`, "0");
     });
 
-    // Handle Sunday edge case
+    // Dynamic Sunday Logic Strategy
     const sundayStatus = formData.hours_sunday || "closed";
+    const isSundayClosed = sundayStatus === "closed";
+
     formPayload.append(`business_hours[6][day]`, "sunday");
-    formPayload.append(`business_hours[6][open_time]`, "00:00");
-    formPayload.append(`business_hours[6][close_time]`, "00:00");
+    formPayload.append(
+      `business_hours[6][open_time]`,
+      isSundayClosed ? "00:00" : formData.open_time_sunday || "09:00",
+    );
+    formPayload.append(
+      `business_hours[6][close_time]`,
+      isSundayClosed ? "00:00" : formData.close_time_sunday || "17:00",
+    );
     formPayload.append(
       `business_hours[6][is_closed]`,
-      sundayStatus === "closed" ? "1" : "0",
+      isSundayClosed ? "1" : "0",
     );
 
     try {
@@ -126,12 +221,20 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
 
   return (
     <div className="w-full bg-transparent">
-      <AppForm onSubmit={handleUpdate}>
+      <AppForm onSubmit={handleUpdate} defaultValues={formDefaultValues}>
         <div className="flex flex-col gap-6">
-          {/* Top Row: File Uploads Grid */}
+          {/* File Uploads */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FileInput label="Business Logo" name="business_logo" />
-            <FileInput label="Cover Image" name="business_cover_image" />
+            <FileInput
+              defaultImage={data?.business_logo_full_url}
+              label="Business Logo"
+              name="business_logo"
+            />
+            <FileInput
+              defaultImage={data?.business_cover_image_full_url}
+              label="Cover Image"
+              name="business_cover_image"
+            />
           </div>
 
           <hr className="border-gray-100" />
@@ -163,25 +266,15 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
                   </div>
                 </div>
               ))}
-              {/* Sunday Special State Case */}
-              <div className="col-span-2 flex items-center justify-between bg-gray-50 border border-gray-100 px-4 py-2.5 rounded-2xl">
-                <span className="text-sm font-semibold text-gray-700">
-                  Sunday
-                </span>
-                <select
-                  name="hours_sunday"
-                  className="text-xs bg-red-50 border border-red-100 text-red-500 font-medium rounded-xl px-2.5 py-1 focus:outline-none"
-                >
-                  <option value="closed">Closed</option>
-                  <option value="open">Open</option>
-                </select>
-              </div>
+
+              {/* Reactive Sub-component */}
+              <SundayHoursSection />
             </div>
           </div>
 
           <hr className="border-gray-100" />
 
-          {/* Text Fields Grid */}
+          {/* Form Fields */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <TextInput
               name="business_name"
@@ -219,14 +312,14 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
               label="Business Category"
               options={[
                 { value: "cloth", label: "Cloth" },
-                { value: "beauty", label: "Beauty" },
+                { value: "beauty-wellness", label: "Beauty & Wellness" },
                 { value: "grocery", label: "Grocery" },
                 { value: "pet", label: "Pet" },
               ]}
             />
           </div>
 
-          {/* Description & Address */}
+          {/* Descriptions */}
           <div className="flex flex-col gap-4">
             <TextArea
               name="business_description"
@@ -242,7 +335,7 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
             />
           </div>
 
-          {/* Actions Footer */}
+          {/* Actions */}
           <div className="flex justify-end items-center gap-3 mt-4">
             <button
               type="button"

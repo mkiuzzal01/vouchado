@@ -8,8 +8,6 @@ import { getBusniessProfile } from "@/actions/quires/user.api";
 export default async function Page() {
   const profileInfo = await getBusniessProfile();
 
-  console.log(profileInfo);
-
   return (
     <Container>
       <ProviderProfileAction profileInfo={profileInfo} />

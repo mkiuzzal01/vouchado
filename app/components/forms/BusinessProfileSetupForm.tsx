@@ -66,8 +66,8 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
   const handleSubmit = async (formData: FieldValues) => {
     const formPayload = new FormData();
     formPayload.append("phone", phone || "");
-    formPayload.append("latitude", latitude.toString());
-    formPayload.append("longitude", longitude.toString());
+    formPayload.append("latitude", String(latitude));
+    formPayload.append("longitude", String(longitude));
     formPayload.append("business_name", business_name || "");
     formPayload.append("business_email", business_email || "");
     formPayload.append("business_category", business_category || "");

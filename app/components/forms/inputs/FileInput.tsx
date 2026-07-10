@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 interface FileInputProps {
+  defaultImage?: string | string[];
   label?: string;
   name: string;
   accept?: string;
@@ -17,6 +18,7 @@ interface FileInputProps {
 }
 
 export default function FileInput({
+  defaultImage,
   label,
   name,
   required = false,
@@ -33,7 +35,6 @@ export default function FileInput({
 
   const errorMessage = (errors?.[name]?.message as string | undefined) || "";
 
-  // Helper to convert single files, arrays, or string URLs into standard preview strings
   const getPreviewUrl = (file: any) => {
     if (file instanceof File) return URL.createObjectURL(file);
     if (typeof file === "string") return file;
@@ -52,6 +53,8 @@ export default function FileInput({
       <Controller
         name={name}
         control={control}
+        // Safely pass default value to React Hook Form context on mount
+        defaultValue={defaultImage || (multiple ? [] : null)}
         rules={{
           required: {
             value: required,
@@ -163,6 +166,7 @@ export default function FileInput({
                         alt={`Preview ${index + 1}`}
                         fill
                         className="object-cover"
+                        // Disable Next.js optimization for blobs, keep it for static URL strings
                         unoptimized={imgUrl.startsWith("blob:")}
                       />
 

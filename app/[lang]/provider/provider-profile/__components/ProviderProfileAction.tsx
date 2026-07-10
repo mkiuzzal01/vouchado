@@ -11,6 +11,7 @@ interface Props {
 
 export default function ProviderProfileAction({ profileInfo }: Props) {
   const [openModal, setOpenModal] = useState(false);
+
   return (
     <Container>
       <div className="flex items-center justify-between w-full py-4 bg-transparent">
