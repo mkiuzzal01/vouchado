@@ -10,50 +10,50 @@ import DealYet from "@/app/components/icons/DealYet";
 import Bag from "@/app/components/icons/Bag";
 import CreateGiftVoucher from "./CreateGiftVoucher";
 
-export const metricsData = [
-  {
-    id: 1,
-    title: "Deals Sold (Total)",
-    value: "1,782",
-    trend: "12% all time",
-    isPositive: true,
-    icon: DealSold,
-    color: "text-blue-500 bg-blue-50",
-  },
-  {
-    id: 2,
-    title: "Deals Sold This Month",
-    value: "245",
-    trend: "8% this month",
-    isPositive: true,
-    icon: Bag,
-    color: "text-cyan-500 bg-cyan-50",
-  },
-  {
-    id: 3,
-    title: "Deals Redeemed",
-    value: "1,567",
-    trend: "70% of sold",
-    isPositive: true,
-    icon: DealsRedeem,
-    color: "text-teal-500 bg-teal-50",
-  },
-  {
-    id: 4,
-    title: "Deals yet Unredeemed",
-    value: "526",
-    trend: "30% of sold",
-    isPositive: false,
-    icon: DealYet,
-    color: "text-red-500 bg-red-50",
-  },
-];
-
 interface Props {
   lang: string;
+  stat: any;
 }
 
-export default function Dashboard({ lang }: Props) {
+export default function Dashboard({ lang, stat }: Props) {
+  const metricsData = [
+    {
+      id: 1,
+      title: "Deals Sold (Total)",
+      value: stat?.deals_sold_total?.value,
+      trend: `${stat?.deals_sold_total?.percentage} % all time`,
+      isPositive: true,
+      icon: DealSold,
+      color: "text-blue-500 bg-blue-50",
+    },
+    {
+      id: 2,
+      title: "Deals Sold This Month",
+      value: stat?.deals_sold_this_month?.value,
+      trend: `${stat?.deals_sold_this_month?.percentage} % this month`,
+      isPositive: true,
+      icon: Bag,
+      color: "text-cyan-500 bg-cyan-50",
+    },
+    {
+      id: 3,
+      title: "Deals Redeemed",
+      value: stat?.deals_redeemed?.value,
+      trend: `${stat?.deals_redeemed?.percentage} % of sold`,
+      isPositive: true,
+      icon: DealsRedeem,
+      color: "text-teal-500 bg-teal-50",
+    },
+    {
+      id: 4,
+      title: "Deals yet Unredeemed",
+      value: stat?.deals_unredeemed?.value,
+      trend: `${stat?.deals_unredeemed?.percentage} % of sold`,
+      isPositive: false,
+      icon: DealYet,
+      color: "text-red-500 bg-red-50",
+    },
+  ];
   return (
     <Container>
       <div className="space-y-7 p-4 w-full text-gray-800">

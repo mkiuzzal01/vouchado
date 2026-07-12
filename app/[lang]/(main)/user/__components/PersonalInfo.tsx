@@ -51,7 +51,7 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
               Full name
             </span>
             <span className="text-gray-900 font-bold text-lg lg:text-xl">
-              {userProfile?.name}
+              {userProfile?.name || "N/A"}
             </span>
           </div>
           <div>
@@ -59,7 +59,7 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
               Phone Number
             </span>
             <span className="text-gray-900 font-bold text-lg lg:text-xl">
-              {userProfile?.phone}
+              {userProfile?.phone || "N/A"}
             </span>
           </div>
           <div className="sm:col-span-2">
@@ -67,7 +67,7 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
               Email
             </span>
             <span className="text-gray-900 font-bold text-lg lg:text-xl">
-              {userProfile?.email}
+              {userProfile?.email || "N/A"}
             </span>
           </div>
           <div className="sm:col-span-2">
@@ -75,7 +75,7 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
               Address
             </span>
             <p className="text-gray-900 font-bold text-lg lg:text-xl leading-relaxed">
-              {userProfile?.address}
+              {userProfile?.address || "N/A"}
             </p>
           </div>
         </div>

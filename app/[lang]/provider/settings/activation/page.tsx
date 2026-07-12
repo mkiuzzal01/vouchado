@@ -1,20 +1,36 @@
 "use client";
 import ReusableAlert from "@/app/components/shared/ReusableAlart";
+import { logout } from "@/redux/features/auth/auth.slice";
+import { useDeleteAccountMutation } from "@/redux/features/user/user.api";
+import { useAppDispatch } from "@/redux/hooks/globalhooks";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function AccountActivationPage() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const [deleteAccount, { isLoading }] = useDeleteAccountMutation();
+
   const [dialogType, setDialogType] = useState<"deactivate" | "delete" | null>(
     null,
   );
 
-  const handleDeactivate = () => {
+  const handleDeactivate = async () => {
     console.log("Deactivate account requested");
-    setDialogType(null);
   };
 
-  const handleDelete = () => {
-    console.log("Delete account requested");
-    setDialogType(null);
+  const handleDelete = async () => {
+    try {
+      const res = await deleteAccount({}).unwrap();
+      if (res?.message) {
+        toast.success(res?.message);
+        router.push("/");
+        dispatch(logout());
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Something went wrong");
+    }
   };
 
   return (
@@ -60,10 +76,11 @@ export default function AccountActivationPage() {
 
           <button
             type="button"
+            disabled={isLoading}
             onClick={() => setDialogType("delete")}
             className="w-full sm:w-auto text-center px-4 py-2 rounded-xl text-[11px] font-bold tracking-wide transition-all bg-[#ff4a4a] hover:bg-[#e03e3e] text-white shadow-sm"
           >
-            Delete Account
+            {isLoading ? "Deleting..." : "Delete Account"}
           </button>
         </div>
       </div>

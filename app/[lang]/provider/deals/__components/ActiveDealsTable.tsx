@@ -4,8 +4,6 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, ChevronLeft, ChevronRight } from "lucide-react";
-
-// UI Core Elements (Shadcn Custom Archetypes)
 import {
   Table,
   TableBody,
@@ -17,14 +15,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-// Project Specific Context Assets
 import Deals from "@/app/components/icons/Deals";
 import Edit from "@/app/components/icons/Edit";
 import Delete from "@/app/components/icons/Delete";
 import ReusableAlert from "@/app/components/shared/ReusableAlart";
 
-// Define the clear structured schema mapping for individual deal records
 interface DealItem {
   id: number;
   name: string;

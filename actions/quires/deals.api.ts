@@ -17,3 +17,9 @@ export const getDealTrending = () =>
     tags: ["deals"],
     revalidate: 60,
   });
+
+export const getProviderActiveDeals = () =>
+  api.get<any>(`/provider/active-deals`, {
+    tags: ["provider-active-deals"],
+    revalidate: 60,
+  });
