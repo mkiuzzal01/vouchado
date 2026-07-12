@@ -12,6 +12,12 @@ export const getBusniessProfile = () =>
     revalidate: 60,
   });
 
+export const getBusinessProfileById = (id: string) =>
+  api.get<any>(`/deals/business-profile/${id}`, {
+    tags: ["provider"],
+    revalidate: 60,
+  });
+
 export const getWishlist = () =>
   api.get<any>(`/user/wishlist`, {
     tags: ["wishlist"],

@@ -2,11 +2,17 @@
 import UserUpdateForm from "@/app/components/forms/UserUpdateForm";
 import Edit from "@/app/components/icons/Edit";
 import ModalContainer from "@/app/components/shared/ModalContainer";
+import { IUserProfile } from "@/redux/types/user_profile";
 import Image from "next/image";
 import { useState } from "react";
 
-export default function PersonalInfo() {
+interface PersonalInfoProps {
+  userProfile: IUserProfile;
+}
+
+export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm relative">
       {/* Header with Edit Button */}
@@ -30,8 +36,11 @@ export default function PersonalInfo() {
           <Image
             fill
             className="rounded-2xl object-cover border border-gray-100"
-            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80"
-            alt="Sarah Lee"
+            src={
+              userProfile?.avatar_full_url ||
+              "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80"
+            }
+            alt={userProfile?.name}
           />
         </div>
 
@@ -42,7 +51,7 @@ export default function PersonalInfo() {
               Full name
             </span>
             <span className="text-gray-900 font-bold text-lg lg:text-xl">
-              Sarah Lee
+              {userProfile?.name}
             </span>
           </div>
           <div>
@@ -50,7 +59,7 @@ export default function PersonalInfo() {
               Phone Number
             </span>
             <span className="text-gray-900 font-bold text-lg lg:text-xl">
-              +1 234 567 890
+              {userProfile?.phone}
             </span>
           </div>
           <div className="sm:col-span-2">
@@ -58,7 +67,7 @@ export default function PersonalInfo() {
               Email
             </span>
             <span className="text-gray-900 font-bold text-lg lg:text-xl">
-              sarah.lee@mail.com
+              {userProfile?.email}
             </span>
           </div>
           <div className="sm:col-span-2">
@@ -66,8 +75,7 @@ export default function PersonalInfo() {
               Address
             </span>
             <p className="text-gray-900 font-bold text-lg lg:text-xl leading-relaxed">
-              245 Greenfield Avenue, Apartment 12B, New York, 10001, United
-              States
+              {userProfile?.address}
             </p>
           </div>
         </div>
@@ -77,7 +85,10 @@ export default function PersonalInfo() {
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
       >
-        <UserUpdateForm onClose={() => setIsEditModalOpen(false)} />
+        <UserUpdateForm
+          userProfile={userProfile}
+          onClose={() => setIsEditModalOpen(false)}
+        />
       </ModalContainer>
     </div>
   );

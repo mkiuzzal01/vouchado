@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Trash2, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import UpdateUserPassForm from "@/app/components/forms/UpdateUserPassForm";
 import { useAppDispatch } from "@/redux/hooks/globalhooks";
@@ -10,6 +10,8 @@ import ReusableAlert from "@/app/components/shared/ReusableAlart";
 import ChangePass from "@/app/components/icons/ChangePass";
 import Logout from "@/app/components/icons/Logout";
 import Delete from "@/app/components/icons/Delete";
+import { useDeleteAccountMutation } from "@/redux/features/user/user.api";
+import { toast } from "react-toastify";
 
 export default function AsideAction() {
   const router = useRouter();
@@ -18,6 +20,7 @@ export default function AsideAction() {
   const [dialogType, setDialogType] = useState<"logout" | "delete" | null>(
     null,
   );
+  const [deleteAccount, { isLoading }] = useDeleteAccountMutation();
 
   const handleLogout = () => {
     dispatch(logout());
@@ -25,9 +28,17 @@ export default function AsideAction() {
     router.refresh();
   };
 
-  const handleDeleteAccount = () => {
-    console.log("Delete Account initiated...");
-    setDialogType(null);
+  const handleDeleteAccount = async () => {
+    try {
+      const res = await deleteAccount({}).unwrap();
+      console.log(res);
+      dispatch(logout());
+      setDialogType(null);
+      router.refresh();
+    } catch (error: any) {
+      console.log(error);
+      toast.error(error?.data?.message);
+    }
   };
 
   const actions = [
@@ -87,7 +98,7 @@ export default function AsideAction() {
         isOpen={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
       >
-        <UpdateUserPassForm />
+        <UpdateUserPassForm onClose={() => setIsPasswordModalOpen(false)} />
       </ModalContainer>
 
       <ReusableAlert

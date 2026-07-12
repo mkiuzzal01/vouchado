@@ -57,7 +57,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
         router.refresh();
       }
     } catch (error: any) {
-      toast.error(error?.message || "Login failed");
+      toast.error(error?.data?.message || "Login failed");
     }
   };
 

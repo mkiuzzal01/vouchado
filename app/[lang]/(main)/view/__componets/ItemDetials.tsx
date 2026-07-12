@@ -160,11 +160,11 @@ export default function ItemDetails({ lang, details }: Props) {
               </p>
 
               <div className="flex flex-col lg:flex-row lg:items-center gap-2">
-                <Link href={`/${lang}/provider/provider-profile`}>
+                <Link href={`/${lang}/business-profile/${details?.deal?.id}`}>
                   <div className="flex items-center gap-2">
                     <GiftVoucher color="#637381" size={24} />
                     <p className="lg:text-xl text-[#637381] hover:underline">
-                      {details?.deal?.service_title}
+                      {details?.deal?.deal_name}
                     </p>
                   </div>
                 </Link>

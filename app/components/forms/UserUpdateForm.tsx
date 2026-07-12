@@ -1,27 +1,68 @@
-import React from "react";
 import TextInput from "./inputs/TextInput";
 import AppForm from "./AppForm";
 import FileInput from "./inputs/FileInput";
 import { FieldValues } from "react-hook-form";
 import SubmitButton from "../buttons/SubmitButton";
 import { Home, Mail, Phone, User, Globe, Building2, X } from "lucide-react";
+import { IUserProfile } from "@/redux/types/user_profile";
+import { useUpdateUserProfileMutation } from "@/redux/features/user/user.api";
+import { toast } from "react-toastify";
 
 interface UserUpdateFormProps {
   onClose?: () => void;
+  userProfile?: IUserProfile;
 }
 
-export default function UserUpdateForm({ onClose }: UserUpdateFormProps) {
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
+export default function UserUpdateForm({
+  onClose,
+  userProfile,
+}: UserUpdateFormProps) {
+  const [updateUserProfile, { isLoading }] = useUpdateUserProfileMutation();
+
+  const defaultValues = {
+    fullName: userProfile?.name,
+    number: userProfile?.phone,
+    email: userProfile?.email,
+    fullAddress: userProfile?.address,
+    country: userProfile?.country,
+    city: userProfile?.city,
+  };
+
+  const onSubmit = async (data: FieldValues) => {
+    const formData = new FormData();
+
+    formData.append("fullName", data.fullName);
+    formData.append("number", data.number);
+    formData.append("email", data.email);
+    formData.append("fullAddress", data.fullAddress);
+    formData.append("country", data.country);
+    formData.append("city", data.city);
+
+    if (data.avatar) {
+      formData.append("avatar", data.avatar);
+    }
+
+    try {
+      const res = await updateUserProfile(formData).unwrap();
+      toast.success(res.message);
+      onClose?.();
+    } catch (error: any) {
+      toast.error(error.data.message);
+    }
   };
 
   return (
     <div>
-      <AppForm onSubmit={onSubmit}>
+      <AppForm onSubmit={onSubmit} defaultValues={defaultValues}>
         <div className="space-y-5">
           {/* Centered Profile Avatar Input */}
           <div className="flex justify-center mb-6">
-            <FileInput name="avatar" label="" accept="image/*" />
+            <FileInput
+              defaultImage={userProfile?.avatar_full_url ?? ""}
+              name="avatar"
+              label="Upload your photo"
+              accept="image/*"
+            />
           </div>
 
           {/* Form Fields Grid */}
@@ -96,6 +137,7 @@ export default function UserUpdateForm({ onClose }: UserUpdateFormProps) {
             )}
             <div className="w-full sm:w-auto">
               <SubmitButton
+                isLoading={isLoading}
                 title="Update"
                 className="w-full h-10 sm:w-auto px-8 py-2.5 bg-[#31BFC8] hover:bg-[#31BF96]/90 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
               />

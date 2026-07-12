@@ -1,3 +1,4 @@
+"use client";
 import AppForm from "./AppForm";
 import TextInput from "./inputs/TextInput";
 import SubmitButton from "../buttons/SubmitButton";

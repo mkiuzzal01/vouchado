@@ -51,8 +51,6 @@ interface Props {
 }
 
 export default function ProfileInfo({ profileData }: Props) {
-  console.log(profileData);
-
   const CONTACT_ITEMS = [
     {
       icon: <BuildingIcon size={18} />,

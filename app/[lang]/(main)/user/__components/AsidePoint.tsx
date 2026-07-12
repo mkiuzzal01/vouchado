@@ -1,7 +1,11 @@
 import Image from "next/image";
 import profile_bg from "@/public/hero/Hero Section (9).png";
+import { IUserProfile } from "@/redux/types/user_profile";
 
-export default function AsidePoint() {
+interface IAsidePoint {
+  user: IUserProfile;
+}
+export default function AsidePoint({ user }: IAsidePoint) {
   return (
     <div className="space-y-4">
       <div className="relative w-full max-w-[356px] overflow-hidden rounded-2xl">
@@ -14,8 +18,10 @@ export default function AsidePoint() {
         />
 
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-          <h1 className="text-xl font-bold">Sarah Lee</h1>
-          <h3 className="mt-2 text-[40px] font-extrabold">1,800</h3>
+          <h1 className="text-xl font-bold">{user?.name}</h1>
+          <h3 className="mt-2 text-[40px] font-extrabold">
+            {user?.vouchado_points}
+          </h3>
           <p className="mt-1 text-sm text-white/70">Points you've collected</p>
         </div>
       </div>
@@ -24,8 +30,11 @@ export default function AsidePoint() {
       <div className="text-lg font-normal p-4 text-gray-600 rounded-2xl shadow space-y-4">
         <p className="mb-4">
           You have reached{" "}
-          <strong className="text-gray-700">1800 points</strong>, collect{" "}
-          <strong className="text-gray-700">200</strong> more to unlock more{" "}
+          <strong className="text-gray-700">
+            {user?.vouchado_points} points
+          </strong>
+          , collect <strong className="text-gray-700">200</strong> more to
+          unlock more{" "}
           <strong className="text-gray-700">€100 Vouchado Voucher</strong>.
         </p>
         <div className="space-y-1">
