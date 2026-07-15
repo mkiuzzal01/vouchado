@@ -33,6 +33,7 @@ import { TService } from "@/redux/types/deals_details";
 import { useCreateWishlistMutation } from "@/redux/features/wishlist/wishlist.api";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { useCreateConversationMutation } from "@/redux/features/conversional/conversional.api";
 
 export const promos = [
   {
@@ -66,7 +67,9 @@ interface Props {
 
 export default function ItemDetails({ lang, details }: Props) {
   const router = useRouter();
-  const [createWishlist, { isLoading }] = useCreateWishlistMutation();
+  const [createConversation, { isLoading }] = useCreateConversationMutation();
+  const [createWishlist, { isLoading: createWishlistLoading }] =
+    useCreateWishlistMutation();
   const [quantity, setQuantity] = useState(1);
   const [activeSection, setActiveSection] = useState("overview");
   const dispatch = useAppDispatch();
@@ -132,6 +135,22 @@ export default function ItemDetails({ lang, details }: Props) {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const handleChatWithSupport = async () => {
+    const data = {
+      receiver_id: details?.deal?.provider?.id,
+    };
+    try {
+      const res = await createConversation(data).unwrap();
+      if (res?.status) {
+        router.push(`/${lang}/chat?id=${res?.data?.id}`);
+      }
+    } catch (error: any) {
+      if (!error?.data?.status) {
+        toast.warn("Please Login to add this item to your wishlist");
+      }
     }
   };
 
@@ -348,26 +367,32 @@ export default function ItemDetails({ lang, details }: Props) {
                   )}
                 </div>
                 <Button
-                  disabled={isLoading}
+                  disabled={createWishlistLoading}
                   onClick={() => handleAddToWishlist()}
                   variant="ghost"
                   className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-1.5"
                 >
-                  {isLoading ? (
+                  {createWishlistLoading ? (
                     <Loader2 className="animate-spin size-5" />
                   ) : (
                     <Heart color={"#31BFC8"} />
                   )}
                   Add to wishlist
                 </Button>
-                <Link href={`/${lang}/chat`}>
-                  <Button
-                    variant="ghost"
-                    className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-1.5"
-                  >
-                    <Message size={17} /> Chat with support
-                  </Button>
-                </Link>
+                <Button
+                  disabled={isLoading}
+                  variant="ghost"
+                  onClick={() => handleChatWithSupport()}
+                  className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-lg font-medium hover:bg-gray-50 flex items-center justify-center gap-1.5"
+                >
+                  {isLoading ? (
+                    <Loader2 className="animate-spin size-5" />
+                  ) : (
+                    <>
+                      <Message size={17} /> Chat with support
+                    </>
+                  )}
+                </Button>
               </div>
 
               <div className="pt-3 flex items-center justify-center gap-1.5 text-[11px] text-gray-400 font-light">

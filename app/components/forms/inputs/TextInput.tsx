@@ -13,6 +13,7 @@ interface TextInputProps {
   type?: string;
   icon?: React.ReactNode;
   className?: string;
+  inputClassName?: string;
   required?: boolean;
   rules?: Omit<
     RegisterOptions,
@@ -28,7 +29,8 @@ export default function TextInput({
   icon,
   required,
   className,
-  rules, // Accept validation rules here
+  rules,
+  inputClassName,
 }: TextInputProps) {
   const {
     control,
@@ -75,8 +77,9 @@ export default function TextInput({
                   "h-11 w-full transition",
                   "focus-visible:ring-2 focus-visible:ring-primary/30",
                   "focus-visible:border-primary",
+                  inputClassName,
                   errorMessage &&
-                    "border-red-400 focus-visible:ring-red-100 focus-visible:border-red-500", // Highlight input if error exists
+                    "border-red-400 focus-visible:ring-red-100 focus-visible:border-red-500",
                   icon && "pl-9",
                   isPassword && "pr-10",
                 )}

@@ -1,50 +1,61 @@
 "use client";
+
+import { useEffect, useState, useMemo } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import UserList from "./UserList";
 import MessageArea from "./MessageArea";
-import { useState } from "react";
+import {
+  Conversation,
+  ConversationResponse,
+  MessageResponse,
+} from "@/redux/types/conversional";
 
-const mockUsers = [
-  {
-    id: 1,
-    name: "Jacob Stark",
-    status: "Arrived Home at 9:00am",
-    time: "09:03 AM",
-    unread: 1,
-    active: true,
-    avatar:
-      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80",
-  },
-  {
-    id: 2,
-    name: "Emma Reed",
-    status: "Left Office at 5:30pm",
-    time: "05:35 PM",
-    unread: 2,
-    active: false,
-    avatar:
-      "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=100&q=80",
-  },
-  {
-    id: 3,
-    name: "Michael Chen",
-    status: "Started Work at 8:15am",
-    time: "08:20 AM",
-    unread: 0,
-    active: false,
-    avatar:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
-  },
-];
+interface Props {
+  list?: ConversationResponse;
+  message?: MessageResponse;
+}
 
-export default function Inbox() {
-  const [selectedUserId, setSelectedUserId] = useState(1);
+export default function Inbox({ list, message }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const conversations: Conversation[] = useMemo(
+    () => list?.data?.data || [],
+    [list],
+  );
+
+  const idFromParams = searchParams.get("id");
+  const selectedUserId = idFromParams ? parseInt(idFromParams, 10) : null;
+
   const [isMobileMessageView, setIsMobileMessageView] = useState(false);
 
-  const activeUser =
-    mockUsers.find((u) => u.id === selectedUserId) || mockUsers[0];
+  // Auto-select the first conversation if none is selected in query parameters
+  useEffect(() => {
+    if (conversations.length > 0 && selectedUserId === null) {
+      const firstUserId = conversations[0]?.user?.id;
+      if (firstUserId) {
+        const params = new URLSearchParams(searchParams.toString());
+        params.set("id", firstUserId.toString());
+        router.replace(`${pathname}?${params.toString()}`);
+      }
+    }
+  }, [conversations, selectedUserId, pathname, searchParams, router]);
 
-  const handleSelectUser = (id: number) => {
-    setSelectedUserId(id);
+  // Safely memoize the active conversation selection
+  const activeConversation = useMemo(() => {
+    return (
+      conversations.find((u) => u?.user?.id === selectedUserId) ||
+      conversations[0]
+    );
+  }, [conversations, selectedUserId]);
+
+  const messagesList = useMemo(() => message?.data?.data || [], [message]);
+
+  const handleSelectUser = (userId: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("id", userId.toString());
+    router.push(`${pathname}?${params.toString()}`);
     setIsMobileMessageView(true);
   };
 
@@ -52,21 +63,26 @@ export default function Inbox() {
     <div className="flex h-screen rounded-lg my-2 w-full bg-gray-50 overflow-hidden text-gray-800">
       {/* User List Sidebar */}
       <div
-        className={`w-full md:w-80 lg:w-96 border-r border-gray-200 bg-white flex flex-col ${isMobileMessageView ? "hidden md:flex" : "flex"}`}
+        className={`w-full md:w-80 lg:w-96 border-r border-gray-200 bg-white flex flex-col transition-all duration-200 ${
+          isMobileMessageView ? "hidden md:flex" : "flex"
+        }`}
       >
         <UserList
-          users={mockUsers}
-          selectedId={selectedUserId}
           onSelectUser={handleSelectUser}
+          list={conversations}
+          selectedId={selectedUserId ?? 0}
         />
       </div>
 
       {/* Message Area */}
       <div
-        className={`flex-1 flex flex-col bg-white ${!isMobileMessageView ? "hidden md:flex" : "flex"}`}
+        className={`flex-1 flex flex-col bg-white transition-all duration-200 ${
+          !isMobileMessageView ? "hidden md:flex" : "flex"
+        }`}
       >
         <MessageArea
-          user={activeUser}
+          user={activeConversation}
+          messagesList={messagesList}
           onBack={() => setIsMobileMessageView(false)}
         />
       </div>
