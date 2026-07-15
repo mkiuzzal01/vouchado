@@ -1,32 +1,37 @@
 import Container from "@/app/components/shared/Container";
-import Inbox from "./__components/Inbox";
+import NotFoundData from "@/app/components/shared/NotFoundData";
 import {
   getConversation,
   getMessages,
 } from "@/actions/quires/conversation.api";
-import NotFoundData from "@/app/components/shared/NotFoundData";
+import Inbox from "./__components/Inbox";
 
 interface Props {
-  searchParams: Promise<{ page?: string; limit?: string; id?: string }>;
+  searchParams: Promise<{ search?: string; id?: string }>;
 }
 
 export default async function Page({ searchParams }: Props) {
-  const resolvedParams = await searchParams;
-  const id = resolvedParams?.id;
+  const { search, id } = await searchParams;
 
-  const list = await getConversation();
+  const [listResult, messagesResult] = await Promise.allSettled([
+    getConversation(search),
+    id ? getMessages(id) : Promise.resolve(null),
+  ]);
 
-  let messages = null;
-
-  if (id) {
-    try {
-      messages = await getMessages(id);
-    } catch (error) {
-      console.error("Failed to fetch messages for ID:", id, error);
-    }
+  const list = listResult.status === "fulfilled" ? listResult.value : null;
+  if (listResult.status === "rejected") {
+    console.error("Failed to fetch conversations:", listResult.reason);
   }
 
-  // Handle case where API didn't return list safely
+  const messages =
+    messagesResult.status === "fulfilled" ? messagesResult.value : null;
+  if (messagesResult.status === "rejected") {
+    console.error(
+      `Failed to fetch messages for ID ${id}:`,
+      messagesResult.reason,
+    );
+  }
+
   if (!list || (Array.isArray(list) && list.length === 0)) {
     return <NotFoundData description="No Conversation found." />;
   }

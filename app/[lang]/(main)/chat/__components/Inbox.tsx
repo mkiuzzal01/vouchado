@@ -42,7 +42,13 @@ export default function Inbox({ list, message }: Props) {
     }
   }, [conversations, selectedUserId, pathname, searchParams, router]);
 
-  // Safely memoize the active conversation selection
+  // Sync mobile view state if user scales the window or initial loads with ID
+  useEffect(() => {
+    if (selectedUserId) {
+      setIsMobileMessageView(true);
+    }
+  }, [selectedUserId]);
+
   const activeConversation = useMemo(() => {
     return (
       conversations.find((u) => u?.user?.id === selectedUserId) ||
@@ -60,23 +66,25 @@ export default function Inbox({ list, message }: Props) {
   };
 
   return (
-    <div className="flex h-screen rounded-lg my-2 w-full bg-gray-50 overflow-hidden text-gray-800">
+    <div className="flex h-[calc(100vh-1rem)] max-h-[calc(100vh-1rem)] w-full rounded-lg bg-gray-50 border border-gray-200 overflow-hidden text-gray-800 my-2">
       {/* User List Sidebar */}
-      <div
-        className={`w-full md:w-80 lg:w-96 border-r border-gray-200 bg-white flex flex-col transition-all duration-200 ${
+      <aside
+        className={`w-full md:w-80 lg:w-96 border-r border-gray-200 bg-white flex flex-col min-h-0 overflow-hidden ${
           isMobileMessageView ? "hidden md:flex" : "flex"
         }`}
       >
-        <UserList
-          onSelectUser={handleSelectUser}
-          list={conversations}
-          selectedId={selectedUserId ?? 0}
-        />
-      </div>
+        <div className="flex-1 overflow-y-auto">
+          <UserList
+            onSelectUser={handleSelectUser}
+            list={conversations}
+            selectedId={selectedUserId ?? 0}
+          />
+        </div>
+      </aside>
 
       {/* Message Area */}
-      <div
-        className={`flex-1 flex flex-col bg-white transition-all duration-200 ${
+      <main
+        className={`flex-1 flex flex-col bg-white min-h-0 overflow-hidden ${
           !isMobileMessageView ? "hidden md:flex" : "flex"
         }`}
       >
@@ -85,7 +93,7 @@ export default function Inbox({ list, message }: Props) {
           messagesList={messagesList}
           onBack={() => setIsMobileMessageView(false)}
         />
-      </div>
+      </main>
     </div>
   );
 }

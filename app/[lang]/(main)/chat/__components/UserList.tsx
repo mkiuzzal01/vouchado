@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Search } from "lucide-react";
 import { Conversation, Message } from "@/redux/types/conversional";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface Props {
   list: Conversation[];
@@ -16,7 +17,55 @@ export default function UserList({
   selectedId,
   onSelectUser,
 }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Refs for tracking message updates and lazy-loaded audio
+  const prevUnreadCounts = useRef<Record<number, number>>({});
+  const incomingAudioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Play incoming alert notification sound safely
+  const playIncomingSound = () => {
+    if (!incomingAudioRef.current) {
+      incomingAudioRef.current = new Audio("/sound/incoming-message.mp3");
+    }
+    incomingAudioRef.current.currentTime = 0;
+    incomingAudioRef.current.play().catch(() => {}); // Safely bypass browser auto-play blocks
+  };
+
+  // Monitor unread counts across all conversations to trigger sound on new messages
+  useEffect(() => {
+    let shouldPlay = false;
+
+    list.forEach((item) => {
+      const prevUnread = prevUnreadCounts.current[item.conversation_id] ?? 0;
+      // If unread count has increased, we received a new message
+      if (item.unread_count > prevUnread) {
+        shouldPlay = true;
+      }
+      // Update our persistent cache value
+      prevUnreadCounts.current[item.conversation_id] = item.unread_count;
+    });
+
+    if (shouldPlay) {
+      playIncomingSound();
+    }
+  }, [list]);
+
+  const handleSearch = (value: string) => {
+    setSearchQuery(value);
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (value.trim()) {
+      params.set("search", value.trim());
+    } else {
+      params.delete("search");
+    }
+
+    router.replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className="flex flex-col h-full bg-white border-r border-gray-100 w-full max-w-sm">
@@ -29,7 +78,7 @@ export default function UserList({
           <input
             type="text"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => handleSearch(e.target.value)}
             placeholder="Search by name"
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-teal-500/50 focus:border-teal-500 transition-all placeholder:text-gray-400"
           />

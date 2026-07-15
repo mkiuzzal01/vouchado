@@ -12,10 +12,10 @@ import Container from "@/app/components/shared/Container";
 
 interface HeaderProps {
   lang: string;
-  withdrawn_amount: number;
+  balance: string;
 }
 
-export default function Header({ lang, withdrawn_amount }: HeaderProps) {
+export default function Header({ lang, balance }: HeaderProps) {
   const pathname = usePathname();
 
   const isActiveRoute = (href: string) => {
@@ -78,7 +78,7 @@ export default function Header({ lang, withdrawn_amount }: HeaderProps) {
                 </button>
               </Link>
             </div>
-            <UserDropdown lang={lang} withdrawn_amount={withdrawn_amount} />
+            <UserDropdown lang={lang} balance={balance} />
           </div>
         </div>
 

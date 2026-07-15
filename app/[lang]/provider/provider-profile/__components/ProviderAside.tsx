@@ -17,13 +17,13 @@ export interface BusinessHour {
 export interface Props {
   openingHours?: BusinessHour[];
   business_logo?: string;
-  withdrawn_amount: number;
+  balance: string;
 }
 
 export default function ProviderAside({
   openingHours,
   business_logo,
-  withdrawn_amount,
+  balance,
 }: Props) {
   return (
     <div className="flex flex-col gap-6 w-full ">
@@ -56,7 +56,7 @@ export default function ProviderAside({
               Available for Withdrawal
             </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              {withdrawn_amount}
+              {balance}
             </h2>
           </div>
         </div>
