@@ -17,9 +17,14 @@ export interface BusinessHour {
 export interface Props {
   openingHours?: BusinessHour[];
   business_logo?: string;
+  withdrawn_amount: number;
 }
 
-export default function ProviderAside({ openingHours, business_logo }: Props) {
+export default function ProviderAside({
+  openingHours,
+  business_logo,
+  withdrawn_amount,
+}: Props) {
   return (
     <div className="flex flex-col gap-6 w-full ">
       {/* Profile Avatar Block overlapping the banner */}
@@ -51,7 +56,7 @@ export default function ProviderAside({ openingHours, business_logo }: Props) {
               Available for Withdrawal
             </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
-              $5,300
+              {withdrawn_amount}
             </h2>
           </div>
         </div>

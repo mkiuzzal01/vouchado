@@ -17,3 +17,9 @@ export const getProviderRevenueStats = () =>
     tags: ["provider-revenue-stats"],
     revalidate: 60,
   });
+
+export const getAnalytics = (query?: string) =>
+  api.get<any>(`/provider/analytics?${query}`, {
+    tags: ["provider-analytics"],
+    revalidate: 60,
+  });

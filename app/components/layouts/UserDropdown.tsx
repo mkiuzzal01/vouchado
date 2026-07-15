@@ -20,10 +20,10 @@ import Dashboard from "../icons/Dasboard";
 
 interface Props {
   lang?: string;
-  totalMoney?: number;
+  withdrawn_amount?: number;
 }
 
-export default function UserDropdown({ lang = "en", totalMoney }: Props) {
+export default function UserDropdown({ lang = "en", withdrawn_amount }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -56,10 +56,10 @@ export default function UserDropdown({ lang = "en", totalMoney }: Props) {
           </Avatar>
 
           {/* Money Display Panel */}
-          {typeof totalMoney === "number" && (
+          {typeof withdrawn_amount === "number" && (
             <div className="hidden sm:flex items-center gap-1.5 pr-2 pl-0.5">
               <span className="text-sm font-semibold text-slate-700 whitespace-nowrap">
-                ${totalMoney.toLocaleString()}
+                € {withdrawn_amount.toLocaleString()}
               </span>
               <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
             </div>

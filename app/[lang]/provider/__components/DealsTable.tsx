@@ -11,101 +11,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-const tableData = [
-  {
-    id: 1,
-    service: "Premium Spa Package",
-    category: "Beauty & Wellness",
-    customer: "Savannah Nguyen",
-    voucherId: "ID: 22739",
-    expireDate: "9/4/12",
-    rating: 5,
-    purchase: "$ 320",
-    revenue: "$ 290",
-    status: "Redeemed",
-    img: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 2,
-    service: "Gourmet Dining Experience",
-    category: "Food & Beverage",
-    customer: "Brooklyn Simmons",
-    voucherId: "ID: 43178",
-    expireDate: "1/3/14",
-    rating: null,
-    purchase: "$ 280",
-    revenue: "$ 260",
-    status: "Unredeemed",
-    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 3,
-    service: "Adventure Sports Package",
-    category: "Leisure & Activities",
-    customer: "Guy Hawkins",
-    voucherId: "ID: 22739",
-    expireDate: "1/15/12",
-    rating: null,
-    purchase: "$ 210",
-    revenue: "$ 190",
-    status: "Reject",
-    img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 4,
-    service: "Cultural Immersion Tour",
-    category: "Travel & Exploration",
-    customer: "Esther Howard",
-    voucherId: "ID: 39635",
-    expireDate: "12/4/17",
-    rating: null,
-    purchase: "$ 180",
-    revenue: "$ 150",
-    status: "Unredeemed",
-    img: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 5,
-    service: "Fitness Bootcamp Retreat",
-    category: "Health & Fitness",
-    customer: "Cameron Williams...",
-    voucherId: "ID: 43756",
-    expireDate: "7/18/17",
-    rating: null,
-    purchase: "$ 225",
-    revenue: "$ 200",
-    status: "Unredeemed",
-    img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 6,
-    service: "Culinary Experience Works...",
-    category: "Food & Beverage",
-    customer: "Jane Cooper",
-    voucherId: "ID: 70668",
-    expireDate: "4/4/18",
-    rating: null,
-    purchase: "$ 150",
-    revenue: "$ 130",
-    status: "Unredeemed",
-    img: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 7,
-    service: "Yoga and Meditation Retreat",
-    category: "Wellness",
-    customer: "Darrell Steward",
-    voucherId: "ID: 97174",
-    expireDate: "8/21/15",
-    rating: 5,
-    purchase: "$ 135",
-    revenue: "$ 120",
-    status: "Redeemed",
-    img: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=80&q=80",
-  },
-];
+interface IProps {
+  deal: any;
+}
 
-export default function DealsTable() {
+export default function DealsTable({ deal }: IProps) {
   return (
     <div className="w-full overflow-x-auto rounded-xl border border-gray-100 bg-white">
       <Table className="min-w-[1100px]">
@@ -143,7 +53,7 @@ export default function DealsTable() {
         </TableHeader>
 
         <TableBody className="divide-y divide-gray-50 text-xs font-semibold text-gray-700">
-          {tableData.map((row) => (
+          {deal?.data?.slice(0, 5).map((row: any) => (
             <TableRow
               key={row.id}
               className="border-none hover:bg-gray-50/40 transition-colors"
@@ -151,45 +61,45 @@ export default function DealsTable() {
               {/* Service Details */}
               <TableCell className="py-3.5 px-4 flex items-center gap-3 max-w-xs">
                 <Image
-                  src={row.img}
-                  alt=""
+                  src={row?.service_image}
+                  alt={row?.service_name}
                   width={80}
                   height={70}
                   className="w-9 h-7 object-cover rounded-md border border-gray-100 shrink-0"
                 />
                 <span className="font-bold text-gray-900 truncate">
-                  {row.service}
+                  {row?.service_name}
                 </span>
               </TableCell>
 
               {/* Category */}
               <TableCell className="py-3.5 px-4 text-sm text-gray-400 font-semibold">
-                {row.category}
+                {row?.category}
               </TableCell>
 
               {/* Customer */}
               <TableCell className="py-3.5 px-4 text-sm text-gray-500 font-semibold">
-                {row.customer}
+                {row?.customer}
               </TableCell>
 
               {/* Voucher ID */}
               <TableCell className="py-3.5 px-4 text-sm text-gray-400 font-semibold">
-                {row.voucherId}
+                {row?.voucher_code}
               </TableCell>
 
               {/* Expire Date */}
               <TableCell className="py-3.5 px-4 text-sm text-gray-500 font-semibold">
-                {row.expireDate}
+                {row?.expire_date}
               </TableCell>
 
               {/* Rating */}
               <TableCell className="py-3.5 px-4 text-gray-500">
-                {row.rating ? (
+                {row?.rating ? (
                   <div className="flex items-center gap-1">
                     {/* Inline Star Icon */}
                     <Start />
                     <span className=" text-sm text-gray-500 font-semibold">
-                      {row.rating}
+                      {row?.rating}
                     </span>
                   </div>
                 ) : (
@@ -199,12 +109,12 @@ export default function DealsTable() {
 
               {/* Purchase */}
               <TableCell className="py-3.5 px-4 text-sm text-gray-500 font-semibold">
-                {row.purchase}
+                {row?.purchase}
               </TableCell>
 
               {/* Revenue */}
               <TableCell className="py-3.5 px-4 text-sm text-gray-500 font-semibold">
-                {row.revenue}
+                {row?.revenue}
               </TableCell>
 
               {/* Dynamic Badging */}
@@ -227,7 +137,7 @@ export default function DealsTable() {
                           : "bg-rose-500"
                     }`}
                   ></span>
-                  {row.status}
+                  {row?.status}
                 </span>
               </TableCell>
 

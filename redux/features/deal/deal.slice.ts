@@ -12,11 +12,11 @@ export interface MediaState {
 }
 
 export interface DealInfoState {
-  voucher_name: string;
-  regularPrice: string;
-  discountedPrice: string;
-  totalPurchaseLimit: string;
-  maxPurchasePerCustomer: string;
+  voucher_name: number;
+  regularPrice: number;
+  discountedPrice: number;
+  totalPurchaseLimit: number;
+  maxPurchasePerCustomer: number;
 }
 
 export interface DealDetailsState {
@@ -60,11 +60,11 @@ const initialState: CreateDealState = {
     galleryImages: [],
   },
   dealInfo: {
-    voucher_name: "",
-    regularPrice: "",
-    discountedPrice: "",
-    totalPurchaseLimit: "",
-    maxPurchasePerCustomer: "",
+    voucher_name: 0,
+    regularPrice: 0,
+    discountedPrice: 0,
+    totalPurchaseLimit: 0,
+    maxPurchasePerCustomer: 0,
   },
   dealDetails: {
     deal_name: "",

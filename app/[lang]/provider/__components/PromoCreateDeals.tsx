@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import providerBg_1 from "@/public/provider/Frame 2147240670.png";
 import providerBg_2 from "@/public/provider/Frame 2147240672 (1).png";

@@ -11,101 +11,30 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 
-const tableData = [
-  {
-    id: 1,
-    service: "Premium Spa Package",
-    category: "Beauty & Wellness",
-    customer: "Savannah Nguyen",
-    voucherId: "ID: 22739",
-    expireDate: "9/4/12",
-    rating: 5,
-    purchase: "$ 320",
-    revenue: "$ 290",
-    status: "Redeemed",
-    img: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 2,
-    service: "Gourmet Dining Experience",
-    category: "Food & Beverage",
-    customer: "Brooklyn Simmons",
-    voucherId: "ID: 43178",
-    expireDate: "1/3/14",
-    rating: null,
-    purchase: "$ 280",
-    revenue: "$ 260",
-    status: "Unredeemed",
-    img: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 3,
-    service: "Adventure Sports Package",
-    category: "Leisure & Activities",
-    customer: "Guy Hawkins",
-    voucherId: "ID: 22739",
-    expireDate: "1/15/12",
-    rating: null,
-    purchase: "$ 210",
-    revenue: "$ 190",
-    status: "Reject",
-    img: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 4,
-    service: "Cultural Immersion Tour",
-    category: "Travel & Exploration",
-    customer: "Esther Howard",
-    voucherId: "ID: 39635",
-    expireDate: "12/4/17",
-    rating: null,
-    purchase: "$ 180",
-    revenue: "$ 150",
-    status: "Unredeemed",
-    img: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 5,
-    service: "Fitness Bootcamp Retreat",
-    category: "Health & Fitness",
-    customer: "Cameron Williams...",
-    voucherId: "ID: 43756",
-    expireDate: "7/18/17",
-    rating: null,
-    purchase: "$ 225",
-    revenue: "$ 200",
-    status: "Unredeemed",
-    img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 6,
-    service: "Culinary Experience Works...",
-    category: "Food & Beverage",
-    customer: "Jane Cooper",
-    voucherId: "ID: 70668",
-    expireDate: "4/4/18",
-    rating: null,
-    purchase: "$ 150",
-    revenue: "$ 130",
-    status: "Unredeemed",
-    img: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=80&q=80",
-  },
-  {
-    id: 7,
-    service: "Yoga and Meditation Retreat",
-    category: "Wellness",
-    customer: "Darrell Steward",
-    voucherId: "ID: 97174",
-    expireDate: "8/21/15",
-    rating: 5,
-    purchase: "$ 135",
-    revenue: "$ 120",
-    status: "Redeemed",
-    img: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=80&q=80",
-  },
-];
+// 1. Properly type the data according to your API response
+interface IPurchaseItem {
+  id: number;
+  category: string;
+  customer: string;
+  expire_date: string;
+  purchase: string;
+  rating: number;
+  revenue: string;
+  service_image: string;
+  service_name: string;
+  status: "Redeemed" | "Unredeemed" | string;
+  voucher_code: string;
+}
 
-export default function PurchasesTable() {
+interface IProps {
+  purchases: {
+    data: IPurchaseItem[];
+    current_page: number;
+    total: number;
+  };
+}
+
+export default function PurchasesTable({ purchases }: IProps) {
   return (
     <div className="w-full overflow-x-auto rounded-xl border border-gray-100 bg-white">
       <Table className="min-w-[1100px]">
@@ -127,7 +56,7 @@ export default function PurchasesTable() {
               Expire Date
             </TableHead>
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
-              Reating
+              Rating {/* Fixed typo: Reating -> Rating */}
             </TableHead>
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
               Purchase
@@ -143,22 +72,26 @@ export default function PurchasesTable() {
         </TableHeader>
 
         <TableBody className="divide-y divide-gray-50 text-xs font-semibold text-gray-700">
-          {tableData.map((row) => (
+          {purchases?.data?.map((row) => (
             <TableRow
               key={row.id}
               className="border-none hover:bg-gray-50/40 transition-colors"
             >
               {/* Service Details */}
               <TableCell className="py-3.5 px-4 flex items-center gap-3 max-w-xs">
-                <Image
-                  src={row.img}
-                  alt=""
-                  width={72}
-                  height={40}
-                  className="object-cover rounded-md"
-                />
+                {row.service_image ? (
+                  <Image
+                    src={row.service_image}
+                    alt={row.service_name}
+                    width={72}
+                    height={40}
+                    className="object-cover rounded-md aspect-video"
+                  />
+                ) : (
+                  <div className="w-[72px] h-[40px] bg-gray-100 rounded-md" />
+                )}
                 <span className="text-base font-semibold text-black truncate">
-                  {row.service}
+                  {row.service_name} {/* Mapped from service_name */}
                 </span>
               </TableCell>
 
@@ -174,17 +107,17 @@ export default function PurchasesTable() {
 
               {/* Voucher ID */}
               <TableCell className="text-base text-gray-600 font-normal">
-                {row.voucherId}
+                {row.voucher_code} {/* Mapped from voucher_code */}
               </TableCell>
 
               {/* Expire Date */}
               <TableCell className="text-base text-gray-600 font-normal">
-                {row.expireDate}
+                {row.expire_date} {/* Mapped from expire_date */}
               </TableCell>
 
               {/* Rating */}
-              <TableCell className=" text-gray-500">
-                {row.rating ? (
+              <TableCell className="text-gray-500">
+                {row.rating > 0 ? (
                   <div className="flex items-center gap-1">
                     <Start />
                     <span className="text-gray-500 font-normal">
@@ -192,18 +125,18 @@ export default function PurchasesTable() {
                     </span>
                   </div>
                 ) : (
-                  <span className=" text-gray-400 font-medium">—</span>
+                  <span className="text-gray-400 font-medium">—</span>
                 )}
               </TableCell>
 
               {/* Purchase */}
-              <TableCell className="py-3.5 px-4 font-bold text-gray-500">
-                {row.purchase}
+              <TableCell className="py-3.5 px-4 font-bold text-gray-500 text-base">
+                ${row.purchase}
               </TableCell>
 
               {/* Revenue */}
-              <TableCell className="py-3.5 px-4 font-bold text-gray-500">
-                {row.revenue}
+              <TableCell className="py-3.5 px-4 font-bold text-gray-500 text-base">
+                ${row.revenue}
               </TableCell>
 
               {/* Dynamic Badging */}
@@ -233,7 +166,7 @@ export default function PurchasesTable() {
               {/* Action Chat Trigger */}
               <TableCell className="py-3.5 px-4 text-center">
                 <Link href={"/chat"}>
-                  <button className="p-1.5 border-3 border-gray-100 text-teal-400 rounded-full bg-white hover:bg-teal-50/30 hover:border-teal-100 transition-all inline-flex items-center justify-center">
+                  <button className="p-1.5 border border-gray-100 text-teal-400 rounded-full bg-white hover:bg-teal-50/30 hover:border-teal-100 transition-all inline-flex items-center justify-center">
                     <SMS />
                   </button>
                 </Link>

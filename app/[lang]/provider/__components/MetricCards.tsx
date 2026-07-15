@@ -1,19 +1,10 @@
-import React from "react";
-
-interface MetricItem {
-  id?: string | number;
-  title?: string;
-  value?: string;
-  trend?: string;
-  isPositive?: boolean;
-  icon?: React.ComponentType<{ size?: number }>;
-  color?: string;
+interface Props {
+  stat: any;
 }
-
-export default function MetricCards({ metrics }: { metrics: MetricItem[] }) {
+export default function MetricCards({ stat }: Props) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-      {metrics.map((m) => {
+      {stat?.map((m: any) => {
         const Icon = m.icon;
         return (
           <div

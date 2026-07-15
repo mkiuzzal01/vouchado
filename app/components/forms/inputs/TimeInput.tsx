@@ -1,15 +1,4 @@
-"use client";
-
-import { Controller, useFormContext } from "react-hook-form";
-import { Clock } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { useFormContext, Controller } from "react-hook-form";
 
 interface TimeInputProps {
   label?: string;
@@ -19,6 +8,7 @@ interface TimeInputProps {
   required?: boolean;
   className?: string;
   disabled?: boolean;
+  rules?: any; // Added to support inline cross-validation parameters
 }
 
 export default function TimeInput({
@@ -29,20 +19,23 @@ export default function TimeInput({
   className,
   requiredType = "time",
   disabled,
+  rules = {}, // Fallback configuration
 }: TimeInputProps) {
   const {
     control,
     formState: { errors },
   } = useFormContext();
-
   const errorMessage = errors?.[name]?.message as string | undefined;
 
   return (
-    <div className={cn("w-full space-y-1.5", className)}>
+    <div className={`w-full space-y-1.5 ${className || ""}`}>
       {label && (
-        <Label htmlFor={name} className="text-sm font-medium text-gray-600">
+        <label
+          htmlFor={name}
+          className="text-sm font-medium text-gray-600 block"
+        >
           {label} {required && <span className="text-red-500">*</span>}
-        </Label>
+        </label>
       )}
 
       <Controller
@@ -51,46 +44,29 @@ export default function TimeInput({
         rules={{
           required: {
             value: required,
-            message: `${label || "Time"} is required`,
+            message: `${label || "Time Field"} is required`,
           },
+          ...rules, // Spread configuration rules cleanly into the validation stack
         }}
         render={({ field }) => (
-          <>
-            <Popover>
-              <PopoverTrigger className="w-full">
-                <Button
-                  type="button"
-                  variant="outline"
-                  disabled={disabled}
-                  className={cn(
-                    "h-11 w-full justify-start text-left font-normal",
-                    !field.value && "text-muted-foreground",
-                    errorMessage && "border-red-500 focus-visible:ring-red-500",
-                  )}
-                >
-                  <Clock className="mr-2 h-4 w-4 shrink-0" />
-                  <span className="truncate">{field.value || placeholder}</span>
-                </Button>
-              </PopoverTrigger>
-
-              <PopoverContent align="start" className="p-3 w-full">
-                <input
-                  id={name}
-                  type={requiredType}
-                  value={field.value || ""}
-                  onChange={(e) => field.onChange(e.target.value)}
-                  className={cn(
-                    "h-11 w-full rounded-md border bg-background px-3 py-2 text-sm",
-                    "focus:outline-none focus:ring-2 focus:ring-primary/30",
-                  )}
-                />
-              </PopoverContent>
-            </Popover>
-
+          <div className="relative">
+            <input
+              {...field}
+              type={requiredType}
+              disabled={disabled}
+              placeholder={placeholder}
+              className={`w-full px-4 py-2.5 bg-white border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#31BFC8]/20 focus:border-[#31BFC8] transition-all ${
+                errorMessage
+                  ? "border-red-500 focus:ring-red-200 focus:border-red-500"
+                  : "border-slate-200"
+              }`}
+            />
             {errorMessage && (
-              <p className="text-xs text-red-500 mt-1">{errorMessage}</p>
+              <p className="text-xs text-red-500 font-medium mt-1">
+                {errorMessage}
+              </p>
             )}
-          </>
+          </div>
         )}
       />
     </div>

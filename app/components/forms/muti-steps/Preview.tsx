@@ -2,7 +2,6 @@
 
 import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import {
   ChevronLeft,
@@ -62,26 +61,30 @@ const parsePoints = (input: unknown): string[] => {
   return [];
 };
 
-// Helper to guarantee strict Y-m-d H:i:s output from a date string and optional time string
-const formatToBackendDateTime = (
-  dateInput: string | undefined,
-  timeInput?: string,
-): string => {
-  if (!dateInput) return "2026-01-01 00:00:00";
+// Helper to convert "HH:mm" to "HH:mm:ss"
+const formatToHis = (timeStr: string | undefined): string => {
+  if (!timeStr) return "";
+  // Clean any trailing whitespace/seconds leftovers first
+  const cleanTime = timeStr.trim().split(" ")[0];
+  const parts = cleanTime.split(":");
 
-  // Clean JavaScript Date or ISO string "T" formatting out
-  const baseDate = dateInput.split("T")[0];
-  let baseTime = "00:00:00";
-
-  if (timeInput) {
-    const timeParts = timeInput.split(":");
-    if (timeParts.length === 2) {
-      baseTime = `${timeInput}:00`;
-    } else if (timeParts.length === 3) {
-      baseTime = timeInput;
-    }
+  if (parts.length === 2) {
+    return `${parts[0]}:${parts[1]}:00`; // Appends seconds
   }
-  return `${baseDate} ${baseTime}`;
+  return cleanTime;
+};
+
+// Helper to convert "YYYY-MM-DDTHH:mm" to "YYYY-MM-DD HH:mm:ss"
+const formatToYmdHis = (dateTimeStr: string | undefined): string => {
+  if (!dateTimeStr) return "";
+  // Replace the HTML "T" separator with a blank space
+  const spaceSeparated = dateTimeStr.replace("T", " ");
+  const parts = spaceSeparated.split(":");
+
+  if (parts.length === 2) {
+    return `${spaceSeparated}:00`; // Appends seconds
+  }
+  return spaceSeparated;
 };
 
 export default function Preview() {
@@ -142,78 +145,37 @@ export default function Preview() {
   }, []);
 
   const handlePublishPayload = async () => {
-    // 1. Initialize FormData object
     const formData = new FormData();
 
     try {
-      // 2. Structural Timestamp Formatting Helper (Guarantees Y-m-d H:i:s)
-      const formatToBackendDateTime = (
-        dateInput: string | undefined,
-        timeInput?: string,
-      ): string => {
-        if (!dateInput) return "2026-01-01 00:00:00"; // Absolute fallback safe date
-
-        // Clean dates out of ISO formats ("T") or standard whitespace separations
-        const baseDate = dateInput.includes("T")
-          ? dateInput.split("T")[0]
-          : dateInput.split(" ")[0];
-        let baseTime = "00:00:00";
-
-        if (timeInput) {
-          const cleanTime = timeInput.includes("T")
-            ? timeInput.split("T")[1].split(".")[0]
-            : timeInput.split(" ")[0];
-          const timeParts = cleanTime.split(":");
-          if (timeParts.length === 2) baseTime = `${cleanTime}:00`;
-          if (timeParts.length === 3) baseTime = cleanTime;
-        } else if (dateInput.includes("T") || dateInput.includes(" ")) {
-          const extractedTime = dateInput.includes("T")
-            ? dateInput.split("T")[1]
-            : dateInput.split(" ")[1];
-          const cleanExtracted = extractedTime
-            .split(".")[0]
-            .split("Z")[0]
-            .trim();
-          const parts = cleanExtracted.split(":");
-          if (parts.length === 2) baseTime = `${cleanExtracted}:00`;
-          if (parts.length === 3) baseTime = cleanExtracted;
-        }
-
-        return `${baseDate} ${baseTime}`.trim();
-      };
-
       // 3. Append Basic Deal Details & Info
       formData.append("deal_name", dealDetails?.deal_name || "");
-      formData.append("original_price", dealInfo?.regularPrice || "0");
-      formData.append("discounted_price", dealInfo?.discountedPrice || "0");
+      formData.append("original_price", String(dealInfo?.regularPrice));
+      formData.append("discounted_price", String(dealInfo?.discountedPrice));
       formData.append(
         "total_purchase_limit",
-        dealInfo?.totalPurchaseLimit || "0",
+        String(dealInfo?.totalPurchaseLimit),
       );
       formData.append(
         "max_purchase_per_customer",
-        dealInfo?.maxPurchasePerCustomer || "0",
+        String(dealInfo?.maxPurchasePerCustomer),
       );
-      formData.append("service_title", dealInfo?.voucher_name || "");
+      formData.append("service_title", String(dealInfo?.voucher_name));
       formData.append("short_description", dealDetails?.shortDescription || "");
       formData.append("category_id", dealDetails?.category || "");
 
-      // 4. Append Formatted Strict Datetime Fields
+      // 4. Append Formatted Strict Datetime Fields (Validated for H:i:s and Y-m-d H:i:s)
       formData.append(
         "available_start_time",
-        formatToBackendDateTime(dealDetails?.available_start_time),
+        formatToHis(dealDetails?.available_start_time),
       );
       formData.append(
         "available_end_time",
-        formatToBackendDateTime(dealDetails?.available_end_time),
+        formatToHis(dealDetails?.available_end_time),
       );
-      // Merges the end date with the specific cut-off hours to clear the service_end_at validation error
       formData.append(
         "service_end_at",
-        formatToBackendDateTime(
-          dealDetails?.available_end_time,
-          dealDetails?.service_end_time,
-        ),
+        formatToYmdHis(dealDetails?.service_end_time),
       );
 
       // 5. Append Overview & Location Descriptions
@@ -269,7 +231,7 @@ export default function Preview() {
         dispatch(resetDealForm());
       }
     } catch (error: any) {
-      toast.error(error?.data?.message);
+      toast.error(error?.data?.message || "Failed to publish deal.");
     }
   };
 
@@ -470,7 +432,6 @@ export default function Preview() {
               <button
                 type="button"
                 disabled
-                onClick={handlePublishPayload}
                 className="w-full h-11 bg-[#C4CDD5] text-white font-bold rounded-full text-sm"
               >
                 Book now

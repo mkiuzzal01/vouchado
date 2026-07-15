@@ -17,3 +17,15 @@ export const getBanner = () =>
     tags: ["banner"],
     revalidate: 60,
   });
+
+export const getNotification = () =>
+  api.get<any>(`/setting/notification`, {
+    tags: ["notifications"],
+    revalidate: 30,
+  });
+
+export const getPaymentMethod = () =>
+  api.get<any>(`/provider/stripe-connect`, {
+    tags: ["payment-connect"],
+    revalidate: 30,
+  });

@@ -17,6 +17,7 @@ export default async function Page() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 mt-6 items-start">
         <div className="lg:col-span-1">
           <ProviderAside
+            withdrawn_amount={profileInfo?.data?.withdrawn_amount}
             openingHours={profileInfo?.data?.business_hours}
             business_logo={profileInfo?.data?.business_logo_full_url}
           />

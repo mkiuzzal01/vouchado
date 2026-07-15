@@ -8,11 +8,20 @@ import Expried from "@/app/components/icons/Expried";
 import AlreadyRedeem from "@/app/components/icons/AlreadyRedeem";
 import { getProviderRevenueStats } from "@/actions/quires/stats.api";
 import NotFoundData from "@/app/components/shared/NotFoundData";
-import { getProviderActiveDeals } from "@/actions/quires/deals.api";
+import { getActiveDeals } from "@/actions/quires/deals.api";
 
-export default async function DealsPage() {
+interface IProps {
+  searchParams: Promise<{ search: string }>;
+}
+
+export default async function DealsPage({ searchParams }: IProps) {
+  const { search } = await searchParams;
   const revenueStats = await getProviderRevenueStats();
-  const activeDeals = await getProviderActiveDeals();
+
+  const query = new URLSearchParams();
+  if (search) query.set("search", search);
+
+  const activeDeals = await getActiveDeals(query.toString());
 
   if (!revenueStats?.data || !activeDeals?.data)
     return <NotFoundData title={"No Revenue Stats Available"} />;
@@ -59,8 +68,8 @@ export default async function DealsPage() {
   return (
     <Container className="py-6 space-y-8 bg-slate-50/50 min-h-screen">
       <CreateDealAction title="Deals" />
-      <MetricCards metrics={metricsData} />
-      <ActiveDealsTable />
+      <MetricCards stat={metricsData} />
+      <ActiveDealsTable payload={activeDeals} />
     </Container>
   );
 }

@@ -27,6 +27,14 @@ export const dealsAPI = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["deal"],
     }),
+
+    deleteDeal: builder.mutation({
+      query: (id) => ({
+        url: `/provider/deals/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["deal"],
+    }),
   }),
 });
 
@@ -34,4 +42,5 @@ export const {
   useGetCategoriesQuery,
   useCreateDealMutation,
   useVoucherRedeemMutation,
+  useDeleteDealMutation,
 } = dealsAPI;

@@ -4,19 +4,20 @@ import DealsTable from "../__components/DealsTable";
 import Container from "@/app/components/shared/Container";
 import Link from "next/link";
 import PromoCreateDeals from "./PromoCreateDeals";
+import CreateGiftVoucher from "./CreateGiftVoucher";
+import Bag from "@/app/components/icons/Bag";
 import DealSold from "@/app/components/icons/DealSold";
 import DealsRedeem from "@/app/components/icons/DealsRedeem";
 import DealYet from "@/app/components/icons/DealYet";
-import Bag from "@/app/components/icons/Bag";
-import CreateGiftVoucher from "./CreateGiftVoucher";
 
 interface Props {
   lang: string;
   stat: any;
+  purchases: any;
 }
 
-export default function Dashboard({ lang, stat }: Props) {
-  const metricsData = [
+export default async function Dashboard({ lang, stat, purchases }: Props) {
+  const metrics = [
     {
       id: 1,
       title: "Deals Sold (Total)",
@@ -61,7 +62,7 @@ export default function Dashboard({ lang, stat }: Props) {
         <CreateGiftVoucher />
 
         {/* Metric Cards Section Block Row */}
-        <MetricCards metrics={metricsData} />
+        <MetricCards stat={metrics} />
         <PromoCreateDeals />
 
         {/* Primary Analytical Data Feed Layout Container */}
@@ -76,7 +77,7 @@ export default function Dashboard({ lang, stat }: Props) {
           </div>
 
           {/* Dynamic Inner Table Grid */}
-          <DealsTable />
+          <DealsTable deal={purchases} />
         </div>
       </div>
     </Container>

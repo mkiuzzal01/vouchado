@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./__components/aside/Header";
+import { getBusniessProfile } from "@/actions/quires/user.api";
 interface LayoutProps {
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
@@ -7,10 +8,14 @@ interface LayoutProps {
 
 export default async function Layout({ children, params }: LayoutProps) {
   const { lang } = await params;
+  const profileInfo = await getBusniessProfile();
 
   return (
     <div className="flex min-h-screen flex-col pb-16 md:pb-0">
-      <Header lang={lang} />
+      <Header
+        lang={lang}
+        withdrawn_amount={profileInfo?.data?.withdrawn_amount}
+      />
       <main className="flex-1 w-full overflow-x-hidden">{children}</main>
     </div>
   );

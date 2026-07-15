@@ -1,5 +1,7 @@
 "use client";
 
+import React, { useMemo } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import {
   CartesianGrid,
@@ -23,51 +25,86 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-const chartData = [
-  { day: "01", revenue: 7.0, purchase: 2.0 },
-  { day: "02", revenue: 7.5, purchase: 2.0 },
-  { day: "03", revenue: 7.9, purchase: 2.1 },
-  { day: "04", revenue: 8.1, purchase: 2.5 },
-  { day: "05", revenue: 8.2, purchase: 3.0 },
-  { day: "06", revenue: 8.1, purchase: 3.5 },
-  { day: "07", revenue: 7.8, purchase: 4.0 },
-  { day: "08", revenue: 7.3, purchase: 4.0 },
-  { day: "09", revenue: 6.8, purchase: 3.5 },
-  { day: "10", revenue: 6.5, purchase: 3.0 },
-  { day: "11", revenue: 6.5, purchase: 2.5 },
-  { day: "12", revenue: 6.8, purchase: 2.2 },
-  { day: "13", revenue: 7.2, purchase: 2.1 },
-  { day: "14", revenue: 7.7, purchase: 2.1 },
-  { day: "15", revenue: 8.1, purchase: 2.2 },
-  { day: "16", revenue: 8.3, purchase: 2.3 },
-  { day: "17", revenue: 8.4, purchase: 2.4 },
-  { day: "18", revenue: 8.2, purchase: 2.4 },
-  { day: "19", revenue: 7.8, purchase: 2.3 },
-  { day: "20", revenue: 7.2, purchase: 2.2 },
-  { day: "21", revenue: 6.5, purchase: 2.2 },
-  { day: "22", revenue: 5.9, purchase: 2.4 },
-  { day: "23", revenue: 5.5, purchase: 2.5 },
-  { day: "24", revenue: 5.3, purchase: 2.5 },
-  { day: "25", revenue: 5.6, purchase: 2.2 },
-  { day: "26", revenue: 6.2, purchase: 2.0 },
-  { day: "27", revenue: 6.9, purchase: 1.8 },
-  { day: "28", revenue: 7.5, purchase: 1.8 },
-  { day: "29", revenue: 8.0, purchase: 1.9 },
-  { day: "30", revenue: 8.5, purchase: 1.9 },
-];
-
 const chartConfig = {
   revenue: {
     label: "Revenue",
     color: "#1ec6cc",
   },
-  purchase: {
+  purchases_count: {
     label: "Purchase",
     color: "#e2e8f0",
   },
 } satisfies ChartConfig;
 
-export default function BusinessAnalytics() {
+interface ChartDataItem {
+  date: string;
+  purchases_amount: number;
+  purchases_count: number;
+  revenue: number;
+}
+
+interface Props {
+  analytics: {
+    chart_data?: ChartDataItem[];
+    summary?: {
+      total_purchases_amount: number;
+      total_purchases_count: number;
+      total_revenue: number;
+    };
+  };
+}
+
+export default function BusinessAnalytics({ analytics }: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // Read current active matching presets
+  const currentFilter = searchParams.get("filter") || "this_month";
+
+  // Text label mapper for the trigger indicator element
+  const filterLabels: Record<string, string> = {
+    this_week: "This Week",
+    this_month: "This Month",
+    last_3_months: "Last 3 Months",
+  };
+
+  const handleFilterChange = (filterValue: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    // Set filter key
+    params.set("filter", filterValue);
+
+    // Manage date parameters if empty or needed for customized intervals
+    // If selecting standard filters, you can clear specific custom date metrics
+    params.delete("from_date");
+    params.delete("to_date");
+
+    // Push state updating router route context smoothly
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  // Extract and format data points for Recharts
+  const processedChartData = useMemo(() => {
+    if (!analytics?.chart_data || !Array.isArray(analytics.chart_data)) {
+      return [];
+    }
+
+    return analytics.chart_data.map((item) => {
+      let dayLabel = "";
+      try {
+        const parts = item.date.split("-");
+        dayLabel = parts[2] || item.date;
+      } catch {
+        dayLabel = item.date;
+      }
+      return {
+        ...item,
+        day: dayLabel,
+      };
+    });
+  }, [analytics?.chart_data]);
+
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6">
       {/* Top Header Section */}
@@ -80,28 +117,36 @@ export default function BusinessAnalytics() {
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
-              className="rounded-full bg-white text-xs font-semibold px-4 py-2 border-slate-200 text-slate-700 shadow-sm gap-2 hover:bg-slate-50"
+              className="rounded-full bg-white text-xs font-semibold px-4 py-2 border-slate-200 text-slate-700 shadow-sm gap-2 hover:bg-slate-50 capitalize"
             >
-              This Month <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+              {filterLabels[currentFilter] || "Select Filter"}{" "}
+              <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
             className="rounded-xl border-slate-100 text-xs text-slate-700"
           >
-            <DropdownMenuItem>This Week</DropdownMenuItem>
-            <DropdownMenuItem>This Month</DropdownMenuItem>
-            <DropdownMenuItem>Last 3 Months</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleFilterChange("this_week")}>
+              This Week
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleFilterChange("this_month")}>
+              This Month
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleFilterChange("last_3_months")}
+            >
+              Last 3 Months
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
 
       {/* Main Graph Card Container */}
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-        {/* Graph Inner Sub-header Legend */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-sm font-bold text-[#1ec6cc] tracking-wide">
-            Total Revenue
+            Total Revenue: ${analytics?.summary?.total_revenue ?? 0}
           </h2>
 
           <div className="flex items-center gap-6 text-xs font-semibold text-slate-400">
@@ -120,11 +165,10 @@ export default function BusinessAnalytics() {
         <ChartContainer config={chartConfig} className="h-[320px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
-              data={chartData}
+              data={processedChartData}
               margin={{ top: 20, right: 10, left: -20, bottom: 0 }}
             >
               <defs>
-                {/* Glow Filter logic to create smooth visual line drop-shadow blur effect */}
                 <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
                   <feDropShadow
                     dx={0}
@@ -135,13 +179,11 @@ export default function BusinessAnalytics() {
                   />
                 </filter>
               </defs>
-
               <CartesianGrid
                 vertical={false}
                 strokeDasharray="3 3"
                 stroke="#f1f5f9"
               />
-
               <XAxis
                 dataKey="day"
                 tickLine={false}
@@ -149,17 +191,13 @@ export default function BusinessAnalytics() {
                 tickMargin={12}
                 className="text-[11px] font-semibold text-slate-400"
               />
-
               <YAxis
-                domain={[0, 12]}
                 tickLine={false}
                 axisLine={false}
                 tickMargin={12}
-                ticks={[0, 2, 4, 6, 8, 10, 12]}
                 className="text-[11px] font-semibold text-slate-400"
+                allowDecimals={false}
               />
-
-              {/* Native Shadcn custom interactive Tooltip setup */}
               <ChartTooltip
                 cursor={{
                   stroke: "#1ec6cc",
@@ -169,18 +207,14 @@ export default function BusinessAnalytics() {
                 }}
                 content={<ChartTooltipContent />}
               />
-
-              {/* Purchase Curve (Light Gray Line) */}
               <Line
                 type="monotone"
-                dataKey="purchase"
-                stroke="var(--color-purchase)"
+                dataKey="purchases_count"
+                stroke="var(--color-purchases_count)"
                 strokeWidth={3}
                 dot={false}
                 activeDot={false}
               />
-
-              {/* Revenue Curve (Teal Main Highlighted Line) */}
               <Line
                 type="monotone"
                 dataKey="revenue"
