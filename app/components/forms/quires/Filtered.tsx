@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState, useTransition, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Slider } from "@/components/ui/slider";
@@ -21,11 +22,9 @@ export default function Filtered() {
   const [, startTransition] = useTransition();
   const lockRef = useRef(false);
 
-  // --- Accordion Open/Close States ---
   const [isRatingOpen, setIsRatingOpen] = useState(true);
   const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(true);
 
-  // --- Filter Core States ---
   const [minPrice, setMinPrice] = useState<number>(() => {
     const param = searchParams.get("min_price");
     return param ? Number(param) : DEFAULT_MIN;
@@ -48,7 +47,14 @@ export default function Filtered() {
     () => searchParams.get("availability") || null,
   );
 
-  // --- Synchronize parameters to URL ---
+  useEffect(() => {
+    setMinPrice(Number(searchParams.get("min_price")) || DEFAULT_MIN);
+    setMaxPrice(Number(searchParams.get("max_price")) || DEFAULT_MAX);
+    setLocation(searchParams.get("location") || "");
+    setSelectedRating(searchParams.get("rating") || null);
+    setAvailability(searchParams.get("availability") || null);
+  }, [searchParams]);
+
   const buildParams = () => {
     const params = new URLSearchParams(searchParams.toString());
 
@@ -70,6 +76,9 @@ export default function Filtered() {
 
     if (availability) params.set("availability", availability);
     else params.delete("availability");
+
+    // Reset page back to index 1 when parameters change
+    params.delete("page");
 
     return params;
   };
@@ -209,8 +218,6 @@ export default function Filtered() {
   );
 }
 
-// --- SUB-COMPONENTS ---
-
 interface PriceFilterProps {
   minPrice: number;
   maxPrice: number;
@@ -241,19 +248,22 @@ function PriceFilter({
           className="w-full"
         />
 
-        {/* Dynamic Labels */}
         <div className="absolute left-0 right-0 top-6 text-[13px] font-bold text-[#1F2E3D] pointer-events-none select-none">
           <span
-            className="absolute -translate-x-1/2 transition-all duration-75"
-            style={{ left: `${(minPrice / MAX_RANGE) * 100}%` }}
+            className="absolute -translate-x-1/2 transition-all duration-75 whitespace-nowrap"
+            style={{
+              left: `${Math.max(4, Math.min(96, (minPrice / MAX_RANGE) * 100))}%`,
+            }}
           >
-            ${minPrice}
+            € {minPrice}
           </span>
           <span
-            className="absolute -translate-x-1/2 transition-all duration-75"
-            style={{ left: `${(maxPrice / MAX_RANGE) * 100}%` }}
+            className="absolute -translate-x-1/2 transition-all duration-75 whitespace-nowrap"
+            style={{
+              left: `${Math.max(4, Math.min(96, (maxPrice / MAX_RANGE) * 100))}%`,
+            }}
           >
-            ${maxPrice}
+            € {maxPrice}
           </span>
         </div>
       </div>

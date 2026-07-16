@@ -24,6 +24,7 @@ type Props = {
   options: Option[];
   required?: boolean;
   className?: string;
+  disabled?: boolean;
 };
 
 export default function SelectInput({
@@ -33,6 +34,7 @@ export default function SelectInput({
   options,
   required,
   className,
+  disabled = false,
 }: Props) {
   const {
     control,
@@ -61,6 +63,7 @@ export default function SelectInput({
 
           return (
             <Select
+              disabled={disabled}
               required={required}
               value={field.value || ""}
               onValueChange={field.onChange}

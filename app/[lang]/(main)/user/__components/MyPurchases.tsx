@@ -8,10 +8,14 @@ import { PurchaseHistory, PurchaseItem } from "@/redux/types/user_profile";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 
 interface MyPurchasesProps {
+  lang: string;
   purchaseHistory: PurchaseHistory[];
 }
 
-export default function MyPurchases({ purchaseHistory }: MyPurchasesProps) {
+export default function MyPurchases({
+  purchaseHistory,
+  lang,
+}: MyPurchasesProps) {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [orderId, setOrderId] = useState<number>();
 
@@ -145,7 +149,7 @@ export default function MyPurchases({ purchaseHistory }: MyPurchasesProps) {
         isOpen={showOrderDetails}
         onClose={() => setShowOrderDetails(false)}
       >
-        <OrderDetails orderId={orderId} />
+        <OrderDetails lang={lang} orderId={orderId} />
       </ModalContainer>
     </div>
   );

@@ -66,7 +66,11 @@ export default function GiftVoucherCart({ lang, deal_id }: Props) {
         isOpen={openGiftVoucherModal}
         onClose={() => setOpenGiftVoucherModal(false)}
       >
-        <GiftVoucherForm lang={lang} deal_id={deal_id} />
+        <GiftVoucherForm
+          onClose={() => setOpenGiftVoucherModal(false)}
+          lang={lang}
+          deal_id={deal_id}
+        />
       </ModalContainer>
     </div>
   );

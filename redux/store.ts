@@ -9,6 +9,7 @@ import userReducer from "./features/user/user.slice";
 import providerReducer from "./features/provider/provider.slice";
 import dealReducer from "./features/deal/deal.slice";
 import businessReducer from "./features/provider/business_profile.slice";
+import systemReducer from "./features/system/system.slice";
 
 const rootReducer = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
@@ -19,12 +20,13 @@ const rootReducer = combineReducers({
   provider: providerReducer,
   deal: dealReducer,
   business: businessReducer,
+  system: systemReducer,
 });
 
 const persistConfig = {
   key: "vouchado",
   storage,
-  whitelist: ["auth", "cart", "wishlist", "user", "provider"],
+  whitelist: ["auth", "cart", "wishlist", "user", "system"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

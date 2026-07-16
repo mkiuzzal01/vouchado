@@ -1,8 +1,6 @@
-import { getCategories } from "@/actions/quires/cateogries.api";
-import { getDeals } from "@/actions/quires/deals.api";
 import ProductCard from "@/app/components/cards/ProductCard";
 import Filtered from "@/app/components/forms/quires/Filtered";
-import FilterWithCategory from "@/app/components/forms/quires/FilterWithCategory";
+import Sort from "@/app/components/forms/quires/Sort";
 import ReusablePagination from "@/app/components/forms/quires/ReusablePagination";
 import PromoSteps from "@/app/components/hero/PromoSteps";
 import Contact from "@/app/components/icons/Contact";
@@ -12,6 +10,8 @@ import SecurePayment from "@/app/components/icons/SecurePayment";
 import { Deal } from "@/app/components/sections/DealsNear";
 import Container from "@/app/components/shared/Container";
 import SectionHeader from "@/app/components/shared/SectionHeader";
+import NotFoundData from "@/app/components/shared/NotFoundData";
+import { getDeals } from "@/actions/quires/deals.api";
 
 export const promos = [
   {
@@ -31,19 +31,50 @@ export const promos = [
   },
   {
     title: "24/7 Support",
-    description: "In person support - no chatboot",
+    description: "In person support - no chatbot",
     icon: <Contact />,
   },
 ];
 
 interface Props {
   params: Promise<{ lang: string; slug: string }>;
+  searchParams: Promise<{
+    min_price?: string;
+    max_price?: string;
+    location?: string;
+    rating?: string;
+    availability?: string;
+    sort?: string;
+    page?: string;
+  }>;
 }
 
-export default async function page({ params }: Props) {
-  const { lang } = await params;
-  const deals = await getDeals();
-  const categories = await getCategories();
+export default async function Page({ params, searchParams }: Props) {
+  const [resolvedParams, resolvedSearchParams] = await Promise.all([
+    params,
+    searchParams,
+  ]);
+
+  const { lang, slug } = resolvedParams;
+  const { min_price, max_price, location, rating, availability, sort, page } =
+    resolvedSearchParams;
+
+  const query = new URLSearchParams();
+
+  if (slug) query.set("category_id", slug);
+  if (min_price) query.set("min_price", min_price);
+  if (max_price) query.set("max_price", max_price);
+  if (location) query.set("location", location);
+  if (rating) query.set("rating", rating);
+  if (availability) query.set("availability", availability);
+  if (sort) query.set("sort", sort);
+  if (page) query.set("page", page);
+
+  const deals = await getDeals(query.toString());
+
+  const totalDeals = String(deals?.meta?.total || deals?.data?.length || 0);
+  const currentPage = Number(page) || 1;
+  const totalPages = Number(deals?.meta?.last_page || 1);
 
   return (
     <Container>
@@ -52,21 +83,42 @@ export default async function page({ params }: Props) {
         description="Browse handpicked services for every trend, occasion and lifestyle."
       />
 
-      <div className="mt-8">
-        <FilterWithCategory categories={categories?.data || []} />
-      </div>
-      <div className="flex flex-col lg:flex-row gap-2 mt-4">
-        <div className="w-full lg:w-1/4">
+      <div className="flex flex-col lg:flex-row gap-6 mt-4">
+        {/* Left Side Filter Panel */}
+        <div className="w-full lg:w-1/4 shrink-0">
           <Filtered />
         </div>
-        <div className="flex flex-col gap-2 w-full lg:w-3/4">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-            {deals?.data?.map((deal: Deal, idx: number) => (
-              <ProductCard key={idx} lang={lang} product={deal} />
-            ))}
+
+        <div className="flex flex-col gap-4 w-full lg:w-3/4">
+          <Sort total={totalDeals} />
+
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {deals?.data?.length > 0 ? (
+              deals.data.map((deal: Deal, idx: number) => (
+                <ProductCard key={deal.id || idx} lang={lang} product={deal} />
+              ))
+            ) : (
+              <div className="col-span-full py-12">
+                <NotFoundData
+                  title="Deals not found"
+                  description="Check your filters or try adjusting your search criteria."
+                />
+              </div>
+            )}
           </div>
-          <PromoSteps steps={promos} />
-          <ReusablePagination currentPage={1} totalPages={10} />
+
+          {deals?.data?.length > 0 && (
+            <div className="mt-4">
+              <ReusablePagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+              />
+            </div>
+          )}
+
+          <div className="mt-8">
+            <PromoSteps steps={promos} />
+          </div>
         </div>
       </div>
     </Container>

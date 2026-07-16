@@ -22,6 +22,7 @@ import Menu from "../icons/Menu";
 import Location from "../icons/Location";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
+import LocationOrigin from "./LocationOrigin";
 
 interface MegaMenuProps {
   lang: string;
@@ -116,15 +117,7 @@ export default function MegaMenu({
         </div>
 
         {/* Location */}
-        <div>
-          <Link
-            href="/contact"
-            className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full bg-gray-50 border px-4 py-2 xl:px-2 xl:py-1 2xl:px-4 2xl:py-2 text-xs lg:text-sm xl:text-xs 2xl:text-base font-medium hover:bg-gray-200 transition"
-          >
-            <Location size={15} />
-            Berlin, Germany
-          </Link>
-        </div>
+        <LocationOrigin />
       </div>
 
       {/* ================= MOBILE (DRAWER STYLE) ================= */}

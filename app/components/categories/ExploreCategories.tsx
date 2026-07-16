@@ -54,7 +54,7 @@ export default function ExploreCategories({ categories }: Props) {
       >
         {categories?.map((category: Category, index: any) => (
           <SwiperSlide key={index}>
-            <Link href={`/category/${category?.name}`} className="block">
+            <Link href={`/category/${category?.id}`} className="block">
               <div className="relative flex justify-between h-[176px] py-[32px] px-2 cursor-pointer flex-col items-center gap-3 rounded-2xl bg-white border transition  hover:shadow-xl hover:-translate-y-1">
                 {category.is_trending && (
                   <span className="absolute top-4 right-4 bg-[#FF4141] text-white text-xs font-medium px-3 py-1 rounded-full">

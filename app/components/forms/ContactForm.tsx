@@ -14,14 +14,14 @@ interface Props {
 
 export default function ContactForm({ locale }: Props) {
   const router = useRouter();
-  const [contact] = useContactMutation();
+  const [contact, { isLoading }] = useContactMutation();
 
   const onSubmit = async (data: FieldValues, reset: () => void) => {
     try {
       const res = await contact(data).unwrap();
       if (res?.message) {
-        toast.success(res?.message);
         reset();
+        toast.success(res?.message);
         router.refresh();
       }
     } catch (error: any) {
@@ -69,6 +69,7 @@ export default function ContactForm({ locale }: Props) {
 
           <div className="flex justify-end">
             <SubmitButton
+              isLoading={isLoading}
               title="Send Message"
               className="bg-[#2bc4ca] hover:bg-[#23aab0] active:scale-[0.98] text-white font-bold px-10 py-4 h-auto rounded-full shadow-md shadow-[#2bc4ca]/10 transition-all text-base tracking-wide"
             />

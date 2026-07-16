@@ -7,11 +7,12 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
 interface Props {
-  deal_id: number;
-  lang: string;
+  lang?: string;
+  deal_id?: number;
+  onClose?: () => void;
 }
 
-export default function GiftVoucherForm({ lang, deal_id }: Props) {
+export default function GiftVoucherForm({ lang, deal_id, onClose }: Props) {
   const router = useRouter();
   const [giftVoucherPurchase, { isLoading }] = useGiftVoucherPurchaseMutation();
 
@@ -26,9 +27,10 @@ export default function GiftVoucherForm({ lang, deal_id }: Props) {
       if (res?.url) {
         setTimeout(() => {
           toast.success("Redirecting to payment page");
-          router.push(res?.url || "/");
+          router.push(res?.url || `/${lang}`);
         }, 1000);
       }
+      onClose?.();
     } catch (error: any) {
       if (!error?.data?.status) {
         toast.error(error?.data?.message || "Something went wrong");

@@ -24,7 +24,7 @@ export default function NotFoundData({
 }: NotFoundDataProps) {
   return (
     <div
-      className={`flex flex-col items-center justify-center text-center py-12 px-4 ${className}`}
+      className={`w-full flex flex-col items-center justify-center text-center py-12 px-4 ${className}`}
     >
       {/* Icon */}
       <div className="mb-3">{icon}</div>

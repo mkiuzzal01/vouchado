@@ -57,6 +57,7 @@ export default function TextArea({
             <Textarea
               id={name}
               {...field}
+              value={field.value ?? ""}
               rows={rows}
               placeholder={placeholder}
               disabled={disabled}

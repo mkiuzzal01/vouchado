@@ -15,6 +15,7 @@ interface TextInputProps {
   className?: string;
   inputClassName?: string;
   required?: boolean;
+  disabled?: boolean;
   rules?: Omit<
     RegisterOptions,
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
@@ -30,6 +31,7 @@ export default function TextInput({
   required,
   className,
   rules,
+  disabled = false,
   inputClassName,
 }: TextInputProps) {
   const {
@@ -71,6 +73,8 @@ export default function TextInput({
               <Input
                 id={name}
                 {...field}
+                disabled={disabled}
+                value={field.value ?? ""}
                 type={isPassword ? (showPassword ? "text" : "password") : type}
                 placeholder={placeholder}
                 className={cn(

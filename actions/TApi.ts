@@ -28,7 +28,7 @@ export const api = {
 
   post: async <T>(
     url: string,
-    body?: unknown,
+    body?: any,
     options?: Omit<Parameters<typeof apiFetch>[1], "method" | "body">,
   ) => {
     const headers = await getHeaders();
@@ -43,7 +43,7 @@ export const api = {
 
   patch: async <T>(
     url: string,
-    body?: unknown,
+    body?: any,
     options?: Omit<Parameters<typeof apiFetch>[1], "method" | "body">,
   ) => {
     const headers = await getHeaders();

@@ -1,30 +1,36 @@
 "use client";
 import { Category } from "@/redux/types/categoris";
-import { useState } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 export interface FilterWithCategoryProps {
   onCategoryChange?: (id: string | number) => void;
-  initialSelectedId?: string | number;
   className?: string;
   categories: Category[];
 }
 
 export default function FilterWithCategory({
   onCategoryChange,
-  initialSelectedId = "all",
   className = "",
   categories = [],
 }: FilterWithCategoryProps) {
-  const [selectedId, setSelectedId] = useState<string | number>(
-    initialSelectedId,
-  );
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const selectedId = searchParams.get("category_id") || "all";
 
   const handleSelect = (id: string | number) => {
-    setSelectedId(id);
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (id === "all") {
+      params.delete("category_id");
+    } else {
+      params.set("category_id", id.toString());
+    }
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
     onCategoryChange?.(id);
   };
 
-  // Shared button style generator to keep the code DRY
   const getButtonClass = (isActive: boolean) => `
     flex items-center gap-2 px-5 h-[46px]
     rounded-xl text-sm font-medium
@@ -52,7 +58,6 @@ export default function FilterWithCategory({
           snap-x snap-mandatory
         "
       >
-        {/* 1. Default "All" Button */}
         <button
           onClick={() => handleSelect("all")}
           className={getButtonClass(selectedId === "all")}
@@ -62,7 +67,7 @@ export default function FilterWithCategory({
 
         {/* 2. Dynamic Categories List */}
         {categories?.map((cat) => {
-          const isActive = selectedId === cat.id;
+          const isActive = selectedId === cat.id.toString();
 
           return (
             <button

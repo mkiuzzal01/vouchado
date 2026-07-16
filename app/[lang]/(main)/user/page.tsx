@@ -7,13 +7,15 @@ import {
 } from "@/actions/quires/user.api";
 
 interface Props {
+  params: Promise<{ lang: string }>;
   searchParams: Promise<{
     order_number?: string;
   }>;
 }
 
-export default async function Page({ searchParams }: Props) {
+export default async function Page({ searchParams, params }: Props) {
   const { order_number } = await searchParams;
+  const { lang } = await params;
 
   const [userProfile, purchaseHistory] = await Promise.all([
     getUserProfile(),
@@ -28,7 +30,7 @@ export default async function Page({ searchParams }: Props) {
   return (
     <div className="space-y-4">
       <PersonalInfo userProfile={userProfile?.data} />
-      <MyPurchases purchaseHistory={purchaseHistory?.data} />
+      <MyPurchases lang={lang} purchaseHistory={purchaseHistory?.data} />
     </div>
   );
 }

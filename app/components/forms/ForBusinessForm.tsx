@@ -36,18 +36,21 @@ export default function ForBusinessForm({ lang }: Props) {
           {/* Input Grid Structure matching image_42eaf7.png */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             <TextInput
+              disabled
               label="Business Name"
               name="businessName"
               placeholder="Enter your business name"
             />
 
             <TextInput
+              disabled
               label="Contact Person"
               name="contactPerson"
               placeholder="Enter your name"
             />
 
             <TextInput
+              disabled
               label="Email Address"
               type="email"
               name="emailAddress"
@@ -55,6 +58,7 @@ export default function ForBusinessForm({ lang }: Props) {
             />
 
             <TextInput
+              disabled
               label="Phone Number"
               type="tel"
               name="phoneNumber"
@@ -62,6 +66,7 @@ export default function ForBusinessForm({ lang }: Props) {
             />
 
             <SelectInput
+              disabled
               label="Business Category"
               name="businessCategory"
               options={[
@@ -81,6 +86,7 @@ export default function ForBusinessForm({ lang }: Props) {
             />
 
             <TextInput
+              disabled
               label="City"
               name="city"
               placeholder="Enter your city name"

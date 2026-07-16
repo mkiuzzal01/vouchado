@@ -4,18 +4,25 @@ import LocationIcon from "@/app/components/icons/LocationIcon";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import ReusableAlert from "@/app/components/shared/ReusableAlart";
 import Loader from "@/app/loading";
+import { useCreateConversationMutation } from "@/redux/features/conversional/conversional.api";
 import { useGetOrderDetailsQuery } from "@/redux/features/user/user.api";
 import { OrderItem } from "@/redux/types/user_profile";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 interface OrderDetailsProps {
+  lang: string;
   orderId?: number;
 }
 
-export default function OrderDetails({ orderId }: OrderDetailsProps) {
+export default function OrderDetails({ lang, orderId }: OrderDetailsProps) {
   const [dialogType, setDialogType] = useState<"cancel" | null>(null);
+  const router = useRouter();
+  const [createConversation, { isLoading: isChatLoading }] =
+    useCreateConversationMutation();
 
   const {
     data: orderDetails,
@@ -37,8 +44,21 @@ export default function OrderDetails({ orderId }: OrderDetailsProps) {
 
   const order = orderDetails.data;
 
-  const handleChatWithSeller = (dealId: string) => {
-    console.log(dealId, "dealId");
+  const handleChatWithSeller = async (providerId: number) => {
+    const data = {
+      receiver_id: providerId,
+    };
+    try {
+      const res = await createConversation(data).unwrap();
+      if (res?.status) {
+        router.push(`/${lang}/chat?id=${res?.data?.id}`);
+      }
+    } catch (error: any) {
+      if (!error?.data?.status) {
+        toast.warn("Please Login to chat with support");
+        router.push(`/${lang}/login`);
+      }
+    }
   };
 
   return (
@@ -105,7 +125,7 @@ export default function OrderDetails({ orderId }: OrderDetailsProps) {
                 </Link>
                 <div className="flex-1 sm:flex-initial">
                   <button
-                    onClick={() => handleChatWithSeller(item?.slug)}
+                    onClick={() => handleChatWithSeller(item?.providerId)}
                     className="w-full text-center border border-gray-200 text-gray-500 hover:bg-gray-50 text-[11px] font-bold px-4 py-2 rounded-full transition-colors"
                   >
                     Chat with Seller

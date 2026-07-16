@@ -69,7 +69,7 @@ export default function ProductCard({ lang, product }: Props) {
           {product?.distance && (
             <div className="flex justify-center items-center gap-1 bg-white/80 text-gray-800 text-[10px] sm:text-xs font-bold px-2 sm:px-2.5 py-1 rounded-full shadow-sm">
               <PinLocation />
-              <div>{product?.distance}</div>
+              <span>{Number(product?.distance).toFixed(1)} km</span>
             </div>
           )}
 
