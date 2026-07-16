@@ -1,17 +1,44 @@
 "use client";
 
 import LocationIcon from "@/app/components/icons/LocationIcon";
+import NotFoundData from "@/app/components/shared/NotFoundData";
 import ReusableAlert from "@/app/components/shared/ReusableAlart";
+import Loader from "@/app/loading";
+import { useGetOrderDetailsQuery } from "@/redux/features/user/user.api";
+import { OrderItem } from "@/redux/types/user_profile";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function OrderDetails() {
+interface OrderDetailsProps {
+  orderId?: number;
+}
+
+export default function OrderDetails({ orderId }: OrderDetailsProps) {
   const [dialogType, setDialogType] = useState<"cancel" | null>(null);
 
+  const {
+    data: orderDetails,
+    isLoading,
+    error,
+  } = useGetOrderDetailsQuery(orderId);
+
   const handleCancelOrder = () => {
-    // Add your cancellation API logic here if needed
     setDialogType(null);
+  };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error || !orderDetails?.data) {
+    return <NotFoundData title="No orders found" />;
+  }
+
+  const order = orderDetails.data;
+
+  const handleChatWithSeller = (dealId: string) => {
+    console.log(dealId, "dealId");
   };
 
   return (
@@ -20,18 +47,22 @@ export default function OrderDetails() {
       <div className="space-y-4">
         <h3 className="text-xl font-bold text-gray-800">Services</h3>
 
-        {[1, 2].map((item) => (
+        {order.items?.map((item: OrderItem) => (
           <div
-            key={item}
+            key={item.id}
             className="flex flex-col sm:flex-row gap-4 p-3 border border-gray-100 rounded-2xl bg-white shadow-sm"
           >
             {/* Service Thumbnail */}
             <div className="relative w-full h-48 sm:w-[180px] sm:h-[180px] shrink-0">
               <Image
-                src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=180&q=80"
-                alt="Service location"
+                src={
+                  item.image ||
+                  "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=180&q=80"
+                }
+                alt={item.title || "Service location"}
                 fill
                 className="object-cover rounded-xl"
+                sizes="(max-width: 640px) 100vw, 180px"
               />
             </div>
 
@@ -39,10 +70,10 @@ export default function OrderDetails() {
             <div className="flex-1 min-w-0 flex flex-col justify-between space-y-3 sm:space-y-2">
               <div className="space-y-1">
                 <span className="inline-block px-2 py-1 bg-[#EFF0F1CC] text-gray-800 font-medium text-[10px] rounded-full">
-                  Beauty and Wellness
+                  {item.deal_name || "Deal"}
                 </span>
                 <h4 className="text-base sm:text-xl font-normal text-gray-900 truncate">
-                  Live Concert Tickets for Summer Fest
+                  {item.title}
                 </h4>
                 <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500 font-medium">
                   <span className="flex items-center gap-0.5 text-amber-500">
@@ -51,7 +82,7 @@ export default function OrderDetails() {
                   <div className="flex items-center gap-1">
                     <LocationIcon color="#637381" size={16} />
                     <span className="text-gray-700 font-medium">
-                      New York, NY
+                      {item.location}
                     </span>
                   </div>
                 </div>
@@ -64,16 +95,22 @@ export default function OrderDetails() {
                     View Coupon
                   </button>
                 </Link>
-                <Link href="/en/view/1" className="flex-1 sm:flex-initial">
+                <Link
+                  href={`/en/view/${item.slug}`}
+                  className="flex-1 sm:flex-initial"
+                >
                   <button className="w-full text-center border border-gray-200 text-gray-500 hover:bg-gray-50 text-[11px] font-bold px-4 py-2 rounded-full transition-colors">
                     View Details
                   </button>
                 </Link>
-                <Link href={"/en/chat"} className="flex-1 sm:flex-initial">
-                  <button className="w-full text-center border border-gray-200 text-gray-500 hover:bg-gray-50 text-[11px] font-bold px-4 py-2 rounded-full transition-colors">
+                <div className="flex-1 sm:flex-initial">
+                  <button
+                    onClick={() => handleChatWithSeller(item?.slug)}
+                    className="w-full text-center border border-gray-200 text-gray-500 hover:bg-gray-50 text-[11px] font-bold px-4 py-2 rounded-full transition-colors"
+                  >
                     Chat with Seller
                   </button>
-                </Link>
+                </div>
               </div>
             </div>
           </div>
@@ -99,33 +136,33 @@ export default function OrderDetails() {
             Sub Total
           </div>
           <div className="text-center text-sm sm:text-2xl font-semibold text-gray-600">
-            02
+            {String(order.item_count).padStart(2, "0")}
           </div>
           <div className="text-right text-sm sm:text-2xl font-semibold text-gray-800">
-            € 468.86
+            € {parseFloat(order.subtotal).toFixed(2)}
           </div>
         </div>
 
         {/* Breakdowns */}
         <div className="space-y-2 border-b border-gray-200/60 pb-3 text-xs sm:text-sm font-semibold text-gray-500">
           <div className="flex justify-between">
-            <span>Vat (20%)</span>
-            <span className="text-gray-800">€ 11.65</span>
+            <span>Coupon Discount</span>
+            <span className="text-rose-500">
+              -€ {parseFloat(order.coupon_discount).toFixed(2)}
+            </span>
           </div>
           <div className="flex justify-between">
-            <span>voucher Discount</span>
-            <span className="text-rose-500">-€ 10.00</span>
-          </div>
-          <div className="flex justify-between">
-            <span>Vouchado voucher</span>
-            <span className="text-rose-500">-€ 50.00</span>
+            <span>Voucher Discount</span>
+            <span className="text-rose-500">
+              -€ {parseFloat(order.voucher_discount).toFixed(2)}
+            </span>
           </div>
         </div>
 
         {/* Total Block */}
         <div className="flex justify-between items-center text-lg sm:text-2xl font-semibold text-gray-900 pt-1">
           <span>Total</span>
-          <span>€ 516.31</span>
+          <span>€ {parseFloat(order.total).toFixed(2)}</span>
         </div>
       </div>
 

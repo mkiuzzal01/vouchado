@@ -27,6 +27,14 @@ export const createUserApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["user"],
     }),
+
+    getOrderDetails: builder.query({
+      query: (orderId) => ({
+        url: `/user/order-details/${orderId}`,
+        method: "GET",
+      }),
+      providesTags: ["order"],
+    }),
   }),
 });
 
@@ -34,4 +42,5 @@ export const {
   useUpdateUserProfileMutation,
   useChangePasswordMutation,
   useDeleteAccountMutation,
+  useGetOrderDetailsQuery,
 } = createUserApi;

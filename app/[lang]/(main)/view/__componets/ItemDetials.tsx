@@ -149,7 +149,8 @@ export default function ItemDetails({ lang, details }: Props) {
       }
     } catch (error: any) {
       if (!error?.data?.status) {
-        toast.warn("Please Login to add this item to your wishlist");
+        toast.warn("Please Login to chat with support");
+        router.push(`/${lang}/login`);
       }
     }
   };

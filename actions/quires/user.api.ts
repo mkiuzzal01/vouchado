@@ -29,3 +29,21 @@ export const getNotifications = () =>
     tags: ["notifications"],
     revalidate: 60,
   });
+
+export const getUserPurchaseHistory = () =>
+  api.get<any>(`/user/purchase-history`, {
+    tags: ["user"],
+    revalidate: 60,
+  });
+
+export const getOrderDetails = (order_number: string) =>
+  api.get<any>(`/user/order-details/${order_number}`, {
+    tags: ["order"],
+    revalidate: 60,
+  });
+
+export const recentActivity = () =>
+  api.get<any>(`/user/recent-activities`, {
+    tags: ["user"],
+    revalidate: 60,
+  });

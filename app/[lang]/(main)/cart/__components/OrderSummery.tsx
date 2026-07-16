@@ -1,13 +1,20 @@
 import RedeemForm from "@/app/components/forms/RedeemForm";
 import ModalContainer from "@/app/components/shared/ModalContainer";
-import { useAppSelector } from "@/redux/hooks/globalhooks";
-import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { useState } from "react";
 import TrustSection from "./TrustSection";
 import OrderSummery from "@/app/components/icons/OrderSummery";
+import { useCreateOrderMutation } from "@/redux/features/order/order.api";
+import { toast } from "react-toastify";
+import { clearCart } from "@/redux/features/cart/cart.slice";
+import { useRouter } from "next/navigation";
+import { Loader2 } from "lucide-react";
 
 export default function OrderSummary() {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
   const { items, subTotal, totalPrice, couponDiscount, vatRate } =
     useAppSelector((state) => state.cart);
 
@@ -17,6 +24,26 @@ export default function OrderSummary() {
   );
 
   const vatAmount = subTotal * vatRate;
+
+  const handleCheckout = async () => {
+    const payload = {
+      items: items.map((item) => ({
+        deal_id: item.id,
+        quantity: item.selectedQuantity,
+      })),
+    };
+
+    try {
+      const res = await createOrder(payload).unwrap();
+      if (res?.message) {
+        toast.success(res.message);
+        dispatch(clearCart());
+        router.replace(res?.data?.checkout_url);
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Something went wrong");
+    }
+  };
 
   return (
     <div className="w-full flex flex-col gap-4">
@@ -110,14 +137,17 @@ export default function OrderSummary() {
         </div>
 
         {/* Checkout */}
-        <Link href={`/en/checkout`}>
-          <button
-            disabled={!items.length}
-            className="w-full bg-[#2bb3bb] hover:bg-[#239aa1] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-full transition-colors"
-          >
-            Proceed to Checkout
-          </button>
-        </Link>
+        <button
+          onClick={handleCheckout}
+          disabled={!items.length}
+          className="flex justify-center items-center w-full bg-[#2bb3bb] hover:bg-[#239aa1] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-full transition-colors"
+        >
+          {isLoading ? (
+            <Loader2 className="animate-spin" />
+          ) : (
+            "Proceed to Checkout"
+          )}
+        </button>
         {/* Trust Section */}
         <TrustSection totalPrice={totalPrice} />
       </div>

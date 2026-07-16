@@ -2,6 +2,7 @@
 import UserUpdateForm from "@/app/components/forms/UserUpdateForm";
 import Edit from "@/app/components/icons/Edit";
 import ModalContainer from "@/app/components/shared/ModalContainer";
+import NotFoundData from "@/app/components/shared/NotFoundData";
 import { IUserProfile } from "@/redux/types/user_profile";
 import Image from "next/image";
 import { useState } from "react";
@@ -12,6 +13,8 @@ interface PersonalInfoProps {
 
 export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  if (!userProfile) return <NotFoundData description="No profile found" />;
 
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm relative">
