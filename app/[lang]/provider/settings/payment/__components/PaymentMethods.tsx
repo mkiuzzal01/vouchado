@@ -34,7 +34,11 @@ export default function PaymentMethods({ paymentMethod, onClose }: Props) {
           stripe_connect_account_id: paymentMethod?.stripe_connect_account_id,
         }}
       >
-        <TextInput name="stripe_connect_account_id" label="Account Number" />
+        <TextInput
+          name="stripe_connect_account_id"
+          label="Account Number"
+          placeholder="Please enter your stripe connect account id"
+        />
         <SubmitButton title="Save" isLoading={isLoading} />
       </AppForm>
     </div>

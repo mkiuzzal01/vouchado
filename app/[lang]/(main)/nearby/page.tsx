@@ -47,7 +47,7 @@ interface Props {
     location?: string;
     rating?: string;
     availability?: string;
-    page?: string;
+    popular?: string;
   }>;
 }
 
@@ -65,7 +65,7 @@ export default async function page({ params, searchParams }: Props) {
     location,
     rating,
     availability,
-    page,
+    popular,
   } = resolvedSearchParams;
 
   const query = new URLSearchParams();
@@ -76,7 +76,7 @@ export default async function page({ params, searchParams }: Props) {
   if (location) query.set("location", location);
   if (rating) query.set("rating", rating);
   if (availability) query.set("availability", availability);
-  if (page) query.set("page", page);
+  if (popular) query.set("popular", popular);
 
   const deals = await getDeals(query.toString());
   const categories = await getCategories();

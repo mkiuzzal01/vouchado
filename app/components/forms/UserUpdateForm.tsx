@@ -3,10 +3,12 @@ import AppForm from "./AppForm";
 import FileInput from "./inputs/FileInput";
 import { FieldValues } from "react-hook-form";
 import SubmitButton from "../buttons/SubmitButton";
-import { Home, Mail, Phone, User, Globe, Building2, X } from "lucide-react";
+import { User, Mail, Phone, Globe, Building2 } from "lucide-react";
 import { IUserProfile } from "@/redux/types/user_profile";
 import { useUpdateUserProfileMutation } from "@/redux/features/user/user.api";
 import { toast } from "react-toastify";
+import AddressInput from "./inputs/AddressInput";
+import { useState } from "react";
 
 interface UserUpdateFormProps {
   onClose?: () => void;
@@ -17,13 +19,17 @@ export default function UserUpdateForm({
   onClose,
   userProfile,
 }: UserUpdateFormProps) {
+  const [location, setLocation] = useState({
+    value: userProfile?.address || "",
+    coordinates: { lat: 0, lng: 0 },
+  });
+
   const [updateUserProfile, { isLoading }] = useUpdateUserProfileMutation();
 
   const defaultValues = {
     fullName: userProfile?.name,
     number: userProfile?.phone,
     email: userProfile?.email,
-    fullAddress: userProfile?.address,
     country: userProfile?.country,
     city: userProfile?.city,
   };
@@ -32,22 +38,22 @@ export default function UserUpdateForm({
     const formData = new FormData();
 
     formData.append("fullName", data.fullName);
-    formData.append("number", data.number);
+    formData.append("phone", data.number);
     formData.append("email", data.email);
-    formData.append("fullAddress", data.fullAddress);
+    formData.append("address", location.value);
     formData.append("country", data.country);
     formData.append("city", data.city);
 
-    if (data.avatar) {
-      formData.append("avatar", data.avatar);
+    if (data?.avatar && !(typeof data?.avatar === "string")) {
+      formData.append("avatar", data?.avatar);
     }
 
     try {
       const res = await updateUserProfile(formData).unwrap();
-      toast.success(res.message);
+      toast.success(res.message || "Profile updated successfully");
       onClose?.();
     } catch (error: any) {
-      toast.error(error.data.message);
+      toast.error(error?.data?.message || "Something went wrong");
     }
   };
 
@@ -55,7 +61,6 @@ export default function UserUpdateForm({
     <div>
       <AppForm onSubmit={onSubmit} defaultValues={defaultValues}>
         <div className="space-y-5">
-          {/* Centered Profile Avatar Input */}
           <div className="flex justify-center mb-6">
             <FileInput
               defaultImage={userProfile?.avatar_full_url ?? ""}
@@ -67,7 +72,7 @@ export default function UserUpdateForm({
 
           {/* Form Fields Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4">
-            {/* Full Name spans across both columns */}
+            {/* Full Name */}
             <div className="sm:col-span-2">
               <TextInput
                 icon={<User size={16} className="text-gray-400" />}
@@ -77,7 +82,7 @@ export default function UserUpdateForm({
               />
             </div>
 
-            {/* Row 2: Number & Email Address */}
+            {/* Number & Email Address */}
             <div>
               <TextInput
                 icon={<Phone size={16} className="text-gray-400" />}
@@ -95,17 +100,20 @@ export default function UserUpdateForm({
               />
             </div>
 
-            {/* Full Address spans across both columns */}
+            {/* Google Places Autocomplete Address Input Field */}
             <div className="sm:col-span-2">
-              <TextInput
-                icon={<Home size={16} className="text-gray-400" />}
-                name="fullAddress"
-                label="Full Address"
-                placeholder="2972 Westheimer Rd. Santa Ana, Illinois 85486"
+              <AddressInput
+                value={location.value}
+                onChange={(value, coordinates) => {
+                  setLocation({
+                    value,
+                    coordinates: coordinates || { lat: 0, lng: 0 },
+                  });
+                }}
               />
             </div>
 
-            {/* Row 4: Country & City */}
+            {/* Country & City */}
             <div>
               <TextInput
                 icon={<Globe size={16} className="text-gray-400" />}

@@ -154,3 +154,11 @@ export interface Category {
   created_at: string;
   updated_at: string;
 }
+
+export interface Activity {
+  title: string;
+  points: string;
+  type: "earn" | "redeem";
+  date: string;
+  timestamp: number;
+}

@@ -2,16 +2,21 @@ import Container from "@/app/components/shared/Container";
 import PurchasesTable from "./__components/PurchasesTable";
 import MetricCards from "../__components/MetricCards";
 import CreateDealAction from "./__components/CreateDealAction";
-import Filter from "@/app/components/icons/Filter";
 import { getProviderStats } from "@/actions/quires/stats.api";
 import { getPurchasedDeals } from "@/actions/quires/deals.api";
 import Bag from "@/app/components/icons/Bag";
 import DealSold from "@/app/components/icons/DealSold";
 import DealsRedeem from "@/app/components/icons/DealsRedeem";
 import DealYet from "@/app/components/icons/DealYet";
+import FilterDeals from "./__components/FilterDeals";
 
-export default async function Page() {
+interface Props {
+  searchParams: Promise<{}>;
+}
+
+export default async function Page({ searchParams }: Props) {
   const stats = await getProviderStats();
+  const query = await searchParams;
   const purchases = await getPurchasedDeals();
 
   const metrics = [
@@ -67,10 +72,7 @@ export default async function Page() {
             </h2>
 
             {/* Action Filter Pill Trigger */}
-            <button className="flex items-center gap-1.5 py-3 px-4 bg-[#31BFC8] text-white rounded-full text-xs font-bold hover:bg-[#4FC4CF] transition-colors shadow-sm">
-              <Filter />
-              Filter
-            </button>
+            <FilterDeals />
           </div>
 
           {/* Detailed Data Table Layout */}

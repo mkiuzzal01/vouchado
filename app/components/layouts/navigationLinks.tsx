@@ -7,11 +7,11 @@ export const getServices = async (lang: string): Promise<Category[]> => {
   const categories = await getCategories();
 
   return categories?.data?.map((category: Category) => ({
-    title: category.name,
-    href: `/${lang}/category/${category.slug}`,
-    subMenu: category.child_categories.map((subCategory: ChildCategory) => ({
-      title: subCategory.name,
-      href: `/${lang}/category/${subCategory.slug}`,
+    title: category?.name,
+    href: `/${lang}/category/${category?.id}`,
+    subMenu: category?.child_categories?.map((subCategory: ChildCategory) => ({
+      title: subCategory?.name,
+      href: `/${lang}/category/${subCategory?.id}`,
     })),
   }));
 };

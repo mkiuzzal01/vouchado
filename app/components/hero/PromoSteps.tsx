@@ -10,7 +10,7 @@ interface Props {
 
 export default function PromoSteps({ steps }: Props) {
   return (
-    <div className="pb-6">
+    <div className="py-6">
       <div className="border border-[#DFE3E8] rounded-3xl">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
           {steps.map((item, idx) => (

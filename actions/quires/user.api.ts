@@ -42,7 +42,7 @@ export const getOrderDetails = (order_number: string) =>
     revalidate: 60,
   });
 
-export const recentActivity = () =>
+export const GetRecentActivity = () =>
   api.get<any>(`/user/recent-activities`, {
     tags: ["user"],
     revalidate: 60,

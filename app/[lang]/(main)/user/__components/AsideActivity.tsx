@@ -1,39 +1,18 @@
 import Redeem from "@/app/components/icons/Redeem";
 import SpaBooking from "@/app/components/icons/SpaBooking";
 import UsOlympic from "@/app/components/icons/UsOlympic";
+import NotFoundData from "@/app/components/shared/NotFoundData";
+import { Activity } from "@/redux/types/user_profile";
 
-const activities = [
-  {
-    id: 1,
-    name: "Spa booking",
-    points: "+100",
-    icon: <SpaBooking size={40} />,
-    isPositive: true,
-  },
-  {
-    id: 2,
-    name: "US Olympic & Paralym...",
-    points: "+50",
-    icon: <UsOlympic />,
-    isPositive: true,
-  },
-  {
-    id: 3,
-    name: "Redeemed €50 vou...",
-    points: "-1000",
-    icon: <Redeem />,
-    isPositive: false,
-  },
-  {
-    id: 4,
-    name: "Spa booking",
-    points: "+100",
-    icon: <SpaBooking />,
-    isPositive: true,
-  },
-];
+interface IAsideActivity {
+  recentActivities: Activity[];
+}
 
-export default function AsideActivity() {
+export default function AsideActivity({ recentActivities }: IAsideActivity) {
+  if (!recentActivities || recentActivities.length === 0) {
+    return <NotFoundData description="No recent activities found" />;
+  }
+
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-5">
       <h3 className="text-xl font-bold text-gray-800 mb-3">
@@ -41,19 +20,21 @@ export default function AsideActivity() {
       </h3>
 
       <div className="space-y-2">
-        {activities.map((act) => (
+        {recentActivities.map((act, index) => (
           <div
-            key={act.id}
+            key={index}
             className="flex items-center justify-between border border-gray-100 p-1 rounded-xl"
           >
             <div className="flex items-center gap-2">
-              {act.icon}
-              <p className="text-sm lg:text-lg font-semibold text-[#212B36] truncate">
-                {act.name}
+              {act.type === "earn" ? <SpaBooking /> : <Redeem />}
+              <p className="text-sm lg:text-lg font-semibold text-[#212B36]">
+                {act.title}
               </p>
             </div>
             <p
-              className={`text-xl lg:text-2xl font-bold shrink-0 ${act.isPositive ? "text-teal-600" : "text-rose-500"}`}
+              className={`text-xl lg:text-2xl font-bold shrink-0 ${
+                act.type === "earn" ? "text-teal-600" : "text-rose-500"
+              }`}
             >
               {act.points}
             </p>

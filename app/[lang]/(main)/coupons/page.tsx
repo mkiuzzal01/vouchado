@@ -1,19 +1,19 @@
 import PageHero from "@/app/components/hero/PageHero";
-import QRCode from "@/app/components/icons/QRCode";
 import UsedVoucher from "@/app/components/icons/UsedVoucher";
 import Container from "@/app/components/shared/Container";
 import Promotions from "@/public/section-headers/Hero Section (3).png";
 import { Info, RotateCw } from "lucide-react";
+import { getUnusedVochers } from "@/actions/quires/voucher.api";
+import { Voucher } from "@/redux/types/voucher";
+import QRCode from "./__components/QRCode";
+import NotFoundData from "@/app/components/shared/NotFoundData";
 
-export default function Page() {
-  const vouchers = Array(3).fill({
-    id: "#16544AFG646",
-    qty: "09",
-    dealName:
-      "Admission to Iconic & Award-Winning US Olympic & Paralympic Interactive Museum for All-Ages",
-    payment: "216.80",
-    expiryDate: "24th October at 10:30 AM",
-  });
+export default async function Page() {
+  const unredeemed = await getUnusedVochers();
+  const vouchers = unredeemed?.data?.data as Voucher[];
+
+  if (!vouchers?.length)
+    return <NotFoundData description="No unused voucher" />;
 
   return (
     <div>
@@ -28,7 +28,7 @@ export default function Page() {
 
           {/* Voucher List Container */}
           <div className="space-y-6">
-            {vouchers.map((voucher, index) => (
+            {vouchers?.map((voucher: Voucher, index: number) => (
               <div
                 key={index}
                 className="bg-white border border-gray-100 rounded-2xl flex flex-col md:flex-row overflow-hidden"
@@ -42,7 +42,7 @@ export default function Page() {
                         Voucher ID
                       </span>
                       <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 break-all">
-                        {voucher.id}
+                        # {voucher.id}
                       </span>
                     </div>
 
@@ -51,7 +51,7 @@ export default function Page() {
                         Qty
                       </span>
                       <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">
-                        {voucher.qty}
+                        {voucher?.quantity}
                       </span>
                     </div>
                   </div>
@@ -63,7 +63,7 @@ export default function Page() {
                     </span>
 
                     <p className="text-sm sm:text-base md:text-lg text-gray-800 font-semibold md:text-right md:max-w-md">
-                      {voucher.dealName}
+                      {voucher?.deal_name}
                     </p>
                   </div>
 
@@ -74,7 +74,7 @@ export default function Page() {
                     </span>
 
                     <span className="text-lg md:text-2xl font-semibold text-gray-950">
-                      € {voucher.payment}
+                      € {voucher.price}
                     </span>
                   </div>
 
@@ -85,7 +85,7 @@ export default function Page() {
                     </span>
 
                     <span className="text-sm md:text-lg font-medium text-gray-950">
-                      {voucher.expiryDate}
+                      {voucher.expire_date}
                     </span>
                   </div>
                 </div>
@@ -93,7 +93,7 @@ export default function Page() {
                 {/* QR Code */}
                 <div className="flex items-center justify-center p-5 md:p-6 border-t md:border-t-0 md:border-l border-gray-100 bg-gray-50/10 shrink-0">
                   <div className="bg-white p-1">
-                    <QRCode />
+                    <QRCode voucher_code={voucher.voucher_code} />
                   </div>
                 </div>
               </div>

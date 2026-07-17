@@ -429,7 +429,9 @@ export default function ItemDetails({ lang, details }: Props) {
           </div>
         </div>
 
-        <SimilarItem lang={lang} similar_deals={details?.similar_deals} />
+        {details?.similar_deals && details?.similar_deals.length > 0 && (
+          <SimilarItem lang={lang} similar_deals={details?.similar_deals} />
+        )}
         <PromoSteps steps={promos} />
       </Container>
     </div>

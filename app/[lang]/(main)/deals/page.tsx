@@ -91,7 +91,7 @@ export default async function Page({ params, searchParams }: Props) {
         <FilterWithCategory categories={categories?.data} />
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-8 mt-4">
+      <div className="flex flex-col lg:flex-row gap-8 my-4">
         <div className="w-full lg:w-3/12">
           <Filtered />
         </div>
