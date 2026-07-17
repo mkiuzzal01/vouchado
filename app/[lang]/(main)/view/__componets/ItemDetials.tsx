@@ -121,6 +121,7 @@ export default function ItemDetails({ lang, details }: Props) {
     } catch (error: any) {
       if (!error?.data?.status) {
         toast.warn("Please Login to add this item to your wishlist");
+        router.push(`/${lang}/login?redirect=${window.location.href}`);
       }
     }
   };

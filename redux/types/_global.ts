@@ -11,3 +11,34 @@ export interface IPagination {
   to: number;
   path: string;
 }
+
+export interface Voucher {
+  id: number;
+  deal_name: string;
+  price: string;
+  quantity: number;
+  voucher_code: string;
+  qr_token: string;
+  status: "unredeemed" | "redeemed";
+  expire_date: string;
+}
+
+export interface VerifySession {
+  amount_total: number;
+  currency: string;
+  payment_status: "paid" | "unpaid" | "pending";
+  data: {
+    order: Order;
+  };
+}
+
+export interface Order {
+  id: number;
+  item_count: number;
+  subtotal: string;
+  tax: string;
+  total: string;
+  coupon_discount: string;
+  voucher_discount: string;
+  vouchers: Voucher[];
+}

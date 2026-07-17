@@ -13,26 +13,29 @@ interface Props {
 export default async function Page({ searchParams }: Props) {
   const { search, id } = await searchParams;
 
+  const query = new URLSearchParams();
+  if (search) query.set("search", search);
+
   const [listResult, messagesResult] = await Promise.allSettled([
-    getConversation(search),
+    getConversation(query.toString()),
     id ? getMessages(id) : Promise.resolve(null),
   ]);
 
-  const list = listResult.status === "fulfilled" ? listResult.value : null;
+  const list = listResult.status === "fulfilled" ? listResult?.value : null;
   if (listResult.status === "rejected") {
-    console.error("Failed to fetch conversations:", listResult.reason);
+    console.error("Failed to fetch conversations:", listResult?.reason);
   }
 
   const messages =
-    messagesResult.status === "fulfilled" ? messagesResult.value : null;
+    messagesResult.status === "fulfilled" ? messagesResult?.value : null;
   if (messagesResult.status === "rejected") {
     console.error(
       `Failed to fetch messages for ID ${id}:`,
-      messagesResult.reason,
+      messagesResult?.reason,
     );
   }
 
-  if (!list || (Array.isArray(list) && list.length === 0)) {
+  if (!list || (Array?.isArray(list) && list?.length === 0)) {
     return <NotFoundData description="No Conversation found." />;
   }
 

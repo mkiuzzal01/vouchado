@@ -4,8 +4,6 @@ import storage from "redux-persist/es/storage";
 import { baseApi } from "./API/baseAPI";
 import authReducer from "./features/auth/auth.slice";
 import cartReducer from "./features/cart/cart.slice";
-import wishlistReducer from "./features/wishlist/wishlist.slice";
-import userReducer from "./features/user/user.slice";
 import providerReducer from "./features/provider/provider.slice";
 import dealReducer from "./features/deal/deal.slice";
 import businessReducer from "./features/provider/business_profile.slice";
@@ -15,8 +13,6 @@ const rootReducer = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
   auth: authReducer,
   cart: cartReducer,
-  wishlist: wishlistReducer,
-  user: userReducer,
   provider: providerReducer,
   deal: dealReducer,
   business: businessReducer,
@@ -26,7 +22,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "vouchado",
   storage,
-  whitelist: ["auth", "cart", "wishlist", "user", "system"],
+  whitelist: ["auth", "cart", "system"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

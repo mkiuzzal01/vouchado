@@ -12,6 +12,7 @@ interface Props {
 
 export default async function page({ params }: Props) {
   const { id, lang } = await params;
+  console.log(id);
   const profileInfo = await getBusinessProfileById(id);
 
   if (!profileInfo?.data) {

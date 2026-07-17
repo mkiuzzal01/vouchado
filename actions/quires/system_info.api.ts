@@ -29,3 +29,9 @@ export const getPaymentMethod = () =>
     tags: ["payment-connect"],
     revalidate: 30,
   });
+
+export const getVerifySession = (session_id?: string) =>
+  api.get<any>(`/order/verify-session?session_id=${session_id}`, {
+    tags: ["verify-session"],
+    revalidate: 30,
+  });

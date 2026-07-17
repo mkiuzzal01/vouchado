@@ -14,11 +14,9 @@ export default function PrivateRoute({ lang, children }: PrivateRouteProps) {
 
   const token = useAppSelector((state) => state.auth.vuchado_token);
 
-  console.log(token);
-
   useEffect(() => {
     if (!token) {
-      router.replace(`/${lang}/login`);
+      router.replace(`/${lang}/login?redirect=${window.location.href}`);
     }
   }, [token, router]);
 

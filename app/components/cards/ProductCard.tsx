@@ -36,8 +36,8 @@ export default function ProductCard({ lang, product }: Props) {
       }
     } catch (error: any) {
       if (!error?.data?.status) {
-        toast.error("Login first to add to wishlist");
-        router.push(`/${lang}/login`);
+        toast.error("Please to login first then add to wishlist");
+        router.push(`/${lang}/login?redirect=${window?.location?.pathname}`);
       }
     }
   };

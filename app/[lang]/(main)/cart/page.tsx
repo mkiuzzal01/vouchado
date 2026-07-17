@@ -20,7 +20,7 @@ export default async function page({ params }: Props) {
             <YourItems lang={lang} />
           </div>
           <div className="lg:col-span-1">
-            <OrderSummery />
+            <OrderSummery lang={lang} />
           </div>
         </div>
       </Container>

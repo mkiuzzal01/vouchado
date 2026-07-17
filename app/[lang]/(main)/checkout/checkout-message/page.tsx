@@ -1,41 +1,37 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Download, Eye, Compass } from "lucide-react";
+import { Download } from "lucide-react";
 import Container from "@/app/components/shared/Container";
-import QRCode from "@/app/components/icons/QRCode";
 import message from "@/public/notification/Success Notification.png";
 import EarnedBatch from "@/app/components/icons/EarnedBatch";
 import Voucher from "@/app/components/icons/Voucher";
 import Bag from "@/app/components/icons/Bag";
+import { VerifySession } from "@/redux/types/_global";
+import QRCode from "../../coupons/__components/QRCode";
 
-export default function CheckoutMessagePage() {
+interface Props {
+  verifySession: VerifySession;
+}
+
+export default function CheckoutMessagePage({ verifySession }: Props) {
   const orderDetails = {
-    itemsCount: "04",
-    subTotal: "468.86",
-    vat: "11.65",
-    couponDiscount: "10.00",
-    voucherDiscount: "50.00",
-    total: "516.31",
+    itemsCount: verifySession.data.order.item_count,
+    subTotal: verifySession.data.order.subtotal,
+    vat: verifySession.data.order.tax,
+    couponDiscount: verifySession.data.order.coupon_discount,
+    voucherDiscount: verifySession.data.order.voucher_discount,
+    total: verifySession.amount_total,
     pointsEarned: 90,
   };
 
-  const vouchers = [
-    {
-      id: "#16544AFG646",
-      qty: "09",
-      name: "Admission to Iconic & Award-Winning US Olympic & Paralympic Interactive Museum for All-Ages",
-      payment: "216.80",
-      expiry: "24th October at 10:30 AM",
-    },
-    {
-      id: "#16544AFG646",
-      qty: "09",
-      name: "Admission to Iconic & Award-Winning US Olympic & Paralympic Interactive Museum for All-Ages",
-      payment: "216.80",
-      expiry: "24th October at 10:30 AM",
-    },
-  ];
+  const vouchers = verifySession.data.order.vouchers.map((voucher) => ({
+    id: voucher.id,
+    qty: 1,
+    voucher_code: voucher.voucher_code,
+    payment: verifySession.data.order.total,
+    expiry: voucher.expire_date,
+  }));
 
   return (
     <Container>
@@ -128,12 +124,10 @@ export default function CheckoutMessagePage() {
 
         {/* Points Reward Notification Banner */}
         <div className="relative bg-[#F4FBF7] rounded-2xl p-4 min-h-[64px] flex items-center justify-center text-center border border-emerald-100/50">
-          {/* Icon positioned absolute layout on mobile up to desktop */}
           <div className="absolute left-4 sm:left-6 text-emerald-600 flex items-center justify-center">
             <EarnedBatch />
           </div>
 
-          {/* Perfectly Centered Message Paragraph with padding handling layout clearance */}
           <p className="text-xs sm:text-base md:text-xl font-bold text-slate-800 pl-10 pr-4 sm:px-12 tracking-tight">
             You Earned{" "}
             <span className="text-emerald-600 font-extrabold">
@@ -147,7 +141,7 @@ export default function CheckoutMessagePage() {
         <div className="space-y-6">
           {vouchers.map((voucher, index) => (
             <div
-              key={`${voucher.id}-${index}`}
+              key={`${voucher?.id}-${index}`}
               className="bg-white border border-gray-100 rounded-2xl flex flex-col md:flex-row overflow-hidden"
             >
               {/* Left Content */}
@@ -159,7 +153,7 @@ export default function CheckoutMessagePage() {
                       Voucher ID
                     </span>
                     <span className="text-base sm:text-xl md:text-2xl font-semibold text-gray-800 break-all">
-                      {voucher.id}
+                      {voucher?.id}
                     </span>
                   </div>
 
@@ -168,7 +162,7 @@ export default function CheckoutMessagePage() {
                       Qty
                     </span>
                     <span className="text-base sm:text-xl md:text-2xl font-semibold text-gray-800">
-                      {voucher.qty}
+                      {voucher?.qty}
                     </span>
                   </div>
                 </div>
@@ -176,11 +170,11 @@ export default function CheckoutMessagePage() {
                 {/* Deal Name */}
                 <div className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-6">
                   <span className="text-sm md:text-lg font-semibold text-gray-600 shrink-0">
-                    Deal Name
+                    Code / Name
                   </span>
 
                   <p className="text-sm sm:text-base md:text-lg text-gray-800 font-semibold md:text-right md:max-w-md">
-                    {voucher.name}
+                    {voucher?.voucher_code}
                   </p>
                 </div>
 
@@ -191,7 +185,7 @@ export default function CheckoutMessagePage() {
                   </span>
 
                   <span className="text-base sm:text-xl md:text-2xl font-semibold text-gray-950">
-                    € {voucher.payment}
+                    € {voucher?.payment}
                   </span>
                 </div>
 
@@ -202,16 +196,14 @@ export default function CheckoutMessagePage() {
                   </span>
 
                   <span className="text-xs sm:text-base md:text-lg font-medium text-gray-950">
-                    {voucher.expiry}
+                    {voucher?.expiry}
                   </span>
                 </div>
               </div>
 
               {/* QR Code */}
               <div className="flex items-center justify-center p-5 md:p-6 border-t md:border-t-0 md:border-l border-gray-100 bg-gray-50/10 shrink-0">
-                <div className="bg-white p-1 shadow-sm rounded">
-                  <QRCode />
-                </div>
+                <QRCode voucher_code={voucher?.voucher_code} />
               </div>
             </div>
           ))}
@@ -226,7 +218,7 @@ export default function CheckoutMessagePage() {
           </Link>
 
           <Link href="/deals" className="w-full sm:w-auto">
-            <button className="w-full px-6 py-3 rounded-full border border-[#31BFC8] text-[#31BFC8]  font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-md transition duration-200 active:scale-[0.99] whitespace-nowrap">
+            <button className="w-full px-6 py-3 rounded-full border border-[#31BFC8] text-[#31BFC8] font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-md transition duration-200 active:scale-[0.99] whitespace-nowrap">
               <Bag color="#31BFC8" size={24} /> Explore Deals
             </button>
           </Link>

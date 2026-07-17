@@ -12,9 +12,9 @@ export const getBusniessProfile = () =>
     revalidate: 60,
   });
 
-export const getBusinessProfileById = (id: string) =>
+export const getBusinessProfileById = (id?: string) =>
   api.get<any>(`/deals/business-profile/${id}`, {
-    tags: ["provider"],
+    tags: ["business-profile"],
     revalidate: 60,
   });
 
@@ -36,7 +36,7 @@ export const getUserPurchaseHistory = () =>
     revalidate: 60,
   });
 
-export const getOrderDetails = (order_number: string) =>
+export const getOrderDetails = (order_number?: string) =>
   api.get<any>(`/user/order-details/${order_number}`, {
     tags: ["order"],
     revalidate: 60,

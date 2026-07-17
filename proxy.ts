@@ -6,12 +6,19 @@ const AUTH_COOKIE = "vuchado_token";
 
 const PRIVATE_ROUTES = ["/user", "/provider", "/wishlist", "/chat"];
 
+/**
+ * Returns the locale from the pathname, if present.
+ */
 function getLocale(pathname: string): string | undefined {
   return LOCALES.find(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   );
 }
 
+/**
+ * Removes the locale prefix from the pathname.
+ * Example: "/en/chat" -> "/chat"
+ */
 function removeLocale(pathname: string): string {
   const locale = getLocale(pathname);
 
@@ -19,26 +26,26 @@ function removeLocale(pathname: string): string {
     return pathname;
   }
 
-  const pathWithoutLocale = pathname.replace(`/${locale}`, "");
-  return pathWithoutLocale || "/";
+  const path = pathname.replace(`/${locale}`, "");
+  return path || "/";
 }
 
+/**
+ * Determines whether the requested route requires authentication.
+ */
 function isPrivateRoute(pathname: string): boolean {
-  const cleanPath = removeLocale(pathname);
+  const path = removeLocale(pathname);
 
   return PRIVATE_ROUTES.some(
-    (route) => cleanPath === route || cleanPath.startsWith(`${route}/`),
+    (route) => path === route || path.startsWith(`${route}/`),
   );
 }
 
-function isAuthRoute(pathname: string): boolean {
-  return removeLocale(pathname).startsWith("/auth");
-}
-
 export function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { nextUrl } = request;
+  const { pathname } = nextUrl;
 
-  // Skip Next.js internals, API routes, and static assets
+  // Skip Next.js assets, API routes, and static files.
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
@@ -48,31 +55,30 @@ export function proxy(request: NextRequest) {
   }
 
   const token = request.cookies.get(AUTH_COOKIE)?.value;
-
-  // Redirect root → default locale
-  if (pathname === "/") {
-    return NextResponse.redirect(new URL(`/${DEFAULT_LOCALE}`, request.url));
-  }
-
-  // Add locale if missing
   const locale = getLocale(pathname);
 
+  // Redirect the root path to the default locale.
+  if (pathname === "/") {
+    const url = nextUrl.clone();
+    url.pathname = `/${DEFAULT_LOCALE}`;
+    return NextResponse.redirect(url);
+  }
+
+  // Redirect paths without a locale while preserving query parameters.
   if (!locale) {
-    return NextResponse.redirect(
-      new URL(`/${DEFAULT_LOCALE}${pathname}`, request.url),
-    );
+    const url = nextUrl.clone();
+    url.pathname = `/${DEFAULT_LOCALE}${pathname}`;
+    return NextResponse.redirect(url);
   }
 
-  // Protect authenticated routes
+  // Protect private routes.
   if (isPrivateRoute(pathname) && !token) {
-    return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+    const url = nextUrl.clone();
+    url.pathname = `/${locale}/login`;
+    return NextResponse.redirect(url);
   }
 
-  // Prevent authenticated users from visiting auth pages
-  if (isAuthRoute(pathname) && token) {
-    return NextResponse.next();
-  }
-
+  // Allow authenticated users to access auth pages.
   return NextResponse.next();
 }
 

@@ -10,7 +10,11 @@ import { clearCart } from "@/redux/features/cart/cart.slice";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 
-export default function OrderSummary() {
+interface Props {
+  lang: string;
+}
+
+export default function OrderSummary({ lang }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +45,10 @@ export default function OrderSummary() {
         router.replace(res?.data?.checkout_url);
       }
     } catch (error: any) {
-      toast.error(error?.data?.message || "Something went wrong");
+      if (!error?.data?.status) {
+        toast.error("Please to login first then checkout");
+        router.push(`/${lang}/login?redirect=${window?.location?.pathname}`);
+      }
     }
   };
 
