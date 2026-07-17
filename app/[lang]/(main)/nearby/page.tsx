@@ -81,6 +81,8 @@ export default async function page({ params, searchParams }: Props) {
   const deals = await getDeals(query.toString());
   const categories = await getCategories();
 
+  console.log(deals);
+
   return (
     <div>
       <Container>
@@ -90,7 +92,7 @@ export default async function page({ params, searchParams }: Props) {
           <FilterWithCategory categories={categories?.data} />
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8 mt-4">
+        <div className="flex flex-col lg:flex-row gap-8 my-4">
           {/* Sidebar Filters */}
           <div className="w-full lg:w-3/12">
             <Filtered />
@@ -113,8 +115,9 @@ export default async function page({ params, searchParams }: Props) {
                 </div>
 
                 <ReusablePagination
-                  currentPage={Number(page) || 1}
-                  totalPages={deals?.meta?.totalPages || 1}
+                  current_page={deals?.meta?.current_page}
+                  per_page={deals?.meta?.per_page}
+                  total={deals?.meta?.total}
                 />
               </>
             ) : (

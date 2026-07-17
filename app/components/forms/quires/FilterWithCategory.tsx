@@ -65,38 +65,41 @@ export default function FilterWithCategory({
           <span>All</span>
         </button>
 
-        {/* 2. Dynamic Categories List */}
-        {categories?.map((cat) => {
-          const isActive = selectedId === cat.id.toString();
+        {categories?.length > 0 ? (
+          categories?.map((cat) => {
+            const isActive = selectedId === cat.id.toString();
 
-          return (
-            <button
-              key={cat.id}
-              onClick={() => handleSelect(cat.id)}
-              className={getButtonClass(isActive)}
-            >
-              {cat.icon && (
-                <span className="flex items-center justify-center shrink-0">
-                  {cat.icon.startsWith("http") || cat.icon.includes("/") ? (
-                    <img
-                      src={cat.icon}
-                      alt={cat.name}
-                      className="w-6 h-6 object-contain"
-                    />
-                  ) : (
-                    <span
-                      className="text-lg"
-                      style={{ color: isActive ? "#ffffff" : "#292D32" }}
-                    >
-                      •
-                    </span>
-                  )}
-                </span>
-              )}
-              <span>{cat.name}</span>
-            </button>
-          );
-        })}
+            return (
+              <button
+                key={cat.id}
+                onClick={() => handleSelect(cat.id)}
+                className={getButtonClass(isActive)}
+              >
+                {cat.icon && (
+                  <span className="flex items-center justify-center shrink-0">
+                    {cat.icon.startsWith("http") || cat.icon.includes("/") ? (
+                      <img
+                        src={cat.icon}
+                        alt={cat.name}
+                        className="w-6 h-6 object-contain"
+                      />
+                    ) : (
+                      <span
+                        className="text-lg"
+                        style={{ color: isActive ? "#ffffff" : "#292D32" }}
+                      >
+                        •
+                      </span>
+                    )}
+                  </span>
+                )}
+                <span>{cat.name}</span>
+              </button>
+            );
+          })
+        ) : (
+          <p className="text-red-500">No Categories</p>
+        )}
       </div>
     </div>
   );

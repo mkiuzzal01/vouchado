@@ -30,7 +30,11 @@ export default async function Page({ searchParams, params }: Props) {
   return (
     <div className="space-y-4">
       <PersonalInfo userProfile={userProfile?.data} />
-      <MyPurchases lang={lang} purchaseHistory={purchaseHistory?.data} />
+      <MyPurchases
+        lang={lang}
+        purchaseHistory={purchaseHistory?.data}
+        pagination={purchaseHistory?.data?.pagination}
+      />
     </div>
   );
 }

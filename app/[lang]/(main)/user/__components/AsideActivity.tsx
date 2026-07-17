@@ -3,12 +3,17 @@ import SpaBooking from "@/app/components/icons/SpaBooking";
 import UsOlympic from "@/app/components/icons/UsOlympic";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import { Activity } from "@/redux/types/user_profile";
+import { IPagination } from "@/redux/types/_global";
 
 interface IAsideActivity {
   recentActivities: Activity[];
+  pagination?: IPagination;
 }
 
-export default function AsideActivity({ recentActivities }: IAsideActivity) {
+export default function AsideActivity({
+  recentActivities,
+  pagination,
+}: IAsideActivity) {
   if (!recentActivities || recentActivities.length === 0) {
     return <NotFoundData description="No recent activities found" />;
   }

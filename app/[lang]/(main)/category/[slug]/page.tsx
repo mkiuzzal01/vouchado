@@ -73,8 +73,6 @@ export default async function Page({ params, searchParams }: Props) {
   const deals = await getDeals(query.toString());
 
   const totalDeals = String(deals?.meta?.total || deals?.data?.length || 0);
-  const currentPage = Number(page) || 1;
-  const totalPages = Number(deals?.meta?.last_page || 1);
 
   return (
     <Container>
@@ -110,8 +108,9 @@ export default async function Page({ params, searchParams }: Props) {
           {deals?.data?.length > 0 && (
             <div className="mt-4">
               <ReusablePagination
-                currentPage={currentPage}
-                totalPages={totalPages}
+                current_page={deals?.meta?.current_page}
+                per_page={deals?.meta?.per_page}
+                total={deals?.meta?.total}
               />
             </div>
           )}

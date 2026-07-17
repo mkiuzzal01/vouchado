@@ -1,42 +1,44 @@
 "use client";
 
 import React from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination";
-import {
-  ArrowRight,
-  ArrowRightIcon,
-  ChevronLeft,
-  ChevronRight,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface ReusablePaginationProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange?: (page: number) => void;
+  current_page?: number; // Optional fallback, URL parameter takes priority
+  per_page?: number;
+  total?: number;
   className?: string;
 }
 
 export default function ReusablePagination({
-  currentPage,
-  totalPages,
-  onPageChange,
+  current_page = 1,
+  per_page = 10,
+  total = 0,
   className = "",
 }: ReusablePaginationProps) {
-  // Safe validation fallback guard rails
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // 1. Get current page from URL params; fall back to the prop if absent
+  const urlPage = searchParams.get("page");
+  const currentPage = urlPage ? parseInt(urlPage, 10) : current_page;
+
+  const totalPages = Math.ceil(total / per_page);
+
   if (totalPages <= 1) return null;
 
-  // Helper routine to generate pagination arrays with ellipsis markers
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
-    const siblingCount = 1; // Number of page buttons to show on either side of active index
+    const siblingCount = 1;
 
     if (totalPages <= 5) {
       for (let i = 1; i <= totalPages; i++) {
@@ -87,22 +89,36 @@ export default function ReusablePagination({
 
   const pages = getPageNumbers();
 
+  // 2. Build updated search parameters string without dropping other filters
   const handlePageClick = (e: React.MouseEvent, page: number) => {
     e.preventDefault();
     if (page >= 1 && page <= totalPages && page !== currentPage) {
-      onPageChange?.(page);
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("page", page.toString());
+
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
 
   return (
     <Pagination className={`select-none my-4 ${className}`}>
       <PaginationContent className="gap-1 text-slate-500">
-        {/* --- PREVIOUS TRIGGER BUTTON --- */}
+        {/* Previous Button Arrow */}
         <PaginationItem>
-          <ChevronLeft />
+          <button
+            onClick={(e) => handlePageClick(e, currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`flex h-10 w-10 items-center justify-center rounded-lg transition-all ${
+              currentPage === 1
+                ? "text-slate-300 cursor-not-allowed opacity-50"
+                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+            }`}
+          >
+            <ChevronLeft size={18} />
+          </button>
         </PaginationItem>
 
-        {/* --- DYNAMIC NUMBER CHIPS AND ELLIPSES --- */}
+        {/* Dynamic Page Items */}
         {pages.map((page, index) => {
           if (typeof page === "string") {
             return (
@@ -118,7 +134,7 @@ export default function ReusablePagination({
             <PaginationItem key={page}>
               <PaginationLink
                 onClick={(e) => handlePageClick(e, page)}
-                className={`w-10 h-10 text-sm font-medium border-0 transition-all ${
+                className={`w-10 h-10 text-sm font-medium border-0 transition-all cursor-pointer ${
                   isActive
                     ? "bg-[#edf9fa] text-[#1ec6cc] font-semibold rounded-lg"
                     : "bg-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg"
@@ -130,9 +146,19 @@ export default function ReusablePagination({
           );
         })}
 
-        {/* --- NEXT TRIGGER BUTTON --- */}
+        {/* Next Button Arrow */}
         <PaginationItem>
-          <ChevronRight />
+          <button
+            onClick={(e) => handlePageClick(e, currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`flex h-10 w-10 items-center justify-center rounded-lg transition-all ${
+              currentPage === totalPages
+                ? "text-slate-300 cursor-not-allowed opacity-50"
+                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+            }`}
+          >
+            <ChevronRight size={18} />
+          </button>
         </PaginationItem>
       </PaginationContent>
     </Pagination>

@@ -15,7 +15,7 @@ export default async function Layout({ children }: Props) {
   return (
     <Container className="py-6 bg-gray-50/50 min-h-screen">
       <div className="flex flex-col md:flex-row w-full gap-6 items-start">
-        <aside className="w-full md:w-80 lg:w-[405px] shrink-0 space-y-4">
+        <aside className="w-full sticky top-30 md:w-80 lg:w-[405px] shrink-0 space-y-4">
           <Aside
             data={userProfile?.data}
             recentActivities={recentActivities?.data?.data}

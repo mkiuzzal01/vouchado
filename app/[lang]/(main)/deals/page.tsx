@@ -110,8 +110,9 @@ export default async function Page({ params, searchParams }: Props) {
               </div>
 
               <ReusablePagination
-                currentPage={Number(page) || 1}
-                totalPages={deals?.meta?.totalPages || 10}
+                current_page={deals?.meta?.current_page || 1}
+                per_page={deals?.meta?.per_page || 10}
+                total={deals?.meta?.total || 10}
               />
             </>
           ) : (

@@ -6,20 +6,24 @@ import Image from "next/image";
 import Location from "@/app/components/icons/Location";
 import { PurchaseHistory, PurchaseItem } from "@/redux/types/user_profile";
 import NotFoundData from "@/app/components/shared/NotFoundData";
+import ReusablePagination from "@/app/components/forms/quires/ReusablePagination";
+import { IPagination } from "@/redux/types/_global";
 
 interface MyPurchasesProps {
   lang: string;
   purchaseHistory: PurchaseHistory[];
+  pagination?: IPagination;
 }
 
 export default function MyPurchases({
   purchaseHistory,
   lang,
+  pagination,
 }: MyPurchasesProps) {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [orderId, setOrderId] = useState<number>();
 
-  if (purchaseHistory.length === 0) {
+  if (purchaseHistory?.length === 0) {
     return <NotFoundData description="No purchases found" />;
   }
 
@@ -28,8 +32,6 @@ export default function MyPurchases({
     setShowOrderDetails(true);
   };
 
-  const handleViewPurchasesHistory = () => {};
-
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-4 sm:p-6 shadow-sm">
       {/* Section Header */}
@@ -37,25 +39,6 @@ export default function MyPurchases({
         <h2 className="text-xl lg:text-2xl font-semibold text-gray-900">
           My Purchases
         </h2>
-        <button
-          onClick={handleViewPurchasesHistory}
-          className="text-sm sm:text-lg font-semibold text-[#31BFC8] flex items-center gap-0.5 hover:underline self-start sm:self-auto"
-        >
-          View Purchases History
-          <svg
-            className="w-3 h-3"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 5l7 7-7 7"
-            />
-          </svg>
-        </button>
       </div>
 
       {/* Orders Container */}
@@ -142,6 +125,13 @@ export default function MyPurchases({
             </div>
           </div>
         ))}
+        <div>
+          <ReusablePagination
+            total={pagination?.total}
+            per_page={pagination?.per_page}
+            current_page={pagination?.current_page}
+          />
+        </div>
       </div>
 
       <ModalContainer
