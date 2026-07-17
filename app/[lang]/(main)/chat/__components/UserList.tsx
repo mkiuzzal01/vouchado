@@ -121,8 +121,8 @@ export default function UserList({
                   {userAvatar ? (
                     <div className="relative w-11 h-11 rounded-full overflow-hidden">
                       <Image
-                        src={userAvatar}
-                        alt={userName}
+                        src={userAvatar || ""}
+                        alt={userName || ""}
                         fill
                         className="object-cover"
                         sizes="44px"

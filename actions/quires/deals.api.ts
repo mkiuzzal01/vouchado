@@ -24,8 +24,8 @@ export const getActiveDeals = (query?: string) =>
     revalidate: 30,
   });
 
-export const getPurchasedDeals = () =>
-  api.get<any>(`/provider/purchased-deals`, {
+export const getPurchasedDeals = (query?: string) =>
+  api.get<any>(`/provider/purchased-deals?${query}`, {
     tags: ["provider-purchases"],
     revalidate: 30,
   });

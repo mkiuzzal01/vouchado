@@ -29,8 +29,6 @@ export default function Inbox({ list, message }: Props) {
   const selectedUserId = idFromParams ? parseInt(idFromParams, 10) : null;
 
   const [isMobileMessageView, setIsMobileMessageView] = useState(false);
-
-  // Auto-select the first conversation if none is selected in query parameters
   useEffect(() => {
     if (conversations.length > 0 && selectedUserId === null) {
       const firstUserId = conversations[0]?.user?.id;
@@ -42,7 +40,6 @@ export default function Inbox({ list, message }: Props) {
     }
   }, [conversations, selectedUserId, pathname, searchParams, router]);
 
-  // Sync mobile view state if user scales the window or initial loads with ID
   useEffect(() => {
     if (selectedUserId) {
       setIsMobileMessageView(true);

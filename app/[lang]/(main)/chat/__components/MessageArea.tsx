@@ -14,6 +14,7 @@ import { Conversation, Message } from "@/redux/types/conversional";
 import { useSendMessageMutation } from "@/redux/features/conversional/conversional.api";
 import { toast } from "react-toastify";
 import ArrowSend from "@/app/components/icons/ArrowSend";
+import Image from "next/image";
 
 interface Props {
   user: Conversation;
@@ -157,9 +158,10 @@ export default function MessageArea({
                 {isIncoming && (
                   <div className="relative w-8 h-8 rounded-full overflow-hidden shrink-0 mt-0.5">
                     {userAvatar ? (
-                      <img
-                        src={userAvatar}
-                        alt={userName}
+                      <Image
+                        src={userAvatar || ""}
+                        alt={userName || ""}
+                        fill
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -198,9 +200,10 @@ export default function MessageArea({
                       >
                         {isImg ? (
                           <div className="relative">
-                            <img
-                              src={att.url}
-                              alt={att.original_name}
+                            <Image
+                              src={att?.url || ""}
+                              alt={att?.original_name || ""}
+                              fill
                               className="w-full object-cover max-h-64 rounded-2xl"
                             />
                             <div className="absolute bottom-2 right-2 bg-black/40 px-2 py-0.5 rounded-lg flex items-center gap-1 backdrop-blur-xs">

@@ -1,7 +1,8 @@
 "use client";
 
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
-import { Filter, Check, X } from "lucide-react";
+import { Check, Filter } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,127 +11,70 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
 
 const filterOptions = [
   {
-    key: "time_range",
     value: "this_month",
     label: "This Month",
   },
   {
-    key: "time_range",
     value: "previous_month",
     label: "Previous Month",
   },
   {
-    key: "status",
     value: "redeemed",
     label: "Redeemed",
   },
   {
-    key: "status",
     value: "unredeemed",
     label: "Unredeemed",
   },
-];
+] as const;
 
 export default function FilterDeals() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const currentTime = searchParams.get("time_range");
-  const currentStatus = searchParams.get("status");
+  const selectedFilter = searchParams.get("filter");
 
-  const activeTimeLabel =
-    filterOptions.find(
-      (item) => item.key === "time_range" && item.value === currentTime,
-    )?.label || "";
-
-  const activeStatusLabel =
-    filterOptions.find(
-      (item) => item.key === "status" && item.value === currentStatus,
-    )?.label || "";
-
-  const filterSummary = [activeTimeLabel, activeStatusLabel]
-    .filter(Boolean)
-    .join(", ");
-
-  const handleFilterToggle = (
-    key: "time_range" | "status" | "RESET",
-    value?: string | null,
-  ) => {
+  const handleFilterChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
-
-    if (key === "RESET") {
-      params.delete("time_range");
-      params.delete("status");
-    } else {
-      if (value) {
-        params.set(key, value);
-      } else {
-        params.delete(key);
-      }
-    }
-
+    params.set("filter", value);
     params.delete("page");
-
-    router.push(`${pathname}?${params.toString()}`, {
-      scroll: false,
-    });
+    router.push(`${pathname}?${params.toString()}`);
   };
+
+  const activeLabel =
+    filterOptions.find((item) => item.value === selectedFilter)?.label ??
+    "Filter";
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button
-          className={cn(
-            "flex items-center gap-1.5 py-3 px-4 rounded-full text-xs font-bold transition-all shadow-sm border border-transparent",
-            filterSummary
-              ? "bg-[#31BFC8] text-white"
-              : "bg-white text-slate-700 border-slate-200",
-          )}
-        >
-          <Filter className="w-4 h-4" />
-          {filterSummary ? `Filter (${filterSummary})` : "Filter"}
+        <button className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-3 text-xs font-bold text-slate-700 shadow-sm">
+          <Filter className="h-4 w-4" />
+          {activeLabel}
         </button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="start" className="w-56">
+      <DropdownMenuContent align="end" className="bg-white">
         <DropdownMenuLabel>Deals Filter</DropdownMenuLabel>
+        <DropdownMenuSeparator />
 
-        {filterOptions.map((option) => {
-          const isActive =
-            (option.key === "time_range" && currentTime === option.value) ||
-            (option.key === "status" && currentStatus === option.value);
+        {filterOptions.map((option) => (
+          <DropdownMenuItem
+            key={option.value}
+            onClick={() => handleFilterChange(option.value)}
+            className="flex cursor-pointer items-center justify-between"
+          >
+            {option.label}
 
-          return (
-            <DropdownMenuItem
-              key={`${option.key}-${option.value}`}
-              onClick={() =>
-                handleFilterToggle(
-                  option.key as any,
-                  isActive ? null : option.value,
-                )
-              }
-            >
-              <span>{option.label}</span>
-
-              {isActive && <Check className="w-4 h-4 text-[#31BFC8]" />}
-            </DropdownMenuItem>
-          );
-        })}
-
-        {filterSummary && (
-          <>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => handleFilterToggle("RESET")}>
-              <X className="w-4 h-4 mr-2" />
-              Clear Active Filters
-            </DropdownMenuItem>
-          </>
-        )}
+            {selectedFilter === option.value && (
+              <Check className="h-4 w-4 text-primary" />
+            )}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

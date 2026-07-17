@@ -11,13 +11,22 @@ import DealYet from "@/app/components/icons/DealYet";
 import FilterDeals from "./__components/FilterDeals";
 
 interface Props {
-  searchParams: Promise<{}>;
+  searchParams: Promise<{
+    filter: string;
+  }>;
 }
 
 export default async function Page({ searchParams }: Props) {
   const stats = await getProviderStats();
-  const query = await searchParams;
-  const purchases = await getPurchasedDeals();
+  const { filter } = await searchParams;
+
+  const query = new URLSearchParams();
+
+  if (filter) {
+    query.set("filter", filter);
+  }
+
+  const purchases = await getPurchasedDeals(query.toString());
 
   const metrics = [
     {
@@ -62,20 +71,14 @@ export default async function Page({ searchParams }: Props) {
     <Container>
       <div className="space-y-6 text-gray-800 py-4">
         <CreateDealAction title="Services" />
-        {/* Top Action Header Bar */}
         <MetricCards stat={metrics} />
-        {/* Main Core Content Table Block */}
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
           <div className="flex justify-between items-center">
             <h2 className="text-2xl font-semibold text-gray-900">
               Deal Purchased
             </h2>
-
-            {/* Action Filter Pill Trigger */}
             <FilterDeals />
           </div>
-
-          {/* Detailed Data Table Layout */}
           <PurchasesTable purchases={purchases?.data} />
         </div>
       </div>
