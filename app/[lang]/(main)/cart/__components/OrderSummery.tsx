@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { clearCart } from "@/redux/features/cart/cart.slice";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import Coupon from "./Coupon";
 
 interface Props {
   lang: string;
@@ -72,17 +73,17 @@ export default function OrderSummary({ lang }: Props) {
             </span>
 
             <span className="font-bold text-xl text-gray-800">
-              € {subTotal.toFixed(2)}
+              € {subTotal?.toFixed(2)}
             </span>
           </div>
 
           <div className="flex justify-between items-center">
             <span className="text-gray-600 text-xl font-medium">
-              VAT ({(vatRate * 100).toFixed(0)}%)
+              VAT ({(vatRate * 100)?.toFixed(0)}%)
             </span>
 
             <span className="font-bold text-xl text-gray-800">
-              € {vatAmount.toFixed(2)}
+              € {vatAmount?.toFixed(2)}
             </span>
           </div>
 
@@ -93,7 +94,7 @@ export default function OrderSummary({ lang }: Props) {
               </span>
 
               <span className="font-bold text-xl text-red-500">
-                -€ {couponDiscount.toFixed(2)}
+                -€ {couponDiscount?.toFixed(2)}
               </span>
             </div>
           )}
@@ -107,7 +108,7 @@ export default function OrderSummary({ lang }: Props) {
           <span className="text-xl font-medium text-gray-600">Total</span>
 
           <span className="text-xl font-extrabold text-gray-800">
-            € {totalPrice.toFixed(2)}
+            € {totalPrice?.toFixed(2)}
           </span>
         </div>
 
@@ -131,17 +132,7 @@ export default function OrderSummary({ lang }: Props) {
         </div>
 
         {/* Coupon */}
-        <div className="flex gap-3 mb-6">
-          <input
-            type="text"
-            placeholder="Enter your coupon code"
-            className="flex-1 bg-gray-50 text-gray-700 text-sm px-4 py-3 rounded-xl border border-transparent focus:bg-white focus:border-gray-200 focus:outline-none"
-          />
-
-          <button className="border border-[#2bb3bb] hover:bg-cyan-50 text-[#2bb3bb] font-semibold text-sm px-6 py-3 rounded-full">
-            Apply
-          </button>
-        </div>
+        <Coupon />
 
         {/* Checkout */}
         <button

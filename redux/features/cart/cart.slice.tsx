@@ -111,7 +111,7 @@ const cartSlice = createSlice({
       state.couponDiscount = 0;
     },
 
-    applyCoupon: (state, action: PayloadAction<number>) => {
+    setApplyCoupon: (state, action: PayloadAction<number>) => {
       state.couponDiscount = action.payload;
       calculateTotals(state);
     },
@@ -125,7 +125,7 @@ export const {
   toggleSelectItem,
   toggleSelectAll,
   clearCart,
-  applyCoupon,
+  setApplyCoupon,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

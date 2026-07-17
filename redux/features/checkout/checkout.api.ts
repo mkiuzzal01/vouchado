@@ -10,7 +10,17 @@ export const checkoutAPI = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Checkout"],
     }),
+
+    couponPurchase: builder.mutation({
+      query: (body) => ({
+        url: "/coupon/check",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Checkout"],
+    }),
   }),
 });
 
-export const { useGiftVoucherPurchaseMutation } = checkoutAPI;
+export const { useGiftVoucherPurchaseMutation, useCouponPurchaseMutation } =
+  checkoutAPI;
