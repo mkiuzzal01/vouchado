@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { Html5Qrcode } from "html5-qrcode";
 
 export default function ScanVoucher() {
   const [isMobile, setIsMobile] = useState(false);
   const [scannedValue, setScannedValue] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const desktopScanBuffer = useRef("");
+  const html5QrcodeRef = useRef<Html5Qrcode | null>(null);
 
   // 1. Detect Device Type on Mount
   useEffect(() => {
@@ -15,41 +17,68 @@ export default function ScanVoucher() {
     setIsMobile(mobileRegex.test(userAgent));
   }, []);
 
-  // 2. SCENARIO A: Mobile Camera Scanner Setup
+  // 2. SCENARIO A: Mobile Camera Auto-Open Setup
   useEffect(() => {
     if (!isMobile) return;
 
-    const scanner = new Html5QrcodeScanner(
-      "mobile-reader",
-      { fps: 10, qrbox: { width: 250, height: 250 } },
-      false,
-    );
+    // Initialize the low-level scanner directly on the container ID
+    const html5QrcodeScanner = new Html5Qrcode("mobile-reader");
+    html5QrcodeRef.current = html5QrcodeScanner;
 
-    scanner.render(
-      (decodedText) => {
-        console.log("Mobile Camera Scan Value:", decodedText);
-        setScannedValue(decodedText);
-        scanner.clear(); // Stop scanning after success if desired
-      },
-      (error) => {
-        // Fail Callback (Triggers constantly while searching for QR code, safe to ignore)
-      },
-    );
+    const startCamera = async () => {
+      try {
+        // Start scanning automatically using the back camera ('environment')
+        await html5QrcodeScanner.start(
+          { facingMode: "environment" },
+          {
+            fps: 10,
+            qrbox: { width: 250, height: 250 },
+          },
+          (decodedText) => {
+            console.log("Mobile Camera Scan Value:", decodedText);
+            setScannedValue(decodedText);
+
+            // Auto stop camera track after a successful scan
+            stopCamera();
+          },
+          (errorMessage) => {
+            // Constant verbose debug scanning feedback, safe to ignore
+          },
+        );
+      } catch (err: any) {
+        console.error("Failed to auto-start camera:", err);
+        setErrorMsg("Camera permission denied or camera unavailable.");
+      }
+    };
+
+    // Small timeout ensures the DOM element #mobile-reader is mounted and ready
+    const timer = setTimeout(() => {
+      startCamera();
+    }, 300);
 
     // Clean up scanner on unmount
     return () => {
-      scanner
-        .clear()
-        .catch((error) => console.error("Failed to clear scanner", error));
+      clearTimeout(timer);
+      stopCamera();
     };
   }, [isMobile]);
+
+  const stopCamera = () => {
+    if (html5QrcodeRef.current && html5QrcodeRef.current.isScanning) {
+      html5QrcodeRef.current
+        .stop()
+        .then(() => {
+          console.log("Camera stopped successfully.");
+        })
+        .catch((err) => console.error("Failed to stop camera:", err));
+    }
+  };
 
   // 3. SCENARIO B: Desktop External Hardware Scanner Listener
   useEffect(() => {
     if (isMobile) return;
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      // Hardware scanners typically hit 'Enter' when they finish sending the string
       if (e.key === "Enter") {
         if (desktopScanBuffer.current.length > 0) {
           console.log(
@@ -57,45 +86,42 @@ export default function ScanVoucher() {
             desktopScanBuffer.current,
           );
           setScannedValue(desktopScanBuffer.current);
-          desktopScanBuffer.current = ""; // Clear buffer for next scan
+          desktopScanBuffer.current = "";
         }
       } else {
-        // Accumulate character strokes into the buffer
         desktopScanBuffer.current += e.key;
       }
     };
 
-    // Listen globally for scanner keystrokes
     window.addEventListener("keypress", handleKeyPress);
-
-    // Timeout buffer cleanup: If the user types manually, clear it after 200ms
-    // because hardware scanners dump text in milliseconds.
-    const interval = setInterval(() => {
-      if (desktopScanBuffer.current.length > 0) {
-        // Optional: clear buffer if it sits idle (means a human typed a lone key)
-        // desktopScanBuffer.current = "";
-      }
-    }, 200);
 
     return () => {
       window.removeEventListener("keypress", handleKeyPress);
-      clearInterval(interval);
     };
   }, [isMobile]);
 
   return (
-    <div style={{ padding: "20px", textAlign: "center" }}>
+    <div
+      style={{ padding: "20px", textAlign: "center", fontFamily: "sans-serif" }}
+    >
       <h2>Voucher Scanner</h2>
 
       {isMobile ? (
         <div>
-          <p style={{ color: "green" }}>
-            Mobile Device Detected: Accessing Camera...
+          <p style={{ color: errorMsg ? "red" : "green" }}>
+            {errorMsg
+              ? errorMsg
+              : "Mobile Device: Auto-starting camera stream..."}
           </p>
-          {/* html5-qrcode attaches itself to this exact ID */}
           <div
             id="mobile-reader"
-            style={{ width: "100%", maxWidth: "400px", margin: "0 auto" }}
+            style={{
+              width: "100%",
+              maxWidth: "400px",
+              margin: "0 auto",
+              borderRadius: "8px",
+              overflow: "hidden",
+            }}
           ></div>
         </div>
       ) : (
@@ -118,12 +144,14 @@ export default function ScanVoucher() {
         <div
           style={{
             marginTop: "20px",
-            background: "#f0f0f0",
-            padding: "10px",
-            borderRadius: "4px",
+            background: "#e6f4ea",
+            color: "#137333",
+            padding: "15px",
+            borderRadius: "6px",
+            fontWeight: "bold",
           }}
         >
-          <strong>Last Scanned Code:</strong> {scannedValue}
+          Last Scanned Code: {scannedValue}
         </div>
       )}
     </div>
