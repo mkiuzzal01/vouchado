@@ -21,11 +21,11 @@ export const dealsAPI = baseApi.injectEndpoints({
 
     voucherRedeem: builder.mutation({
       query: (body) => ({
-        url: "/deal/voucher/redeem",
+        url: "/voucher/redeem",
         method: "POST",
         body,
       }),
-      invalidatesTags: ["deal"],
+      invalidatesTags: ["voucher"],
     }),
 
     deleteDeal: builder.mutation({
