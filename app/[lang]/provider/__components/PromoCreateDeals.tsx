@@ -109,6 +109,7 @@ export default function PromoCreateDeals() {
       </ModalContainer>
       <ModalContainer
         width="2xl"
+        title="Scan Voucher"
         isOpen={scanModal}
         onClose={() => setScanModal(!scanModal)}
       >

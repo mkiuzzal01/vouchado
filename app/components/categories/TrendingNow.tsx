@@ -2,6 +2,7 @@ import TrendingProductCard from "../cards/TrendingProductCard";
 import Container from "../shared/Container";
 import SectionHeader from "../shared/SectionHeader";
 import Fire from "../icons/Fire";
+import NotFoundData from "../shared/NotFoundData";
 
 export interface Deal {
   id: number;
@@ -25,6 +26,10 @@ interface Props {
 }
 
 export default function TrendingNow({ lang, deals }: Props) {
+  if (deals?.data?.length === 0) {
+    return <NotFoundData title="No Trending Deals" />;
+  }
+
   return (
     <section>
       <Container>

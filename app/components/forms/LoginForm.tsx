@@ -47,6 +47,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
               role: res.data.role,
               name: res.data.name,
               avatar: res.data.avatar,
+              vuchado_point: res.data.vuchado_point,
             },
             vuchado_token: res.token,
           }),

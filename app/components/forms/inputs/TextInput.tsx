@@ -41,7 +41,16 @@ export default function TextInput({
 
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
+
+  // 1. React Hook Form tracks error objects matching the EXACT 'name' attribute string provided to the controller
   const errorMessage = (errors?.[name]?.message as string | undefined) || "";
+
+  // 2. Helper to dynamically transform raw keys like "coupon_code" into "Coupon code" if no explicit label is given
+  const formatErrorLabel = () => {
+    if (label) return label;
+    const readable = name.replaceAll("_", " ");
+    return readable.charAt(0).toUpperCase() + readable.slice(1);
+  };
 
   return (
     <div className={cn("space-y-1.5 w-full mb-6", className)}>
@@ -54,9 +63,9 @@ export default function TextInput({
       <Controller
         name={name}
         control={control}
-        // Pass validation rules down to the react-hook-form Controller
         rules={{
-          required: required ? `${label || name} is required` : false,
+          // Uses the human-readable formatting instead of raw keys
+          required: required ? `${formatErrorLabel()} is required` : false,
           ...rules,
         }}
         render={({ field }) => (

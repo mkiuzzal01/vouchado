@@ -108,7 +108,7 @@ export default function OrderSummary({ lang }: Props) {
           <span className="text-xl font-medium text-gray-600">Total</span>
 
           <span className="text-xl font-extrabold text-gray-800">
-            € {totalPrice?.toFixed(2)}
+            € {(totalPrice ?? 0).toFixed(2)}
           </span>
         </div>
 

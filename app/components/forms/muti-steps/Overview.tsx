@@ -55,6 +55,7 @@ export default function Overview() {
           placeholder="Describe your service..."
         />
         <TagInput
+          required
           name="highlightedPoints"
           label="Add highlighted points"
           placeholder="Use comma (Enter) to separate your highlighted points"
@@ -69,11 +70,13 @@ export default function Overview() {
           placeholder="Describe your included experiences..."
         />
         <TagInput
+          required
           name="includedPoints"
           label="Included points"
           placeholder="Use comma (Enter) to separate your included points"
         />
         <TagInput
+          required
           name="notIncludedPoints"
           label="Not included points"
           placeholder="Use comma (Enter) to separate your not included points"

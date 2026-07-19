@@ -5,7 +5,7 @@ interface Props {
 }
 
 export default function Star({
-  size = 186,
+  size = 100,
   activeColor = "#31BFC8",
   inactiveColor = "#DFE3E8",
 }: Props) {

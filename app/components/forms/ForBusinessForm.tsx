@@ -99,7 +99,7 @@ export default function ForBusinessForm({ lang }: Props) {
           />
         </div>
         <div className="mt-4">
-          <p className="text-[#637381] text-sm lg:text-base font-semibold text-center">
+          <p className="text-[#637381] text-xs lg:text-base font-semibold text-center">
             Already have an account yet?
             <Link
               href={`/${lang}/provider-login`}

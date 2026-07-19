@@ -176,7 +176,7 @@ export default function Footer({
             </div>
           </div>
 
-          <div className="flex flex-col gap-6 lg:flex-row justify-between items-center">
+          <div className="flex items-center py-5 flex-col gap-6 lg:flex-row justify-between">
             <div className="space-y-2.5  lg:ml-[57px] flex flex-col items-center lg:items-start">
               <h3 className="text-xs xl:text-base font-normal text-[#DFE3E8]">
                 Follow Us On
@@ -197,7 +197,7 @@ export default function Footer({
               </div>
             </div>
 
-            <div className="flex flex-wrap justify-center lg:justify-end  gap-4 sm:gap-5">
+            <div className="flex flex-wrap items-center lg:items-start justify-center lg:justify-end gap-3 sm:gap-4">
               <Link
                 href="https://co2offsetit.com/"
                 className="cursor-pointer transition-transform hover:scale-105"

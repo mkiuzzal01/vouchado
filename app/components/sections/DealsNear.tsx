@@ -1,6 +1,7 @@
 import Container from "@/app/components/shared/Container";
 import ProductCard from "../cards/ProductCard";
 import SectionHeader from "../shared/SectionHeader";
+import NotFoundData from "../shared/NotFoundData";
 
 export interface Deal {
   id: number;
@@ -24,6 +25,10 @@ interface Props {
 }
 
 export default function DealsNear({ lang, deals }: Props) {
+  if (deals?.data?.length === 0) {
+    return <NotFoundData title="No Deals Near You" />;
+  }
+
   return (
     <Container>
       <section className="pb-8">

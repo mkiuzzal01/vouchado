@@ -22,6 +22,7 @@ export interface DealInfoState {
 export interface DealDetailsState {
   deal_name: string;
   category: string;
+  child_category: string;
   shortDescription: string;
   available_start_time: string;
   available_end_time: string;
@@ -49,9 +50,13 @@ export interface CreateDealState {
   dealInfo: DealInfoState;
   dealDetails: DealDetailsState;
   overview: OverviewState;
+  status: "active" | "inactive";
+  granted_12_months: boolean;
 }
 
 const initialState: CreateDealState = {
+  status: "active",
+  granted_12_months: false,
   openDealModal: false,
   currentStep: 1,
   dealId: "",
@@ -69,6 +74,7 @@ const initialState: CreateDealState = {
   dealDetails: {
     deal_name: "",
     category: "",
+    child_category: "",
     shortDescription: "",
     available_start_time: "",
     available_end_time: "",
@@ -124,6 +130,14 @@ export const dealSlice = createSlice({
     },
 
     resetDealForm: () => initialState,
+
+    updateGranted12Months: (state) => {
+      state.granted_12_months = !state.granted_12_months;
+    },
+
+    updateDealStatus: (state, action: PayloadAction<string>) => {
+      state.status = action.payload as "active" | "inactive";
+    },
   },
 });
 
@@ -136,6 +150,8 @@ export const {
   updateOverview,
   setDealId,
   resetDealForm,
+  updateGranted12Months,
+  updateDealStatus,
 } = dealSlice.actions;
 
 export default dealSlice.reducer;

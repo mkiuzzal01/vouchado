@@ -67,7 +67,7 @@ export default function ContactForm({ locale }: Props) {
             />
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex justify-center  lg:justify-end">
             <SubmitButton
               isLoading={isLoading}
               title="Send Message"

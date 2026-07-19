@@ -55,6 +55,7 @@ export default async function Dashboard({ lang, stat, purchases }: Props) {
       color: "text-red-500 bg-red-50",
     },
   ];
+
   return (
     <Container>
       <div className="space-y-7 p-4 w-full text-gray-800">

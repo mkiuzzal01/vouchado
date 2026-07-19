@@ -34,6 +34,7 @@ import { useCreateWishlistMutation } from "@/redux/features/wishlist/wishlist.ap
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useCreateConversationMutation } from "@/redux/features/conversional/conversional.api";
+import { parsePrice } from "@/lib/currency";
 
 export const promos = [
   {
@@ -75,29 +76,28 @@ export default function ItemDetails({ lang, details }: Props) {
   const dispatch = useAppDispatch();
   const { items } = useAppSelector((state) => state.cart);
 
-  const productIsInCart = items?.some(
+  const isExisItem = items?.some(
     (item) => item.id === String(details?.deal?.id),
   );
 
   const handleAddToCart = () => {
     try {
-      if (!productIsInCart) {
-        dispatch(
-          addToCart({
-            id: String(details?.deal?.id),
-            thumbnail: details?.deal?.images[0].image,
-            title: details?.deal?.service_title,
-            tagline: details?.deal?.short_description,
-            rating: details?.deal?.reviews_avg_rating || 0,
-            reviewsCount: details?.deal?.reviews_count || 0,
-            location: details?.deal?.longitude,
-            currentPrice: parseInt(details?.deal?.discounted_price) || 0,
-            originalPrice: parseInt(details?.deal?.original_price) || 0,
-            totalQuantity: details?.deal?.max_purchase_per_customer || 1,
-            selectedQuantity: quantity,
-          }),
-        );
+      if (!isExisItem) {
+        const itemPayload = {
+          id: String(details?.deal?.id),
+          thumbnail: details?.deal?.images[0].image,
+          title: details?.deal?.service_title,
+          tagline: details?.deal?.short_description,
+          rating: details?.deal?.reviews_avg_rating || 0,
+          reviewsCount: details?.deal?.reviews_count || 0,
+          location: details?.deal?.visit_location,
+          currentPrice: parsePrice(details?.deal?.discounted_price),
+          originalPrice: parsePrice(details?.deal?.original_price),
+          totalQuantity: details?.deal?.max_purchase_per_customer || 1,
+          selectedQuantity: quantity,
+        };
 
+        dispatch(addToCart(itemPayload));
         toast.success("Product added to cart");
       } else {
         dispatch(removeFromCart(String(details?.deal?.id)));
@@ -351,7 +351,7 @@ export default function ItemDetails({ lang, details }: Props) {
 
               <div className="space-y-2.5 pt-1">
                 <div>
-                  {productIsInCart ? (
+                  {isExisItem ? (
                     <Link href={`/${lang}/cart`}>
                       <div className="flex">
                         <Button className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white  font-bold h-12 rounded-full text-lg transition-all active:scale-[0.99]">

@@ -23,6 +23,7 @@ interface Props {
   navLinks: any;
   services: any;
   menuTitle: string;
+  profileInfo: any;
 }
 
 export default function Navbar({
@@ -33,6 +34,7 @@ export default function Navbar({
   navLinks,
   services,
   menuTitle,
+  profileInfo,
 }: Props) {
   const [showNavbar, setShowNavbar] = useState(false);
   const token = cookie.get("vuchado_token");
@@ -41,7 +43,7 @@ export default function Navbar({
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-[#ffff]">
       <Container>
-        <div className="flex items-center justify-between py-2.5 sm:py-3 lg:py-3.5 2xl:py-4">
+        <div className="flex items-center justify-between gap-4 py-2.5 sm:py-3 lg:py-3.5 2xl:py-4">
           {/* Logo */}
           <Link href={`/${lang}`} className="flex items-center">
             <Image
@@ -50,7 +52,7 @@ export default function Navbar({
               width={270}
               height={62}
               priority
-              className="h-7 sm:h-8 md:h-9 lg:h-10 xl:h-11 2xl:h-14 w-auto object-contain"
+              className="h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-18 w-auto object-contain"
             />
           </Link>
 
@@ -73,7 +75,7 @@ export default function Navbar({
             <div className="bg-gray-50 rounded-full">
               <Link
                 href={`/${lang}/chat`}
-                className={`flex size-9 lg:size-10 xl:size-8 2xl:size-10 items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
+                className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10 2xl:h-12 2xl:w-12 items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
               >
                 <Chat
                   color={path.includes("/chat") ? "white" : "#292D32"}
@@ -87,7 +89,7 @@ export default function Navbar({
               <div className="bg-white rounded-full">
                 <Link
                   href={`/${lang}/wishlist`}
-                  className={`flex h-10 w-7 lg:w-10 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/wishlist") && "bg-[#2EC4C6]"}`}
+                  className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10  items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/wishlist") && "bg-[#2EC4C6]"}`}
                 >
                   <WishList
                     color={path.includes("/wishlist") ? "white" : "#292D32"}
@@ -98,7 +100,7 @@ export default function Navbar({
               <div className="bg-white rounded-full">
                 <Link
                   href={`/${lang}/coupons`}
-                  className={`flex h-10 w-7 lg:w-10 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/coupons") && "bg-[#2EC4C6]"}`}
+                  className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/coupons") && "bg-[#2EC4C6]"}`}
                 >
                   <Voucher
                     color={path.includes("/coupons") ? "white" : "#292D32"}
@@ -108,7 +110,7 @@ export default function Navbar({
               <div className="bg-white rounded-full">
                 <Link
                   href={`/${lang}/cart`}
-                  className={`flex h-10 w-7 lg:w-10 xl:h-8 xl:w-8 2xl:h-10 2xl:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/cart") && "bg-[#2EC4C6]"}`}
+                  className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10  items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/cart") && "bg-[#2EC4C6]"}`}
                 >
                   <Cart
                     color={path.includes("/cart") ? "white" : "#292D32"}
@@ -118,7 +120,10 @@ export default function Navbar({
               </div>
 
               {token ? (
-                <UserDropdown lang={lang} />
+                <UserDropdown
+                  balance={profileInfo?.data?.balance}
+                  lang={lang}
+                />
               ) : (
                 <div className="hidden sm:flex items-center gap-2 xl:gap-1 2xl:gap-2">
                   <Link

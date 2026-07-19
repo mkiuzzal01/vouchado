@@ -193,15 +193,8 @@ export default function MegaMenu({
             ))}
           </div>
 
-          {/* LOCATION */}
-          <Link
-            href="/contact"
-            onClick={() => setShowNavbar(false)}
-            className="flex items-center gap-2 px-3 py-2 rounded-md bg-gray-100 text-xs lg:text-sm mt-2"
-          >
-            <Location size={15} />
-            Berlin, Germany
-          </Link>
+          {/* Location */}
+          <LocationOrigin />
 
           {/* AUTH BUTTONS */}
           <div className="mt-auto sm:hidden flex items-center gap-2 pt-4">

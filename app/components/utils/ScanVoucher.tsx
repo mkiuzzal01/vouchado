@@ -1,6 +1,16 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import { Html5Qrcode } from "html5-qrcode";
+import {
+  Loader2,
+  QrCode,
+  Monitor,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 import { useVoucherRedeemMutation } from "@/redux/features/deal/deal.api";
+import { cn } from "@/lib/utils";
 
 interface RedeemPayload {
   voucher_code: string;
@@ -20,6 +30,11 @@ export default function ScanVoucher() {
   const desktopScanBuffer = useRef("");
   const html5QrcodeRef = useRef<Html5Qrcode | null>(null);
 
+  const notesRef = useRef("");
+  useEffect(() => {
+    notesRef.current = notes;
+  }, [notes]);
+
   const parseScannedData = (
     rawText: string,
     currentNotes: string,
@@ -27,19 +42,16 @@ export default function ScanVoucher() {
     let voucher_code = "";
     let qr_token = "";
 
-    // 1. Try checking if it's a JSON payload
     try {
       const parsed = JSON.parse(rawText);
       voucher_code = parsed.voucher_code || parsed.code || "";
       qr_token = parsed.qr_token || parsed.token || "";
     } catch (e) {
-      // 2. Fallback: Check if it's a URL query string (e.g., https://site.com/redeem?voucher_code=XYZ&qr_token=abc)
       try {
         const url = new URL(rawText);
         voucher_code = url.searchParams.get("voucher_code") || "";
         qr_token = url.searchParams.get("qr_token") || "";
       } catch (urlErr) {
-        // 3. Fallback: If it's a simple raw text string, fall back to setting it as the voucher_code
         voucher_code = rawText;
       }
     }
@@ -51,14 +63,13 @@ export default function ScanVoucher() {
     };
   };
 
-  // Central trigger to submit payload to your RTK Query API
   const handleRedeemPayload = async (rawText: string) => {
-    const payload = parseScannedData(rawText, notes);
+    const payload = parseScannedData(rawText, notesRef.current);
 
     console.log("Sending payload to API:", payload);
     try {
       await voucherRedeem(payload).unwrap();
-      setErrorMsg(""); // Clear previous errors if successful
+      setErrorMsg("");
     } catch (err: any) {
       console.error("Mutation failed:", err);
       setErrorMsg(err?.data?.message || "Failed to redeem voucher.");
@@ -93,11 +104,9 @@ export default function ScanVoucher() {
             console.log("Mobile Camera Scan Value:", decodedText);
             setScannedValue(decodedText);
             stopCamera();
-            handleRedeemPayload(decodedText); // Execute API Call
+            handleRedeemPayload(decodedText);
           },
-          (errorMessage) => {
-            // Constant verbose scanning debug feedback, safe to ignore
-          },
+          () => {},
         );
       } catch (err: any) {
         console.error("Failed to auto-start camera:", err);
@@ -113,7 +122,7 @@ export default function ScanVoucher() {
       clearTimeout(timer);
       stopCamera();
     };
-  }, [isMobile, notes]); // Depend on notes to ensure the handler sends latest input state
+  }, [isMobile]); // Keystroke notes no longer trigger re-renders here
 
   const stopCamera = () => {
     if (html5QrcodeRef.current && html5QrcodeRef.current.isScanning) {
@@ -129,7 +138,6 @@ export default function ScanVoucher() {
     if (isMobile) return;
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      // Ignore key events targetting text input boxes so typing notes doesn't break scanner buffers
       if (
         (e.target as HTMLElement).tagName === "INPUT" ||
         (e.target as HTMLElement).tagName === "TEXTAREA"
@@ -142,9 +150,9 @@ export default function ScanVoucher() {
           const finalValue = desktopScanBuffer.current;
           console.log("Desktop Hardware Scan Value:", finalValue);
           setScannedValue(finalValue);
-          desktopScanBuffer.current = ""; // Reset buffer
+          desktopScanBuffer.current = "";
 
-          handleRedeemPayload(finalValue); // Execute API Call
+          handleRedeemPayload(finalValue);
         }
       } else {
         desktopScanBuffer.current += e.key;
@@ -156,30 +164,13 @@ export default function ScanVoucher() {
     return () => {
       window.removeEventListener("keypress", handleKeyPress);
     };
-  }, [isMobile, notes]);
+  }, [isMobile]);
 
   return (
-    <div
-      style={{
-        padding: "20px",
-        maxWidth: "500px",
-        margin: "0 auto",
-        textAlign: "center",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h2>Voucher Scanner</h2>
-
-      {/* Optional Note Field input block before scanning */}
-      <div style={{ marginBottom: "20px", textAlign: "left" }}>
-        <label
-          style={{
-            display: "block",
-            marginBottom: "5px",
-            fontWeight: "bold",
-            fontSize: "14px",
-          }}
-        >
+    <div className="w-full max-w-lg mx-auto p-5 text-center font-sans">
+      {/* Note input panel element */}
+      <div className="mb-5 text-left space-y-1.5">
+        <label className="block text-sm font-semibold text-gray-700">
           Add Custom Note (Optional):
         </label>
         <input
@@ -187,78 +178,68 @@ export default function ScanVoucher() {
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="Enter notes before scanning..."
-          style={{
-            width: "100%",
-            padding: "10px",
-            boxSizing: "border-box",
-            borderRadius: "4px",
-            border: "1px solid #ccc",
-          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm transition-colors focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder:text-muted-foreground text-sm"
         />
       </div>
 
+      {/* Main scanning view area wrapper box */}
       {isMobile ? (
-        <div>
-          <p style={{ color: errorMsg ? "red" : "green", fontWeight: "500" }}>
-            {errorMsg
-              ? errorMsg
-              : "Mobile Device: Auto-starting camera stream..."}
-          </p>
+        <div className="space-y-3">
+          <div
+            className={cn(
+              "flex items-center justify-center space-x-2 text-sm font-medium p-3 rounded-md transition-all",
+              errorMsg
+                ? "bg-red-50 text-red-600"
+                : "bg-emerald-50 text-emerald-700",
+            )}
+          >
+            {errorMsg ? (
+              <AlertCircle size={18} />
+            ) : (
+              <QrCode className="animate-pulse" size={18} />
+            )}
+            <span>
+              {errorMsg
+                ? errorMsg
+                : "Mobile Device: Auto-starting camera stream..."}
+            </span>
+          </div>
           <div
             id="mobile-reader"
-            style={{ width: "100%", borderRadius: "8px", overflow: "hidden" }}
+            className="w-full rounded-lg overflow-hidden border border-gray-200 bg-black aspect-square shadow-inner"
           ></div>
         </div>
       ) : (
-        <div
-          style={{
-            border: "2px dashed #ccc",
-            padding: "40px",
-            borderRadius: "8px",
-            backgroundColor: "#fafafa",
-          }}
-        >
-          <p style={{ color: "blue", fontWeight: "bold" }}>
+        <div className="border-2 border-dashed border-gray-300 p-10 rounded-xl bg-gray-50 flex flex-col items-center justify-center space-y-3 shadow-sm">
+          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
+            <Monitor size={24} />
+          </div>
+          <p className="text-blue-600 font-bold tracking-tight">
             Desktop Device Detected
           </p>
-          <p style={{ fontSize: "14px", color: "#555" }}>
+          <p className="text-sm text-gray-500 max-w-xs leading-normal">
             Please click anywhere on this window background and pull the trigger
             on your physical USB QR scanner.
           </p>
         </div>
       )}
 
-      {/* Mutation Status Indicators */}
+      {/* Mutation Status Alerts */}
       {isLoading && (
-        <div
-          style={{ marginTop: "20px", color: "#e67e22", fontWeight: "bold" }}
-        >
-          Processing voucher transaction...
+        <div className="mt-5 flex items-center justify-center space-x-2 text-amber-600 font-semibold text-sm bg-amber-50 p-3 rounded-md border border-amber-200">
+          <Loader2 className="animate-spin" size={16} />
+          <span>Processing voucher transaction...</span>
         </div>
       )}
 
       {isSuccess && (
-        <div
-          style={{
-            marginTop: "20px",
-            background: "#e6f4ea",
-            color: "#137333",
-            padding: "15px",
-            borderRadius: "6px",
-            fontWeight: "bold",
-          }}
-        >
-          Success! Voucher Redeemed.
+        <div className="mt-5 bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-lg font-medium text-left shadow-sm space-y-2">
+          <div className="flex items-center space-x-2 text-emerald-700 font-bold">
+            <CheckCircle2 size={18} />
+            <span>Success! Voucher Redeemed.</span>
+          </div>
           {data && (
-            <pre
-              style={{
-                fontSize: "12px",
-                textAlign: "left",
-                background: "#fff",
-                padding: "8px",
-                margin: "5px 0 0 0",
-              }}
-            >
+            <pre className="text-xs font-mono bg-white border border-emerald-100 p-2.5 rounded overflow-x-auto text-gray-700 max-h-40 shadow-inner">
               {JSON.stringify(data, null, 2)}
             </pre>
           )}
@@ -266,18 +247,13 @@ export default function ScanVoucher() {
       )}
 
       {scannedValue && (
-        <div
-          style={{
-            marginTop: "20px",
-            background: "#f5f5f5",
-            color: "#333",
-            padding: "12px",
-            borderRadius: "6px",
-            fontSize: "13px",
-          }}
-        >
-          <strong>Last Raw Scan Data:</strong>{" "}
-          <span style={{ wordBreak: "break-all" }}>{scannedValue}</span>
+        <div className="mt-5 bg-gray-100 border border-gray-200 text-gray-700 p-3 rounded-lg text-xs text-left leading-relaxed shadow-sm">
+          <strong className="text-gray-900 block mb-1">
+            Last Raw Scan Data:
+          </strong>
+          <span className="font-mono break-all selection:bg-gray-300">
+            {scannedValue}
+          </span>
         </div>
       )}
     </div>

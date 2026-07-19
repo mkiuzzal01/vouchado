@@ -5,12 +5,12 @@ import TextInput from "@/app/components/forms/inputs/TextInput";
 import SubmitButton from "@/app/components/buttons/SubmitButton";
 import { FieldValues } from "react-hook-form";
 import { useCouponPurchaseMutation } from "@/redux/features/checkout/checkout.api";
-import { useAppDispatch } from "@/redux/hooks/globalhooks";
-import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { setApplyCoupon } from "@/redux/features/cart/cart.slice";
 
 export default function Coupon() {
   const dispatch = useAppDispatch();
+  const { couponStatus } = useAppSelector((state) => state.cart);
 
   const [applyCoupon, { isLoading }] = useCouponPurchaseMutation();
 
@@ -19,9 +19,7 @@ export default function Coupon() {
       const res = await applyCoupon(values).unwrap();
       if (res?.message) {
         toast.success(res.message);
-        console.log(res);
-
-        dispatch(setApplyCoupon(res?.data?.coupon));
+        dispatch(setApplyCoupon(Number(res?.data?.coupon?.value)));
         reset();
       }
     } catch (error: any) {
@@ -35,6 +33,8 @@ export default function Coupon() {
         <div className="flex gap-4">
           <div className="flex-1">
             <TextInput
+              required
+              disabled={couponStatus}
               name="coupon_code"
               placeholder="Enter your coupon code"
               className="rounded-full"
@@ -42,6 +42,7 @@ export default function Coupon() {
           </div>
           <div>
             <SubmitButton
+              disabled={couponStatus}
               className="h-11 rounded-full px-4"
               isLoading={isLoading}
               title="Apply"

@@ -22,6 +22,7 @@ export default function TagInput({
   placeholder,
   icon,
   className,
+  required = false,
 }: TagInputProps) {
   const {
     control,
@@ -33,16 +34,30 @@ export default function TagInput({
 
   return (
     <div className={cn("space-y-1.5 w-full mb-6", className)}>
-      {/* LABEL */}
+      {/* LABEL WITH OPTIONAL RED MANDATORY INDICATOR */}
       {label && (
-        <Label htmlFor={name} className="text-sm font-medium text-gray-600">
-          {label}
+        <Label
+          htmlFor={name}
+          className="text-sm font-medium text-gray-600 block"
+        >
+          {label} {required && <span className="text-red-500">*</span>}
         </Label>
       )}
 
       <Controller
         name={name}
         control={control}
+        rules={{
+          validate: (value) => {
+            if (required) {
+              // Ensure array state checking confirms there is at least one tag
+              if (!value || !Array.isArray(value) || value.length === 0) {
+                return `${label || "This field"} is required`;
+              }
+            }
+            return true;
+          },
+        }}
         render={({ field }) => {
           // Safeguard to ensure value is always an array
           const tags: string[] = Array.isArray(field.value) ? field.value : [];
@@ -78,8 +93,11 @@ export default function TagInput({
               {/* INPUT CONTAINER (Imitates standard shadcn Input box) */}
               <div
                 className={cn(
-                  "flex flex-wrap items-center gap-2 min-h-11 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm ring-offset-background transition-all relative group",
+                  "flex flex-wrap items-center gap-2 min-h-11 w-full rounded-lg border px-3 py-2 text-sm ring-offset-background transition-all relative group",
                   "focus-within:outline-none focus-within:ring-2 focus-within:ring-primary/30 focus-within:border-primary",
+                  errorMessage
+                    ? "border-red-500 focus-within:ring-red-200 focus-within:border-red-500"
+                    : "border-gray-200",
                   icon && "pl-9",
                 )}
               >
@@ -122,9 +140,11 @@ export default function TagInput({
                 />
               </div>
 
-              {/* ERROR MESSAGE */}
+              {/* DYNAMIC FORM FEEDBACK CONTAINER */}
               {errorMessage && (
-                <p className="text-xs text-red-500 mt-1">{errorMessage}</p>
+                <p className="text-xs text-red-500 font-medium mt-1">
+                  {errorMessage}
+                </p>
               )}
             </>
           );

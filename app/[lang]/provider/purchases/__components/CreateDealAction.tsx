@@ -27,57 +27,63 @@ export default function CreateDealAction({ title }: Props) {
         {title}
       </h1>
 
-      {/* Action Buttons Container */}
-      <div className="flex items-center gap-3 w-full sm:w-auto">
-        {/* Outlined "Scan Voucher" Button */}
-        <button
-          onClick={() => setOpenVoucherModal(!openVoucherModal)}
-          className="flex items-center justify-center gap-2 p-4 bg-white border font-semibold rounded-full text-[15px] hover:bg-[#2EC1CC]/5 transition-colors  w-full sm:w-auto tracking-wide"
-        >
-          <CreateGiftVoucherIcon />
-          <span>Create gift Voucher</span>
-        </button>
+      <div className="flex justify-between items-center">
+        {/* Action Buttons Container */}
+        <div className="flex flex-wrap items-center gap-3 w-full">
+          {/* Outlined "Scan Voucher" Button */}
+          <button
+            onClick={() => setOpenVoucherModal(!openVoucherModal)}
+            className="flex items-center justify-center gap-2 p-4 bg-white border font-semibold rounded-full text-[15px] hover:bg-[#2EC1CC]/5 transition-colors  w-full sm:w-auto tracking-wide"
+          >
+            <CreateGiftVoucherIcon />
+            <span>Create gift Voucher</span>
+          </button>
 
-        <button
-          onClick={() => setIsScannerOpen(!isScannerOpen)}
-          className="flex items-center justify-center gap-2 p-4 bg-white border border-[#2EC1CC] font-semibold rounded-full text-[15px] text-[#2EC1CC] hover:bg-[#2EC1CC]/5 transition-colors shadow-sm w-full sm:w-auto tracking-wide"
-        >
-          <Scan />
-          <span>Scan Voucher</span>
-        </button>
+          <button
+            onClick={() => setIsScannerOpen(!isScannerOpen)}
+            className="flex items-center justify-center gap-2 p-4 bg-white border border-[#2EC1CC] font-semibold rounded-full text-[15px] text-[#2EC1CC] hover:bg-[#2EC1CC]/5 transition-colors shadow-sm w-full sm:w-auto tracking-wide"
+          >
+            <Scan />
+            <span>Scan Voucher</span>
+          </button>
 
-        {/* Solid "Add New Deal" Button */}
-        <button
-          onClick={() => dispatch(setOpenDealModal(!openDealModal))}
-          className="flex items-center justify-center gap-2 p-4 bg-[#2EC1CC] font-semibold rounded-full text-[15px] text-white hover:bg-[#26A6AF] transition-colors shadow-sm w-full sm:w-auto tracking-wide"
-        >
-          <Plus color="#fff" size={14} />
-          <span>Add New Deal</span>
-        </button>
+          {/* Solid "Add New Deal" Button */}
+          <button
+            onClick={() => dispatch(setOpenDealModal(!openDealModal))}
+            className="flex items-center justify-center gap-2 p-4 bg-[#2EC1CC] font-semibold rounded-full text-[15px] text-white hover:bg-[#26A6AF] transition-colors shadow-sm w-full sm:w-auto tracking-wide"
+          >
+            <Plus color="#fff" size={14} />
+            <span>Add New Deal</span>
+          </button>
+        </div>
+        <div>
+          <ModalContainer
+            title="Create new voucher"
+            isOpen={openDealModal}
+            onClose={() => dispatch(setOpenDealModal(!openDealModal))}
+          >
+            <CreateDealForm />
+          </ModalContainer>
+
+          <ModalContainer
+            title="Create new voucher"
+            width="lg"
+            isOpen={openVoucherModal}
+            onClose={() => setOpenVoucherModal(!openVoucherModal)}
+          >
+            <GiftVoucherForm deal_id={1} lang="en" />
+          </ModalContainer>
+
+          <ModalContainer
+            title="Voucher Scanner"
+            width="lg"
+            isOpen={isScannerOpen}
+            onClose={() => setIsScannerOpen(!isScannerOpen)}
+          >
+            <ScanVoucher />
+          </ModalContainer>
+        </div>
       </div>
-      <ModalContainer
-        title="Create new voucher"
-        isOpen={openDealModal}
-        onClose={() => dispatch(setOpenDealModal(!openDealModal))}
-      >
-        <CreateDealForm />
-      </ModalContainer>
-      <ModalContainer
-        width="lg"
-        title="Create new voucher"
-        isOpen={openVoucherModal}
-        onClose={() => setOpenVoucherModal(!openVoucherModal)}
-      >
-        <GiftVoucherForm deal_id={1} lang="en" />
-      </ModalContainer>
-      {/* OPTIONAL SCANNER MODAL OVERLAY */}
-      <ModalContainer
-        width="lg"
-        isOpen={isScannerOpen}
-        onClose={() => setIsScannerOpen(!isScannerOpen)}
-      >
-        <ScanVoucher />
-      </ModalContainer>
     </div>
   );
 }

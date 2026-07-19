@@ -60,7 +60,7 @@ export default function Hero({ banner }: Props) {
           {/* Offer Badge (Absolute Positioning for perfect responsiveness) */}
           <div className="absolute right-2 top-2 sm:right-4 sm:top-4 md:right-10 md:top-1/10 lg:left-[60%] lg:top-[10%] xl:top-[18%] z-20 transition-transform duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer">
             <Image
-              className="w-28 h-28 sm:w-32 sm:h-32 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-44 xl:h-44 drop-shadow-2xl"
+              className="w-24 h-24 sm:w-32 sm:h-32 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-44 xl:h-44 drop-shadow-2xl"
               src={hero}
               alt="70% Off Special Offer"
             />
@@ -68,7 +68,7 @@ export default function Hero({ banner }: Props) {
 
           <div className="relative grow flex items-center">
             {/* Text Content */}
-            <div className="relative z-10 w-full max-w-2xl md:max-w-md lg:max-w-lg xl:max-w-5xl left-[18px] space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-4 xl:space-y-3 text-center md:text-left mt-20">
+            <div className="relative z-10 w-full max-w-2xl md:max-w-md lg:max-w-lg xl:max-w-5xl lg:left-[18px] space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-4 xl:space-y-3 text-center md:text-left mt-20">
               {/* Badge */}
               <div className="inline-flex items-center rounded-full bg-[#BFEBEE1F]  px-4 py-1.5 md:px-3 md:py-1 lg:px-4 lg:py-2 text-[10px] sm:text-xs md:text-[10px] lg:text-[11px] xl:text-xs font-semibold tracking-widest text-white backdrop-blur-md shadow-sm">
                 YOUR CITY. YOUR DEALS.
@@ -96,7 +96,7 @@ export default function Hero({ banner }: Props) {
               </p>
 
               <div>
-                <div className="w-full max-w-[800px] mx-auto md:mx-0 md:scale-[0.9] lg:scale-[0.95] xl:scale-100 origin-center md:origin-left">
+                <div className="w-full mx-auto md:mx-0 md:scale-[0.9] lg:scale-[0.95] xl:scale-100 origin-center md:origin-left">
                   <HeroSearch />
                 </div>
 

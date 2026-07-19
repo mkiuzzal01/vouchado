@@ -113,7 +113,10 @@ export default function ItemCard({ item, lang }: ItemCardProps) {
         {/* Dynamic Display Price */}
         <div className="order-2 text-right">
           <span className="text-xl md:text-2xl font-black text-[#2BC4CA] block">
-            €{(item?.currentPrice * item?.selectedQuantity).toFixed(2)}
+            €
+            {(
+              Number(item?.currentPrice) * Number(item?.selectedQuantity)
+            ).toFixed(2)}
           </span>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useFormContext } from "react-hook-form";
-import { ChevronLeft, ChevronRight, Info } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import AppForm from "../AppForm";
 import TextInput from "../inputs/TextInput";
 import SelectInput from "../inputs/SelectInput";
@@ -12,10 +11,11 @@ import Bell from "../../icons/Bell";
 import Boots from "../../icons/Boots";
 import Sparkles from "../../icons/Sparkles";
 import Grow from "../../icons/Grow";
-import { useAppSelector } from "@/redux/hooks/globalhooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { setStep, updateDealDetails } from "@/redux/features/deal/deal.slice";
 import { useGetCategoriesQuery } from "@/redux/features/deal/deal.api";
 import Loader from "@/app/loading";
+import { Category, ChildCategory } from "@/redux/types/categoris";
 
 const DAYS = [
   "Monday",
@@ -96,15 +96,37 @@ const BOOSTER_ITEMS = [
   },
 ];
 
-function DetailsFormContent({ category }: { category: any }) {
-  const dispatch = useDispatch();
-  const { watch } = useFormContext();
-  const { dealDetails } = useAppSelector((state) => state.deal);
+interface ICategory {
+  data: Category[];
+  message: string;
+  status: number;
+}
 
-  const [days, setDays] = useState<string[]>(dealDetails.availableDays || []);
-  const [months, setMonths] = useState<string[]>(
-    dealDetails.availableMonths || [],
-  );
+function DetailsFormContent({ category }: { category: ICategory }) {
+  const dispatch = useAppDispatch();
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
+
+  // Watch fields in form context instead of keeping disconnected local states
+  const selectedDays: string[] = watch("availableDays") || [];
+  const selectedMonths: string[] = watch("availableMonths") || [];
+
+  // Register these internal fields to enable programmatic hook form rules validation tracking
+  register("availableDays", {
+    validate: (value) =>
+      (Array.isArray(value) && value.length > 0) ||
+      "Please select at least one day",
+  });
+  register("availableMonths", {
+    validate: (value) =>
+      (Array.isArray(value) && value.length > 0) ||
+      "Please select at least one month",
+  });
+
   const [boosters, setBoosters] = useState<Record<string, boolean>>({
     newsletter: true,
     trending: false,
@@ -114,11 +136,28 @@ function DetailsFormContent({ category }: { category: any }) {
   });
 
   const startTime = watch("available_start_time");
+  const selectedCategoryId = watch("category");
 
-  const toggleItem = (item: string, list: string[], setList: Function) => {
-    setList(
-      list.includes(item) ? list.filter((i) => i !== item) : [...list, item],
-    );
+  const selectedCategoryObj = category?.data?.find(
+    (item: Category) => item.id.toString() === selectedCategoryId?.toString(),
+  );
+
+  const childCategories = selectedCategoryObj?.child_categories || [];
+
+  // Refactored to save changes straight into the React Hook Form structure
+  const handleToggleItem = (
+    fieldName: string,
+    item: string,
+    currentList: string[],
+  ) => {
+    const updatedList = currentList.includes(item)
+      ? currentList.filter((i) => i !== item)
+      : [...currentList, item];
+
+    setValue(fieldName, updatedList, {
+      shouldValidate: true,
+      shouldDirty: true,
+    });
   };
 
   return (
@@ -129,18 +168,43 @@ function DetailsFormContent({ category }: { category: any }) {
         label="Deal name"
         placeholder="Enter your service name..."
       />
-      <SelectInput
-        required
-        name="category"
-        label="Deal category"
-        options={[
-          { label: "Select a service category", value: "" },
-          ...(category?.data?.map((item: any) => ({
-            label: item?.name,
-            value: item?.id,
-          })) || []),
-        ]}
-      />
+
+      {/* Main Category Selection */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <SelectInput
+          required
+          name="category"
+          label="Deal category"
+          options={[
+            { label: "Select a service category", value: "" },
+            ...(category?.data?.map((item: Category) => ({
+              label: item?.name,
+              value: item?.id.toString(),
+            })) || []),
+          ]}
+        />
+
+        <SelectInput
+          required
+          name="child_category"
+          label="Deal subcategory"
+          disabled={!selectedCategoryId || childCategories.length === 0}
+          options={[
+            {
+              label:
+                childCategories.length === 0
+                  ? "No subcategories available"
+                  : "Select a subcategory",
+              value: "",
+            },
+            ...childCategories.map((child: ChildCategory) => ({
+              label: child?.name,
+              value: child?.id.toString(),
+            })),
+          ]}
+        />
+      </div>
+
       <TextInput
         name="shortDescription"
         label="Deal short description"
@@ -176,45 +240,78 @@ function DetailsFormContent({ category }: { category: any }) {
           requiredType="datetime-local"
           name="service_end_time"
           label="Service end time"
+          rules={{}}
         />
       </div>
 
       {/* Days selection UI */}
       <div>
         <label className="block text-xs font-bold text-slate-500 uppercase mb-2">
-          Available Days
+          Available Days <span className="text-red-500">*</span>
         </label>
         <div className="flex flex-wrap gap-2">
-          {DAYS.map((d) => (
-            <button
-              key={d}
-              type="button"
-              onClick={() => toggleItem(d, days, setDays)}
-              className={`px-4 py-2 text-xs font-semibold border rounded-xl transition ${days.includes(d) ? "bg-[#31BFC8] text-white border-[#31BFC8]" : "bg-white text-slate-600 border-slate-200"}`}
-            >
-              {d}
-            </button>
-          ))}
+          {DAYS.map((d) => {
+            const isSelected = selectedDays.includes(d);
+            return (
+              <button
+                key={d}
+                type="button"
+                onClick={() =>
+                  handleToggleItem("availableDays", d, selectedDays)
+                }
+                className={`px-4 py-2 text-xs font-semibold border rounded-xl transition ${
+                  isSelected
+                    ? "bg-[#31BFC8] text-white border-[#31BFC8]"
+                    : errors.availableDays
+                      ? "bg-white text-red-600 border-red-200 hover:border-red-300"
+                      : "bg-white text-slate-600 border-slate-200"
+                }`}
+              >
+                {d}
+              </button>
+            );
+          })}
         </div>
+        {errors.availableDays && (
+          <p className="mt-1 text-xs font-medium text-red-500">
+            {errors.availableDays.message as string}
+          </p>
+        )}
       </div>
 
       {/* Months selection UI */}
       <div>
         <label className="block text-xs font-bold text-slate-500 uppercase mb-2">
-          Available Month
+          Available Months <span className="text-red-500">*</span>
         </label>
         <div className="flex flex-wrap gap-2">
-          {MONTHS.map((m) => (
-            <button
-              key={m}
-              type="button"
-              onClick={() => toggleItem(m, months, setMonths)}
-              className={`px-4 py-2 text-xs font-semibold border rounded-xl transition ${months.includes(m) ? "bg-[#31BFC8] text-white border-[#31BFC8]" : "bg-white text-slate-600 border-slate-200"}`}
-            >
-              {m}
-            </button>
-          ))}
+          {MONTHS.map((m) => {
+            const isSelected = selectedMonths.includes(m);
+            return (
+              <button
+                key={m}
+                type="button"
+                onClick={() =>
+                  handleToggleItem("availableMonths", m, selectedMonths)
+                }
+                className={`px-4 py-2 text-xs font-semibold border rounded-xl transition ${
+                  isSelected
+                    ? "bg-[#31BFC8] text-white border-[#31BFC8]"
+                    : errors.availableMonths
+                      ? "bg-white text-red-600 border-red-200 hover:border-red-300"
+                      : "bg-white text-slate-600 border-slate-200"
+                }`}
+              >
+                {m}
+              </button>
+            );
+          })}
         </div>
+        {errors.availableMonths && (
+          <p className="mt-1 text-xs font-medium text-red-500">
+            {errors.availableMonths.message as string}
+          </p>
+        )}
       </div>
 
       {/* Boosters section */}
@@ -283,7 +380,7 @@ function DetailsFormContent({ category }: { category: any }) {
 }
 
 export default function Details() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { dealDetails } = useAppSelector((state) => state.deal);
   const { data: category, isLoading } = useGetCategoriesQuery(null);
 

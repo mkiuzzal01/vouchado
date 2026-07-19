@@ -116,7 +116,7 @@ export default function Steps() {
   return (
     <section className="w-full py-12 md:py-16 lg-18 xl:py-24">
       <Container>
-        <div className="relative max-w-[1114px] mx-auto px-4 sm:px-6">
+        <div className="relative max-w-[1114px] mx-auto">
           {/* ── VERTICAL TIMELINE LINE ── */}
           <div
             className="
@@ -182,7 +182,7 @@ export default function Steps() {
                   {/* ── TEXT CONTENT SIDE ── */}
                   <div
                     className={`
-                      flex flex-col justify-center pl-16 lg:pl-0
+                      flex flex-col justify-center
                       ${isImageLeft ? "lg:order-last lg:pl-4" : "lg:order-first lg:pr-4"}
                     `}
                   >
