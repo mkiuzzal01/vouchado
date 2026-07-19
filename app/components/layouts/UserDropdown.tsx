@@ -23,7 +23,7 @@ interface Props {
   balance?: string;
 }
 
-export default function UserDropdown({ lang = "en", balance }: Props) {
+export default function UserDropdown({ lang = "en", balance = "0.00" }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.auth);

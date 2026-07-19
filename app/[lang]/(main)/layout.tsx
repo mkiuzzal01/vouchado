@@ -26,13 +26,11 @@ export default async function layout({ children, params }: RootLayout) {
   const footerLinksData = await footerLinks(lang);
   const socialLinks = await getSocialLinks();
   const systemInfo = await getSystemInfo();
-  const profileInfo = await getBusniessProfile();
 
   return (
     <div className="min-h-screen flex flex-col">
       <TopBar content={nav.top} />
       <Navbar
-        profileInfo={profileInfo}
         lang={lang}
         login={nav.auth.login.login}
         register={nav.auth.register.register}
