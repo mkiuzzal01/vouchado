@@ -2,6 +2,7 @@ import TopBar from "@/app/components/layouts/TopBar";
 import Footer from "../../components/layouts/Footer";
 import Navbar from "../../components/layouts/Navbar";
 import { getDictionary } from "../dictionaries";
+import { cookies } from "next/headers";
 import {
   footerLinks,
   getNavLinks,
@@ -20,17 +21,26 @@ interface RootLayout {
 
 export default async function layout({ children, params }: RootLayout) {
   const { lang } = await params;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("vuchado_token")?.value;
+
   const nav = await getDictionary(lang);
   const navLinks = await getNavLinks(lang);
   const services = await getServices(lang);
   const footerLinksData = await footerLinks(lang);
   const socialLinks = await getSocialLinks();
   const systemInfo = await getSystemInfo();
+  let user_info = null;
+
+  if (token) {
+    user_info = await getBusniessProfile();
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
       <TopBar content={nav.top} />
       <Navbar
+        user_info={user_info}
         lang={lang}
         login={nav.auth.login.login}
         register={nav.auth.register.register}

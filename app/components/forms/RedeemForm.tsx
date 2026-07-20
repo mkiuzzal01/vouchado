@@ -7,6 +7,8 @@ import RangeInput from "./inputs/RangeInput";
 export default function RedeemForm() {
   const { user } = useAppSelector((state) => state.auth);
 
+  console.log(user);
+
   const handleFormSubmit = (values: { budget: number }, reset: () => void) => {
     console.log("Form submitted with values:", values);
     reset();

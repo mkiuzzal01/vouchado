@@ -48,6 +48,9 @@ interface Props {
     rating?: string;
     availability?: string;
     popular?: string;
+    lat?: string;
+    lng?: string;
+    service?: string;
   }>;
 }
 
@@ -66,6 +69,9 @@ export default async function page({ params, searchParams }: Props) {
     rating,
     availability,
     popular,
+    lat,
+    lng,
+    service,
   } = resolvedSearchParams;
 
   const query = new URLSearchParams();
@@ -77,11 +83,12 @@ export default async function page({ params, searchParams }: Props) {
   if (rating) query.set("rating", rating);
   if (availability) query.set("availability", availability);
   if (popular) query.set("popular", popular);
+  if (lat) query.set("latitude", lat);
+  if (lng) query.set("longitude", lng);
+  if (service) query.set("search", service);
 
   const deals = await getDeals(query.toString());
   const categories = await getCategories();
-
-  console.log(deals);
 
   return (
     <div>

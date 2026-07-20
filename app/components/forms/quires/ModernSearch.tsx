@@ -1,10 +1,17 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, useEffect, useCallback } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import SearchIcon from "../../icons/SearchIcon";
 import LocationIcon from "../../icons/LocationIcon";
+import MapInput from "../inputs/MapInput";
 
 export interface ModernSearchProps {
-  onSearch?: (query: { location: string; service: string }) => void;
+  onSearch?: (query: {
+    service: string;
+    lat?: number | null;
+    lng?: number | null;
+  }) => void;
   locationPlaceholder?: string;
   servicePlaceholder?: string;
   buttonText?: string;
@@ -18,12 +25,77 @@ export default function ModernSearch({
   buttonText = "Search",
   className = "",
 }: ModernSearchProps) {
-  const [location, setLocation] = useState("");
-  const [service, setService] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Input states
+  const [address, setAddress] = useState("");
+  const [service, setService] = useState(searchParams.get("service") || "");
+  const [coordinates, setCoordinates] = useState<{
+    lat: number | null;
+    lng: number | null;
+  }>({
+    lat: searchParams.get("lat") ? Number(searchParams.get("lat")) : null,
+    lng: searchParams.get("lng") ? Number(searchParams.get("lng")) : null,
+  });
+
+  // Keep state synced with URL changes
+  useEffect(() => {
+    setService(searchParams.get("service") || "");
+    const lat = searchParams.get("lat");
+    const lng = searchParams.get("lng");
+
+    setCoordinates({
+      lat: lat ? Number(lat) : null,
+      lng: lng ? Number(lng) : null,
+    });
+  }, [searchParams]);
+
+  // MapInput change handler
+  const handleLocationChange = useCallback(
+    (val: string, coords?: { lat: number; lng: number }) => {
+      setAddress(val);
+      if (coords) {
+        setCoordinates({ lat: coords.lat, lng: coords.lng });
+      } else {
+        setCoordinates({ lat: null, lng: null });
+      }
+    },
+    [],
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch?.({ location, service });
+
+    const params = new URLSearchParams(searchParams.toString());
+
+    // Remove old string address param if present
+    params.delete("location");
+
+    // Service parameter
+    if (service.trim()) {
+      params.set("service", service.trim());
+    } else {
+      params.delete("service");
+    }
+
+    // Coordinates parameters
+    if (coordinates.lat !== null && coordinates.lng !== null) {
+      params.set("lat", coordinates.lat.toString());
+      params.set("lng", coordinates.lng.toString());
+    } else {
+      params.delete("lat");
+      params.delete("lng");
+    }
+
+    // Update query params in URL
+    router.push(`?${params.toString()}`);
+
+    onSearch?.({
+      service: service.trim(),
+      lat: coordinates.lat,
+      lng: coordinates.lng,
+    });
   };
 
   return (
@@ -38,12 +110,10 @@ export default function ModernSearch({
         {/* Location Input */}
         <div className="flex items-center gap-2 rounded-xl bg-gray-50 border border-gray-100 px-3 py-2.5 text-gray-400 focus-within:text-[#1ec6cc] focus-within:bg-white focus-within:ring-1 focus-within:ring-[#1ec6cc] transition-all">
           <LocationIcon size={28} color="#637381" />
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+          <MapInput
+            value={address}
+            onChange={handleLocationChange}
             placeholder={locationPlaceholder}
-            className="w-full bg-transparent text-sm font-medium text-slate-800 placeholder-gray-400 outline-none"
           />
         </div>
 
@@ -71,17 +141,15 @@ export default function ModernSearch({
       {/* ================= DESKTOP VIEW (Pill style) ================= */}
       <form
         onSubmit={handleSubmit}
-        className="hidden md:flex w-full items-center overflow-hidden rounded-full bg-white  border border-gray-100/80 p-1"
+        className="hidden md:flex w-full items-center overflow-hidden rounded-full bg-white  border border-gray-100/80"
       >
         {/* Location Box */}
         <div className="flex items-center gap-2 px-5 py-2 w-full text-gray-400 focus-within:text-[#1ec6cc] transition-colors group">
           <LocationIcon size={28} color="#637381" />
-          <input
-            type="text"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+          <MapInput
+            value={address}
+            onChange={handleLocationChange}
             placeholder={locationPlaceholder}
-            className="w-full bg-transparent text-sm  text-slate-800 placeholder-gray-400 outline-none py-1"
           />
         </div>
 
@@ -103,7 +171,7 @@ export default function ModernSearch({
         {/* Search Button */}
         <button
           type="submit"
-          className={`h-12 rounded-full text-[#1ec6cc] font-semibold bg-[#1ec6cc]/10 hover:bg-[#1ec6cc]/30 px-9 tracking-wide text-sm  transition-all active:scale-98 whitespace-nowrap`}
+          className={`h-12 rounded-full text-[#1ec6cc] font-semibold bg-[#1ec6cc]/10 hover:bg-[#1ec6cc]/30 px-8 lg:me-2 tracking-wide text-sm  transition-all active:scale-98 whitespace-nowrap`}
         >
           {buttonText}
         </button>

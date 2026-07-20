@@ -1,9 +1,9 @@
 "use client";
+
 import { Controller, useFormContext, RegisterOptions } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider"; // shadcn primitive
+import { Slider } from "@/components/ui/slider";
 
 interface RangeInputProps {
   label?: string;
@@ -13,7 +13,6 @@ interface RangeInputProps {
   step?: number;
   className?: string;
   sliderClassName?: string;
-  inputClassName?: string;
   required?: boolean;
   disabled?: boolean;
   rules?: Omit<
@@ -30,7 +29,6 @@ export default function RangeInput({
   step = 1,
   className,
   sliderClassName,
-  inputClassName,
   required,
   disabled = false,
   rules,
@@ -40,18 +38,22 @@ export default function RangeInput({
     formState: { errors },
   } = useFormContext();
 
-  const errorMessage = (errors?.[name]?.message as string | undefined) || "";
+  // Safely extract nested error messages (e.g. "settings.volume")
+  const fieldError = name
+    .split(".")
+    .reduce((acc, key) => acc?.[key], errors as any);
+  const errorMessage = (fieldError?.message as string | undefined) || "";
 
   const formatErrorLabel = () => {
     if (label) return label;
-    const readable = name.replaceAll("_", " ");
+    const readable = name.replaceAll("_", " ").replaceAll(".", " ");
     return readable.charAt(0).toUpperCase() + readable.slice(1);
   };
 
   return (
     <div className={cn("space-y-2.5 w-full mb-6", className)}>
       {label && (
-        <Label htmlFor={name} className="text-sm font-medium text-gray-600">
+        <Label htmlFor={name} className="text-sm font-medium text-gray-700">
           {label}
         </Label>
       )}
@@ -64,49 +66,32 @@ export default function RangeInput({
           ...rules,
         }}
         render={({ field }) => {
-          // Safeguard against undefined initial settings by matching default minimum boundaries
-          const safeValue = typeof field.value === "number" ? field.value : min;
+          // Parse and clamp the value strictly between min and max
+          const rawValue = typeof field.value === "number" ? field.value : min;
+          const clampedValue = Math.min(Math.max(rawValue, min), max);
 
           return (
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex items-center gap-4 w-full bg-slate-50/50 p-3 border border-slate-200 rounded-xl">
-                {/* Shadcn Slider Primitive Wrapper Layout */}
                 <Slider
+                  id={name}
                   disabled={disabled}
                   min={min}
                   max={max}
                   step={step}
-                  value={[safeValue]}
+                  value={[clampedValue]}
+                  className={sliderClassName}
                   onValueChange={(vals) => {
-                    // Update field state value with the first element of the slider array
-                    field.onChange(vals[0]);
+                    const newValue = vals[0];
+                    // Double check clamp on user input
+                    const safeValue = Math.min(Math.max(newValue, min), max);
+                    field.onChange(safeValue);
                   }}
-                  className={cn(
-                    "flex-1 cursor-pointer accent-[#2BC4CA]",
-                    sliderClassName,
-                  )}
+                  onBlur={field.onBlur}
                 />
-
-                {/* Companion Numeric Input Box */}
-                <Input
-                  type="number"
-                  min={min}
-                  max={max}
-                  step={step}
-                  disabled={disabled}
-                  value={safeValue}
-                  onChange={(e) => {
-                    const parsedVal =
-                      e.target.value === "" ? min : Number(e.target.value);
-                    // Constrain manual text entries within declared range limits
-                    const boundedVal = Math.min(Math.max(parsedVal, min), max);
-                    field.onChange(boundedVal);
-                  }}
-                  className={cn(
-                    "w-20 h-9 text-center font-semibold text-slate-700 bg-white shadow-sm focus-visible:ring-2 focus-visible:ring-[#2BC4CA]/30 focus-visible:border-[#2BC4CA]",
-                    inputClassName,
-                  )}
-                />
+                <span className="text-xs font-semibold text-slate-600 min-w-[2.5rem] text-right">
+                  {clampedValue}
+                </span>
               </div>
 
               {errorMessage && (
