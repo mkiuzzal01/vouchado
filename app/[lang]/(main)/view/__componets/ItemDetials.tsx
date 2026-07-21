@@ -92,7 +92,6 @@ export default function ItemDetails({ lang, details }: Props) {
           reviewsCount: details?.deal?.reviews_count || 0,
           location: details?.deal?.visit_location,
           currentPrice: parsePrice(details?.deal?.discounted_price),
-          originalPrice: parsePrice(details?.deal?.original_price),
           totalQuantity: details?.deal?.max_purchase_per_customer || 1,
           selectedQuantity: quantity,
         };

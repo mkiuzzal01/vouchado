@@ -3,21 +3,26 @@ import { FieldValues } from "react-hook-form";
 import SubmitButton from "../buttons/SubmitButton";
 import AppForm from "./AppForm";
 import RangeInput from "./inputs/RangeInput";
-import { useAppDispatch } from "@/redux/hooks/globalhooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { updateLoyaltyPoint } from "@/redux/features/auth/auth.slice";
+import { setRedeemPointsDiscount } from "@/redux/features/cart/cart.slice";
 
 interface Props {
-  loyaltyPoints: number;
+  onClose: () => void;
 }
 
-export default function RedeemForm({ loyaltyPoints }: Props) {
+export default function RedeemForm({ onClose }: Props) {
   const dispatch = useAppDispatch();
+  const loyalty_point =
+    useAppSelector((state) => state?.auth.user?.loyalty_point) ?? 0;
 
   const handleFormSubmit = (values: FieldValues) => {
-    dispatch(updateLoyaltyPoint(Number(values.budget)));
+    dispatch(updateLoyaltyPoint(Number(values?.budget)));
+    dispatch(setRedeemPointsDiscount(Number(values?.budget)));
+    onClose();
   };
 
-  const hasPoints = loyaltyPoints > 0;
+  const hasPoints = Number(loyalty_point) > 0;
 
   return (
     <div>
@@ -29,8 +34,7 @@ export default function RedeemForm({ loyaltyPoints }: Props) {
           disabled={!hasPoints}
           name="budget"
           min={0}
-          max={loyaltyPoints}
-          step={10}
+          max={loyalty_point}
           required
         />
         <SubmitButton

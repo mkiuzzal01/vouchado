@@ -18,16 +18,15 @@ import {
 
 interface Props {
   lang: string;
-  points_conversion_rate: number;
 }
 
-export default function OrderSummary({ lang, points_conversion_rate }: Props) {
+export default function OrderSummary({ lang }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [createOrder, { isLoading }] = useCreateOrderMutation();
   const { user } = useAppSelector((state) => state.auth);
-  const { items, subTotal, totalPrice, couponDiscount, vatRate } =
+  const { items, subTotal, totalPrice, couponDiscount, vat_percentage } =
     useAppSelector((state) => state.cart);
 
   const totalItems = items.reduce(
@@ -35,7 +34,7 @@ export default function OrderSummary({ lang, points_conversion_rate }: Props) {
     0,
   );
 
-  const vatAmount = subTotal * vatRate;
+  const vatAmount = (subTotal * vat_percentage) / 100;
 
   const handleCheckout = async () => {
     const payload = {
@@ -90,7 +89,7 @@ export default function OrderSummary({ lang, points_conversion_rate }: Props) {
 
           <div className="flex justify-between items-center">
             <span className="text-gray-600 text-xl font-medium">
-              VAT ({(vatRate * 100)?.toFixed(0)}%)
+              VAT ({vat_percentage} %)
             </span>
 
             <span className="font-bold text-xl text-gray-800">
@@ -166,7 +165,7 @@ export default function OrderSummary({ lang, points_conversion_rate }: Props) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       >
-        <RedeemForm loyaltyPoints={points_conversion_rate} />
+        <RedeemForm onClose={() => setIsOpen(true)} />
       </ModalContainer>
     </div>
   );

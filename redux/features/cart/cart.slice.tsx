@@ -9,8 +9,6 @@ export interface ICartItem {
   reviewsCount?: number;
   location: string;
   currentPrice: number | string;
-  originalPrice?: number | string;
-  discountBadge?: number;
   selectedQuantity: number;
   totalQuantity: number;
   isSelected: boolean;
@@ -18,8 +16,10 @@ export interface ICartItem {
 
 interface CartState {
   items: ICartItem[];
-  vatRate: number;
+  vat_percentage: number;
+  vatAmount: number;
   couponDiscount: number;
+  points_conversion_rate: number;
   redeemPointsDiscount: number;
   couponStatus: boolean;
   subTotal: number;
@@ -27,36 +27,47 @@ interface CartState {
 }
 
 const calculateTotals = (state: CartState) => {
-  state.subTotal = state.items.reduce((total, item) => {
+  const subTotal = state.items.reduce((total, item) => {
     if (!item.isSelected) return total;
 
-    const cleanPrice =
+    const price =
       typeof item.currentPrice === "string"
-        ? parseFloat(item.currentPrice.replace(/[^0-9.]/g, ""))
+        ? Number(item.currentPrice.replace(/[^0-9.]/g, ""))
         : item.currentPrice;
 
-    const price = isNaN(cleanPrice) || !cleanPrice ? 0 : cleanPrice;
-    const qty =
-      isNaN(item.selectedQuantity) || item.selectedQuantity < 1
-        ? 1
-        : item.selectedQuantity;
+    const quantity = Math.max(1, item.selectedQuantity);
 
-    return total + price * qty;
+    return total + (isNaN(price) ? 0 : price) * quantity;
   }, 0);
 
-  const vatAmount = state.subTotal * state.vatRate;
-  const rawTotal = state.subTotal + vatAmount - state.couponDiscount;
+  const vatRate =
+    state.vat_percentage > 1
+      ? state.vat_percentage / 100
+      : state.vat_percentage;
 
-  state.subTotal = isNaN(state.subTotal) ? 0 : state.subTotal;
-  state.totalPrice = isNaN(rawTotal) ? 0 : Math.max(0, rawTotal);
+  const vatAmount = (subTotal * vatRate) / 100;
+
+  const pointsMonetaryDiscount =
+    state.points_conversion_rate > 0
+      ? state.redeemPointsDiscount * state.points_conversion_rate
+      : 0;
+
+  const total =
+    subTotal + vatAmount - state.couponDiscount - pointsMonetaryDiscount;
+
+  state.subTotal = Number(subTotal.toFixed(2));
+  state.vatAmount = Number(vatAmount.toFixed(2));
+  state.totalPrice = Number(Math.max(total, 0).toFixed(2));
 };
 
 const initialState: CartState = {
   items: [],
-  vatRate: 0.15,
+  vat_percentage: 0,
+  vatAmount: 0,
   couponDiscount: 0,
-  couponStatus: false,
+  points_conversion_rate: 0,
   redeemPointsDiscount: 0,
+  couponStatus: false,
   subTotal: 0,
   totalPrice: 0,
 };
@@ -76,10 +87,8 @@ const cartSlice = createSlice({
       );
 
       if (existingItem) {
-        const nextQty =
-          existingItem.selectedQuantity + action.payload.selectedQuantity;
         existingItem.selectedQuantity = Math.min(
-          nextQty,
+          existingItem.selectedQuantity + action.payload.selectedQuantity,
           existingItem.totalQuantity,
         );
       } else {
@@ -88,6 +97,7 @@ const cartSlice = createSlice({
           isSelected: action.payload.isSelected ?? true,
         });
       }
+
       calculateTotals(state);
     },
 
@@ -101,12 +111,14 @@ const cartSlice = createSlice({
       action: PayloadAction<{ id: string; quantity: number }>,
     ) => {
       const item = state.items.find((item) => item.id === action.payload.id);
+
       if (item) {
         item.selectedQuantity = Math.min(
           Math.max(1, action.payload.quantity),
           item.totalQuantity,
         );
       }
+
       calculateTotals(state);
     },
 
@@ -115,9 +127,11 @@ const cartSlice = createSlice({
       action: PayloadAction<{ id: string; isSelected: boolean }>,
     ) => {
       const item = state.items.find((item) => item.id === action.payload.id);
+
       if (item) {
         item.isSelected = action.payload.isSelected;
       }
+
       calculateTotals(state);
     },
 
@@ -125,20 +139,44 @@ const cartSlice = createSlice({
       state.items.forEach((item) => {
         item.isSelected = action.payload;
       });
+
       calculateTotals(state);
     },
 
     clearCart: (state) => {
       state.items = [];
       state.subTotal = 0;
+      state.vatAmount = 0;
       state.totalPrice = 0;
       state.couponDiscount = 0;
+      state.redeemPointsDiscount = 0;
       state.couponStatus = false;
     },
 
     setApplyCoupon: (state, action: PayloadAction<number>) => {
-      state.couponDiscount = action.payload;
+      state.couponDiscount = Math.max(0, action.payload);
       state.couponStatus = true;
+      calculateTotals(state);
+    },
+
+    removeCoupon: (state) => {
+      state.couponDiscount = 0;
+      state.couponStatus = false;
+      calculateTotals(state);
+    },
+
+    setRedeemPointsDiscount: (state, action: PayloadAction<number>) => {
+      state.redeemPointsDiscount = Math.max(0, action.payload);
+      calculateTotals(state);
+    },
+
+    setPointsConversionRate: (state, action: PayloadAction<number>) => {
+      state.points_conversion_rate = action.payload;
+      calculateTotals(state);
+    },
+
+    updateVatPercentage: (state, action: PayloadAction<number>) => {
+      state.vat_percentage = action.payload;
       calculateTotals(state);
     },
   },
@@ -152,6 +190,10 @@ export const {
   toggleSelectAll,
   clearCart,
   setApplyCoupon,
+  removeCoupon,
+  setRedeemPointsDiscount,
+  setPointsConversionRate,
+  updateVatPercentage,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

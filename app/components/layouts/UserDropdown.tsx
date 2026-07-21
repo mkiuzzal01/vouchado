@@ -11,11 +11,12 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import { useAppDispatch } from "@/redux/hooks/globalhooks";
-import { logout } from "@/redux/features/auth/auth.slice";
+import { logout, updateLoyaltyPoint } from "@/redux/features/auth/auth.slice";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Dashboard from "../icons/Dasboard";
+import { useEffect } from "react";
 
 interface Props {
   lang?: string;
@@ -51,6 +52,12 @@ export default function UserDropdown({
   const vouchadoPoint = userInfo?.value?.data?.vouchado_points;
   const provider_blance =
     ProviderInfo?.value?.data?.balance || ProviderInfo?.data?.balance;
+
+  useEffect(() => {
+    if (userInfo) {
+      dispatch(updateLoyaltyPoint(vouchadoPoint));
+    }
+  }, [vouchadoPoint]);
 
   return (
     <DropdownMenu>

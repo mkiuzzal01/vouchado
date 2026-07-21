@@ -11,7 +11,6 @@ interface Props {
 
 export default async function page({ params }: Props) {
   const { lang } = await params;
-  const systemInfo = await getSystemInfo();
 
   return (
     <div>
@@ -22,10 +21,7 @@ export default async function page({ params }: Props) {
             <YourItems lang={lang} />
           </div>
           <div className="lg:col-span-1">
-            <OrderSummery
-              lang={lang}
-              points_conversion_rate={systemInfo?.data?.points_conversion_rate}
-            />
+            <OrderSummery lang={lang} />
           </div>
         </div>
       </Container>

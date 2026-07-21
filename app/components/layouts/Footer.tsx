@@ -25,6 +25,7 @@ import {
   updateLoyaltyPoint,
   updateVuchadoPoint,
 } from "@/redux/features/auth/auth.slice";
+import { updateVatPercentage } from "@/redux/features/cart/cart.slice";
 
 interface FooterLinks {
   footerLinks: any;
@@ -47,6 +48,11 @@ export default function Footer({
       dispatch(updateLoyaltyPoint(systemInfo?.data?.loyalty_point));
     if (systemInfo?.data?.vuchado_point)
       dispatch(updateVuchadoPoint(systemInfo?.data?.vuchado_point));
+    if (systemInfo?.data?.vat_percentage)
+      dispatch(updateVatPercentage(systemInfo?.data?.vat_percentage));
+    if (systemInfo?.data?.setPointsConversionRate) {
+      dispatch(updateVatPercentage(systemInfo?.data?.setPointsConversionRate));
+    }
   }, [systemInfo]);
 
   const socialIcons = [
