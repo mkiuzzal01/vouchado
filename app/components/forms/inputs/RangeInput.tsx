@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { Controller, useFormContext, RegisterOptions } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
@@ -35,8 +36,22 @@ export default function RangeInput({
 }: RangeInputProps) {
   const {
     control,
+    setValue,
+    watch,
     formState: { errors },
   } = useFormContext();
+
+  const currentValue = watch(name);
+
+  // Helper function to keep values strictly within [min, max]
+  const clamp = (val: number) => Math.min(Math.max(val, min), max);
+
+  // Auto-clamp form state if dynamic `max` changes below the currently selected value
+  useEffect(() => {
+    if (typeof currentValue === "number" && currentValue > max) {
+      setValue(name, max, { shouldValidate: true });
+    }
+  }, [max, currentValue, name, setValue]);
 
   // Safely extract nested error messages (e.g. "settings.volume")
   const fieldError = name
@@ -63,34 +78,40 @@ export default function RangeInput({
         control={control}
         rules={{
           required: required ? `${formatErrorLabel()} is required` : false,
+          max: {
+            value: max,
+            message: `${formatErrorLabel()} cannot exceed ${max}`,
+          },
+          min: {
+            value: min,
+            message: `${formatErrorLabel()} must be at least ${min}`,
+          },
           ...rules,
         }}
         render={({ field }) => {
-          // Parse and clamp the value strictly between min and max
-          const rawValue = typeof field.value === "number" ? field.value : min;
-          const clampedValue = Math.min(Math.max(rawValue, min), max);
+          const numericValue =
+            typeof field.value === "number" ? field.value : min;
+          const displayValue = clamp(numericValue);
 
           return (
             <div className="space-y-2">
-              <div className="flex items-center gap-4 w-full bg-slate-50/50 p-3 border border-slate-200 rounded-xl">
+              <div className="flex items-center gap-4 w-full p-3 rounded-xl">
                 <Slider
                   id={name}
-                  disabled={disabled}
+                  disabled={disabled || min >= max}
                   min={min}
                   max={max}
                   step={step}
-                  value={[clampedValue]}
+                  value={[displayValue]}
                   className={sliderClassName}
                   onValueChange={(vals) => {
-                    const newValue = vals[0];
-                    // Double check clamp on user input
-                    const safeValue = Math.min(Math.max(newValue, min), max);
-                    field.onChange(safeValue);
+                    const newValue = vals[0] ?? min;
+                    field.onChange(clamp(newValue));
                   }}
                   onBlur={field.onBlur}
                 />
                 <span className="text-xs font-semibold text-slate-600 min-w-[2.5rem] text-right">
-                  {clampedValue}
+                  {displayValue}
                 </span>
               </div>
 

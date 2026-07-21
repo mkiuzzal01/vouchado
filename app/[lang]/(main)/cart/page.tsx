@@ -1,15 +1,17 @@
-"use client";
 import PageHero from "@/app/components/hero/PageHero";
 import Container from "@/app/components/shared/Container";
 import section_bg from "@/public/section-headers/Hero Section (4).png";
 import YourItems from "./__components/YourItems";
 import OrderSummery from "./__components/OrderSummery";
+import { getSystemInfo } from "@/actions/quires/system_info.api";
+
 interface Props {
   params: Promise<{ lang: string }>;
 }
 
 export default async function page({ params }: Props) {
   const { lang } = await params;
+  const systemInfo = await getSystemInfo();
 
   return (
     <div>
@@ -20,7 +22,10 @@ export default async function page({ params }: Props) {
             <YourItems lang={lang} />
           </div>
           <div className="lg:col-span-1">
-            <OrderSummery lang={lang} />
+            <OrderSummery
+              lang={lang}
+              points_conversion_rate={systemInfo?.data?.points_conversion_rate}
+            />
           </div>
         </div>
       </Container>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import footer_logo from "@/public/logo/logo_for_footer.png";
@@ -20,6 +20,11 @@ import V from "../icons/V";
 import co2 from "@/public/hero/image 12.png";
 import { useSubscribeMutation } from "@/redux/features/contact/contact.api";
 import { toast } from "react-toastify";
+import { useAppDispatch } from "@/redux/hooks/globalhooks";
+import {
+  updateLoyaltyPoint,
+  updateVuchadoPoint,
+} from "@/redux/features/auth/auth.slice";
 
 interface FooterLinks {
   footerLinks: any;
@@ -35,6 +40,14 @@ export default function Footer({
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [subscribe] = useSubscribeMutation();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (systemInfo?.data?.loyalty_point)
+      dispatch(updateLoyaltyPoint(systemInfo?.data?.loyalty_point));
+    if (systemInfo?.data?.vuchado_point)
+      dispatch(updateVuchadoPoint(systemInfo?.data?.vuchado_point));
+  }, [systemInfo]);
 
   const socialIcons = [
     { icon: Facebook, link: socialLinks?.data?.facebook_link || "#" },

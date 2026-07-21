@@ -1,5 +1,4 @@
 "use client";
-
 import { User, LogOut, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
@@ -20,10 +19,15 @@ import Dashboard from "../icons/Dasboard";
 
 interface Props {
   lang?: string;
-  balance?: string;
+  userInfo?: any;
+  ProviderInfo?: any;
 }
 
-export default function UserDropdown({ lang = "en", balance = "0.00" }: Props) {
+export default function UserDropdown({
+  lang = "en",
+  userInfo,
+  ProviderInfo,
+}: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -44,6 +48,10 @@ export default function UserDropdown({ lang = "en", balance = "0.00" }: Props) {
     router.refresh();
   };
 
+  const vouchadoPoint = userInfo?.value?.data?.vouchado_points;
+  const provider_blance =
+    ProviderInfo?.value?.data?.balance || ProviderInfo?.data?.balance;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -56,9 +64,13 @@ export default function UserDropdown({ lang = "en", balance = "0.00" }: Props) {
           </Avatar>
 
           {/* Money Display Panel */}
-          <div className="hidden sm:flex items-center gap-1.5 pr-2 pl-0.5">
+          <div className="hidden sm:flex items-center ga  p-1.5 pr-2 pl-0.5">
             <span className="text-sm font-semibold text-slate-700 whitespace-nowrap">
-              € {balance || 0}
+              {role === "user" ? (
+                <> {vouchadoPoint}</>
+              ) : (
+                <> € {provider_blance || 0}</>
+              )}
             </span>
             <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
           </div>

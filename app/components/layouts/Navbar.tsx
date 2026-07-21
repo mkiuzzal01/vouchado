@@ -24,6 +24,7 @@ interface Props {
   services: any;
   menuTitle: string;
   user_info: any;
+  provider_info: any;
 }
 
 export default function Navbar({
@@ -35,6 +36,7 @@ export default function Navbar({
   services,
   menuTitle,
   user_info,
+  provider_info,
 }: Props) {
   const [showNavbar, setShowNavbar] = useState(false);
   const token = cookie.get("vuchado_token");
@@ -120,7 +122,11 @@ export default function Navbar({
               </div>
 
               {token ? (
-                <UserDropdown lang={lang} balance={user_info?.data?.balance} />
+                <UserDropdown
+                  lang={lang}
+                  userInfo={user_info}
+                  ProviderInfo={provider_info}
+                />
               ) : (
                 <div className="hidden sm:flex items-center gap-2 xl:gap-1 2xl:gap-2">
                   <Link

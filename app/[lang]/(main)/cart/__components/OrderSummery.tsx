@@ -1,3 +1,4 @@
+"use client";
 import RedeemForm from "@/app/components/forms/RedeemForm";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
@@ -10,16 +11,22 @@ import { clearCart } from "@/redux/features/cart/cart.slice";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import Coupon from "./Coupon";
+import {
+  clearCouponCode,
+  clearVuchadoPoint,
+} from "@/redux/features/auth/auth.slice";
 
 interface Props {
   lang: string;
+  points_conversion_rate: number;
 }
 
-export default function OrderSummary({ lang }: Props) {
+export default function OrderSummary({ lang, points_conversion_rate }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [createOrder, { isLoading }] = useCreateOrderMutation();
+  const { user } = useAppSelector((state) => state.auth);
   const { items, subTotal, totalPrice, couponDiscount, vatRate } =
     useAppSelector((state) => state.cart);
 
@@ -33,8 +40,10 @@ export default function OrderSummary({ lang }: Props) {
   const handleCheckout = async () => {
     const payload = {
       items: items.map((item) => ({
-        deal_id: item.id,
-        quantity: item.selectedQuantity,
+        deal_id: item?.id,
+        quantity: item?.selectedQuantity,
+        redeem_points: user?.vuchado_point,
+        coupon_code: user?.coupon_code || null,
       })),
     };
 
@@ -43,6 +52,8 @@ export default function OrderSummary({ lang }: Props) {
       if (res?.message) {
         toast.success(res.message);
         dispatch(clearCart());
+        dispatch(clearCouponCode());
+        dispatch(clearVuchadoPoint());
         router.replace(res?.data?.checkout_url);
       }
     } catch (error: any) {
@@ -155,7 +166,7 @@ export default function OrderSummary({ lang }: Props) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       >
-        <RedeemForm />
+        <RedeemForm loyaltyPoints={points_conversion_rate} />
       </ModalContainer>
     </div>
   );

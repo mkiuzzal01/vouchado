@@ -12,7 +12,7 @@ export default async function Layout({ children, params }: LayoutProps) {
 
   return (
     <div className="flex min-h-screen flex-col pb-16 md:pb-0">
-      <Header lang={lang} balance={profileInfo?.data?.balance} />
+      <Header lang={lang} profileInfo={profileInfo} />
       <main className="flex-1 w-full overflow-x-hidden">{children}</main>
     </div>
   );

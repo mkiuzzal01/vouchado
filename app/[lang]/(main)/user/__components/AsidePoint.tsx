@@ -2,16 +2,11 @@
 import Image from "next/image";
 import profile_bg from "@/public/hero/Hero Section (9).png";
 import { IUserProfile } from "@/redux/types/user_profile";
-import { useAppSelector } from "@/redux/hooks/globalhooks";
 
 interface IAsidePoint {
   user: IUserProfile;
 }
 export default function AsidePoint({ user }: IAsidePoint) {
-  const { vuchado_point } = useAppSelector((state) => state.auth);
-
-  console.log(vuchado_point);
-
   return (
     <div className="space-y-4">
       <div className="relative w-full max-w-[356px] overflow-hidden rounded-2xl">

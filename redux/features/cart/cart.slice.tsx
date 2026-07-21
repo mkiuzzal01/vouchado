@@ -20,6 +20,7 @@ interface CartState {
   items: ICartItem[];
   vatRate: number;
   couponDiscount: number;
+  redeemPointsDiscount: number;
   couponStatus: boolean;
   subTotal: number;
   totalPrice: number;
@@ -55,6 +56,7 @@ const initialState: CartState = {
   vatRate: 0.15,
   couponDiscount: 0,
   couponStatus: false,
+  redeemPointsDiscount: 0,
   subTotal: 0,
   totalPrice: 0,
 };

@@ -12,7 +12,7 @@ import {
   getSocialLinks,
   getSystemInfo,
 } from "@/actions/quires/system_info.api";
-import { getBusniessProfile } from "@/actions/quires/user.api";
+import { getBusniessProfile, getUserProfile } from "@/actions/quires/user.api";
 
 interface RootLayout {
   children: React.ReactNode;
@@ -30,17 +30,31 @@ export default async function layout({ children, params }: RootLayout) {
   const footerLinksData = await footerLinks(lang);
   const socialLinks = await getSocialLinks();
   const systemInfo = await getSystemInfo();
-  let user_info = null;
+
+  let userInfo = null;
+  let providerInfo = null;
 
   if (token) {
-    user_info = await getBusniessProfile();
+    const [userResult, providerResult] = await Promise.allSettled([
+      getUserProfile(),
+      getBusniessProfile(),
+    ]);
+
+    if (userResult.status === "fulfilled") {
+      userInfo = userResult;
+    }
+
+    if (providerResult.status === "fulfilled") {
+      providerInfo = providerResult;
+    }
   }
 
   return (
     <div className="min-h-screen flex flex-col">
       <TopBar content={nav.top} />
       <Navbar
-        user_info={user_info}
+        provider_info={providerInfo}
+        user_info={userInfo}
         lang={lang}
         login={nav.auth.login.login}
         register={nav.auth.register.register}

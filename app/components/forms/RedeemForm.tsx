@@ -1,30 +1,35 @@
 "use client";
+import { FieldValues } from "react-hook-form";
 import SubmitButton from "../buttons/SubmitButton";
 import AppForm from "./AppForm";
-import { useAppSelector } from "@/redux/hooks/globalhooks";
 import RangeInput from "./inputs/RangeInput";
+import { useAppDispatch } from "@/redux/hooks/globalhooks";
+import { updateLoyaltyPoint } from "@/redux/features/auth/auth.slice";
 
-export default function RedeemForm() {
-  const { user } = useAppSelector((state) => state.auth);
+interface Props {
+  loyaltyPoints: number;
+}
 
-  console.log(user);
+export default function RedeemForm({ loyaltyPoints }: Props) {
+  const dispatch = useAppDispatch();
 
-  const handleFormSubmit = (values: { budget: number }, reset: () => void) => {
-    console.log("Form submitted with values:", values);
-    reset();
+  const handleFormSubmit = (values: FieldValues) => {
+    dispatch(updateLoyaltyPoint(Number(values.budget)));
   };
+
+  const hasPoints = loyaltyPoints > 0;
 
   return (
     <div>
       <h1 className="text-sm text-gray-500">
         Every 1,000 points can be redeemed for a €50 discount.
       </h1>
-      <AppForm onSubmit={handleFormSubmit}>
+      <AppForm onSubmit={handleFormSubmit} defaultValues={{ budget: 0 }}>
         <RangeInput
-          label="Select Maximum Budget Allocation (€)"
+          disabled={!hasPoints}
           name="budget"
           min={0}
-          max={1000}
+          max={loyaltyPoints}
           step={10}
           required
         />
