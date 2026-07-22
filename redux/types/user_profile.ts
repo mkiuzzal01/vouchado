@@ -31,6 +31,7 @@ export interface PurchaseItem {
   id: number;
   title: string;
   slug: string;
+  deal_id: number;
   deal_name: string;
   location: string;
   price: string;

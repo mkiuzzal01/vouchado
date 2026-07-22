@@ -131,8 +131,8 @@ export const dealSlice = createSlice({
 
     resetDealForm: () => initialState,
 
-    updateGranted12Months: (state) => {
-      state.granted_12_months = !state.granted_12_months;
+    updateGranted12Months: (state, action: PayloadAction<boolean>) => {
+      state.granted_12_months = action.payload;
     },
 
     updateDealStatus: (state, action: PayloadAction<string>) => {

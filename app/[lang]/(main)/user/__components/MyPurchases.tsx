@@ -39,7 +39,6 @@ export default function MyPurchases({
   };
 
   const handleShowReviewModal = (itemId: number) => {
-    console.log(itemId);
     setSelectedOrderId(itemId);
     setShowReviewModal(true);
   };
@@ -49,8 +48,6 @@ export default function MyPurchases({
     setSelectedOrderId(null);
     setShowReviewModal(false);
   };
-
-  console.log(purchaseHistory);
 
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xs transition-all">
@@ -214,7 +211,7 @@ export default function MyPurchases({
           <ReviewForm
             onClose={handleCloseModal}
             lang={lang}
-            orderId={selectedOrderId}
+            item_id={selectedOrderId}
           />
         )}
       </ModalContainer>

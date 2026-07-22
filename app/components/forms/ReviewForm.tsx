@@ -7,13 +7,13 @@ import { useCreateOrderReviewMutation } from "@/redux/features/order/order.api";
 import { toast } from "react-toastify";
 
 interface ReviewFormProps {
-  orderId: number | null;
+  item_id: number | null;
   lang: string;
   onClose: () => void;
 }
 export default function ReviewForm({
   lang,
-  orderId,
+  item_id,
   onClose,
 }: ReviewFormProps) {
   const [createReview, { isLoading }] = useCreateOrderReviewMutation();
@@ -21,18 +21,22 @@ export default function ReviewForm({
   const handleSubmit = async (values: FieldValues) => {
     try {
       const res = await createReview({
-        deal_id: orderId,
+        item_id: item_id,
         ...values,
       }).unwrap();
-      if (res?.status) {
+
+      console.log(res?.message);
+
+      if (res?.message) {
         toast.success(res?.message);
         onClose();
         window.location.reload();
       }
     } catch (error: any) {
-      if (!error?.data?.status) {
+      if (error?.data?.message) {
         toast.error(error?.data?.message);
       }
+      onClose();
     }
   };
 

@@ -18,8 +18,14 @@ export const getBanner = () =>
     revalidate: 60,
   });
 
-export const getNotification = () =>
+export const getNotificationOptins = () =>
   api.get<any>(`/setting/notification`, {
+    tags: ["notifications"],
+    revalidate: 30,
+  });
+
+export const getNotification = () =>
+  api.get<any>(`/notifications`, {
     tags: ["notifications"],
     revalidate: 30,
   });

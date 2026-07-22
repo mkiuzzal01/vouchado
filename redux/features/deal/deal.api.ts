@@ -39,8 +39,8 @@ export const dealsAPI = baseApi.injectEndpoints({
     dealStatusChange: builder.mutation({
       query: ({ id, status }) => ({
         url: `/provider/deals/${id}/status`,
-        method: "POST",
-        body: status,
+        method: "PATCH",
+        body: { status },
       }),
       invalidatesTags: ["deal"],
     }),

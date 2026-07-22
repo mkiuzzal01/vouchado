@@ -8,6 +8,7 @@ import providerReducer from "./features/provider/provider.slice";
 import dealReducer from "./features/deal/deal.slice";
 import businessReducer from "./features/provider/business_profile.slice";
 import systemReducer from "./features/system/system.slice";
+import notification from "./features/notifications/notification.slice";
 
 const rootReducer = combineReducers({
   [baseApi.reducerPath]: baseApi.reducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   deal: dealReducer,
   business: businessReducer,
   system: systemReducer,
+  notification: notification,
 });
 
 const persistConfig = {

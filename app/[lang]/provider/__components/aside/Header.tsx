@@ -72,7 +72,7 @@ export default function Header({ lang, profileInfo }: HeaderProps) {
           {/* Right Side */}
           <div className="flex items-center gap-4">
             <div className="hidden lg:flex items-center gap-2">
-              <Link href={`/${lang}/provider/settings/notifications`}>
+              <Link href={`/${lang}/provider/notifications`}>
                 <button className="relative p-2 rounded-full border-2 border-gray-200 bg-white hover:bg-gray-50">
                   <Bell size={20} className="text-gray-600" />
                 </button>

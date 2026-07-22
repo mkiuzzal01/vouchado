@@ -50,7 +50,11 @@ export default function ChangeStatusForm({
             { label: "Inactive", value: "inactive" },
           ]}
         />
-        <SubmitButton isLoading={isLoading} title="Submit" />
+        <SubmitButton
+          isLoading={isLoading}
+          title="Submit"
+          className="w-full h-12 rounded-full"
+        />
       </div>
     </AppForm>
   );
