@@ -1,8 +1,9 @@
 "use client";
 
+import DeleteForm from "@/app/components/forms/DeleteForm";
 import LocationIcon from "@/app/components/icons/LocationIcon";
+import ModalContainer from "@/app/components/shared/ModalContainer";
 import NotFoundData from "@/app/components/shared/NotFoundData";
-import ReusableAlert from "@/app/components/shared/ReusableAlart";
 import Loader from "@/app/loading";
 import { useCreateConversationMutation } from "@/redux/features/conversional/conversional.api";
 import { useGetOrderDetailsQuery } from "@/redux/features/user/user.api";
@@ -19,20 +20,15 @@ interface OrderDetailsProps {
 }
 
 export default function OrderDetails({ lang, orderId }: OrderDetailsProps) {
-  const [dialogType, setDialogType] = useState<"cancel" | null>(null);
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
   const router = useRouter();
-  const [createConversation, { isLoading: isChatLoading }] =
-    useCreateConversationMutation();
+  const [createConversation] = useCreateConversationMutation();
 
   const {
     data: orderDetails,
     isLoading,
     error,
   } = useGetOrderDetailsQuery(orderId);
-
-  const handleCancelOrder = () => {
-    setDialogType(null);
-  };
 
   if (isLoading) {
     return <Loader />;
@@ -62,7 +58,7 @@ export default function OrderDetails({ lang, orderId }: OrderDetailsProps) {
   };
 
   return (
-    <div className="w-full space-y-6 px-4 sm:px-0">
+    <div className="w-full space-y-6">
       {/* Services List */}
       <div className="space-y-4">
         <h3 className="text-xl font-bold text-gray-800">Services</h3>
@@ -109,28 +105,31 @@ export default function OrderDetails({ lang, orderId }: OrderDetailsProps) {
               </div>
 
               {/* Micro Action Buttons */}
-              <div className="flex flex-wrap gap-2 pt-1">
-                <Link href="/en/coupons" className="flex-1 sm:flex-initial">
-                  <button className="w-full text-center bg-[#31BFC8] hover:bg-[#2EAEB6] text-white text-[11px] font-bold px-4 py-2 rounded-full transition-colors">
-                    View Coupon
-                  </button>
+              <div className="flex flex-col sm:flex-row items-center gap-2 pt-1 w-full sm:w-auto sm:justify-end">
+                {/* View Coupon Button */}
+                <Link
+                  href="/en/vouchers"
+                  className="w-full sm:w-auto h-10 inline-flex items-center justify-center bg-[#31BFC8] hover:bg-[#2EAEB6] text-white font-semibold text-xs sm:text-sm px-5 rounded-full transition-colors active:scale-95 whitespace-nowrap"
+                >
+                  View Coupon
                 </Link>
+
+                {/* View Details Button */}
                 <Link
                   href={`/en/view/${item.slug}`}
-                  className="flex-1 sm:flex-initial"
+                  className="w-full sm:w-auto h-10 inline-flex items-center justify-center border border-gray-200 text-gray-600 hover:bg-gray-50 font-semibold text-xs sm:text-sm px-5 rounded-full transition-colors active:scale-95 whitespace-nowrap"
                 >
-                  <button className="w-full text-center border border-gray-200 text-gray-500 hover:bg-gray-50 text-[11px] font-bold px-4 py-2 rounded-full transition-colors">
-                    View Details
-                  </button>
+                  View Details
                 </Link>
-                <div className="flex-1 sm:flex-initial">
-                  <button
-                    onClick={() => handleChatWithSeller(item?.providerId)}
-                    className="w-full text-center border border-gray-200 text-gray-500 hover:bg-gray-50 text-[11px] font-bold px-4 py-2 rounded-full transition-colors"
-                  >
-                    Chat with Seller
-                  </button>
-                </div>
+
+                {/* Chat with Seller Button */}
+                <button
+                  type="button"
+                  onClick={() => handleChatWithSeller(item?.providerId)}
+                  className="w-full sm:w-auto h-10 inline-flex items-center justify-center border border-gray-200 text-gray-600 hover:bg-gray-50 font-semibold text-xs sm:text-sm px-5 rounded-full transition-colors active:scale-95 whitespace-nowrap"
+                >
+                  Chat with Seller
+                </button>
               </div>
             </div>
           </div>
@@ -194,29 +193,23 @@ export default function OrderDetails({ lang, orderId }: OrderDetailsProps) {
           </button>
         </Link>
         <button
-          onClick={() => setDialogType("cancel")}
+          onClick={() => setCancelDialogOpen(true)}
           className="w-full sm:flex-1 py-2.5 text-center text-xs font-bold text-rose-500 border border-rose-200 rounded-xl hover:bg-rose-50 transition-colors"
         >
           Cancel Order
         </button>
       </div>
 
-      {/* Dynamic Action Dialog Context */}
-      <ReusableAlert
-        open={dialogType !== null}
-        onOpenChange={(open) => !open && setDialogType(null)}
-        title={dialogType === "cancel" ? "Cancel Order?" : "Delete Account?"}
-        description={
-          dialogType === "cancel"
-            ? "Are you sure you want to cancel your order?"
-            : "This action is completely irreversible. Your active packages, statistics profile, and data listings will be cleared instantly."
-        }
-        confirmText={
-          dialogType === "cancel" ? "Cancel Order" : "Confirm Deletion"
-        }
-        onConfirm={dialogType === "cancel" ? handleCancelOrder : () => {}}
-        variant={dialogType === "cancel" ? "danger" : "default"}
-      />
+      <ModalContainer
+        isOpen={cancelDialogOpen}
+        onClose={() => setCancelDialogOpen(false)}
+        title="Cancel Order"
+      >
+        <DeleteForm
+          orderId={orderId}
+          onClose={() => setCancelDialogOpen(false)}
+        />
+      </ModalContainer>
     </div>
   );
 }

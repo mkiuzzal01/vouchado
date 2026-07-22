@@ -20,7 +20,7 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
     <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm relative">
       {/* Header with Edit Button */}
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold text-gray-900">
+        <h2 className="text-xl lg:text-2xl font-semibold text-gray-900">
           Personal Information
         </h2>
         <button

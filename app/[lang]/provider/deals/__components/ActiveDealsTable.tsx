@@ -22,6 +22,8 @@ import Delete from "@/app/components/icons/Delete";
 import ReusableAlert from "@/app/components/shared/ReusableAlart";
 import { useDeleteDealMutation } from "@/redux/features/deal/deal.api";
 import { toast } from "react-toastify";
+import ModalContainer from "@/app/components/shared/ModalContainer";
+import ChangeStatusForm from "@/app/components/forms/ChangeStatusForm";
 
 export interface IDeal {
   id: number;
@@ -36,6 +38,7 @@ export interface IDeal {
   redeemed_count: number;
   total_limit: number;
   remaining: string;
+  status: string;
 }
 
 interface Props {
@@ -70,10 +73,13 @@ export default function ActiveDealsTable({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const [deleteDeal, { isLoading }] = useDeleteDealMutation();
+  const [deleteDeal] = useDeleteDealMutation();
 
   // Stores the target deal ID when user clicks delete action button
   const [activeDeleteId, setActiveDeleteId] = useState<number | null>(null);
+  const [isOpenStatusModal, setIsOpenStatusModal] = useState(false);
+  const [targetDealID, setTargetDealID] = useState<number | null>(null);
+  const [targetDealStatus, setTargetDealStatus] = useState<string | null>(null);
 
   const currentSearch = searchParams.get("search") || "";
   const [searchTerm, setSearchTerm] = useState(currentSearch);
@@ -102,6 +108,12 @@ export default function ActiveDealsTable({
     return () => clearTimeout(delayDebounce);
   }, [searchTerm, pathname, router]);
 
+  const handleChangeStatus = (dealID: number, currentStatus: string) => {
+    setTargetDealID(dealID);
+    setTargetDealStatus(currentStatus);
+    setIsOpenStatusModal(true);
+  };
+
   // Central Router Page Trigger
   const handlePageChange = (pageNumber: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -119,6 +131,7 @@ export default function ActiveDealsTable({
       if (res.message) {
         toast.success(res.message);
         setActiveDeleteId(null);
+        router.refresh();
       }
     } catch (error: any) {
       toast.error(error.data.message);
@@ -189,6 +202,7 @@ export default function ActiveDealsTable({
                 <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
                   Remaining
                 </TableHead>
+
                 <TableHead className="h-12 px-6 font-semibold text-slate-700 text-center">
                   Actions
                 </TableHead>
@@ -242,15 +256,17 @@ export default function ActiveDealsTable({
                     </TableCell>
                     <TableCell className="py-3 px-6 text-center">
                       <div className="flex items-center justify-center gap-3">
-                        {/* <Link href={`/en/provider/deals/${deal.id}`}>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="w-8 h-8 rounded-full text-[#00C3DA] hover:text-[#00C3DA] hover:bg-[#00C3DA]/10 transition-colors"
-                          >
-                            <Edit />
-                          </Button>
-                        </Link> */}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() =>
+                            handleChangeStatus(deal?.id, deal?.status)
+                          }
+                          className="w-8 h-8 rounded-full text-[#00C3DA] hover:text-[#00C3DA] hover:bg-[#00C3DA]/10 transition-colors"
+                        >
+                          <Edit />
+                        </Button>
+
                         <Button
                           variant="ghost"
                           size="icon"
@@ -315,6 +331,19 @@ export default function ActiveDealsTable({
         onConfirm={handleDelete}
         variant="danger"
       />
+
+      <ModalContainer
+        width="sm"
+        isOpen={isOpenStatusModal}
+        onClose={() => setIsOpenStatusModal(false)}
+        title="Change Status"
+      >
+        <ChangeStatusForm
+          targetId={targetDealID}
+          targetDealStatus={targetDealStatus}
+          onClose={() => setIsOpenStatusModal(false)}
+        />
+      </ModalContainer>
     </div>
   );
 }

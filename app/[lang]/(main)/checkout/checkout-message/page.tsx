@@ -8,13 +8,16 @@ import EarnedBatch from "@/app/components/icons/EarnedBatch";
 import Voucher from "@/app/components/icons/Voucher";
 import Bag from "@/app/components/icons/Bag";
 import { VerifySession } from "@/redux/types/_global";
-import QRCode from "../../coupons/__components/QRCode";
+import QRCode from "../../vouchers/__components/QRCode";
+import { useAppSelector } from "@/redux/hooks/globalhooks";
 
 interface Props {
   verifySession: VerifySession;
 }
 
 export default function CheckoutMessagePage({ verifySession }: Props) {
+  const { points_per_order } = useAppSelector((state) => state.auth);
+
   const orderDetails = {
     itemsCount: verifySession.data.order.item_count,
     subTotal: verifySession.data.order.subtotal,
@@ -22,7 +25,7 @@ export default function CheckoutMessagePage({ verifySession }: Props) {
     couponDiscount: verifySession.data.order.coupon_discount,
     voucherDiscount: verifySession.data.order.voucher_discount,
     total: verifySession.amount_total,
-    pointsEarned: 90,
+    pointsEarned: points_per_order || 0,
   };
 
   const vouchers = verifySession.data.order.vouchers.map((voucher) => ({

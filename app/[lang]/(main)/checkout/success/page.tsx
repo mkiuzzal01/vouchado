@@ -1,16 +1,28 @@
 import { getVerifySession } from "@/actions/quires/system_info.api";
 import CheckoutMessagePage from "../checkout-message/page";
 import NotFoundData from "@/app/components/shared/NotFoundData";
+import { cookies } from "next/headers";
 
 interface Props {
-  searchParams: Promise<{ session_id?: string }>;
+  searchParams: Promise<{ session_id: string }>;
 }
 
 export default async function page({ searchParams }: Props) {
   const { session_id } = await searchParams;
+  const cookieStore = await cookies();
+  const token = cookieStore.get("vuchado_token")?.value;
+
+  if (!session_id)
+    return (
+      <NotFoundData
+        title="No session ID found"
+        description="Please provide a session ID"
+      />
+    );
 
   let result = null;
-  if (session_id) {
+
+  if (token) {
     result = await getVerifySession(session_id);
   }
 

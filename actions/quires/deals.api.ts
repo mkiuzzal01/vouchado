@@ -21,11 +21,11 @@ export const getDealTrending = () =>
 export const getActiveDeals = (query?: string) =>
   api.get<any>(`/provider/active-deals?${query}`, {
     tags: ["provider-active-deals"],
-    revalidate: 30,
+    revalidate: 0,
   });
 
 export const getPurchasedDeals = (query?: string) =>
   api.get<any>(`/provider/purchased-deals?${query}`, {
     tags: ["provider-purchases"],
-    revalidate: 30,
+    revalidate: 0,
   });

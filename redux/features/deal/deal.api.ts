@@ -35,6 +35,15 @@ export const dealsAPI = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["deal"],
     }),
+
+    dealStatusChange: builder.mutation({
+      query: ({ id, status }) => ({
+        url: `/provider/deals/${id}/status`,
+        method: "POST",
+        body: status,
+      }),
+      invalidatesTags: ["deal"],
+    }),
   }),
 });
 
@@ -43,4 +52,5 @@ export const {
   useCreateDealMutation,
   useVoucherRedeemMutation,
   useDeleteDealMutation,
+  useDealStatusChangeMutation,
 } = dealsAPI;

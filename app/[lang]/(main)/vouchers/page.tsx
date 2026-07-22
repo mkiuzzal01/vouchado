@@ -23,7 +23,7 @@ export default async function Page() {
           {/* Title */}
           <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
             <UsedVoucher />
-            Unused Voucher
+            Unredeemed vouchers
           </h2>
 
           {/* Voucher List Container */}

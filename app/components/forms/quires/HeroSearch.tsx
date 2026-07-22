@@ -143,7 +143,7 @@ export default function HeroSearch({
         {/* Action Button */}
         <button
           type="submit"
-          className="h-11 md:h-13 w-full md:w-auto rounded-xl md:rounded-full bg-gradient-to-r from-[#1ec6cc] to-[#19a7ad] hover:opacity-95 text-white font-semibold text-sm px-8 transition-all active:scale-[0.98] shrink-0 whitespace-nowrap"
+          className="h-11 md:h-13 w-full md:w-auto rounded-xl md:rounded-full bg-gradient-to-r from-[#1ec6cc] to-[#19a7ad] hover:opacity-95 text-white font-semibold text-sm px-8 mr-0 lg:mr-2 transition-all active:scale-[0.98] shrink-0 whitespace-nowrap"
         >
           {buttonText}
         </button>

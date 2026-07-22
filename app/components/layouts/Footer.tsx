@@ -26,6 +26,7 @@ import {
   setPointsConversionRate,
   updateVatPercentage,
 } from "@/redux/features/cart/cart.slice";
+import { updatePointsPerOrder } from "@/redux/features/auth/auth.slice";
 
 interface FooterLinks {
   footerLinks: any;
@@ -44,12 +45,18 @@ export default function Footer({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (systemInfo?.data?.vat_percentage)
+    if (systemInfo?.data?.vat_percentage) {
       dispatch(updateVatPercentage(systemInfo?.data?.vat_percentage));
+    }
+
     if (systemInfo?.data?.points_conversion_rate) {
       dispatch(
         setPointsConversionRate(systemInfo?.data?.points_conversion_rate),
       );
+    }
+
+    if (systemInfo?.data?.points_per_order) {
+      dispatch(updatePointsPerOrder(systemInfo?.data?.points_per_order));
     }
   }, [systemInfo, dispatch]);
 

@@ -23,8 +23,6 @@ export default async function DealsPage({ searchParams }: IProps) {
 
   const activeDeals = await getActiveDeals(query.toString());
 
-  console.log(activeDeals);
-
   if (!revenueStats?.data || !activeDeals?.data)
     return <NotFoundData title={"No Revenue Stats Available"} />;
 

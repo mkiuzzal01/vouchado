@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
 import Dashboard from "../icons/Dasboard";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 interface Props {
   lang?: string;
@@ -46,6 +47,7 @@ export default function UserDropdown({
 
   const handleLogout = () => {
     dispatch(logout());
+    toast.warning("Logout successfully");
     router.refresh();
   };
 

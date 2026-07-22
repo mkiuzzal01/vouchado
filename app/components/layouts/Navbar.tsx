@@ -101,11 +101,11 @@ export default function Navbar({
               </div>
               <div className="bg-white rounded-full">
                 <Link
-                  href={`/${lang}/coupons`}
-                  className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/coupons") && "bg-[#2EC4C6]"}`}
+                  href={`/${lang}/vouchers`}
+                  className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/vouchers") && "bg-[#2EC4C6]"}`}
                 >
                   <Voucher
-                    color={path.includes("/coupons") ? "white" : "#292D32"}
+                    color={path.includes("/vouchers") ? "white" : "#292D32"}
                   />
                 </Link>
               </div>

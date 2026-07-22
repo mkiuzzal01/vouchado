@@ -21,7 +21,7 @@ export const getBusinessProfileById = (id?: string) =>
 export const getWishlist = () =>
   api.get<any>(`/user/wishlist`, {
     tags: ["wishlist"],
-    revalidate: 30,
+    revalidate: 0,
   });
 
 export const getNotifications = () =>
@@ -33,17 +33,17 @@ export const getNotifications = () =>
 export const getUserPurchaseHistory = () =>
   api.get<any>(`/user/purchase-history`, {
     tags: ["user"],
-    revalidate: 60,
+    revalidate: 0,
   });
 
 export const getOrderDetails = (order_number?: string) =>
   api.get<any>(`/user/order-details/${order_number}`, {
     tags: ["order"],
-    revalidate: 60,
+    revalidate: 0,
   });
 
 export const GetRecentActivity = () =>
   api.get<any>(`/user/recent-activities`, {
     tags: ["user"],
-    revalidate: 60,
+    revalidate: 0,
   });

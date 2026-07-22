@@ -36,24 +36,14 @@ export default function OrderSummary({ lang }: Props) {
     couponDiscount,
     vat_percentage,
     redeemPointsDiscount,
-    points_conversion_rate,
     redeemDiscountAmount,
   } = useAppSelector((state) => state.cart);
 
-  // Read calculated fields directly from slice
   const selectedItems = items.filter((item) => item.isSelected);
   const totalItems = selectedItems.reduce(
     (acc, item) => acc + item.selectedQuantity,
     0,
   );
-
-  const pointsMonetaryDiscount =
-    points_conversion_rate > 0
-      ? redeemPointsDiscount * points_conversion_rate
-      : 0;
-
-  const maxUserDiscount =
-    (user?.loyalty_point ?? 0) * (points_conversion_rate || 0);
 
   const handleCheckout = async () => {
     const payload = {
@@ -148,8 +138,7 @@ export default function OrderSummary({ lang }: Props) {
               Use your points & enjoy even more discount
             </h4>
             <p className="text-sm text-gray-500">
-              {user?.loyalty_point ?? 0} points available. Add up to €
-              {maxUserDiscount.toFixed(2)} discount.
+              {user?.loyalty_point ?? 0} points available.
             </p>
           </div>
 

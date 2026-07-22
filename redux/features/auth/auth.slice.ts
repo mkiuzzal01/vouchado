@@ -15,11 +15,14 @@ interface IUser {
 interface IInitState {
   user: IUser | null;
   vuchado_token: string | null;
+  points_per_order: number | null;
+  
 }
 
 const initialState: IInitState = {
   user: null,
   vuchado_token: null,
+  points_per_order: null,
 };
 
 export const authSlice = createSlice({
@@ -30,6 +33,7 @@ export const authSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload.user;
+      state.vuchado_token = action.payload.vuchado_token;
 
       cookie.set("vuchado_token", action.payload.vuchado_token, {
         expires: 7,
@@ -56,6 +60,10 @@ export const authSlice = createSlice({
       }
     },
 
+    updatePointsPerOrder: (state, action) => {
+      state.points_per_order = action.payload;
+    },
+
     updateCouponCode: (state, action) => {
       if (state.user) {
         state.user.coupon_code = action.payload;
@@ -77,6 +85,7 @@ export const {
   updateCouponCode,
   clearCouponCode,
   clearLoyaltyPoint,
+  updatePointsPerOrder,
 } = authSlice.actions;
 
 export default authSlice.reducer;

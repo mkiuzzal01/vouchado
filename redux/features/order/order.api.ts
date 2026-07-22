@@ -12,8 +12,17 @@ export const orderAPI = baseApi.injectEndpoints({
     }),
 
     cancelOrder: builder.mutation({
+      query: ({ order_id, reason }) => ({
+        url: `/order/${order_id}/cancel-request`,
+        method: "POST",
+        body: { reason },
+      }),
+      invalidatesTags: ["order"],
+    }),
+
+    createOrderReview: builder.mutation({
       query: (body) => ({
-        url: `/order/cancel`,
+        url: `/reviews`,
         method: "POST",
         body,
       }),
@@ -22,4 +31,8 @@ export const orderAPI = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateOrderMutation, useCancelOrderMutation } = orderAPI;
+export const {
+  useCreateOrderMutation,
+  useCancelOrderMutation,
+  useCreateOrderReviewMutation,
+} = orderAPI;
