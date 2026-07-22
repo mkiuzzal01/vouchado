@@ -1,20 +1,20 @@
 "use client";
-import RedeemForm from "@/app/components/forms/RedeemForm";
-import ModalContainer from "@/app/components/shared/ModalContainer";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+
 import { useState } from "react";
-import TrustSection from "./TrustSection";
-import OrderSummery from "@/app/components/icons/OrderSummery";
-import { useCreateOrderMutation } from "@/redux/features/order/order.api";
-import { toast } from "react-toastify";
-import { clearCart } from "@/redux/features/cart/cart.slice";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
+
+import RedeemForm from "@/app/components/forms/RedeemForm";
+import ModalContainer from "@/app/components/shared/ModalContainer";
+import OrderSummeryIcon from "@/app/components/icons/OrderSummery";
+import TrustSection from "./TrustSection";
 import Coupon from "./Coupon";
-import {
-  clearCouponCode,
-  clearVuchadoPoint,
-} from "@/redux/features/auth/auth.slice";
+
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+import { useCreateOrderMutation } from "@/redux/features/order/order.api";
+import { clearCart } from "@/redux/features/cart/cart.slice";
+import { clearCouponCode } from "@/redux/features/auth/auth.slice";
 
 interface Props {
   lang: string;
@@ -24,24 +24,43 @@ export default function OrderSummary({ lang }: Props) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const [createOrder, { isLoading }] = useCreateOrderMutation();
-  const { user } = useAppSelector((state) => state.auth);
-  const { items, subTotal, totalPrice, couponDiscount, vat_percentage } =
-    useAppSelector((state) => state.cart);
 
-  const totalItems = items.reduce(
-    (total, item) => total + item.selectedQuantity,
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
+
+  const { user } = useAppSelector((state) => state.auth);
+  const {
+    items,
+    subTotal,
+    vatAmount,
+    totalPrice,
+    couponDiscount,
+    vat_percentage,
+    redeemPointsDiscount,
+    points_conversion_rate,
+    redeemDiscountAmount,
+  } = useAppSelector((state) => state.cart);
+
+  // Read calculated fields directly from slice
+  const selectedItems = items.filter((item) => item.isSelected);
+  const totalItems = selectedItems.reduce(
+    (acc, item) => acc + item.selectedQuantity,
     0,
   );
 
-  const vatAmount = (subTotal * vat_percentage) / 100;
+  const pointsMonetaryDiscount =
+    points_conversion_rate > 0
+      ? redeemPointsDiscount * points_conversion_rate
+      : 0;
+
+  const maxUserDiscount =
+    (user?.loyalty_point ?? 0) * (points_conversion_rate || 0);
 
   const handleCheckout = async () => {
     const payload = {
-      items: items.map((item) => ({
-        deal_id: item?.id,
-        quantity: item?.selectedQuantity,
-        redeem_points: user?.vuchado_point,
+      items: selectedItems.map((item) => ({
+        deal_id: item.id,
+        quantity: item.selectedQuantity,
+        redeem_points: redeemPointsDiscount,
         coupon_code: user?.coupon_code || null,
       })),
     };
@@ -52,12 +71,11 @@ export default function OrderSummary({ lang }: Props) {
         toast.success(res.message);
         dispatch(clearCart());
         dispatch(clearCouponCode());
-        dispatch(clearVuchadoPoint());
         router.replace(res?.data?.checkout_url);
       }
     } catch (error: any) {
       if (!error?.data?.status) {
-        toast.error("Please to login first then checkout");
+        toast.error("Please login first to checkout");
         router.push(`/${lang}/login?redirect=${window?.location?.pathname}`);
       }
     }
@@ -65,60 +83,61 @@ export default function OrderSummary({ lang }: Props) {
 
   return (
     <div className="w-full flex flex-col gap-4">
-      {/* Main Order Summary Card */}
       <div className="w-full bg-white p-6 rounded-2xl">
         {/* Header */}
         <div className="flex items-center gap-2 mb-6">
-          <OrderSummery />
+          <OrderSummeryIcon />
           <h2 className="text-2xl font-semibold text-gray-800">
             Order Summary
           </h2>
         </div>
 
-        {/* Pricing Breakdown */}
+        {/* Breakdown */}
         <div className="space-y-4 mb-6">
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 text-xl font-medium">
+          <div className="flex justify-between items-center text-xl">
+            <span className="text-gray-600 font-medium">
               Items ({totalItems})
             </span>
-
-            <span className="font-bold text-xl text-gray-800">
-              € {subTotal?.toFixed(2)}
+            <span className="font-bold text-gray-800">
+              € {subTotal.toFixed(2)}
             </span>
           </div>
 
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 text-xl font-medium">
-              VAT ({vat_percentage} %)
+          <div className="flex justify-between items-center text-xl">
+            <span className="text-gray-600 font-medium">
+              VAT ({vat_percentage}%)
             </span>
-
-            <span className="font-bold text-xl text-gray-800">
-              € {vatAmount?.toFixed(2)}
+            <span className="font-bold text-gray-800">
+              € {vatAmount.toFixed(2)}
             </span>
           </div>
 
           {couponDiscount > 0 && (
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600 text-xl font-medium">
-                Coupon Discount
+            <div className="flex justify-between items-center text-xl">
+              <span className="text-gray-600 font-medium">Coupon Discount</span>
+              <span className="font-bold text-red-500">
+                -€ {couponDiscount.toFixed(2)}
               </span>
+            </div>
+          )}
 
-              <span className="font-bold text-xl text-red-500">
-                -€ {couponDiscount?.toFixed(2)}
+          {redeemDiscountAmount > 0 && (
+            <div className="flex justify-between items-center text-xl">
+              <span className="text-gray-600 font-medium">Points Discount</span>
+              <span className="font-bold text-red-500">
+                -€ {redeemDiscountAmount.toFixed(2)}
               </span>
             </div>
           )}
         </div>
 
-        {/* Divider */}
         <hr className="border-gray-400 mb-6" />
 
         {/* Total */}
-        <div className="flex justify-between items-center mb-6">
-          <span className="text-xl font-medium text-gray-600">Total</span>
-
-          <span className="text-xl font-extrabold text-gray-800">
-            € {(totalPrice ?? 0).toFixed(2)}
+        <div className="flex justify-between items-center mb-6 text-xl">
+          <span className="font-medium text-gray-600">Total</span>
+          <span className="font-extrabold text-gray-800">
+            € {totalPrice.toFixed(2)}
           </span>
         </div>
 
@@ -129,26 +148,27 @@ export default function OrderSummary({ lang }: Props) {
               Use your points & enjoy even more discount
             </h4>
             <p className="text-sm text-gray-500">
-              2000 vouchado points are available. You can add upto €20 discount.
+              {user?.loyalty_point ?? 0} points available. Add up to €
+              {maxUserDiscount.toFixed(2)} discount.
             </p>
           </div>
 
           <button
             onClick={() => setIsOpen(true)}
-            className="bg-[#2bb3bb] hover:bg-[#239aa1] text-white text-xs font-semibold px-3 py-2 rounded-full"
+            className="bg-[#2bb3bb] hover:bg-[#239aa1] text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
           >
             Redeem Points
           </button>
         </div>
 
-        {/* Coupon */}
+        {/* Coupon Input */}
         <Coupon />
 
-        {/* Checkout */}
+        {/* Checkout Button */}
         <button
           onClick={handleCheckout}
-          disabled={!items.length}
-          className="flex justify-center items-center w-full bg-[#2bb3bb] hover:bg-[#239aa1] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-full transition-colors"
+          disabled={!selectedItems.length || isLoading}
+          className="flex justify-center items-center w-full bg-[#2bb3bb] hover:bg-[#239aa1] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-full transition-colors mt-4"
         >
           {isLoading ? (
             <Loader2 className="animate-spin" />
@@ -156,6 +176,7 @@ export default function OrderSummary({ lang }: Props) {
             "Proceed to Checkout"
           )}
         </button>
+
         {/* Trust Section */}
         <TrustSection totalPrice={totalPrice} />
       </div>
@@ -165,7 +186,7 @@ export default function OrderSummary({ lang }: Props) {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       >
-        <RedeemForm onClose={() => setIsOpen(true)} />
+        <RedeemForm onClose={() => setIsOpen(false)} />
       </ModalContainer>
     </div>
   );

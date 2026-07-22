@@ -21,11 +21,11 @@ import co2 from "@/public/hero/image 12.png";
 import { useSubscribeMutation } from "@/redux/features/contact/contact.api";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@/redux/hooks/globalhooks";
+
 import {
-  updateLoyaltyPoint,
-  updateVuchadoPoint,
-} from "@/redux/features/auth/auth.slice";
-import { updateVatPercentage } from "@/redux/features/cart/cart.slice";
+  setPointsConversionRate,
+  updateVatPercentage,
+} from "@/redux/features/cart/cart.slice";
 
 interface FooterLinks {
   footerLinks: any;
@@ -44,16 +44,14 @@ export default function Footer({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (systemInfo?.data?.loyalty_point)
-      dispatch(updateLoyaltyPoint(systemInfo?.data?.loyalty_point));
-    if (systemInfo?.data?.vuchado_point)
-      dispatch(updateVuchadoPoint(systemInfo?.data?.vuchado_point));
     if (systemInfo?.data?.vat_percentage)
       dispatch(updateVatPercentage(systemInfo?.data?.vat_percentage));
-    if (systemInfo?.data?.setPointsConversionRate) {
-      dispatch(updateVatPercentage(systemInfo?.data?.setPointsConversionRate));
+    if (systemInfo?.data?.points_conversion_rate) {
+      dispatch(
+        setPointsConversionRate(systemInfo?.data?.points_conversion_rate),
+      );
     }
-  }, [systemInfo]);
+  }, [systemInfo, dispatch]);
 
   const socialIcons = [
     { icon: Facebook, link: socialLinks?.data?.facebook_link || "#" },

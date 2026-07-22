@@ -54,10 +54,10 @@ export default function UserDropdown({
     ProviderInfo?.value?.data?.balance || ProviderInfo?.data?.balance;
 
   useEffect(() => {
-    if (userInfo) {
+    if (vouchadoPoint) {
       dispatch(updateLoyaltyPoint(vouchadoPoint));
     }
-  }, [vouchadoPoint]);
+  }, [userInfo, dispatch]);
 
   return (
     <DropdownMenu>

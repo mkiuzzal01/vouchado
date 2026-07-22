@@ -16,8 +16,9 @@ export default function RedeemForm({ onClose }: Props) {
   const loyalty_point =
     useAppSelector((state) => state?.auth.user?.loyalty_point) ?? 0;
 
+  const points_conversion_rate = useAppSelector((state) => state.cart.points_conversion_rate) || 0;
+  
   const handleFormSubmit = (values: FieldValues) => {
-    dispatch(updateLoyaltyPoint(Number(values?.budget)));
     dispatch(setRedeemPointsDiscount(Number(values?.budget)));
     onClose();
   };
@@ -27,7 +28,7 @@ export default function RedeemForm({ onClose }: Props) {
   return (
     <div>
       <h1 className="text-sm text-gray-500">
-        Every 1,000 points can be redeemed for a €50 discount.
+        Every 1,000 points can be redeemed for a €{(1000 * points_conversion_rate).toFixed(2)} discount.
       </h1>
       <AppForm onSubmit={handleFormSubmit} defaultValues={{ budget: 0 }}>
         <RangeInput
