@@ -1,17 +1,22 @@
 "use client";
-
 import { useEffect, useMemo } from "react";
-import Link from "next/link";
-import { ExternalLink } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import {
+  clearSelectedNotification,
   markAsRead,
   NotificationItem,
   setNotifications,
   setSelectedNotification,
 } from "@/redux/features/notifications/notification.slice";
-
-import { ShoppingBag, CheckCircle2, Sparkles, Bell } from "lucide-react";
+import {
+  ShoppingBag,
+  CheckCircle2,
+  Sparkles,
+  Bell,
+  ExternalLink,
+} from "lucide-react";
+import ViewNotification from "./ViewNotification";
+import ModalContainer from "@/app/components/shared/ModalContainer";
 
 export function formatTimeAgo(dateString: string): string {
   const now = new Date();
@@ -116,16 +121,19 @@ export default function NotificationList({
           const isSelected = selectedNotification?.id === item.id;
           const badge = getNotificationBadge(item.data.title);
 
-          const cardStyles = `relative p-4 rounded-xl border transition-all w-full text-left cursor-pointer block ${
-            isSelected
-              ? "border-teal-500 bg-teal-50/60 shadow-xs"
-              : isUnread
-                ? "bg-teal-50/20 border-teal-200/80 hover:border-teal-300"
-                : "bg-white border-gray-100 hover:border-gray-200 hover:bg-gray-50/50"
-          }`;
-
-          const CardBody = (
-            <>
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => handleSelectNotification(item)}
+              className={`relative p-4 rounded-xl border transition-all w-full text-left cursor-pointer block ${
+                isSelected
+                  ? "border-teal-500 bg-teal-50/60 shadow-xs"
+                  : isUnread
+                    ? "bg-teal-50/20 border-teal-200/80 hover:border-teal-300"
+                    : "bg-white border-gray-100 hover:border-gray-200 hover:bg-gray-50/50"
+              }`}
+            >
               {/* Unread indicator dot */}
               {isUnread && (
                 <span className="absolute top-4 right-4 w-2.5 h-2.5 bg-teal-500 rounded-full ring-4 ring-teal-50" />
@@ -148,7 +156,7 @@ export default function NotificationList({
                     </span>
                   </div>
 
-                  <p className="text-sm text-gray-600 mt-1 leading-relaxed">
+                  <p className="text-sm text-gray-600 mt-1 leading-relaxed line-clamp-2">
                     {item.data.message}
                   </p>
 
@@ -159,30 +167,18 @@ export default function NotificationList({
                   )}
                 </div>
               </div>
-            </>
-          );
-
-          return item.data.url ? (
-            <Link
-              key={item.id}
-              href={item.data.url}
-              onClick={() => handleSelectNotification(item)}
-              className={cardStyles}
-            >
-              {CardBody}
-            </Link>
-          ) : (
-            <button
-              key={item.id}
-              type="button"
-              onClick={() => handleSelectNotification(item)}
-              className={cardStyles}
-            >
-              {CardBody}
             </button>
           );
         })}
       </div>
+
+      <ModalContainer
+        isOpen={!!selectedNotification}
+        onClose={() => dispatch(clearSelectedNotification())}
+        title="Notification Details"
+      >
+        <ViewNotification />
+      </ModalContainer>
     </div>
   );
 }
