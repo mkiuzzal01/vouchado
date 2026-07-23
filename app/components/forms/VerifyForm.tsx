@@ -99,7 +99,7 @@ export default function Verify({ locale, t, email, from, role }: Props) {
   return (
     <Container>
       {isSuccess ? (
-        <VerificationSuccess />
+        <VerificationSuccess role={role} />
       ) : (
         <div className="flex min-h-screen items-center justify-center px-4">
           <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">

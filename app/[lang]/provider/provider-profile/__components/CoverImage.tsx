@@ -1,5 +1,5 @@
 import Image from "next/image";
-import coverImage from "@/public/hero/Rectangle 61.png";
+import coverImage from "@/public/hero/Hero Section (2).png";
 
 interface Props {
   coverImageUrl: string;

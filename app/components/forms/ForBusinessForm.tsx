@@ -19,9 +19,9 @@ export default function ForBusinessForm({ lang }: Props) {
   };
 
   return (
-    <div className="w-full space-y-2 lg:space-y-6">
+    <div className="w-full space-y-2 lg:space-y-6 ">
       {/* Section Header */}
-      <div>
+      <div className="select-none">
         <h2 className=" text-2xl lg:text-[32px] font-bold text-gray-900 tracking-tight">
           Business Settings
         </h2>
@@ -32,7 +32,7 @@ export default function ForBusinessForm({ lang }: Props) {
 
       {/* Form Context Shell */}
       <AppForm onSubmit={handleSubmit}>
-        <div className="space-y-6">
+        <div className="space-y-6 select-none">
           {/* Input Grid Structure matching image_42eaf7.png */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             <TextInput
@@ -64,25 +64,12 @@ export default function ForBusinessForm({ lang }: Props) {
               name="phoneNumber"
               placeholder="XXXXXXXXXX"
             />
-
-            <SelectInput
+            <TextInput
               disabled
               label="Business Category"
-              name="businessCategory"
-              options={[
-                {
-                  label: "Select a category",
-                  value: "",
-                },
-                {
-                  label: "Beauty & Wellness",
-                  value: "beauty-wellness",
-                },
-                {
-                  label: "Food & Beverage",
-                  value: "food-beverage",
-                },
-              ]}
+              type="text"
+              name="category"
+              placeholder="Select a category"
             />
 
             <TextInput

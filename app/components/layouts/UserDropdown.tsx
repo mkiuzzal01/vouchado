@@ -18,6 +18,7 @@ import { RootState } from "@/redux/store";
 import Dashboard from "../icons/Dasboard";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 interface Props {
   lang?: string;
@@ -34,16 +35,24 @@ export default function UserDropdown({
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const userName = user?.name || "Guest";
-  const userEmail = user?.email || "";
-  const role = String(user?.role || "user");
+  const userEmail = userInfo?.data?.email || user?.email;
+  const role = String(user?.role || userInfo?.data?.role);
+  const avatar = userInfo?.data?.avatar || user?.avatar;
 
-  const initials = userName
-    .split(" ")
-    .map((n: string) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
+  const initials = avatar ? (
+    <div className="rounded-full overflow-hidden">
+      <Image src={avatar} width={100} height={100} alt="avatar" />
+    </div>
+  ) : (
+    <div className="bg-[#31BFC8] h-full w-full flex items-center justify-center text-white rounded-full">
+      {user?.name
+        .split(" ")
+        .map((n: string) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)}
+    </div>
+  );
 
   const handleLogout = () => {
     dispatch(logout());
@@ -66,10 +75,8 @@ export default function UserDropdown({
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-100 p-1 hover:bg-gray-50 transition outline-none focus-visible:ring-2 focus-visible:ring-slate-200">
           {/* Avatar */}
-          <Avatar className="h-8 w-8 border border-[#2EC4C6] shrink-0">
-            <AvatarFallback className="bg-[#31BFC8] text-white text-xs font-bold">
-              {initials}
-            </AvatarFallback>
+          <Avatar className="h-8 w-8 shrink-0">
+            <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
 
           {/* Money Display Panel */}
@@ -94,7 +101,7 @@ export default function UserDropdown({
         <DropdownMenuLabel className="font-normal px-2.5 py-2">
           <div className="flex flex-col space-y-0.5">
             <p className="text-sm font-bold text-slate-800 leading-none">
-              {userName}
+              {user?.name}
             </p>
             <p className="text-xs text-slate-400 font-medium truncate">
               {userEmail}

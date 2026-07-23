@@ -11,6 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Autoplay } from "swiper/modules";
+import bannerImage from "@/public/hero/hero.png";
 
 const FEATURES = [
   { title: "100% Verified Deals", icon: <Verified size={20} /> },
@@ -27,31 +28,46 @@ export default function Hero({ banner }: Props) {
     <div className="w-full xl:max-w-[90%] 2xl:max-w-[95%] mx-auto mt-4 sm:mt-6">
       <div className="relative rounded-2xl md:rounded-[32px] flex flex-col justify-between shadow-2xl min-h-[75vh]">
         {/* Background Image */}
-        <div className="absolute inset-0 -z-10 rounded-2xl md:rounded-[32px] overflow-hidden">
-          <Swiper
-            modules={[Autoplay]}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-            }}
-            speed={3000}
-            loop
-            className="w-full h-full"
-          >
-            {banner?.data?.map((item: any, index: number) => (
-              <SwiperSlide key={index}>
-                <div className="relative w-full h-full">
-                  <Image
-                    src={item?.image}
-                    alt={`Banner ${index + 1}`}
-                    fill
-                    priority={index === 0}
-                    className="object-cover object-[80%_center] md:object-top"
-                  />
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+        <div className="absolute inset-0 -z-10 rounded-2xl md:rounded-[32px] overflow-hidden bg-gray-100">
+          {banner?.data && banner.data.length > 0 ? (
+            <Swiper
+              modules={[Autoplay]}
+              autoplay={{
+                delay: 5000,
+                disableOnInteraction: false,
+              }}
+              speed={3000}
+              loop={banner.data.length > 1}
+              className="w-full h-full"
+            >
+              {banner.data.map((item: any, index: number) => (
+                <SwiperSlide key={item?.id || item?._id || index}>
+                  <div className="relative w-full h-full">
+                    <Image
+                      src={item?.image}
+                      alt={item?.title || `Banner ${index + 1}`}
+                      fill
+                      sizes="100vw"
+                      priority={index === 0}
+                      className="object-cover object-[80%_center] md:object-top"
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          ) : (
+            /* Static fallback image shown before data loads or when data is empty */
+            <div className="relative w-full h-full">
+              <Image
+                src={bannerImage} // Replace with your static image path from public folder
+                alt="Default Banner"
+                fill
+                sizes="100vw"
+                priority
+                className="object-cover object-[80%_center] md:object-top"
+              />
+            </div>
+          )}
         </div>
         {/* overlay */}
         <div className="absolute inset-0 -z-10 rounded-2xl md:rounded-[32px] overflow-hidden bg-black/20 backdrop-blur-[2px]" />

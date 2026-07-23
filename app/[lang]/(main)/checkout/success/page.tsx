@@ -1,32 +1,23 @@
-import { getVerifySession } from "@/actions/quires/system_info.api";
+"use client";
+
 import CheckoutMessagePage from "../checkout-message/page";
 import NotFoundData from "@/app/components/shared/NotFoundData";
-import { cookies } from "next/headers";
+import Loader from "@/app/loading";
+import { useGetVerifySessionQuery } from "@/redux/features/deal/deal.api";
+import { useSearchParams } from "next/navigation";
 
-interface Props {
-  searchParams: Promise<{ session_id: string }>;
-}
+export default function page() {
+  const searchParams = useSearchParams();
+  const session_id = searchParams.get("session_id");
+  const { data, isFetching, isLoading } = useGetVerifySessionQuery(session_id, {
+    skip: !session_id,
+  });
 
-export default async function page({ searchParams }: Props) {
-  const { session_id } = await searchParams;
-  const cookieStore = await cookies();
-  const token = cookieStore.get("vuchado_token")?.value;
-
-  if (!session_id)
-    return (
-      <NotFoundData
-        title="No session ID found"
-        description="Please provide a session ID"
-      />
-    );
-
-  let result = null;
-
-  if (token) {
-    result = await getVerifySession(session_id);
+  if (isFetching || isLoading) {
+    return <Loader />;
   }
 
-  if (!result) {
+  if (!data?.data) {
     return (
       <NotFoundData
         title="No data found"
@@ -35,5 +26,5 @@ export default async function page({ searchParams }: Props) {
     );
   }
 
-  return <CheckoutMessagePage verifySession={result?.data} />;
+  return <CheckoutMessagePage verifySession={data?.data} />;
 }

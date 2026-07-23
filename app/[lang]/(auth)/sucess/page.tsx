@@ -4,7 +4,11 @@ import { Button } from "@/components/ui/button";
 import success from "@/public/auth/Group 87.png";
 import { useRouter } from "next/navigation";
 
-export default function VerificationSuccess() {
+interface Props {
+  role?: string;
+}
+
+export default function VerificationSuccess({ role }: Props) {
   const router = useRouter();
 
   return (
@@ -27,12 +31,14 @@ export default function VerificationSuccess() {
         </h1>
 
         {/* CTA Button */}
-        <Button
-          onClick={() => router.push("/login")}
-          className="w-full h-10 rounded-full text-base font-medium"
-        >
-          Login
-        </Button>
+        {role !== "provider" && (
+          <Button
+            onClick={() => router.push("/provider-login")}
+            className="w-full h-10 rounded-full text-base font-medium"
+          >
+            Login
+          </Button>
+        )}
       </div>
     </div>
   );

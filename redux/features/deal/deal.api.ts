@@ -10,6 +10,14 @@ export const dealsAPI = baseApi.injectEndpoints({
       providesTags: ["deal"],
     }),
 
+    getVerifySession: builder.query({
+      query: (session_id) => ({
+        url: `/order/verify-session?session_id=${session_id}`,
+        method: "GET",
+      }),
+      providesTags: ["verify-session"],
+    }),
+
     createDeal: builder.mutation({
       query: (body) => ({
         url: "/provider/deals",
@@ -53,4 +61,5 @@ export const {
   useVoucherRedeemMutation,
   useDeleteDealMutation,
   useDealStatusChangeMutation,
+  useGetVerifySessionQuery,
 } = dealsAPI;

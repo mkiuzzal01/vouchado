@@ -6,6 +6,7 @@ import NotFoundData from "@/app/components/shared/NotFoundData";
 import { IUserProfile } from "@/redux/types/user_profile";
 import Image from "next/image";
 import { useState } from "react";
+import avatar from "@/public/auth/profile_placeholder.png";
 
 interface PersonalInfoProps {
   userProfile: IUserProfile;
@@ -39,10 +40,7 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
           <Image
             fill
             className="rounded-2xl object-cover border border-gray-100"
-            src={
-              userProfile?.avatar_full_url ||
-              "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80"
-            }
+            src={userProfile?.avatar_full_url || avatar}
             alt={userProfile?.name}
           />
         </div>

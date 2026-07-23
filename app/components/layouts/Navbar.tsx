@@ -7,13 +7,13 @@ import MegaMenu from "./MegaMenu";
 import Container from "../shared/Container";
 import branding_logo from "@/public/logo/brand_logo.png";
 import { useState } from "react";
-import cookie from "js-cookie";
 import UserDropdown from "./UserDropdown";
 import Chat from "../icons/Chat";
 import { usePathname } from "next/navigation";
 import Cart from "../icons/Cart";
 import WishList from "../icons/WishList";
 import Voucher from "../icons/Voucher";
+import { useAppSelector } from "@/redux/hooks/globalhooks";
 
 interface Props {
   lang: string;
@@ -39,7 +39,7 @@ export default function Navbar({
   provider_info,
 }: Props) {
   const [showNavbar, setShowNavbar] = useState(false);
-  const token = cookie.get("vuchado_token");
+  const user = useAppSelector((state) => state.auth.user);
   const path = usePathname();
 
   return (
@@ -87,27 +87,31 @@ export default function Navbar({
             </div>
 
             {/* Auth */}
-            <div className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full lg:bg-[#F4F6F8] lg:border lg:p-1 xl:p-0.5 2xl:p-1">
+            <div className="flex items-center gap-2  rounded-full lg:bg-[#F4F6F8] lg:border lg:p-1 xl:p-0.5 2xl:p-1">
+              {user?.email && (
+                <div className="bg-white rounded-full">
+                  <Link
+                    href={`/${lang}/wishlist`}
+                    className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10  items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/wishlist") && "bg-[#2EC4C6]"}`}
+                  >
+                    <WishList
+                      color={path.includes("/wishlist") ? "white" : "#292D32"}
+                      className="size-5 lg:size-6 xl:size-4 2xl:size-6"
+                    />
+                  </Link>
+                </div>
+              )}
               <div className="bg-white rounded-full">
-                <Link
-                  href={`/${lang}/wishlist`}
-                  className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10  items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/wishlist") && "bg-[#2EC4C6]"}`}
-                >
-                  <WishList
-                    color={path.includes("/wishlist") ? "white" : "#292D32"}
-                    className="size-5 lg:size-6 xl:size-4 2xl:size-6"
-                  />
-                </Link>
-              </div>
-              <div className="bg-white rounded-full">
-                <Link
-                  href={`/${lang}/vouchers`}
-                  className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/vouchers") && "bg-[#2EC4C6]"}`}
-                >
-                  <Voucher
-                    color={path.includes("/vouchers") ? "white" : "#292D32"}
-                  />
-                </Link>
+                {user?.email && (
+                  <Link
+                    href={`/${lang}/vouchers`}
+                    className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10 items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/vouchers") && "bg-[#2EC4C6]"}`}
+                  >
+                    <Voucher
+                      color={path.includes("/vouchers") ? "white" : "#292D32"}
+                    />
+                  </Link>
+                )}
               </div>
               <div className="bg-white rounded-full">
                 <Link
@@ -121,7 +125,7 @@ export default function Navbar({
                 </Link>
               </div>
 
-              {token ? (
+              {user ? (
                 <UserDropdown
                   lang={lang}
                   userInfo={user_info}

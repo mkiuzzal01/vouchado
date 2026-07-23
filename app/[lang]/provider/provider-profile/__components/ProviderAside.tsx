@@ -1,5 +1,5 @@
 import Image from "next/image";
-import providerImage from "@/public/hero/Ellipse 3334.png";
+import providerImage from "@/public/auth/profile_placeholder.png";
 import withdrawalImage from "@/public/hero/Hero Section (2).png";
 import OpeaningTime from "@/app/components/icons/OpeaningTime";
 

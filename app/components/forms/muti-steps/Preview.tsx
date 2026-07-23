@@ -342,14 +342,16 @@ export default function Preview() {
             {activeTab === "overview" ? (
               <div className="space-y-6 animate-in fade-in duration-300">
                 <div className="space-y-2">
-                  <h2 className="text-xl font-bold text-slate-900">Overview</h2>
-                  <p className="text-slate-600 text-base leading-relaxed whitespace-pre-line">
+                  <h2 className="text-md lg:text-2xl font-bold text-[#212B36]">
+                    Overview
+                  </h2>
+                  <p className="text-[#637381] mt-4 text-sm lg:text-md xl:text-xl">
                     {dealDetails?.shortDescription}
                   </p>
                 </div>
 
                 <div className="space-y-3 pt-2">
-                  <h3 className="text-base font-bold text-slate-900 tracking-tight">
+                  <h3 className="text-md lg:text-2xl font-bold text-[#31BFC8] tracking-tight">
                     Highlights
                   </h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -465,7 +467,11 @@ export default function Preview() {
             </div>
           </div>
 
-          <ProductLocation location={overview?.location ?? undefined} />
+          <ProductLocation
+            location={overview?.location ?? undefined}
+            opening={overview?.openingHours}
+            accessibility={overview?.accessibility}
+          />
         </div>
       </div>
 
