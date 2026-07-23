@@ -6,6 +6,7 @@ import {
   markAsRead,
   NotificationItem,
   setNotifications,
+  addNotification,
   setSelectedNotification,
 } from "@/redux/features/notifications/notification.slice";
 import {
@@ -17,6 +18,8 @@ import {
 } from "lucide-react";
 import ViewNotification from "./ViewNotification";
 import ModalContainer from "@/app/components/shared/ModalContainer";
+import { getEchoInstance } from "@/lib/echo";
+import cookie from "js-cookie";
 
 export function formatTimeAgo(dateString: string): string {
   const now = new Date();
@@ -76,6 +79,10 @@ export default function NotificationList({
   const { notifications, selectedNotification, unreadCount } = useAppSelector(
     (state) => state.notification,
   );
+  
+  const auth = useAppSelector((state: any) => state.auth);
+  const token = auth?.vuchado_token || cookie.get("vuchado_token");
+  const userId = auth?.user?.id;
 
   // Sync server data into Redux store on mount
   useEffect(() => {
@@ -83,6 +90,47 @@ export default function NotificationList({
       dispatch(setNotifications(initialNotifications));
     }
   }, [initialNotifications, dispatch]);
+
+  // Echo integration for real-time notifications
+  useEffect(() => {
+    console.log("Echo Notification Debug:", { token: !!token, userId });
+
+    if (!token || !userId) {
+      console.warn("Echo Notification Subscription Aborted: Missing token or userId");
+      return;
+    }
+
+    const echo = getEchoInstance(token);
+    const channelName = `App.Models.User.${userId}`;
+    console.log("Attempting to subscribe to channel:", channelName);
+    const channel = echo.private(channelName);
+
+    channel.notification((notification: any) => {
+      // notification payload depends on what the backend sends via toArray() or toBroadcast()
+      const newNotif: NotificationItem = {
+        id: notification.id,
+        type: notification.type,
+        data: notification.data || notification || { title: "New Notification", message: "You have a new update.", url: null },
+        read_at: null,
+        created_at: new Date().toISOString(),
+      };
+      
+      // Avoid duplicates
+      if (!notifications.some(n => n.id === newNotif.id)) {
+        dispatch(addNotification(newNotif));
+      }
+    });
+
+    channel.error((err: any) => {
+      console.error("Notification channel error:", err);
+    });
+
+    return () => {
+      console.log("Leaving notification channel:", channelName);
+      echo.leave(channelName);
+      echo.disconnect();
+    };
+  }, [token, userId, dispatch, notifications]);
 
   const activeList = useMemo(() => {
     return notifications.length > 0 ? notifications : initialNotifications;

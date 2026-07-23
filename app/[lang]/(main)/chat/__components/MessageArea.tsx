@@ -15,6 +15,9 @@ import { useSendMessageMutation } from "@/redux/features/conversional/conversion
 import { toast } from "react-toastify";
 import ArrowSend from "@/app/components/icons/ArrowSend";
 import Image from "next/image";
+import { useAppSelector } from "@/redux/hooks/globalhooks";
+import { getEchoInstance } from "@/lib/echo";
+import cookie from "js-cookie";
 
 interface Props {
   user: Conversation;
@@ -62,10 +65,66 @@ export default function MessageArea({
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [sendMessage, { isLoading }] = useSendMessageMutation();
 
+  const [localMessages, setLocalMessages] = useState<Message[]>([]);
+  const reduxToken = useAppSelector((state: any) => state.auth?.vuchado_token);
+  const token = reduxToken || cookie.get("vuchado_token");
+
   // Scroll to bottom whenever message list updates
   useEffect(() => {
+    setLocalMessages(messagesList);
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messagesList]);
+
+  // Echo integration for real-time messages
+  useEffect(() => {
+    const activeConvId = user?.conversation_id || (user as any)?.id;
+    console.log("Echo Chat Debug:", {
+      token: !!token,
+      conversation_id: activeConvId,
+      user,
+    });
+
+    if (!token || !activeConvId) {
+      console.warn(
+        "Echo Chat Subscription Aborted: Missing token or conversation_id",
+        { token: !!token, activeConvId },
+      );
+      return;
+    }
+
+    const echo = getEchoInstance(token);
+    const channelName = `private-conversation.${activeConvId}`;
+    console.log("Attempting to subscribe to channel:", channelName);
+
+    // Using private channel as typical for private conversations
+    const channel = echo.private(channelName);
+
+    const handleNewMessage = (e: any) => {
+      console.log("New message received via Echo:", e);
+      const newMessage = e.message || e;
+      setLocalMessages((prev) => {
+        if (prev.some((m) => m.id === newMessage.id)) return prev;
+        return [newMessage, ...prev];
+      });
+    };
+
+    // Listen to standard event name (default namespace)
+    channel.listen("MessageSent", handleNewMessage);
+    // // Listen to explicit event name (no namespace)
+    // channel.listen(".MessageSent", handleNewMessage);
+    // // Listen to generic fallback name
+    // channel.listen(".message.sent", handleNewMessage);
+
+    channel.error((err: any) => {
+      console.error("Chat channel error:", err);
+    });
+
+    return () => {
+      console.log("Leaving channel:", channelName);
+      echo.leave(channelName);
+      echo.disconnect();
+    };
+  }, [token, user?.conversation_id, (user as any)?.id]);
 
   if (!user) {
     return (
@@ -144,8 +203,8 @@ export default function MessageArea({
 
       {/* Message History */}
       <div className="bg-white flex-1 overflow-y-auto px-4 py-6 md:p-6 space-y-6">
-        {messagesList.length > 0 ? (
-          [...messagesList].reverse().map((msg, idx) => {
+        {localMessages.length > 0 ? (
+          [...localMessages].reverse().map((msg, idx) => {
             const isIncoming = msg?.sender_id === otherUserId;
             const attachments = (msg as any).attachments || [];
             const isRead = (msg as any).is_read ?? true;
@@ -162,6 +221,7 @@ export default function MessageArea({
                         src={userAvatar || ""}
                         alt={userName || ""}
                         fill
+                        sizes="32px"
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -204,6 +264,7 @@ export default function MessageArea({
                               src={att?.url || ""}
                               alt={att?.original_name || ""}
                               fill
+                              sizes="(max-width: 768px) 100vw, 384px"
                               className="w-full object-cover max-h-64 rounded-2xl"
                             />
                             <div className="absolute bottom-2 right-2 bg-black/40 px-2 py-0.5 rounded-lg flex items-center gap-1 backdrop-blur-xs">

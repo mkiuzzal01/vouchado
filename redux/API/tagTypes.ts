@@ -1,1 +1,1 @@
-export const tagTypes = ["auth", "contact"];
+export const tagTypes = ["auth", "contact", "notification", "chat", "message"];

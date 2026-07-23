@@ -17,6 +17,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/broadcasting/auth",
+        destination: "https://whatevvaaa.thewarriors.team/broadcasting/auth",
+      },
+    ];
+  },
 };
 
 export default nextConfig;

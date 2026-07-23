@@ -39,14 +39,15 @@ export default function UserList({
   useEffect(() => {
     let shouldPlay = false;
 
-    list.forEach((item) => {
-      const prevUnread = prevUnreadCounts.current[item.conversation_id] ?? 0;
+    list.forEach((item: any) => {
+      const convId = item.conversation_id || item.id;
+      const prevUnread = prevUnreadCounts.current[convId] ?? 0;
       // If unread count has increased, we received a new message
       if (item.unread_count > prevUnread) {
         shouldPlay = true;
       }
       // Update our persistent cache value
-      prevUnreadCounts.current[item.conversation_id] = item.unread_count;
+      prevUnreadCounts.current[convId] = item.unread_count;
     });
 
     if (shouldPlay) {
@@ -88,8 +89,9 @@ export default function UserList({
       {/* Users Scroll Container */}
       <div className="flex-1 overflow-y-auto px-2 space-y-1">
         {list.length > 0 ? (
-          list.map((item) => {
-            const isSelected = item.conversation_id === selectedId;
+          list.map((item: any) => {
+            const convId = item.conversation_id || item.id;
+            const isSelected = convId === selectedId;
             const userAvatar = item.user?.avatar;
             const userName = item.user?.name || "Unknown User";
             const isOnline = item.is_online;
@@ -110,8 +112,8 @@ export default function UserList({
 
             return (
               <button
-                key={item.conversation_id}
-                onClick={() => onSelectUser(item.conversation_id)}
+                key={convId}
+                onClick={() => onSelectUser(convId)}
                 className={`w-full text-left p-3.5 flex items-center gap-3 rounded-xl transition-all ${
                   isSelected ? "bg-teal-50/70" : "hover:bg-gray-50/50"
                 }`}

@@ -35,6 +35,14 @@ export const notificationSlice = createSlice({
       state.unreadCount = action.payload.filter((item) => !item.read_at).length;
     },
 
+    addNotification: (state, action: PayloadAction<NotificationItem>) => {
+      // Add to beginning of array
+      state.notifications = [action.payload, ...state.notifications];
+      if (!action.payload.read_at) {
+        state.unreadCount += 1;
+      }
+    },
+
     setSelectedNotification: (
       state,
       action: PayloadAction<NotificationItem | null>,
@@ -77,6 +85,7 @@ export const notificationSlice = createSlice({
 
 export const {
   setNotifications,
+  addNotification,
   setSelectedNotification,
   markAsRead,
   markAllAsRead,

@@ -26,38 +26,38 @@ export default function Inbox({ list, message }: Props) {
   );
 
   const idFromParams = searchParams.get("id");
-  const selectedUserId = idFromParams ? parseInt(idFromParams, 10) : null;
+  const selectedConversationId = idFromParams ? parseInt(idFromParams, 10) : null;
 
   const [isMobileMessageView, setIsMobileMessageView] = useState(false);
   useEffect(() => {
-    if (conversations.length > 0 && selectedUserId === null) {
-      const firstUserId = conversations[0]?.user?.id;
-      if (firstUserId) {
+    if (conversations.length > 0 && selectedConversationId === null) {
+      const firstConvId = conversations[0]?.conversation_id || (conversations[0] as any)?.id;
+      if (firstConvId) {
         const params = new URLSearchParams(searchParams.toString());
-        params.set("id", firstUserId.toString());
+        params.set("id", firstConvId.toString());
         router.replace(`${pathname}?${params.toString()}`);
       }
     }
-  }, [conversations, selectedUserId, pathname, searchParams, router]);
+  }, [conversations, selectedConversationId, pathname, searchParams, router]);
 
   useEffect(() => {
-    if (selectedUserId) {
+    if (selectedConversationId) {
       setIsMobileMessageView(true);
     }
-  }, [selectedUserId]);
+  }, [selectedConversationId]);
 
   const activeConversation = useMemo(() => {
     return (
-      conversations.find((u) => u?.user?.id === selectedUserId) ||
+      conversations.find((u: any) => (u?.conversation_id || u?.id) === selectedConversationId) ||
       conversations[0]
     );
-  }, [conversations, selectedUserId]);
+  }, [conversations, selectedConversationId]);
 
   const messagesList = useMemo(() => message?.data?.data || [], [message]);
 
-  const handleSelectUser = (userId: number) => {
+  const handleSelectUser = (conversationId: number) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("id", userId.toString());
+    params.set("id", conversationId.toString());
     router.push(`${pathname}?${params.toString()}`);
     setIsMobileMessageView(true);
   };
@@ -74,7 +74,7 @@ export default function Inbox({ list, message }: Props) {
           <UserList
             onSelectUser={handleSelectUser}
             list={conversations}
-            selectedId={selectedUserId ?? 0}
+            selectedId={selectedConversationId ?? 0}
           />
         </div>
       </aside>
