@@ -65,7 +65,7 @@ export default function MessageArea({
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [sendMessage, { isLoading }] = useSendMessageMutation();
 
-  const [localMessages, setLocalMessages] = useState<Message[]>([]);
+  const [localMessages, setLocalMessages] = useState<Message[]>(messagesList || []);
   const reduxToken = useAppSelector((state: any) => state.auth?.vuchado_token);
   const token = reduxToken || cookie.get("vuchado_token");
 
@@ -93,11 +93,11 @@ export default function MessageArea({
     }
 
     const echo = getEchoInstance(token);
-    const channelName = `private-conversation.${activeConvId}`;
+    const channelName = `conversation.${activeConvId}`;
     console.log("Attempting to subscribe to channel:", channelName);
 
-    // Using private channel as typical for private conversations
-    const channel = echo.private(channelName);
+    // Using public channel
+    const channel = echo.channel(channelName);
 
     const handleNewMessage = (e: any) => {
       console.log("New message received via Echo:", e);
