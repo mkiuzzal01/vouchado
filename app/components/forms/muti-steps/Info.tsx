@@ -16,6 +16,7 @@ function InfoFormContent() {
     <div className="space-y-4">
       {/* Voucher Name */}
       <TextInput
+        type="text"
         name="voucher_name"
         label="Name your voucher"
         placeholder="Summer Offer 2026"

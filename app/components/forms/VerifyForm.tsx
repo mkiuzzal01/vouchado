@@ -14,6 +14,8 @@ import {
 } from "@/redux/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hooks/globalhooks";
 import { setUser } from "@/redux/features/auth/auth.slice";
+import { useState } from "react";
+import VerificationSuccess from "@/app/[lang]/(auth)/sucess/page";
 
 interface Props {
   t: any;
@@ -26,6 +28,8 @@ interface Props {
 export default function Verify({ locale, t, email, from, role }: Props) {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const [verifyOTP, { isLoading }] = useVerifyOTPMutation();
   const [resendOTP, { isLoading: resendLoading }] = useResendOTPMutation();
   const [forgotVerifyOTP, { isLoading: forgotLoading }] =
@@ -46,7 +50,7 @@ export default function Verify({ locale, t, email, from, role }: Props) {
           : await verifyOTP(payload).unwrap();
 
       if (response?.message) {
-        toast?.success(response.message);
+        setIsSuccess(true);
         reset();
 
         dispatch(
@@ -55,13 +59,16 @@ export default function Verify({ locale, t, email, from, role }: Props) {
           }),
         );
 
-        router?.push(
-          from === "forgot"
-            ? `/${locale}/reset?t=${response?.data?.token}`
-            : role === "provider"
-              ? `/${locale}/business-info`
-              : `/${locale}/login`,
-        );
+        setIsSuccess(true);
+        setTimeout(() => {
+          router?.push(
+            from === "forgot"
+              ? `/${locale}/reset?t=${response?.data?.token}`
+              : role === "provider"
+                ? `/${locale}/business-info`
+                : `/${locale}/login`,
+          );
+        }, 2000);
       }
     } catch (error: any) {
       const message =
@@ -91,68 +98,72 @@ export default function Verify({ locale, t, email, from, role }: Props) {
 
   return (
     <Container>
-      <div className="flex min-h-screen items-center justify-center px-4">
-        <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
-          {/* Back Button */}
-          <div className="px-6 pt-6">
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-primary"
-            >
-              <ArrowLeft size={18} />
-              {t?.auth?.verify?.back}
-            </button>
-          </div>
-
-          {/* Content */}
-          <div className="flex flex-col justify-center p-6 md:p-10">
-            {/* Header */}
-            <div className="mb-8 text-center">
-              <h2 className="mb-3 text-2xl font-semibold text-gray-900 md:text-3xl">
-                {t?.auth?.verify?.title}
-              </h2>
-
-              <p className="text-sm leading-6 text-muted-foreground">
-                {t?.auth?.verify?.description}{" "}
-                <span className="font-medium text-gray-800">{email}</span>,
-                {t?.auth?.verify?.description_end}
-              </p>
+      {isSuccess ? (
+        <VerificationSuccess />
+      ) : (
+        <div className="flex min-h-screen items-center justify-center px-4">
+          <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
+            {/* Back Button */}
+            <div className="px-6 pt-6">
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="flex items-center gap-2 text-sm font-medium text-gray-600 transition hover:text-primary"
+              >
+                <ArrowLeft size={18} />
+                {t?.auth?.verify?.back}
+              </button>
             </div>
 
-            {/* Form */}
-            <AppForm onSubmit={onSubmit}>
-              <div className="space-y-6">
-                <div className="flex justify-center">
-                  <OtpInput name="otp" label={t?.auth?.verify?.otp_label} />
-                </div>
+            {/* Content */}
+            <div className="flex flex-col justify-center p-6 md:p-10">
+              {/* Header */}
+              <div className="mb-8 text-center">
+                <h2 className="mb-3 text-2xl font-semibold text-gray-900 md:text-3xl">
+                  {t?.auth?.verify?.title}
+                </h2>
 
-                <SubmitButton
-                  isLoading={loading}
-                  title={t?.auth?.verify?.verify}
-                  className="h-12 w-full rounded-full"
-                />
-
-                {/* Resend */}
-                <div className="flex items-center justify-center gap-1 text-sm">
-                  <p className="text-gray-600">
-                    {t?.auth?.verify?.not_received}
-                  </p>
-
-                  <button
-                    type="button"
-                    onClick={handleResend}
-                    disabled={resendLoading}
-                    className="font-semibold text-primary transition hover:underline disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    {resendLoading ? "Resending..." : t?.auth?.verify?.resend}
-                  </button>
-                </div>
+                <p className="text-sm leading-6 text-muted-foreground">
+                  {t?.auth?.verify?.description}{" "}
+                  <span className="font-medium text-gray-800">{email}</span>,
+                  {t?.auth?.verify?.description_end}
+                </p>
               </div>
-            </AppForm>
+
+              {/* Form */}
+              <AppForm onSubmit={onSubmit}>
+                <div className="space-y-6">
+                  <div className="flex justify-center">
+                    <OtpInput name="otp" label={t?.auth?.verify?.otp_label} />
+                  </div>
+
+                  <SubmitButton
+                    isLoading={loading}
+                    title={t?.auth?.verify?.verify}
+                    className="h-12 w-full rounded-full"
+                  />
+
+                  {/* Resend */}
+                  <div className="flex items-center justify-center gap-1 text-sm">
+                    <p className="text-gray-600">
+                      {t?.auth?.verify?.not_received}
+                    </p>
+
+                    <button
+                      type="button"
+                      onClick={handleResend}
+                      disabled={resendLoading}
+                      className="font-semibold text-primary transition hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {resendLoading ? "Resending..." : t?.auth?.verify?.resend}
+                    </button>
+                  </div>
+                </div>
+              </AppForm>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </Container>
   );
 }

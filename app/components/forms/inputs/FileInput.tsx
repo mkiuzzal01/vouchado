@@ -15,6 +15,7 @@ interface FileInputProps {
   required?: boolean;
   className?: string;
   multiple?: boolean;
+  maxFiles?: number; // 1. Added maxFiles prop
 }
 
 export default function FileInput({
@@ -25,6 +26,7 @@ export default function FileInput({
   accept = "image/*",
   className,
   multiple = false,
+  maxFiles, // 2. Receive maxFiles
 }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -53,7 +55,6 @@ export default function FileInput({
       <Controller
         name={name}
         control={control}
-        // Safely pass default value to React Hook Form context on mount
         defaultValue={defaultImage || (multiple ? [] : null)}
         rules={{
           required: {
@@ -62,12 +63,15 @@ export default function FileInput({
           },
         }}
         render={({ field: { onChange, value } }) => {
-          // Normalize value into an array for consistent rendering logic
           const filesArray: any[] = Array.isArray(value)
             ? value
             : value
               ? [value]
               : [];
+
+          // Check if limit is reached
+          const isLimitReached =
+            multiple && maxFiles ? filesArray.length >= maxFiles : false;
 
           const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const selectedFiles = e.target.files
@@ -76,10 +80,22 @@ export default function FileInput({
             if (selectedFiles.length === 0) return;
 
             if (multiple) {
-              onChange([...filesArray, ...selectedFiles]);
+              // Calculate remaining available slots
+              const remainingSlots = maxFiles
+                ? maxFiles - filesArray.length
+                : selectedFiles.length;
+
+              if (remainingSlots <= 0) return;
+
+              // Only take files up to the limit
+              const filesToAdd = selectedFiles.slice(0, remainingSlots);
+              onChange([...filesArray, ...filesToAdd]);
             } else {
               onChange(selectedFiles[0]);
             }
+
+            // Reset input value so selecting the same file again triggers onChange
+            if (e.target) e.target.value = "";
           };
 
           const removeImage = (indexToRemove: number) => {
@@ -96,7 +112,8 @@ export default function FileInput({
           return (
             <div className="space-y-4">
               <div className="flex flex-wrap gap-4 items-start">
-                {(multiple || filesArray.length === 0) && (
+                {/* Hide upload button if single image is already set OR if maxFiles limit is reached */}
+                {((multiple && !isLimitReached) || filesArray.length === 0) && (
                   <div
                     onClick={() => inputRef.current?.click()}
                     className={cn(
@@ -166,7 +183,6 @@ export default function FileInput({
                         alt={`Preview ${index + 1}`}
                         fill
                         className="object-cover"
-                        // Disable Next.js optimization for blobs, keep it for static URL strings
                         unoptimized={imgUrl.startsWith("blob:")}
                       />
 

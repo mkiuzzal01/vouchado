@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import type { Swiper as SwiperType } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,9 +16,11 @@ import {
   Lock,
 } from "lucide-react";
 import { toast } from "react-toastify";
+
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+
 import { Badge } from "@/components/ui/badge";
 import Container from "../../shared/Container";
 import Includes from "@/app/[lang]/(main)/view/__componets/Includes";
@@ -31,7 +33,6 @@ import Batch from "../../icons/Batch";
 
 import {
   getPreviewUrl,
-  getPreviewUrls,
   revokePreviewUrls,
   isBlobUrl,
 } from "../../utils/imagePreview";
@@ -83,9 +84,6 @@ export default function Preview() {
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("overview");
 
-  const [coverPreviewUrl, setCoverPreviewUrl] = useState<string>("");
-  const [galleryPreviewUrls, setGalleryPreviewUrls] = useState<string[]>([]);
-
   const { dealInfo, media, dealDetails, overview, granted_12_months, status } =
     useAppSelector((state) => state.deal);
 
@@ -103,7 +101,22 @@ export default function Preview() {
     [],
   );
 
-  // Active Image Pool Configuration Array Calculation
+  // 1. Dynamically compute cover and gallery preview URLs directly from Redux state
+  const coverPreviewUrl = useMemo(() => {
+    if (!media?.coverImage) return "";
+    return typeof media.coverImage === "string"
+      ? media.coverImage
+      : getPreviewUrl(media.coverImage);
+  }, [media?.coverImage]);
+
+  const galleryPreviewUrls = useMemo(() => {
+    if (!media?.galleryImages || !Array.isArray(media.galleryImages)) return [];
+    return media.galleryImages.map((img) =>
+      typeof img === "string" ? img : getPreviewUrl(img),
+    );
+  }, [media?.galleryImages]);
+
+  // 2. Active Image Pool Configuration
   const allImages = useMemo(() => {
     const images: string[] = [];
     if (coverPreviewUrl) images.push(coverPreviewUrl);
@@ -111,36 +124,13 @@ export default function Preview() {
     return images.length === 0 ? [FALLBACK_MAIN_IMAGE] : images;
   }, [coverPreviewUrl, galleryPreviewUrls]);
 
-  // Handle Dynamic Calculations for Savings Badge Percentage Info
+  // 3. Dynamic Calculation for Savings Badge Percentage Info
   const savingsPercentage = useMemo(() => {
     const regular = Number(dealInfo?.regularPrice);
     const discounted = Number(dealInfo?.discountedPrice);
     if (!regular || !discounted || regular <= discounted) return null;
     return Math.round(((regular - discounted) / regular) * 100);
   }, [dealInfo?.regularPrice, dealInfo?.discountedPrice]);
-
-  // Synchronize Realtime Preview States to Incoming Active Media State Variables
-  useEffect(() => {
-    if (!media) return;
-
-    const coverUrl = getPreviewUrl(media?.coverImage);
-    const galleryUrls = getPreviewUrls(media?.galleryImages);
-
-    setCoverPreviewUrl(coverUrl);
-    setGalleryPreviewUrls(galleryUrls);
-  }, [media]);
-
-  // Component Complete Lifetime Cleanup Execution Block
-  useEffect(() => {
-    return () => {
-      const urlsToRevoke = [coverPreviewUrl, ...galleryPreviewUrls].filter(
-        (url) => url && isBlobUrl(url),
-      );
-      if (urlsToRevoke.length > 0) {
-        revokePreviewUrls(urlsToRevoke);
-      }
-    };
-  }, [coverPreviewUrl, galleryPreviewUrls]);
 
   const handlePublishPayload = async (targetStatus: "active" | "inactive") => {
     dispatch(updateDealStatus(targetStatus));
@@ -193,7 +183,6 @@ export default function Preview() {
       formData.append("opening_hours", overview?.openingHours || "");
       formData.append("accessibility_info", overview?.accessibility || "");
 
-      // Fixes the 422 error by passing expected field schema parameters
       formData.append("guarantee_12_months", String(granted_12_months ? 1 : 0));
 
       parsePoints(overview?.highlightedPoints).forEach((point) => {
@@ -231,6 +220,12 @@ export default function Preview() {
       const res = await createDeal(formData).unwrap();
 
       if (res?.message) {
+        // Safe revocation of Blob URLs only after submission succeeds
+        const urlsToRevoke = allImages.filter((url) => isBlobUrl(url));
+        if (urlsToRevoke.length > 0) {
+          revokePreviewUrls(urlsToRevoke);
+        }
+
         toast.success(res.message);
         dispatch(setOpenDealModal(false));
         dispatch(resetDealForm());
@@ -268,6 +263,9 @@ export default function Preview() {
 
           <div className="space-y-3 preview-swiper-container">
             <Swiper
+              key={allImages.length}
+              observer={true}
+              observeParents={true}
               spaceBetween={10}
               navigation
               modules={[FreeMode, Navigation, Thumbs]}
@@ -278,13 +276,14 @@ export default function Preview() {
               className="rounded-2xl overflow-hidden"
             >
               {allImages.map((image, index) => (
-                <SwiperSlide key={`${image}-${index}`}>
+                <SwiperSlide key={`main-${image}-${index}`}>
                   <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-100">
                     <Image
                       src={image}
                       alt={`Deal gallery detail view ${index + 1}`}
                       fill
                       priority={index === 0}
+                      unoptimized={isBlobUrl(image)}
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, 700px"
                     />
@@ -294,6 +293,9 @@ export default function Preview() {
             </Swiper>
 
             <Swiper
+              key={`thumbs-${allImages.length}`}
+              observer={true}
+              observeParents={true}
               onSwiper={setThumbsSwiper}
               modules={[FreeMode, Thumbs]}
               watchSlidesProgress
@@ -309,6 +311,7 @@ export default function Preview() {
                       src={image}
                       alt={`Thumbnail grid selector view ${index + 1}`}
                       fill
+                      unoptimized={isBlobUrl(image)}
                       className="object-cover"
                       sizes="100px"
                     />
@@ -408,7 +411,7 @@ export default function Preview() {
                 </span>
               )}
               <div className="flex items-center gap-2">
-                <span className="text-3xl font-black text-slate-990 tracking-tight">
+                <span className="text-3xl font-black text-slate-900 tracking-tight">
                   € {dealInfo?.discountedPrice || "124.50"}
                 </span>
                 {savingsPercentage && (

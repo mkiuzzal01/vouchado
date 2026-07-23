@@ -9,12 +9,20 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import CreateDealForm from "@/app/components/forms/muti-steps/CreateDealForm";
 import { useState } from "react";
 import ScanVoucher from "@/app/components/utils/ScanVoucher";
-import { setOpenDealModal } from "@/redux/features/deal/deal.slice";
+import {
+  resetDealForm,
+  setOpenDealModal,
+} from "@/redux/features/deal/deal.slice";
 
 export default function PromoCreateDeals() {
   const [scanModal, setScanModal] = useState(false);
   const dispatch = useAppDispatch();
   const { openDealModal } = useAppSelector((state) => state.deal);
+
+  const handleOpenModal = () => {
+    dispatch(resetDealForm());
+    dispatch(setOpenDealModal(!openDealModal));
+  };
 
   return (
     <div className="relative flex flex-col md:flex-row gap-4 w-full items-stretch">
@@ -103,7 +111,7 @@ export default function PromoCreateDeals() {
         width="7xl"
         title="Create new voucher"
         isOpen={openDealModal}
-        onClose={() => dispatch(setOpenDealModal(!openDealModal))}
+        onClose={handleOpenModal}
       >
         <CreateDealForm />
       </ModalContainer>

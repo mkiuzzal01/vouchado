@@ -107,7 +107,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
                 password: "",
               }}
             >
-              <div className="space-y-5">
+              <div className="flex flex-col gap-5">
                 <TextInput
                   icon={<Mail size={18} />}
                   label={t.auth.login.email}

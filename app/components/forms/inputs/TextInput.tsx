@@ -16,6 +16,7 @@ interface TextInputProps {
   inputClassName?: string;
   required?: boolean;
   disabled?: boolean;
+  min?: number;
   rules?: Omit<
     RegisterOptions,
     "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
@@ -32,6 +33,7 @@ export default function TextInput({
   className,
   rules,
   disabled = false,
+  min,
   inputClassName,
 }: TextInputProps) {
   const {
@@ -42,10 +44,8 @@ export default function TextInput({
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
 
-  // 1. React Hook Form tracks error objects matching the EXACT 'name' attribute string provided to the controller
   const errorMessage = (errors?.[name]?.message as string | undefined) || "";
 
-  // 2. Helper to dynamically transform raw keys like "coupon_code" into "Coupon code" if no explicit label is given
   const formatErrorLabel = () => {
     if (label) return label;
     const readable = name.replaceAll("_", " ");
@@ -64,11 +64,17 @@ export default function TextInput({
         name={name}
         control={control}
         rules={{
-          // Uses the human-readable formatting instead of raw keys
           required: required ? `${formatErrorLabel()} is required` : false,
+          // Built-in validation rule to block negative numbers in react-hook-form
+          ...(type === "number" && {
+            min: {
+              value: min ?? 0,
+              message: `${formatErrorLabel()} cannot be negative`,
+            },
+          }),
           ...rules,
         }}
-        render={({ field }) => (
+        render={({ field: { onChange, value, ...fieldProps } }) => (
           <>
             <div className="relative group">
               {icon && (
@@ -81,10 +87,30 @@ export default function TextInput({
 
               <Input
                 id={name}
-                {...field}
+                {...fieldProps}
                 disabled={disabled}
-                value={field.value ?? ""}
+                value={value ?? ""}
                 type={isPassword ? (showPassword ? "text" : "password") : type}
+                min={type === "number" ? (min ?? 0) : undefined}
+                onKeyDown={(e) => {
+                  // Prevent typing minus (-), plus (+), or exponent (e) key
+                  if (
+                    type === "number" &&
+                    ["-", "+", "e", "E"].includes(e.key)
+                  ) {
+                    e.preventDefault();
+                  }
+                }}
+                onChange={(e) => {
+                  const rawVal = e.target.value;
+
+                  if (type === "number") {
+                    // Prevent setting negative numeric values if pasted
+                    if (Number(rawVal) < 0) return;
+                  }
+
+                  onChange(rawVal);
+                }}
                 placeholder={placeholder}
                 className={cn(
                   "h-11 w-full transition",

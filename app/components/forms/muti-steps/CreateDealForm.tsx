@@ -63,7 +63,7 @@ export default function CreateDealForm() {
                   }`}
                 >
                   {isCompleted ? (
-                    <Check className="w-4 h-4 stroke-3" />
+                    <Check className="w-8 h-8 stroke-3" />
                   ) : (
                     step.id
                   )}

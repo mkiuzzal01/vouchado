@@ -33,6 +33,7 @@ export default function Media() {
             <FileInput
               required
               multiple
+              maxFiles={4}
               name="galleryImages"
               label="Gallery Images"
             />

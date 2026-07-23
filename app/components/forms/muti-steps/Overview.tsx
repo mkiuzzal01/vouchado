@@ -7,17 +7,38 @@ import { setStep, updateOverview } from "@/redux/features/deal/deal.slice";
 import TextArea from "../inputs/TextArea";
 import TagInput from "../inputs/TagInput";
 import { FieldValues } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddressInput from "../inputs/AddressInput";
 
 export default function Overview() {
-  const [address, setAddress] = useState("");
+  const dispatch = useDispatch();
+  const { overview } = useAppSelector((state) => state.deal);
+
+  // 1. Initialize local state directly from Redux store
+  const [address, setAddress] = useState(
+    overview?.location?.visit_location || "",
+  );
   const [coordinates, setCoordinates] = useState<{
     lat: number;
     lng: number;
-  } | null>(null);
-  const dispatch = useDispatch();
-  const { overview } = useAppSelector((state) => state.deal);
+  } | null>(
+    overview?.location?.lat && overview?.location?.lng
+      ? { lat: overview.location.lat, lng: overview.location.lng }
+      : null,
+  );
+
+  // 2. Keep state updated if Redux rehydrates or changes
+  useEffect(() => {
+    if (overview?.location) {
+      setAddress(overview.location.visit_location || "");
+      if (overview.location.lat && overview.location.lng) {
+        setCoordinates({
+          lat: overview.location.lat,
+          lng: overview.location.lng,
+        });
+      }
+    }
+  }, [overview?.location]);
 
   const handleAddressChange = (
     value: string,
@@ -35,8 +56,8 @@ export default function Overview() {
         ...value,
         location: {
           visit_location: address,
-          lat: coordinates?.lat || 0,
-          lng: coordinates?.lng || 0,
+          lat: coordinates?.lat ?? overview?.location?.lat ?? 0,
+          lng: coordinates?.lng ?? overview?.location?.lng ?? 0,
         },
       }),
     );

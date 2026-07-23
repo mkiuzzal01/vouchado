@@ -103,8 +103,9 @@ export default function RegistrationForm({
                 password: "",
               }}
             >
-              <div className="space-y-5">
+              <div className="flex flex-col gap-4">
                 <TextInput
+                  required
                   icon={<User size={18} />}
                   label={t.auth.register.name}
                   name="name"
@@ -113,6 +114,7 @@ export default function RegistrationForm({
                 />
 
                 <TextInput
+                  required
                   icon={<Mail size={18} />}
                   label={t.auth.register.email}
                   name="email"
@@ -121,6 +123,7 @@ export default function RegistrationForm({
                 />
 
                 <TextInput
+                  required
                   icon={<Lock size={18} />}
                   label={t.auth.register.password}
                   name="password"
