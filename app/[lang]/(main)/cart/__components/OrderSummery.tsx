@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import Image from "next/image";
+import { Loader2, ShoppingBag } from "lucide-react";
 import { toast } from "react-toastify";
 
 import RedeemForm from "@/app/components/forms/RedeemForm";
@@ -10,6 +11,7 @@ import ModalContainer from "@/app/components/shared/ModalContainer";
 import OrderSummeryIcon from "@/app/components/icons/OrderSummery";
 import TrustSection from "./TrustSection";
 import Coupon from "./Coupon";
+import product_cart from "@/public/services/service_details.png";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { useCreateOrderMutation } from "@/redux/features/order/order.api";
@@ -64,7 +66,9 @@ export default function OrderSummary({ lang }: Props) {
         router.replace(res?.data?.checkout_url);
       }
     } catch (error: any) {
-      if (!error?.data?.status) {
+      if (error?.status == 422) {
+        toast.error(error?.data?.message);
+      } else {
         toast.error("Please login first to checkout");
         router.push(`/${lang}/login?redirect=${window?.location?.pathname}`);
       }
@@ -73,7 +77,7 @@ export default function OrderSummary({ lang }: Props) {
 
   return (
     <div className="w-full flex flex-col gap-4">
-      <div className="w-full bg-white p-6 rounded-2xl">
+      <div className="w-full bg-white p-6 rounded-2xl border border-slate-100 shadow-2xs">
         {/* Header */}
         <div className="flex items-center gap-2 mb-6">
           <OrderSummeryIcon />
@@ -82,18 +86,89 @@ export default function OrderSummary({ lang }: Props) {
           </h2>
         </div>
 
-        {/* Breakdown */}
+        {/* Selected Items Compact List Preview */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
+              <ShoppingBag className="w-3.5 h-3.5 text-[#2bb3bb]" />
+              Selected Items ({selectedItems.length})
+            </span>
+            {selectedItems.length > 0 && (
+              <span className="text-xs font-semibold text-gray-500">
+                {totalItems} {totalItems === 1 ? "unit" : "units"}
+              </span>
+            )}
+          </div>
+
+          {selectedItems.length > 0 ? (
+            <div className="space-y-2.5 max-h-56 overflow-y-auto pr-1">
+              {selectedItems.map((item) => {
+                const itemPrice =
+                  typeof item.currentPrice === "string"
+                    ? Number(item.currentPrice.replace(/[^0-9.]/g, ""))
+                    : item.currentPrice;
+                const unitPrice = isNaN(itemPrice) ? 0 : itemPrice;
+                const itemTotal = (unitPrice * item.selectedQuantity).toFixed(
+                  2,
+                );
+
+                return (
+                  <div
+                    key={item.id}
+                    className="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-gray-50/80 border border-gray-100/80 hover:bg-gray-100/50 transition-colors"
+                  >
+                    {/* Thumbnail & Info */}
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                      <div className="w-11 h-11 rounded-lg overflow-hidden shrink-0 border border-gray-200 bg-white">
+                        <Image
+                          src={item.thumbnail || product_cart}
+                          alt={item.title || "Cart item"}
+                          width={44}
+                          height={44}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-xs font-semibold text-gray-800 truncate leading-snug">
+                          {item.title}
+                        </p>
+                        <p className="text-[11px] text-gray-500 mt-0.5 font-medium">
+                          {item.selectedQuantity} × €{unitPrice.toFixed(2)}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Total for item */}
+                    <div className="text-right shrink-0">
+                      <span className="text-xs font-bold text-gray-900 block">
+                        €{itemTotal}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200/60 text-amber-800 text-xs font-medium text-center">
+              No items selected. Please select items from your cart to proceed.
+            </div>
+          )}
+        </div>
+
+        <hr className="border-gray-200 mb-6" />
+
+        {/* Financial Breakdown */}
         <div className="space-y-4 mb-6">
-          <div className="flex justify-between items-center text-xl">
+          <div className="flex justify-between items-center text-lg sm:text-xl">
             <span className="text-gray-600 font-medium">
-              Items ({totalItems})
+              Subtotal ({totalItems} {totalItems === 1 ? "item" : "items"})
             </span>
             <span className="font-bold text-gray-800">
               € {subTotal.toFixed(2)}
             </span>
           </div>
 
-          <div className="flex justify-between items-center text-xl">
+          <div className="flex justify-between items-center text-lg sm:text-xl">
             <span className="text-gray-600 font-medium">
               VAT ({vat_percentage}%)
             </span>
@@ -103,7 +178,7 @@ export default function OrderSummary({ lang }: Props) {
           </div>
 
           {couponDiscount > 0 && (
-            <div className="flex justify-between items-center text-xl">
+            <div className="flex justify-between items-center text-lg sm:text-xl">
               <span className="text-gray-600 font-medium">Coupon Discount</span>
               <span className="font-bold text-red-500">
                 -€ {couponDiscount.toFixed(2)}
@@ -112,7 +187,7 @@ export default function OrderSummary({ lang }: Props) {
           )}
 
           {redeemDiscountAmount > 0 && (
-            <div className="flex justify-between items-center text-xl">
+            <div className="flex justify-between items-center text-lg sm:text-xl">
               <span className="text-gray-600 font-medium">Points Discount</span>
               <span className="font-bold text-red-500">
                 -€ {redeemDiscountAmount.toFixed(2)}
@@ -121,30 +196,31 @@ export default function OrderSummary({ lang }: Props) {
           )}
         </div>
 
-        <hr className="border-gray-400 mb-6" />
+        <hr className="border-gray-300 mb-6" />
 
         {/* Total */}
         <div className="flex justify-between items-center mb-6 text-xl">
           <span className="font-medium text-gray-600">Total</span>
-          <span className="font-extrabold text-gray-800">
+          <span className="font-extrabold text-[#2bb3bb] text-2xl">
             € {totalPrice.toFixed(2)}
           </span>
         </div>
 
         {/* Loyalty Banner */}
-        <div className="bg-gray-50/70 p-4 rounded-2xl flex items-center justify-between gap-4 mb-6 border border-gray-50">
+        <div className="bg-gray-50/70 p-4 rounded-2xl flex items-center justify-between gap-4 mb-6 border border-gray-100">
           <div className="flex-1">
             <h4 className="text-sm font-semibold text-gray-800 mb-1">
               Use your points & enjoy even more discount
             </h4>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs text-gray-500">
               {user?.loyalty_point ?? 0} points available.
             </p>
           </div>
 
           <button
+            type="button"
             onClick={() => setIsOpen(true)}
-            className="bg-[#2bb3bb] hover:bg-[#239aa1] text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors"
+            className="bg-[#2bb3bb] hover:bg-[#239aa1] text-white text-xs font-semibold px-3.5 py-2 rounded-full transition-colors shrink-0 cursor-pointer"
           >
             Redeem Points
           </button>
@@ -155,9 +231,10 @@ export default function OrderSummary({ lang }: Props) {
 
         {/* Checkout Button */}
         <button
+          type="button"
           onClick={handleCheckout}
           disabled={!selectedItems.length || isLoading}
-          className="flex justify-center items-center w-full bg-[#2bb3bb] hover:bg-[#239aa1] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-full transition-colors mt-4"
+          className="flex justify-center items-center w-full bg-[#2bb3bb] hover:bg-[#239aa1] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-full transition-colors mt-4 cursor-pointer shadow-md"
         >
           {isLoading ? (
             <Loader2 className="animate-spin" />

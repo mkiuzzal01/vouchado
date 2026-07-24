@@ -10,7 +10,8 @@ interface TimeInputProps {
   required?: boolean;
   className?: string;
   disabled?: boolean;
-  rules?: any;
+  rules?: Record<string, any>;
+  isCurrentDateValidation?: boolean;
 }
 
 export default function TimeInput({
@@ -22,19 +23,27 @@ export default function TimeInput({
   requiredType = "time",
   disabled,
   rules = {},
+  isCurrentDateValidation = true,
 }: TimeInputProps) {
   const {
     control,
     formState: { errors },
   } = useFormContext();
-  const errorMessage = errors?.[name]?.message as string | undefined;
 
-  // Helper to format the current local time for HTML min attribute
+  // Handle nested field error messages safely
+  const errorMessage = name
+    .split(".")
+    .reduce((obj, key) => obj?.[key], errors as any)?.message as
+    | string
+    | undefined;
+
+  // Helper to format current local time for HTML min attribute
   const getCurrentMin = () => {
+    if (!isCurrentDateValidation) return undefined;
+
     const now = new Date();
 
     if (requiredType === "datetime-local") {
-      // Formats date to YYYY-MM-THH:mm expected by input type="datetime-local"
       const year = now.getFullYear();
       const month = String(now.getMonth() + 1).padStart(2, "0");
       const day = String(now.getDate()).padStart(2, "0");
@@ -45,7 +54,6 @@ export default function TimeInput({
     }
 
     if (requiredType === "time") {
-      // Formats time to HH:mm expected by input type="time"
       const hours = String(now.getHours()).padStart(2, "0");
       const minutes = String(now.getMinutes()).padStart(2, "0");
 
@@ -72,13 +80,15 @@ export default function TimeInput({
         name={name}
         control={control}
         rules={{
-          required: {
-            value: required,
-            message: `${label || "Time Field"} is required`,
-          },
-          // Custom validation check against past times
+          required: required
+            ? {
+                value: true,
+                message: `${label || "Time Field"} is required`,
+              }
+            : false,
           validate: (val: string) => {
-            if (!val || !minLimit) return true;
+            // Skip validation if flag is false or no minLimit exists
+            if (!isCurrentDateValidation || !val || !minLimit) return true;
 
             if (val < minLimit) {
               return `${label || "Time"} cannot be in the past`;
@@ -92,8 +102,9 @@ export default function TimeInput({
           <div className="relative">
             <input
               {...field}
+              id={name}
               type={requiredType}
-              min={minLimit}
+              min={isCurrentDateValidation ? minLimit : undefined}
               disabled={disabled}
               placeholder={placeholder}
               className={`w-full px-4 py-2.5 bg-white border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#31BFC8]/20 focus:border-[#31BFC8] transition-all ${

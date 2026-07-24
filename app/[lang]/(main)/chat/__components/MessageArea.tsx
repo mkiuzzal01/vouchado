@@ -65,7 +65,9 @@ export default function MessageArea({
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [sendMessage, { isLoading }] = useSendMessageMutation();
 
-  const [localMessages, setLocalMessages] = useState<Message[]>(messagesList || []);
+  const [localMessages, setLocalMessages] = useState<Message[]>(
+    messagesList || [],
+  );
   const reduxToken = useAppSelector((state: any) => state.auth?.vuchado_token);
   const token = reduxToken || cookie.get("vuchado_token");
 
@@ -78,11 +80,11 @@ export default function MessageArea({
   // Echo integration for real-time messages
   useEffect(() => {
     const activeConvId = user?.conversation_id || (user as any)?.id;
-    console.log("Echo Chat Debug:", {
-      token: !!token,
-      conversation_id: activeConvId,
-      user,
-    });
+    // console.log("Echo Chat Debug:", {
+    //   token: !!token,
+    //   conversation_id: activeConvId,
+    //   user,
+    // });
 
     if (!token || !activeConvId) {
       console.warn(
@@ -94,7 +96,7 @@ export default function MessageArea({
 
     const echo = getEchoInstance(token);
     const channelName = `conversation.${activeConvId}`;
-    console.log("Attempting to subscribe to channel:", channelName);
+    // console.log("Attempting to subscribe to channel:", channelName);
 
     // Using public channel
     const channel = echo.channel(channelName);
@@ -120,7 +122,7 @@ export default function MessageArea({
     });
 
     return () => {
-      console.log("Leaving channel:", channelName);
+      // console.log("Leaving channel:", channelName);
       echo.leave(channelName);
       echo.disconnect();
     };
@@ -263,8 +265,8 @@ export default function MessageArea({
                             <Image
                               src={att?.url || ""}
                               alt={att?.original_name || ""}
-                              fill
-                              sizes="(max-width: 768px) 100vw, 384px"
+                              width={200}
+                              height={200}
                               className="w-full object-cover max-h-64 rounded-2xl"
                             />
                             <div className="absolute bottom-2 right-2 bg-black/40 px-2 py-0.5 rounded-lg flex items-center gap-1 backdrop-blur-xs">

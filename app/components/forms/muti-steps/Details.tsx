@@ -215,6 +215,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
         <TimeInput
           required
           requiredType="time"
+          isCurrentDateValidation={false}
           name="available_start_time"
           label="Available Start Time"
         />
@@ -223,6 +224,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
           required
           requiredType="time"
           name="available_end_time"
+          isCurrentDateValidation={false}
           label="Available End Time"
           rules={{
             validate: (value: string) => {

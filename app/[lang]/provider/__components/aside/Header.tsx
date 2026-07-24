@@ -9,13 +9,19 @@ import { providerNavItems } from "./HeaderLinks";
 import UserDropdown from "@/app/components/layouts/UserDropdown";
 import { Bell } from "lucide-react";
 import Container from "@/app/components/shared/Container";
+import { NotificationBell } from "./NotificationBell";
 
 interface HeaderProps {
   lang: string;
   profileInfo: any;
+  notifications: any[];
 }
 
-export default function Header({ lang, profileInfo }: HeaderProps) {
+export default function Header({
+  lang,
+  profileInfo,
+  notifications,
+}: HeaderProps) {
   const pathname = usePathname();
 
   const isActiveRoute = (href: string) => {
@@ -29,7 +35,7 @@ export default function Header({ lang, profileInfo }: HeaderProps) {
 
   return (
     <Container>
-      <header className="py-[40px] w-full">
+      <header className="py-10 w-full">
         <div className="mx-auto flex h-full w-full items-center justify-between px-4 md:px-6">
           {/* Logo */}
           <div className="shrink-0">
@@ -71,13 +77,7 @@ export default function Header({ lang, profileInfo }: HeaderProps) {
 
           {/* Right Side */}
           <div className="flex items-center gap-4">
-            <div className="hidden lg:flex items-center gap-2">
-              <Link href={`/${lang}/provider/notifications`}>
-                <button className="relative p-2 rounded-full border-2 border-gray-200 bg-white hover:bg-gray-50">
-                  <Bell size={20} className="text-gray-600" />
-                </button>
-              </Link>
-            </div>
+            <NotificationBell lang={lang} initialNotifications={notifications} />
             <UserDropdown lang={lang} ProviderInfo={profileInfo} />
           </div>
         </div>

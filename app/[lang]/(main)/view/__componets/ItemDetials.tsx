@@ -148,9 +148,11 @@ export default function ItemDetails({ lang, details }: Props) {
         router.push(`/${lang}/chat?id=${res?.data?.id}`);
       }
     } catch (error: any) {
-      if (!error?.data?.status) {
-        toast.warn("Please Login to chat with support");
-        router.push(`/${lang}/login`);
+      if (error?.status == 422) {
+        toast.error(error?.data?.message);
+      } else {
+        toast.error("Please login first to start chat");
+        router.push(`/${lang}/login?redirect=${window.location.href}`);
       }
     }
   };
@@ -180,11 +182,13 @@ export default function ItemDetails({ lang, details }: Props) {
               </p>
 
               <div className="flex flex-col lg:flex-row lg:items-center gap-2">
-                <Link href={`/${lang}/business-profile/${details?.deal?.id}`}>
+                <Link
+                  href={`/${lang}/business-profile/${details?.deal?.provider_id}`}
+                >
                   <div className="flex items-center gap-2">
                     <GiftVoucher color="#637381" size={24} />
                     <p className="lg:text-xl text-[#637381] hover:underline">
-                      {details?.deal?.deal_name}
+                      {details?.deal?.provider?.business_profile?.business_name}
                     </p>
                   </div>
                 </Link>

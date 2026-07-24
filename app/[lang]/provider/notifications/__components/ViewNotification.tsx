@@ -1,6 +1,6 @@
 "use client";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
-import { formatTimeAgo, getNotificationBadge } from "./NotificationList";
+import { formatTimeAgo, getNotificationBadge } from "./notificationUtils";
 
 export default function ViewNotification() {
   const selectedNotification = useAppSelector(

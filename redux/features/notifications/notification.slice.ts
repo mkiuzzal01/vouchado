@@ -36,10 +36,12 @@ export const notificationSlice = createSlice({
     },
 
     addNotification: (state, action: PayloadAction<NotificationItem>) => {
-      // Add to beginning of array
-      state.notifications = [action.payload, ...state.notifications];
-      if (!action.payload.read_at) {
-        state.unreadCount += 1;
+      const exists = state.notifications.some((item) => item.id === action.payload.id);
+      if (!exists) {
+        state.notifications = [action.payload, ...state.notifications];
+        if (!action.payload.read_at) {
+          state.unreadCount += 1;
+        }
       }
     },
 

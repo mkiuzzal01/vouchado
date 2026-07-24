@@ -210,6 +210,7 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
                                 Open
                               </span>
                               <TimeInput
+                                isCurrentDateValidation={false}
                                 name={`hours.${day}.openingTime`}
                                 label="00 : 00"
                               />
@@ -219,6 +220,7 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
                                 Close
                               </span>
                               <TimeInput
+                                isCurrentDateValidation={false}
                                 name={`hours.${day}.closingTime`}
                                 label="00 : 00"
                               />

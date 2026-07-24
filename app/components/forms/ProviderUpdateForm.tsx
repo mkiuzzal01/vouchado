@@ -255,11 +255,13 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
                   </span>
                   <div className="flex justify-between items-center gap-2">
                     <TimeInput
+                      isCurrentDateValidation={false}
                       name={`open_time_${day.toLowerCase()}`}
                       placeholder="09:00"
                     />
                     <span>-</span>
                     <TimeInput
+                      isCurrentDateValidation={false}
                       name={`close_time_${day.toLowerCase()}`}
                       placeholder="18:00"
                     />

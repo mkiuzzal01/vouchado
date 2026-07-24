@@ -5,8 +5,10 @@ import Internet from "@/app/components/icons/Internet";
 import Location from "@/app/components/icons/Location";
 import Mail from "@/app/components/icons/Mail";
 import ModalContainer from "@/app/components/shared/ModalContainer";
-import Link from "next/link";
+import { useCreateConversationMutation } from "@/redux/features/conversional/conversional.api";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 interface Props {
   business_profile: any;
@@ -14,7 +16,27 @@ interface Props {
 }
 
 export default function ProfileAction({ business_profile, lang }: Props) {
+  const router = useRouter();
   const [openVoucherModal, setOpenVoucherModal] = useState(false);
+  const [createConversation] = useCreateConversationMutation();
+
+  const handleCreateConversation = async () => {
+    try {
+      const res = await createConversation({
+        receiver_id: business_profile?.id,
+      }).unwrap();
+      if (res?.data?.id) {
+        router.push(`/${lang}/chat?id=${res?.data?.id}`);
+      }
+    } catch (error: any) {
+      if (error?.status == 422) {
+        toast.error(error?.data?.message);
+      } else {
+        toast.error("Please login first to start chat");
+        router.push(`/${lang}/login?redirect=${window.location.href}`);
+      }
+    }
+  };
 
   const contact_info = [
     {
@@ -74,24 +96,25 @@ export default function ProfileAction({ business_profile, lang }: Props) {
             Buy Gift Card
           </button>
 
-          <Link href={`/${lang}/chat`}>
-            <button className="w-full bg-white border border-[#42c1cc] text-[#42c1cc] hover:bg-cyan-50 font-medium py-2.5 px-5 rounded-full transition-colors text-sm flex items-center justify-center gap-2">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
-                />
-              </svg>
-              Chat with seller
-            </button>
-          </Link>
+          <button
+            onClick={handleCreateConversation}
+            className="w-full bg-white border border-[#42c1cc] text-[#42c1cc] hover:bg-cyan-50 font-medium py-2.5 px-5 rounded-full transition-colors text-sm flex items-center justify-center gap-2"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
+              />
+            </svg>
+            Chat with seller
+          </button>
         </div>
       </div>
 

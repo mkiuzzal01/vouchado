@@ -85,6 +85,27 @@ export interface Provider {
   status: "Active" | "Inactive" | string;
   created_at: string;
   updated_at: string;
+  business_profile: TBusiness;
+}
+
+export interface TBusiness {
+  id: number;
+  user_id: number;
+  business_name: string;
+  business_email: string;
+  business_description: string;
+  business_address: string;
+  latitude: string;
+  longitude: string;
+  business_website: string;
+  business_category: string;
+  business_logo: string;
+  business_cover_image: string;
+  stripe_connect_account_id: string | null;
+  balance: string;
+  created_at: string;
+  updated_at: string;
+  payout_available_balance: number;
 }
 
 export interface DealDay {

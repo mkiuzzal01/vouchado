@@ -25,13 +25,18 @@ export default function Inbox({ list, message }: Props) {
     [list],
   );
 
+  // console.log(message);
+
   const idFromParams = searchParams.get("id");
-  const selectedConversationId = idFromParams ? parseInt(idFromParams, 10) : null;
+  const selectedConversationId = idFromParams
+    ? parseInt(idFromParams, 10)
+    : null;
 
   const [isMobileMessageView, setIsMobileMessageView] = useState(false);
   useEffect(() => {
     if (conversations.length > 0 && selectedConversationId === null) {
-      const firstConvId = conversations[0]?.conversation_id || (conversations[0] as any)?.id;
+      const firstConvId =
+        conversations[0]?.conversation_id || (conversations[0] as any)?.id;
       if (firstConvId) {
         const params = new URLSearchParams(searchParams.toString());
         params.set("id", firstConvId.toString());
@@ -48,8 +53,9 @@ export default function Inbox({ list, message }: Props) {
 
   const activeConversation = useMemo(() => {
     return (
-      conversations.find((u: any) => (u?.conversation_id || u?.id) === selectedConversationId) ||
-      conversations[0]
+      conversations.find(
+        (u: any) => (u?.conversation_id || u?.id) === selectedConversationId,
+      ) || conversations[0]
     );
   }, [conversations, selectedConversationId]);
 
