@@ -25,12 +25,9 @@ export default function ReviewForm({
         ...values,
       }).unwrap();
 
-      console.log(res?.message);
-
       if (res?.message) {
         toast.success(res?.message);
         onClose();
-        window.location.reload();
       }
     } catch (error: any) {
       if (error?.data?.message) {
