@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "admin.vouchado.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   async rewrites() {
@@ -22,6 +28,18 @@ const nextConfig: NextConfig = {
       {
         source: "/broadcasting/auth",
         destination: "https://whatevvaaa.thewarriors.team/broadcasting/auth",
+      },
+      {
+        source: "/uploads/deals/:path*",
+        destination: "https://admin.vouchado.com/uploads/deals/:path*",
+      },
+      {
+        source: "/uploads/categories/:path*",
+        destination: "https://admin.vouchado.com/uploads/categories/:path*",
+      },
+      {
+        source: "/uploads/promos/:path*",
+        destination: "https://admin.vouchado.com/uploads/promos/:path*",
       },
     ];
   },

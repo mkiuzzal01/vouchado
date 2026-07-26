@@ -72,7 +72,7 @@ export default function Hero({ banner }: Props) {
         {/* overlay */}
         <div className="absolute inset-0 -z-10 rounded-2xl md:rounded-[32px] overflow-hidden bg-black/20 backdrop-blur-[2px]" />
 
-        <Container className="grow flex flex-col ">
+        <div className="max-w-[1744px] mx-auto px-3.5 sm:px-6 lg:px-4 w-full grow flex flex-col ">
           {/* Offer Badge (Absolute Positioning for perfect responsiveness) */}
           <div className="absolute right-2 top-2 sm:right-4 sm:top-4 md:right-10 md:top-1/10 lg:left-[60%] lg:top-[10%] xl:top-[18%] z-20 transition-transform duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer">
             <Image
@@ -131,7 +131,7 @@ export default function Hero({ banner }: Props) {
               </div>
             </div>
           </div>
-        </Container>
+        </div>
 
         {/* Stats Component - Positioned at the bottom */}
         <Stats />

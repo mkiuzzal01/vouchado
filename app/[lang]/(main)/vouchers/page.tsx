@@ -12,7 +12,7 @@ export default async function Page() {
   const unredeemed = await getUnusedVochers();
   const vouchers = unredeemed?.data?.data as Voucher[];
 
-  if (!vouchers?.length)
+  if (!unredeemed || !vouchers)
     return <NotFoundData description="No unused voucher" />;
 
   return (

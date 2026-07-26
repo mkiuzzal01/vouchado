@@ -70,7 +70,7 @@ function FeatureCard({ icon, title, subtitle }: Feature) {
       </div>
 
       <div>
-        <h3 className="text-lg md:text-xl font-bold text-[#212B36]">{title}</h3>
+        <h3 className="text-lg lg:text-xl font-bold text-[#212B36]">{title}</h3>
         <p className="text-sm text-[#637381]">{subtitle}</p>
       </div>
     </div>

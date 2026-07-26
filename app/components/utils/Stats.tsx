@@ -1,4 +1,3 @@
-import Container from "../shared/Container";
 import Clients from "../icons/Clients";
 import Sold from "../icons/Sold";
 import Partner from "../icons/Partner";

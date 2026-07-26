@@ -26,7 +26,7 @@ export default function Steps() {
   return (
     <Container>
       <div className="rounded-3xl bg-gray-200/20 border border-gray-300 mt-44">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 p-3">
           {steps?.map((step, idx) => (
             <div key={idx} className="relative flex items-center gap-5">
               {/* White Icon Circle Background */}
