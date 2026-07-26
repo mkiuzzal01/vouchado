@@ -41,61 +41,6 @@ const MONTHS = [
   "December",
 ];
 
-const BOOSTER_ITEMS = [
-  {
-    id: "newsletter",
-    num: "1",
-    title: "Get featured in the Newsletter",
-    desc: "Reach our engaged subscribers with your offer.",
-    rate: "+3%",
-    icon: Award,
-    colorClass: "border-sky-200 bg-sky-50/50 text-sky-500",
-    badgeBg: "bg-sky-100 text-sky-500",
-    hasTopBadge: true,
-  },
-  {
-    id: "trending",
-    num: "2",
-    title: 'Get featured at our top rubric "Trending"',
-    desc: "Reach our engaged subscribers with your offer.",
-    rate: "+6%",
-    icon: BarCode,
-    colorClass: "border-emerald-200 bg-emerald-50/50 text-emerald-500",
-    badgeBg: "bg-emerald-100 text-emerald-500",
-  },
-  {
-    id: "push",
-    num: "3",
-    title: "Get featured in Push Notifications",
-    desc: "A targeted push notification will be sent to nearby interested users.",
-    rate: "+5%",
-    icon: Bell,
-    colorClass: "border-indigo-200 bg-indigo-50/50 text-indigo-500",
-    badgeBg: "bg-indigo-100 text-indigo-500",
-  },
-  {
-    id: "lastMinute",
-    num: "4",
-    title: "Last Minute Boost",
-    desc: "Fill empty slots with smart last-minute deals.",
-    rate: "+4%",
-    icon: Boots,
-    colorClass: "border-amber-200 bg-amber-50/50 text-amber-500",
-    badgeBg: "bg-amber-100 text-amber-500",
-  },
-  {
-    id: "priority",
-    num: "5",
-    title: "Priority Ranking",
-    desc: "Get a higher ranking in search results and category listings.",
-    rate: "+3%",
-    icon: Sparkles,
-    colorClass: "border-pink-200 bg-pink-50/50 text-pink-500",
-    badgeBg: "bg-pink-100 text-pink-500",
-    fullWidth: true,
-  },
-];
-
 interface ICategory {
   data: Category[];
   message: string;
@@ -103,6 +48,77 @@ interface ICategory {
 }
 
 function DetailsFormContent({ category }: { category: ICategory }) {
+  const {
+    newsletter_featured_rate,
+    top_trending_featured_rate,
+    push_notification_featured_rate,
+    last_minute_boost_rate,
+    priority_ranking_rate,
+  } = useAppSelector((state) => state.system);
+
+  console.log(
+    newsletter_featured_rate,
+    top_trending_featured_rate,
+    push_notification_featured_rate,
+    last_minute_boost_rate,
+    priority_ranking_rate,
+  );
+
+  const BOOSTER_ITEMS = [
+    {
+      id: "newsletter",
+      num: "1",
+      title: "Get featured in the Newsletter",
+      desc: "Reach our engaged subscribers with your offer.",
+      rate: `+${newsletter_featured_rate}%`,
+      icon: Award,
+      colorClass: "border-sky-200 bg-sky-50/50 text-sky-500",
+      badgeBg: "bg-sky-100 text-sky-500",
+      hasTopBadge: true,
+    },
+    {
+      id: "trending",
+      num: "2",
+      title: 'Get featured at our top rubric "Trending"',
+      desc: "Reach our engaged subscribers with your offer.",
+      rate: `+${top_trending_featured_rate}%`,
+      icon: BarCode,
+      colorClass: "border-emerald-200 bg-emerald-50/50 text-emerald-500",
+      badgeBg: "bg-emerald-100 text-emerald-500",
+    },
+    {
+      id: "push",
+      num: "3",
+      title: "Get featured in Push Notifications",
+      desc: "A targeted push notification will be sent to nearby interested users.",
+      rate: `+${push_notification_featured_rate}%`,
+      icon: Bell,
+      colorClass: "border-indigo-200 bg-indigo-50/50 text-indigo-500",
+      badgeBg: "bg-indigo-100 text-indigo-500",
+    },
+    {
+      id: "lastMinute",
+      num: "4",
+      title: "Last Minute Boost",
+      desc: "Fill empty slots with smart last-minute deals.",
+      rate: `+${last_minute_boost_rate}%`,
+      icon: Boots,
+      colorClass: "border-amber-200 bg-amber-50/50 text-amber-500",
+      badgeBg: "bg-amber-100 text-amber-500",
+    },
+    {
+      id: "priority",
+      num: "5",
+      title: "Priority Ranking",
+      desc: "Get a higher ranking in search results and category listings.",
+      rate: `+${priority_ranking_rate}%`,
+      icon: Sparkles,
+      colorClass: "border-pink-200 bg-pink-50/50 text-pink-500",
+      badgeBg: "bg-pink-100 text-pink-500",
+      fullWidth: true,
+    },
+  ];
+
   const dispatch = useAppDispatch();
   const {
     register,

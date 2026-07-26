@@ -20,13 +20,14 @@ import V from "../icons/V";
 import co2 from "@/public/hero/image 12.png";
 import { useSubscribeMutation } from "@/redux/features/contact/contact.api";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "@/redux/hooks/globalhooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 
 import {
   setPointsConversionRate,
   updateVatPercentage,
 } from "@/redux/features/cart/cart.slice";
 import { updatePointsPerOrder } from "@/redux/features/auth/auth.slice";
+import { setSystem } from "@/redux/features/system/system.slice";
 
 interface FooterLinks {
   footerLinks: any;
@@ -57,6 +58,25 @@ export default function Footer({
 
     if (systemInfo?.data?.points_per_order) {
       dispatch(updatePointsPerOrder(systemInfo?.data?.points_per_order));
+    }
+    if (
+      systemInfo?.data?.newsletter_featured_rate ||
+      systemInfo?.data?.top_trending_featured_rate ||
+      systemInfo?.data?.push_notification_featured_rate ||
+      systemInfo?.data?.last_minute_boost_rate ||
+      systemInfo?.data?.priority_ranking_rate
+    ) {
+      dispatch(
+        setSystem({
+          newsletter_featured_rate: systemInfo?.data?.newsletter_featured_rate,
+          top_trending_featured_rate:
+            systemInfo?.data?.top_trending_featured_rate,
+          push_notification_featured_rate:
+            systemInfo?.data?.push_notification_featured_rate,
+          last_minute_boost_rate: systemInfo?.data?.last_minute_boost_rate,
+          priority_ranking_rate: systemInfo?.data?.priority_ranking_rate,
+        }),
+      );
     }
   }, [systemInfo, dispatch]);
 

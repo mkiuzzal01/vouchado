@@ -16,7 +16,6 @@ interface IInitState {
   user: IUser | null;
   vuchado_token: string | null;
   points_per_order: number | null;
-  
 }
 
 const initialState: IInitState = {
