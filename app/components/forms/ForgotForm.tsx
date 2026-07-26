@@ -70,6 +70,7 @@ export default function ForgotForm({ t, locale }: Props) {
               <div className="space-y-5">
                 <TextInput
                   icon={<Mail size={18} />}
+                  type="email"
                   label={t.auth.forgot.email}
                   name="email"
                   className="h-12"

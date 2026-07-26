@@ -23,6 +23,42 @@ interface TextInputProps {
   >;
 }
 
+// Map common input types to regex validation rules and messages
+const getTypeValidationRule = (type: string, fieldName: string) => {
+  switch (type) {
+    case "email":
+      return {
+        pattern: {
+          value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+          message: `Please enter a valid email address`,
+        },
+      };
+    case "tel":
+      return {
+        pattern: {
+          value: /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/,
+          message: `Please enter a valid phone number`,
+        },
+      };
+    case "url":
+      return {
+        pattern: {
+          value: /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/,
+          message: `Please enter a valid URL`,
+        },
+      };
+    case "number":
+      return {
+        pattern: {
+          value: /^\d*\.?\d*$/,
+          message: `${fieldName} must be a valid positive number`,
+        },
+      };
+    default:
+      return {};
+  }
+};
+
 export default function TextInput({
   label,
   name,
@@ -52,6 +88,9 @@ export default function TextInput({
     return readable.charAt(0).toUpperCase() + readable.slice(1);
   };
 
+  const fieldLabel = formatErrorLabel();
+  const typeRules = getTypeValidationRule(type, fieldLabel);
+
   return (
     <div className={cn("space-y-1.5 w-full mb-6", className)}>
       {label && (
@@ -64,15 +103,15 @@ export default function TextInput({
         name={name}
         control={control}
         rules={{
-          required: required ? `${formatErrorLabel()} is required` : false,
-          // Built-in validation rule to block negative numbers in react-hook-form
+          required: required ? `${fieldLabel} is required` : false,
           ...(type === "number" && {
             min: {
               value: min ?? 0,
-              message: `${formatErrorLabel()} cannot be negative`,
+              message: `${fieldLabel} cannot be negative`,
             },
           }),
-          ...rules,
+          ...typeRules,
+          ...rules, // Custom rules passed via props override defaults
         }}
         render={({ field: { onChange, value, ...fieldProps } }) => (
           <>
@@ -93,7 +132,6 @@ export default function TextInput({
                 type={isPassword ? (showPassword ? "text" : "password") : type}
                 min={type === "number" ? (min ?? 0) : undefined}
                 onKeyDown={(e) => {
-                  // Prevent typing minus (-), plus (+), or exponent (e) key
                   if (
                     type === "number" &&
                     ["-", "+", "e", "E"].includes(e.key)
@@ -104,10 +142,7 @@ export default function TextInput({
                 onChange={(e) => {
                   const rawVal = e.target.value;
 
-                  if (type === "number") {
-                    // Prevent setting negative numeric values if pasted
-                    if (Number(rawVal) < 0) return;
-                  }
+                  if (type === "number" && Number(rawVal) < 0) return;
 
                   onChange(rawVal);
                 }}

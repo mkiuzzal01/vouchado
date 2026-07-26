@@ -53,6 +53,7 @@ export default async function layout({ children, params }: RootLayout) {
     <div className="min-h-screen flex flex-col">
       <TopBar content={nav.top} />
       <Navbar
+        systemInfo={systemInfo}
         provider_info={providerInfo}
         user_info={userInfo}
         lang={lang}

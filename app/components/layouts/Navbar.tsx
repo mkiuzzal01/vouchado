@@ -16,6 +16,7 @@ import Voucher from "../icons/Voucher";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 
 interface Props {
+  systemInfo: any;
   lang: string;
   login: string;
   register: string;
@@ -28,6 +29,7 @@ interface Props {
 }
 
 export default function Navbar({
+  systemInfo,
   lang,
   login,
   register,
@@ -48,14 +50,25 @@ export default function Navbar({
         <div className="flex items-center justify-between gap-4 py-2.5 sm:py-3 lg:py-3.5 2xl:py-4">
           {/* Logo */}
           <Link href={`/${lang}`} className="flex items-center">
-            <Image
-              src={branding_logo}
-              alt="Brand Logo"
-              width={270}
-              height={62}
-              priority
-              className="h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-18 w-auto object-contain"
-            />
+            {systemInfo?.data?.logo_full_url ? (
+              <Image
+                src={systemInfo?.data?.logo_full_url}
+                alt="Brand Logo"
+                width={270}
+                height={62}
+                priority
+                className="h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-18 w-auto object-contain"
+              />
+            ) : (
+              <Image
+                src={branding_logo}
+                alt="Brand Logo"
+                width={270}
+                height={62}
+                priority
+                className="h-8 sm:h-10 md:h-12 lg:h-14 xl:h-16 2xl:h-18 w-auto object-contain"
+              />
+            )}
           </Link>
 
           {/* Desktop Menu */}

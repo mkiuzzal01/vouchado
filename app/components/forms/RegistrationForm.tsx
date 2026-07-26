@@ -115,6 +115,7 @@ export default function RegistrationForm({
 
                 <TextInput
                   required
+                  type="email"
                   icon={<Mail size={18} />}
                   label={t.auth.register.email}
                   name="email"
@@ -128,6 +129,12 @@ export default function RegistrationForm({
                   label={t.auth.register.password}
                   name="password"
                   type="password"
+                  rules={{
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters long",
+                    },
+                  }}
                   className="h-12"
                   placeholder={t.auth.register.password}
                 />

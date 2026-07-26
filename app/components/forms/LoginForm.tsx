@@ -109,6 +109,7 @@ export default function Login({ t, locale, img, login_type }: Props) {
             >
               <div className="flex flex-col gap-5">
                 <TextInput
+                  type="email"
                   icon={<Mail size={18} />}
                   label={t.auth.login.email}
                   name="email"
@@ -124,6 +125,12 @@ export default function Login({ t, locale, img, login_type }: Props) {
                   type="password"
                   className="h-12"
                   required
+                  rules={{
+                    minLength: {
+                      value: 8,
+                      message: "Password must be at least 8 characters long",
+                    },
+                  }}
                   placeholder={t.auth.login.password}
                 />
 

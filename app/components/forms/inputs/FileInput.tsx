@@ -7,6 +7,11 @@ import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
+// Allowed file types
+const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif", "svg"];
+const DEFAULT_ACCEPT =
+  "image/jpeg,image/png,image/gif,image/svg+xml,.jpg,.jpeg,.png,.gif,.svg";
+
 interface FileInputProps {
   defaultImage?: string | string[];
   label?: string;
@@ -15,7 +20,7 @@ interface FileInputProps {
   required?: boolean;
   className?: string;
   multiple?: boolean;
-  maxFiles?: number; // 1. Added maxFiles prop
+  maxFiles?: number;
 }
 
 export default function FileInput({
@@ -23,10 +28,10 @@ export default function FileInput({
   label,
   name,
   required = false,
-  accept = "image/*",
+  accept = DEFAULT_ACCEPT, // Updated default accept list
   className,
   multiple = false,
-  maxFiles, // 2. Receive maxFiles
+  maxFiles,
 }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -41,6 +46,13 @@ export default function FileInput({
     if (file instanceof File) return URL.createObjectURL(file);
     if (typeof file === "string") return file;
     return null;
+  };
+
+  // Helper to validate individual file extensions
+  const isValidFileType = (file: File | string) => {
+    if (typeof file === "string") return true; // Accept existing image URL strings
+    const ext = file.name.split(".").pop()?.toLowerCase();
+    return ext ? ALLOWED_EXTENSIONS.includes(ext) : false;
   };
 
   return (
@@ -61,6 +73,18 @@ export default function FileInput({
             value: required,
             message: `${label || "File"} is required`,
           },
+          validate: (val) => {
+            if (!val || (Array.isArray(val) && val.length === 0)) return true;
+
+            const filesToValidate = Array.isArray(val) ? val : [val];
+            const isValid = filesToValidate.every(isValidFileType);
+
+            if (!isValid) {
+              return "Only JPG, JPEG, PNG, GIF, and SVG files are allowed.";
+            }
+
+            return true;
+          },
         }}
         render={({ field: { onChange, value } }) => {
           const filesArray: any[] = Array.isArray(value)
@@ -69,7 +93,6 @@ export default function FileInput({
               ? [value]
               : [];
 
-          // Check if limit is reached
           const isLimitReached =
             multiple && maxFiles ? filesArray.length >= maxFiles : false;
 
@@ -79,22 +102,27 @@ export default function FileInput({
               : [];
             if (selectedFiles.length === 0) return;
 
+            // Filter out unsupported formats directly on upload
+            const validFiles = selectedFiles.filter(isValidFileType);
+
+            if (validFiles.length === 0) {
+              if (e.target) e.target.value = "";
+              return;
+            }
+
             if (multiple) {
-              // Calculate remaining available slots
               const remainingSlots = maxFiles
                 ? maxFiles - filesArray.length
-                : selectedFiles.length;
+                : validFiles.length;
 
               if (remainingSlots <= 0) return;
 
-              // Only take files up to the limit
-              const filesToAdd = selectedFiles.slice(0, remainingSlots);
+              const filesToAdd = validFiles.slice(0, remainingSlots);
               onChange([...filesArray, ...filesToAdd]);
             } else {
-              onChange(selectedFiles[0]);
+              onChange(validFiles[0]);
             }
 
-            // Reset input value so selecting the same file again triggers onChange
             if (e.target) e.target.value = "";
           };
 
@@ -112,7 +140,6 @@ export default function FileInput({
           return (
             <div className="space-y-4">
               <div className="flex flex-wrap gap-4 items-start">
-                {/* Hide upload button if single image is already set OR if maxFiles limit is reached */}
                 {((multiple && !isLimitReached) || filesArray.length === 0) && (
                   <div
                     onClick={() => inputRef.current?.click()}
@@ -151,7 +178,7 @@ export default function FileInput({
                       </div>
                       {!multiple && (
                         <p className="mt-1 text-xs text-gray-500">
-                          Click to browse your files
+                          JPG, JPEG, PNG, GIF, or SVG
                         </p>
                       )}
                       <h3
@@ -183,7 +210,9 @@ export default function FileInput({
                         alt={`Preview ${index + 1}`}
                         fill
                         className="object-cover"
-                        unoptimized={imgUrl.startsWith("blob:")}
+                        unoptimized={
+                          imgUrl.startsWith("blob:") || imgUrl.endsWith(".svg")
+                        }
                       />
 
                       <button
