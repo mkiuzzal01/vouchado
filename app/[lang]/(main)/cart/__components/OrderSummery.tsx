@@ -61,11 +61,12 @@ export default function OrderSummary({ lang }: Props) {
       const res = await createOrder(payload).unwrap();
       if (res?.message) {
         toast.success(res.message);
-        dispatch(clearCart());
         dispatch(clearCouponCode());
-        router.replace(res?.data?.checkout_url);
+        router.push(res?.data?.checkout_url);
       }
     } catch (error: any) {
+      console.log(error);
+
       if (error?.status == 422) {
         toast.error(error?.data?.message);
       } else {

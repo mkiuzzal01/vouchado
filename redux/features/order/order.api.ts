@@ -20,6 +20,15 @@ export const orderAPI = baseApi.injectEndpoints({
       invalidatesTags: ["order"],
     }),
 
+    orderCancelationRequest: builder.mutation({
+      query: (session_id) => ({
+        url: `/order/cancel-session`,
+        method: "POST",
+        body: { session_id },
+      }),
+      invalidatesTags: ["order"],
+    }),
+
     createOrderReview: builder.mutation({
       query: (body) => ({
         url: `/reviews`,
@@ -34,5 +43,6 @@ export const orderAPI = baseApi.injectEndpoints({
 export const {
   useCreateOrderMutation,
   useCancelOrderMutation,
+  useOrderCancelationRequestMutation,
   useCreateOrderReviewMutation,
 } = orderAPI;

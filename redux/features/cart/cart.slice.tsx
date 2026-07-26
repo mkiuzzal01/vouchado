@@ -19,6 +19,7 @@ export interface CartState {
   vat_percentage: number;
   vatAmount: number;
   redeemDiscountAmount: number;
+  loyaltyPointsDiscountAmount: number;
   couponDiscount: number;
   points_conversion_rate: number;
   redeemPointsDiscount: number;
@@ -53,7 +54,12 @@ const calculateTotals = (state: CartState) => {
   // 3. Points Discount
   const pointsMonetaryDiscount =
     state.points_conversion_rate > 0
-      ? (state.redeemPointsDiscount * state.points_conversion_rate) / 100
+      ? (1 / state?.points_conversion_rate) * state.redeemPointsDiscount
+      : 0;
+
+  const loyaltyPointsDiscountAmount =
+    state.points_conversion_rate > 0
+      ? (1 / state?.points_conversion_rate) * 1000
       : 0;
 
   // 4. Grand Total
@@ -63,6 +69,9 @@ const calculateTotals = (state: CartState) => {
   state.subTotal = Number(subTotal.toFixed(2));
   state.vatAmount = Number(vatAmount.toFixed(2));
   state.redeemDiscountAmount = Number(pointsMonetaryDiscount.toFixed(2));
+  state.loyaltyPointsDiscountAmount = Number(
+    loyaltyPointsDiscountAmount.toFixed(2),
+  );
   state.totalPrice = Number(Math.max(total, 0).toFixed(2));
 };
 
@@ -72,6 +81,7 @@ const initialState: CartState = {
   vatAmount: 0,
   redeemDiscountAmount: 0,
   couponDiscount: 0,
+  loyaltyPointsDiscountAmount: 0,
   points_conversion_rate: 0,
   redeemPointsDiscount: 0,
   couponStatus: false,
@@ -185,6 +195,7 @@ export const cartSlice = createSlice({
       state.couponDiscount = 0;
       state.redeemPointsDiscount = 0;
       state.redeemDiscountAmount = 0;
+      state.loyaltyPointsDiscountAmount = 0;
       state.couponStatus = false;
     },
   },

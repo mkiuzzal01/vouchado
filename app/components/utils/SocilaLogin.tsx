@@ -50,12 +50,9 @@ export default function SocialLogin({ login_type }: Props) {
               name: res.data?.name,
               avatar: res.data?.avatar,
             },
-            token: res.data?.token,
-            tokenType: res.data?.token_type,
-            expiresAt: res.data?.expires_in,
+            vuchado_token: res?.token,
           }),
         );
-        document.cookie = `vuchado_token=${res.data?.token}; path=/; max-age=86400`;
         router.push(redirectPath);
         router.refresh();
       }

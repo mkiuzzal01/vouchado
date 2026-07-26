@@ -9,14 +9,21 @@ import Voucher from "@/app/components/icons/Voucher";
 import Bag from "@/app/components/icons/Bag";
 import { VerifySession } from "@/redux/types/_global";
 import QRCode from "../../vouchers/__components/QRCode";
-import { useAppSelector } from "@/redux/hooks/globalhooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+import { clearCart } from "@/redux/features/cart/cart.slice";
+import { useEffect } from "react";
 
 interface Props {
   verifySession: VerifySession;
 }
 
 export default function CheckoutMessagePage({ verifySession }: Props) {
+  const dispatch = useAppDispatch();
   const { points_per_order } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(clearCart());
+  }, [dispatch]);
 
   const orderDetails = {
     itemsCount: verifySession.data.order.item_count,
