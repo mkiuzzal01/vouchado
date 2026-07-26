@@ -108,10 +108,11 @@ export default function PromoCreateDeals() {
         </div>
       </div>
       <ModalContainer
-        width="7xl"
+        width="8xl"
         title="Create new voucher"
         isOpen={openDealModal}
-        onClose={handleOpenModal}
+        onClose={() => dispatch(setOpenDealModal(!openDealModal))}
+        onModalClose={handleOpenModal}
       >
         <CreateDealForm />
       </ModalContainer>

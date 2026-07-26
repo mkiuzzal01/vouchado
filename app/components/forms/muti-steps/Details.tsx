@@ -160,7 +160,6 @@ function DetailsFormContent({ category }: { category: ICategory }) {
 
   const childCategories = selectedCategoryObj?.child_categories || [];
 
-  // Refactored to save changes straight into the React Hook Form structure
   const handleToggleItem = (
     fieldName: string,
     item: string,

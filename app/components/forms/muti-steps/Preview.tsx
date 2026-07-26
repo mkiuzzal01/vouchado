@@ -327,7 +327,7 @@ export default function Preview() {
                 key={tab}
                 type="button"
                 onClick={() => setActiveTab(tab)}
-                className={`pb-3 capitalize transition-all relative font-bold text-sm ${
+                className={`pb-3 capitalize transition-all relative font-bold text-lg ${
                   activeTab === tab
                     ? "text-[#29b6be] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[2px] after:bg-[#29b6be]"
                     : "text-slate-400 hover:text-slate-600"
@@ -364,7 +364,7 @@ export default function Preview() {
                           <div className="mt-0.5 shrink-0">
                             <Batch />
                           </div>
-                          <span className="text-sm text-slate-700 font-medium leading-snug">
+                          <span className="leading-normal font-medium">
                             {highlight}
                           </span>
                         </div>
@@ -391,7 +391,7 @@ export default function Preview() {
               <h3 className="text-lg font-bold text-slate-900 tracking-tight">
                 {dealInfo?.voucher_name || "Single Day Ticket"}
               </h3>
-              <div className="flex items-center gap-1 text-xs text-slate-500 font-medium">
+              {/* <div className="flex items-center gap-1 text-xs text-slate-500 font-medium">
                 <div className="flex text-amber-400">
                   {[...Array(5)].map((_, i) => (
                     <Star
@@ -403,7 +403,7 @@ export default function Preview() {
                 </div>
                 <span className="font-bold text-slate-700 ml-1">4.8</span>
                 <span>(12,500+ reviews)</span>
-              </div>
+              </div> */}
             </div>
 
             <div className="space-y-0.5 pt-1">

@@ -47,34 +47,35 @@ const TRUST_BADGES: TrustBadge[] = [
   },
 ];
 
-const SIDEBAR_INFO: SidebarInfo[] = [
-  {
-    id: 1,
-    label: "Email",
-    value: "info@okazzion.com",
-    iconPath: <MailIcon />,
-  },
-  {
-    id: 2,
-    label: "Phone",
-    value: "(555) 123-4567",
-    subValue: "Mon-Fri, 9am-6pm EST",
-    iconPath: <Phone />,
-  },
-  {
-    id: 3,
-    label: "Address",
-    value: "123 Commerce Street",
-    subValue: "New York, NY 10013",
-    iconPath: <LocationIcon color="#ffff" />,
-  },
-];
-
 interface props {
   lang: string;
+  systemInfo: any;
 }
 
-export default function ContactUs({ lang }: props) {
+export default function ContactUs({ lang, systemInfo }: props) {
+  const SIDEBAR_INFO: SidebarInfo[] = [
+    {
+      id: 1,
+      label: "Email",
+      value: systemInfo?.email || "info@okazzion.com",
+      iconPath: <MailIcon />,
+    },
+    {
+      id: 2,
+      label: "Phone",
+      value: systemInfo?.number || "(555) 123-4567",
+      subValue: "Mon-Fri, 9am-6pm EST",
+      iconPath: <Phone />,
+    },
+    {
+      id: 3,
+      label: "Address",
+      value: systemInfo?.address || "123 Commerce Street",
+      subValue: "New York, NY 10013",
+      iconPath: <LocationIcon color="#ffff" />,
+    },
+  ];
+
   return (
     <section className="relative overflow-hidden py-16 lg:py-24">
       {/* Background Image */}

@@ -20,7 +20,7 @@ import V from "../icons/V";
 import co2 from "@/public/hero/image 12.png";
 import { useSubscribeMutation } from "@/redux/features/contact/contact.api";
 import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+import { useAppDispatch } from "@/redux/hooks/globalhooks";
 
 import {
   setPointsConversionRate,
@@ -301,12 +301,6 @@ export default function Footer({
           <div className="border-t border-gray-800 my-8">
             <p className="text-sm sm:text-base font-semibold text-[#919EAB] text-center py-6">
               © {systemInfo?.data?.copyright_text}
-              <Link
-                href="#"
-                className="text-white hover:text-[#2BC4CA] transition"
-              >
-                VUCHADO
-              </Link>
             </p>
           </div>
         </div>

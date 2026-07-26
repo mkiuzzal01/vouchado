@@ -21,6 +21,7 @@ export type ModalWidth =
 export interface ModalContainerProps {
   isOpen: boolean;
   onClose: () => void;
+  onModalClose?: () => void;
   children: React.ReactNode;
   title?: string;
 
@@ -51,6 +52,7 @@ export default function ModalContainer({
   title,
   width = "4xl",
   className,
+  onModalClose,
 }: ModalContainerProps) {
   const titleId = useId();
 
@@ -107,9 +109,10 @@ export default function ModalContainer({
           </h2>
 
           <Button
+            type="button"
             variant="ghost"
             size="icon"
-            onClick={onClose}
+            onClick={onModalClose ? onModalClose : onClose}
             aria-label="Close modal"
             className="rounded-full text-slate-500 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:ring-2 focus-visible:ring-slate-400"
           >
