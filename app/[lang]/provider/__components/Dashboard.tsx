@@ -14,9 +14,15 @@ interface Props {
   lang: string;
   stat: any;
   purchases: any;
+  profileInfo: any;
 }
 
-export default async function Dashboard({ lang, stat, purchases }: Props) {
+export default async function Dashboard({
+  lang,
+  stat,
+  purchases,
+  profileInfo,
+}: Props) {
   const metrics = [
     {
       id: 1,
@@ -60,7 +66,7 @@ export default async function Dashboard({ lang, stat, purchases }: Props) {
     <Container>
       <div className="space-y-7 p-4 w-full text-gray-800">
         {/* Welcome Bar Header Section */}
-        <CreateGiftVoucher />
+        <CreateGiftVoucher profileInfo={profileInfo} />
 
         {/* Metric Cards Section Block Row */}
         <MetricCards stat={metrics} />
