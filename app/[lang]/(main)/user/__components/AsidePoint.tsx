@@ -2,11 +2,14 @@
 import Image from "next/image";
 import profile_bg from "@/public/hero/Hero Section (9).png";
 import { IUserProfile } from "@/redux/types/user_profile";
+import { useAppSelector } from "@/redux/hooks/globalhooks";
 
 interface IAsidePoint {
   user: IUserProfile;
+  recentAcitiviesText: string;
 }
-export default function AsidePoint({ user }: IAsidePoint) {
+export default function AsidePoint({ user, recentAcitiviesText }: IAsidePoint) {
+  const { loyaltyPointsDiscountAmount } = useAppSelector((state) => state.cart);
   return (
     <div className="space-y-4">
       <div className="relative w-full max-w-[356px] overflow-hidden rounded-2xl">
@@ -29,15 +32,7 @@ export default function AsidePoint({ user }: IAsidePoint) {
 
       {/* Info Card */}
       <div className="text-lg font-normal p-4 text-gray-600 rounded-2xl shadow space-y-4">
-        <p className="mb-4">
-          You have reached{" "}
-          <strong className="text-gray-700">
-            {user?.vouchado_points} points
-          </strong>
-          , collect <strong className="text-gray-700">200</strong> more to
-          unlock more{" "}
-          <strong className="text-gray-700">€100 Vouchado Voucher</strong>.
-        </p>
+        <p className="mb-4">{recentAcitiviesText}</p>
         <div className="space-y-1">
           <p className="text-lg font-normal text-gray-800">
             How to use points:
@@ -49,7 +44,7 @@ export default function AsidePoint({ user }: IAsidePoint) {
         </div>
         <p className="text-lg font-normal text-gray-400">
           <span className="font-medium text-gray-800">Note:</span> Every 1,000
-          points spent gives you a €50 discount.
+          points spent gives you a € {loyaltyPointsDiscountAmount} discount.
         </p>
       </div>
     </div>

@@ -3,7 +3,6 @@ import Container from "@/app/components/shared/Container";
 import section_bg from "@/public/section-headers/Hero Section (4).png";
 import YourItems from "./__components/YourItems";
 import OrderSummery from "./__components/OrderSummery";
-import { getSystemInfo } from "@/actions/quires/system_info.api";
 
 interface Props {
   params: Promise<{ lang: string }>;

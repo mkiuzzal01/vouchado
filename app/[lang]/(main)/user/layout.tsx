@@ -9,6 +9,7 @@ interface ProfileLayoutProps {
 export default async function ProfileLayout({ children }: ProfileLayoutProps) {
   let userProfile = null;
   let recentActivities = null;
+  let recentAcitiviesText = null;
 
   try {
     const [profileRes, activitiesRes] = await Promise.all([
@@ -18,6 +19,7 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
 
     userProfile = profileRes?.data ?? null;
     recentActivities = activitiesRes?.data?.data ?? [];
+    recentAcitiviesText = activitiesRes?.data?.text ?? "";
   } catch (error) {
     console.error("[PROFILE_LAYOUT_ERROR]: Failed to fetch user data", error);
   }
@@ -27,7 +29,11 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
       <div className="flex flex-col md:flex-row w-full gap-6 lg:gap-8 items-start">
         {/* Aside Sidebar Navigation */}
         <aside className="w-full md:w-80 lg:w-[380px] xl:w-[405px] shrink-0 md:sticky md:top-6 space-y-4">
-          <Aside data={userProfile} recentActivities={recentActivities} />
+          <Aside
+            data={userProfile}
+            recentActivities={recentActivities}
+            recentAcitiviesText={recentAcitiviesText}
+          />
         </aside>
 
         {/* Main Content Area */}

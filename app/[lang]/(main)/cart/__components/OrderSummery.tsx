@@ -13,12 +13,16 @@ import Coupon from "./Coupon";
 import product_cart from "@/public/services/service_details.png";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { useCreateOrderMutation } from "@/redux/features/order/order.api";
+import { Checkbox } from "@/components/ui/checkbox";
+import Link from "next/link";
 
 interface Props {
   lang: string;
 }
 
 export default function OrderSummary({ lang }: Props) {
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [agreedToCancelation, setAgreedToCancelation] = useState(false);
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -223,11 +227,55 @@ export default function OrderSummary({ lang }: Props) {
         {/* Coupon Input */}
         <Coupon />
 
+        <div className="flex items-center gap-2 py-2">
+          <Checkbox
+            checked={agreedToTerms}
+            onCheckedChange={(checked) => setAgreedToTerms(!!checked)}
+          />
+          <label className="text-xs text-gray-700" htmlFor="terms">
+            I agree to Tech Takes{" "}
+            <Link
+              href={`/${lang}/terms`}
+              className="underline text-primary font-semibold"
+            >
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link
+              href={`/${lang}/privacy`}
+              className="underline text-primary font-semibold"
+            >
+              Privacy Policy
+            </Link>
+            .
+          </label>
+        </div>
+        <div className="flex items-center gap-2 py-2">
+          <Checkbox
+            checked={agreedToCancelation}
+            onCheckedChange={(checked) => setAgreedToCancelation(!!checked)}
+          />
+          <label className="text-xs text-gray-700" htmlFor="terms">
+            I agree with{" "}
+            <Link
+              href={`/${lang}/cancelation`}
+              className="underline text-primary font-semibold"
+            >
+              Cancelation Policy
+            </Link>
+            .
+          </label>
+        </div>
         {/* Checkout Button */}
         <button
           type="button"
           onClick={handleCheckout}
-          disabled={!selectedItems.length || isLoading}
+          disabled={
+            !selectedItems.length ||
+            isLoading ||
+            !agreedToTerms ||
+            !agreedToCancelation
+          }
           className="flex justify-center items-center w-full bg-[#2bb3bb] hover:bg-[#239aa1] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-full transition-colors mt-4 cursor-pointer shadow-md"
         >
           {isLoading ? (
