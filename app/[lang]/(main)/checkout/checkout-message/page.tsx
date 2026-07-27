@@ -12,6 +12,7 @@ import QRCode from "../../vouchers/__components/QRCode";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { clearCart } from "@/redux/features/cart/cart.slice";
 import { useEffect } from "react";
+import { clearCouponCode } from "@/redux/features/auth/auth.slice";
 
 interface Props {
   verifySession: VerifySession;
@@ -23,6 +24,7 @@ export default function CheckoutMessagePage({ verifySession }: Props) {
 
   useEffect(() => {
     dispatch(clearCart());
+    dispatch(clearCouponCode());
   }, [dispatch]);
 
   const orderDetails = {

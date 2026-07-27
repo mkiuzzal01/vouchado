@@ -5,18 +5,14 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Loader2, ShoppingBag } from "lucide-react";
 import { toast } from "react-toastify";
-
 import RedeemForm from "@/app/components/forms/RedeemForm";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import OrderSummeryIcon from "@/app/components/icons/OrderSummery";
 import TrustSection from "./TrustSection";
 import Coupon from "./Coupon";
 import product_cart from "@/public/services/service_details.png";
-
-import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
+import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { useCreateOrderMutation } from "@/redux/features/order/order.api";
-import { clearCart } from "@/redux/features/cart/cart.slice";
-import { clearCouponCode } from "@/redux/features/auth/auth.slice";
 
 interface Props {
   lang: string;
@@ -24,7 +20,6 @@ interface Props {
 
 export default function OrderSummary({ lang }: Props) {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
 
   const [createOrder, { isLoading }] = useCreateOrderMutation();
@@ -60,8 +55,6 @@ export default function OrderSummary({ lang }: Props) {
     try {
       const res = await createOrder(payload).unwrap();
       if (res?.message) {
-        toast.success(res.message);
-        dispatch(clearCouponCode());
         router.push(res?.data?.checkout_url);
       }
     } catch (error: any) {

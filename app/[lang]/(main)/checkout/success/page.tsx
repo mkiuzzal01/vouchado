@@ -1,5 +1,4 @@
 "use client";
-
 import CheckoutMessagePage from "../checkout-message/page";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import Loader from "@/app/loading";
