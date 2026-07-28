@@ -13,19 +13,19 @@ interface Props {
 export default function PromoExperience({ lang }: Props) {
   return (
     <Container>
-      <section className="relative mb-10 min-h-[280px] overflow-hidden rounded-2xl">
+      <section className="relative min-h-[280px] overflow-hidden rounded-2xl z-10 border p-4">
         {/* Background */}
         <Image
           src={promoTag}
           alt="Promo Background"
           fill
           priority
-          className="absolute inset-0 -z-10 object-cover object-center"
+          className=" inset-0 -z-10 object-cover object-center"
           sizes="100vw"
         />
 
         {/* Content */}
-        <div className="relative z-10 flex h-full min-h-[280px] flex-col items-center justify-between gap-8 px-6 py-10 sm:px-10 md:px-12 lg:flex-row">
+        <div className="relative z-10 flex h-full min-h-[280px] flex-col items-center justify-between gap-8 lg:flex-row">
           <div className="space-y-2 text-center lg:text-left xl:ml-[300px]">
             <h2 className="text-2xl font-bold text-white md:text-4xl lg:text-6xl">
               Ready to discover your next experience?

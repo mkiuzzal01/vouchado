@@ -3,11 +3,11 @@
 import React from "react";
 import Image from "next/image";
 import Container from "@/app/components/shared/Container";
-import step_1 from "@/public/business/step (1).png";
-import step_2 from "@/public/business/step (2).png";
-import step_3 from "@/public/business/step (3).png";
-import step_4 from "@/public/business/step (4).png";
-import step_5 from "@/public/business/step (5).png";
+import step_1 from "@/public/business/step_img (1).png";
+import step_2 from "@/public/business/step_img (2).png";
+import step_3 from "@/public/business/step_img (3).png";
+import step_4 from "@/public/business/step_img (4).png";
+import step_5 from "@/public/business/step_img (5).png";
 import Curated from "@/app/components/icons/Curated";
 import Nearby from "@/app/components/icons/Nearby";
 import EasySearch from "@/app/components/icons/EasySearch";
@@ -145,8 +145,8 @@ export default function Steps() {
                       absolute z-10
                       ${
                         isOdd
-                          ? "left-6 top-0 lg:left-1/2 lg:top-30 lg:-translate-y-1/2 lg:-translate-x-1/2"
-                          : "left-6 top-0 lg:left-[-45px] lg:top-[120px] lg:-translate-y-1/2 lg:-translate-x-1/2"
+                          ? "left-6 top-0 lg:left-1/2 lg:top-32 lg:-translate-y-1/2 lg:-translate-x-1/2"
+                          : "left-6 top-0 lg:left-[-45px] lg:top-[140px] lg:-translate-y-1/2 lg:-translate-x-1/2"
                       }
                     `}
                   >
