@@ -2,9 +2,9 @@
 
 import ArrowRightIcon from "@/app/components/icons/ArrowRightIcon";
 import Container from "@/app/components/shared/Container";
-import step_1 from "@/public/business/launch_step (2).png";
-import step_2 from "@/public/business/launch_step (3).png";
-import step_3 from "@/public/business/launch_step (4).png";
+import step_1 from "@/public/business/lounch_step (3).png";
+import step_2 from "@/public/business/lounch_step (2).png";
+import step_3 from "@/public/business/lounch_step (1).png";
 import Image, { StaticImageData } from "next/image";
 
 interface StepItem {
@@ -25,7 +25,7 @@ const STEPS_DATA: StepItem[] = [
     stepNumber: 1,
     title: "Create your deal",
     description: "Choose discount, availability, and duration in minutes.",
-    imageSrc: step_3,
+    imageSrc: step_1,
     imageAlt:
       "Dashboard view showing options to scan voucher or add new service",
     borderColor: "border-[#2DD4BF]",
@@ -38,7 +38,7 @@ const STEPS_DATA: StepItem[] = [
     stepNumber: 2,
     title: "Customers purchase",
     description: "Users discover and buy vouchers on the marketplace.",
-    imageSrc: step_1,
+    imageSrc: step_2,
     imageAlt: "Notification preview showing user purchase status",
     borderColor: "border-[#C084FC]",
     badgeBg: "bg-linear-to-r from-purple-400 to-purple-500",
@@ -50,7 +50,7 @@ const STEPS_DATA: StepItem[] = [
     stepNumber: 3,
     title: "Voucher redemption",
     description: "Customer visits and redeems instantly via QR code.",
-    imageSrc: step_2,
+    imageSrc: step_3,
     imageAlt: "Smartphone screen scanning a dynamic QR code",
     borderColor: "border-[#4ADE80]",
     badgeBg: "bg-linear-to-r from-green-400 to-green-500",

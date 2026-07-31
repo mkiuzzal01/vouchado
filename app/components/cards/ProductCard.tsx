@@ -49,9 +49,9 @@ export default function ProductCard({ lang, product }: Props) {
       href={`/${lang}/view/${product?.slug}`}
       className="block rounded-2xl bg-white overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex-shrink-0 border border-gray-100 group"
     >
-      <div className="w-[405px] h-[424px] flex flex-col justify-between">
+      <div className="w-full md:w-[405px] h-full flex flex-col justify-between">
         {/* Image Container */}
-        <div className="relative w-full h-56">
+        <div className="relative w-full h-[224px]">
           <Image
             src={product?.image || "/placeholder.jpg"}
             alt={product?.title || "Product image"}
@@ -99,7 +99,7 @@ export default function ProductCard({ lang, product }: Props) {
         </div>
 
         {/* Content Area */}
-        <div className="w-full h-auto px-5 pt-7 pb-5 flex flex-col justify-between gap-4">
+        <div className="flex-1 px-5 pt-7 pb-5 flex flex-col justify-between gap-4">
           {/* Title */}
           <h3 className="text-lg md:text-[20px] font-semibold text-gray-900 group-hover:text-[#1ec6cc] leading-snug line-clamp-2 transition-colors">
             {product?.title}

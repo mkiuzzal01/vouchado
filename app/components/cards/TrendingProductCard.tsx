@@ -63,9 +63,9 @@ export default function TrendingProductCard({
       href={`/${lang}/view/${product?.slug}`}
       className="block  rounded-2xl sm:rounded-3xl bg-white border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
-      <div className="w-[263px] h-[420px] flex flex-col justify-between">
+      <div className="w-full lg:w-[263px] h-[420px] flex flex-col justify-between">
         {/* Image Section */}
-        <div className="relative h-48 w-full flex justify-center items-center flex-shrink-0">
+        <div className="relative h-[220px] w-full flex justify-center items-center">
           <Image
             src={product?.image}
             alt={product?.title}
@@ -102,7 +102,7 @@ export default function TrendingProductCard({
 
         {/* Content */}
         <div className="flex-1 flex flex-col justify-between gap-4 px-5 pt-7 pb-5">
-          <h3 className="text-sm md:text-xl hover:text-[#1ec6cc] font-medium text-gray-800 line-clamp-2 transition-colors">
+          <h3 className="text-lg md:text-xl hover:text-[#1ec6cc] font-medium text-gray-800 line-clamp-2 transition-colors">
             {product?.title}
           </h3>
 
