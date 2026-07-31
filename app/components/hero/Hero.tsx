@@ -25,8 +25,8 @@ interface Props {
 
 export default function Hero({ banner }: Props) {
   return (
-    <div className="w-full xl:max-w-[90%] 2xl:max-w-[95%] mx-auto mt-4 sm:mt-6">
-      <div className="relative rounded-2xl md:rounded-[32px] flex flex-col justify-between shadow-2xl min-h-[75vh]">
+    <div className="w-full xl:max-w-[90%] 2xl:max-w-[1856px] mx-auto mt-4 sm:mt-6">
+      <div className="relative rounded-2xl md:rounded-[32px] flex flex-col justify-between shadow-2xl min-h-[859px]">
         {/* Background Image */}
         <div className="absolute inset-0 -z-10 rounded-2xl md:rounded-[32px] overflow-hidden bg-gray-100">
           {banner?.data && banner.data.length > 0 ? (

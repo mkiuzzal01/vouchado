@@ -9,7 +9,9 @@ interface ProfileLayoutProps {
 export default async function ProfileLayout({ children }: ProfileLayoutProps) {
   let userProfile = null;
   let recentActivities = null;
-  let recentAcitiviesText = null;
+  let points = null;
+  let needed = null;
+  let voucher_euro = null;
 
   try {
     const [profileRes, activitiesRes] = await Promise.all([
@@ -19,7 +21,9 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
 
     userProfile = profileRes?.data ?? null;
     recentActivities = activitiesRes?.data?.data ?? [];
-    recentAcitiviesText = activitiesRes?.data?.text ?? "";
+    points = activitiesRes?.data?.user_points;
+    needed = activitiesRes?.data?.points_needed;
+    voucher_euro = activitiesRes?.data?.target_voucher_euro;
   } catch (error) {
     console.error("[PROFILE_LAYOUT_ERROR]: Failed to fetch user data", error);
   }
@@ -32,7 +36,9 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
           <Aside
             data={userProfile}
             recentActivities={recentActivities}
-            recentAcitiviesText={recentAcitiviesText}
+            user_points={points}
+            points_needed={needed}
+            target_voucher_euro={voucher_euro}
           />
         </aside>
 

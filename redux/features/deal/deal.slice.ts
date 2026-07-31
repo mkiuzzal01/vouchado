@@ -19,6 +19,15 @@ export interface DealInfoState {
   maxPurchasePerCustomer: number;
 }
 
+export interface BoosterState {
+  newsletter: boolean;
+  trending: boolean;
+  push: boolean;
+  lastMinute: boolean;
+  priority: boolean;
+  [key: string]: boolean;
+}
+
 export interface DealDetailsState {
   deal_name: string;
   category: string;
@@ -29,6 +38,7 @@ export interface DealDetailsState {
   service_end_time: string;
   availableDays: string[];
   availableMonths: string[];
+  boosters: BoosterState;
 }
 
 export interface OverviewState {
@@ -65,7 +75,7 @@ const initialState: CreateDealState = {
     galleryImages: [],
   },
   dealInfo: {
-    voucher_name: "Give your delas name",
+    voucher_name: "Give your deal a name",
     regularPrice: 0,
     discountedPrice: 0,
     totalPurchaseLimit: 0,
@@ -81,6 +91,13 @@ const initialState: CreateDealState = {
     service_end_time: "",
     availableDays: [],
     availableMonths: [],
+    boosters: {
+      newsletter: true,
+      trending: false,
+      push: false,
+      lastMinute: false,
+      priority: false,
+    },
   },
   overview: {
     description: "",
@@ -118,7 +135,14 @@ export const dealSlice = createSlice({
       state,
       action: PayloadAction<Partial<DealDetailsState>>,
     ) => {
-      state.dealDetails = { ...state.dealDetails, ...action.payload };
+      state.dealDetails = {
+        ...state.dealDetails,
+        ...action.payload,
+        boosters: {
+          ...state.dealDetails.boosters,
+          ...(action.payload.boosters || {}),
+        },
+      };
     },
 
     updateOverview: (state, action: PayloadAction<Partial<OverviewState>>) => {

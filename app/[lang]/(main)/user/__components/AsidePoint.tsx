@@ -6,10 +6,18 @@ import { useAppSelector } from "@/redux/hooks/globalhooks";
 
 interface IAsidePoint {
   user: IUserProfile;
-  recentAcitiviesText: string;
+  user_points: any;
+  points_needed: any;
+  target_voucher_euro: any;
 }
-export default function AsidePoint({ user, recentAcitiviesText }: IAsidePoint) {
+export default function AsidePoint({
+  user,
+  user_points,
+  points_needed,
+  target_voucher_euro,
+}: IAsidePoint) {
   const { loyaltyPointsDiscountAmount } = useAppSelector((state) => state.cart);
+
   return (
     <div className="space-y-4">
       <div className="relative w-full max-w-[356px] overflow-hidden rounded-2xl">
@@ -32,7 +40,14 @@ export default function AsidePoint({ user, recentAcitiviesText }: IAsidePoint) {
 
       {/* Info Card */}
       <div className="text-lg font-normal p-4 text-gray-600 rounded-2xl shadow space-y-4">
-        <p className="mb-4">{recentAcitiviesText}</p>
+        <p className="mb-4">
+          You have reached{" "}
+          <span className="font-bold">{user_points} points</span>, collect{" "}
+          <span className="font-bold">{points_needed}</span> more to unlock more{" "}
+          <span className="font-bold">
+            €{target_voucher_euro} Vouchado Voucher.
+          </span>
+        </p>
         <div className="space-y-1">
           <p className="text-lg font-normal text-gray-800">
             How to use points:

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import AppForm from "../AppForm";
@@ -26,6 +26,7 @@ const DAYS = [
   "Saturday",
   "Sunday",
 ];
+
 const MONTHS = [
   "January",
   "February",
@@ -48,6 +49,7 @@ interface ICategory {
 }
 
 function DetailsFormContent({ category }: { category: ICategory }) {
+  const dispatch = useAppDispatch();
   const {
     newsletter_featured_rate,
     top_trending_featured_rate,
@@ -56,21 +58,13 @@ function DetailsFormContent({ category }: { category: ICategory }) {
     priority_ranking_rate,
   } = useAppSelector((state) => state.system);
 
-  console.log(
-    newsletter_featured_rate,
-    top_trending_featured_rate,
-    push_notification_featured_rate,
-    last_minute_boost_rate,
-    priority_ranking_rate,
-  );
-
   const BOOSTER_ITEMS = [
     {
       id: "newsletter",
       num: "1",
       title: "Get featured in the Newsletter",
       desc: "Reach our engaged subscribers with your offer.",
-      rate: `+${newsletter_featured_rate}%`,
+      rate: `+${newsletter_featured_rate || 0}% off total`,
       icon: Award,
       colorClass: "border-sky-200 bg-sky-50/50 text-sky-500",
       badgeBg: "bg-sky-100 text-sky-500",
@@ -81,7 +75,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
       num: "2",
       title: 'Get featured at our top rubric "Trending"',
       desc: "Reach our engaged subscribers with your offer.",
-      rate: `+${top_trending_featured_rate}%`,
+      rate: `+${top_trending_featured_rate || 0}% off total`,
       icon: BarCode,
       colorClass: "border-emerald-200 bg-emerald-50/50 text-emerald-500",
       badgeBg: "bg-emerald-100 text-emerald-500",
@@ -91,7 +85,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
       num: "3",
       title: "Get featured in Push Notifications",
       desc: "A targeted push notification will be sent to nearby interested users.",
-      rate: `+${push_notification_featured_rate}%`,
+      rate: `+${push_notification_featured_rate || 0}% off total`,
       icon: Bell,
       colorClass: "border-indigo-200 bg-indigo-50/50 text-indigo-500",
       badgeBg: "bg-indigo-100 text-indigo-500",
@@ -101,7 +95,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
       num: "4",
       title: "Last Minute Boost",
       desc: "Fill empty slots with smart last-minute deals.",
-      rate: `+${last_minute_boost_rate}%`,
+      rate: `+${last_minute_boost_rate || 0}% off total`,
       icon: Boots,
       colorClass: "border-amber-200 bg-amber-50/50 text-amber-500",
       badgeBg: "bg-amber-100 text-amber-500",
@@ -111,7 +105,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
       num: "5",
       title: "Priority Ranking",
       desc: "Get a higher ranking in search results and category listings.",
-      rate: `+${priority_ranking_rate}%`,
+      rate: `+${priority_ranking_rate || 0}% off total`,
       icon: Sparkles,
       colorClass: "border-pink-200 bg-pink-50/50 text-pink-500",
       badgeBg: "bg-pink-100 text-pink-500",
@@ -119,7 +113,6 @@ function DetailsFormContent({ category }: { category: ICategory }) {
     },
   ];
 
-  const dispatch = useAppDispatch();
   const {
     register,
     watch,
@@ -127,38 +120,45 @@ function DetailsFormContent({ category }: { category: ICategory }) {
     formState: { errors },
   } = useFormContext();
 
-  // Watch fields in form context instead of keeping disconnected local states
+  // Watch form state fields
   const selectedDays: string[] = watch("availableDays") || [];
   const selectedMonths: string[] = watch("availableMonths") || [];
-
-  // Register these internal fields to enable programmatic hook form rules validation tracking
-  register("availableDays", {
-    validate: (value) =>
-      (Array.isArray(value) && value.length > 0) ||
-      "Please select at least one day",
-  });
-  register("availableMonths", {
-    validate: (value) =>
-      (Array.isArray(value) && value.length > 0) ||
-      "Please select at least one month",
-  });
-
-  const [boosters, setBoosters] = useState<Record<string, boolean>>({
-    newsletter: true,
-    trending: false,
-    push: false,
-    lastMinute: false,
-    priority: false,
-  });
-
+  const boosters = watch("boosters") || {};
   const startTime = watch("available_start_time");
   const selectedCategoryId = watch("category");
 
+  // Derive child categories dynamically
   const selectedCategoryObj = category?.data?.find(
     (item: Category) => item.id.toString() === selectedCategoryId?.toString(),
   );
-
   const childCategories = selectedCategoryObj?.child_categories || [];
+
+  // Register array validation rules safely on component mount
+  useEffect(() => {
+    register("availableDays", {
+      validate: (value) =>
+        (Array.isArray(value) && value.length > 0) ||
+        "Please select at least one day",
+    });
+    register("availableMonths", {
+      validate: (value) =>
+        (Array.isArray(value) && value.length > 0) ||
+        "Please select at least one month",
+    });
+  }, [register]);
+
+  // Reset child category if the parent category changes and current child is no longer valid
+  useEffect(() => {
+    if (selectedCategoryId) {
+      const currentChild = watch("child_category");
+      const isValidChild = childCategories.some(
+        (child) => child.id.toString() === currentChild?.toString(),
+      );
+      if (!isValidChild) {
+        setValue("child_category", "", { shouldValidate: true });
+      }
+    }
+  }, [selectedCategoryId, childCategories, setValue, watch]);
 
   const handleToggleItem = (
     fieldName: string,
@@ -175,6 +175,13 @@ function DetailsFormContent({ category }: { category: ICategory }) {
     });
   };
 
+  const handleToggleBooster = (id: string) => {
+    setValue(`boosters.${id}`, !boosters[id], {
+      shouldDirty: true,
+      shouldTouch: true,
+    });
+  };
+
   return (
     <div className="space-y-6">
       <TextInput
@@ -184,7 +191,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
         placeholder="Enter your service name..."
       />
 
-      {/* Main Category Selection */}
+      {/* Main Category & Subcategory Selection */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <SelectInput
           required
@@ -226,6 +233,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
         placeholder="Add a short description..."
       />
 
+      {/* Time Selection Inputs */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <TimeInput
           required
@@ -257,11 +265,10 @@ function DetailsFormContent({ category }: { category: ICategory }) {
           requiredType="datetime-local"
           name="service_end_time"
           label="Service end time"
-          rules={{}}
         />
       </div>
 
-      {/* Days selection UI */}
+      {/* Days Selection UI */}
       <div>
         <label className="block text-xs font-bold text-slate-500 uppercase mb-2">
           Available Days <span className="text-red-500">*</span>
@@ -296,7 +303,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
         )}
       </div>
 
-      {/* Months selection UI */}
+      {/* Months Selection UI */}
       <div>
         <label className="block text-xs font-bold text-slate-500 uppercase mb-2">
           Available Months <span className="text-red-500">*</span>
@@ -331,7 +338,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
         )}
       </div>
 
-      {/* Boosters section */}
+      {/* Boosters Section */}
       <div className="pt-4 border-t border-slate-100">
         <div className="flex items-center gap-2 mb-1">
           <Grow />
@@ -342,10 +349,13 @@ function DetailsFormContent({ category }: { category: ICategory }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
           {BOOSTER_ITEMS.map((item) => {
             const IconComponent = item.icon;
+            const isChecked = !!boosters[item.id];
             return (
               <div
                 key={item.id}
-                className={`p-5 border rounded-2xl flex justify-between items-stretch gap-4 ${item.colorClass} ${item.fullWidth ? "md:col-span-2" : ""}`}
+                className={`p-5 border rounded-2xl flex justify-between items-stretch gap-4 ${
+                  item.colorClass
+                } ${item.fullWidth ? "md:col-span-2" : ""}`}
               >
                 <div className="flex gap-4 flex-1">
                   <IconComponent />
@@ -359,13 +369,15 @@ function DetailsFormContent({ category }: { category: ICategory }) {
                 <div className="flex flex-col justify-between items-end">
                   <button
                     type="button"
-                    onClick={() =>
-                      setBoosters((p) => ({ ...p, [item.id]: !p[item.id] }))
-                    }
-                    className={`relative inline-flex h-5 w-9 rounded-full transition-colors ${boosters[item.id] ? "bg-teal-500" : "bg-slate-200"}`}
+                    onClick={() => handleToggleBooster(item.id)}
+                    className={`relative inline-flex h-5 w-9 rounded-full transition-colors ${
+                      isChecked ? "bg-teal-500" : "bg-slate-200"
+                    }`}
                   >
                     <span
-                      className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${boosters[item.id] ? "translate-x-4" : "translate-x-0"}`}
+                      className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform ${
+                        isChecked ? "translate-x-4" : "translate-x-0"
+                      }`}
                     />
                   </button>
                   <span className="text-lg font-extrabold">{item.rate}</span>
@@ -376,7 +388,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
         </div>
       </div>
 
-      {/* Action Buttons */}
+      {/* Navigation / Submit Action Buttons */}
       <div className="flex justify-between pt-6 border-t border-slate-100">
         <button
           type="button"
