@@ -125,7 +125,7 @@ export default function BusinessAnalytics({ analytics }: Props) {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="rounded-xl border-slate-100 text-xs text-slate-700"
+            className="rounded-xl bg-white border-slate-100 text-xs text-slate-700"
           >
             <DropdownMenuItem onClick={() => handleFilterChange("this_week")}>
               This Week

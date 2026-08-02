@@ -63,7 +63,7 @@ export default function MegaMenu({
               {menuTitle}
             </MenubarTrigger>
 
-            <MenubarContent className="bg-white shadow-xl rounded-2xl p-5 w-[46vw] mt-3">
+            <MenubarContent className="bg-white shadow-xl rounded-2xl p-5 w-[48vw] mt-3">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {services.map((service: any) => (
                   <div key={service.href} className="rounded-xl bg-white p-3">

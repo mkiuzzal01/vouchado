@@ -57,6 +57,7 @@ export default function MessageArea({
   messagesList = [],
   onBack,
 }: Props) {
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -71,20 +72,32 @@ export default function MessageArea({
   const reduxToken = useAppSelector((state: any) => state.auth?.vuchado_token);
   const token = reduxToken || cookie.get("vuchado_token");
 
-  // Scroll to bottom whenever message list updates
+  // Smooth & instant scroll-to-bottom utility
+  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
+    requestAnimationFrame(() => {
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollTo({
+          top: scrollContainerRef.current.scrollHeight,
+          behavior,
+        });
+      }
+    });
+  };
+
+  // 1. Update local messages state when props change
   useEffect(() => {
     setLocalMessages(messagesList);
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollToBottom("auto");
   }, [messagesList]);
+
+  // 2. Scroll to bottom smoothly on message length updates
+  useEffect(() => {
+    scrollToBottom("smooth");
+  }, [localMessages.length]);
 
   // Echo integration for real-time messages
   useEffect(() => {
     const activeConvId = user?.conversation_id || (user as any)?.id;
-    // console.log("Echo Chat Debug:", {
-    //   token: !!token,
-    //   conversation_id: activeConvId,
-    //   user,
-    // });
 
     if (!token || !activeConvId) {
       console.warn(
@@ -96,9 +109,6 @@ export default function MessageArea({
 
     const echo = getEchoInstance(token);
     const channelName = `conversation.${activeConvId}`;
-    // console.log("Attempting to subscribe to channel:", channelName);
-
-    // Using public channel
     const channel = echo.channel(channelName);
 
     const handleNewMessage = (e: any) => {
@@ -110,19 +120,13 @@ export default function MessageArea({
       });
     };
 
-    // Listen to standard event name (default namespace)
     channel.listen("MessageSent", handleNewMessage);
-    // // Listen to explicit event name (no namespace)
-    // channel.listen(".MessageSent", handleNewMessage);
-    // // Listen to generic fallback name
-    // channel.listen(".message.sent", handleNewMessage);
 
     channel.error((err: any) => {
       console.error("Chat channel error:", err);
     });
 
     return () => {
-      // console.log("Leaving channel:", channelName);
       echo.leave(channelName);
       echo.disconnect();
     };
@@ -142,13 +146,12 @@ export default function MessageArea({
     id: otherUserId,
   } = user.user || {};
 
-  // Play audio sound safely (Lazy loaded on first call)
   const playSendSound = () => {
     if (!audioRef.current) {
       audioRef.current = new Audio("/sound/outgoing-message.mp3");
     }
     audioRef.current.currentTime = 0;
-    audioRef.current.play().catch(() => {}); // Gracefully ignore browser auto-play blocks
+    audioRef.current.play().catch(() => {});
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -173,19 +176,21 @@ export default function MessageArea({
       playSendSound();
       setMessageText("");
       setSelectedFiles([]);
+      scrollToBottom("smooth");
     } catch (error: any) {
       toast.error(error?.data?.message || "Failed to send message");
     }
   };
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-[#FAFAFA] relative w-full overflow-hidden">
-      {/* Header */}
-      <div className="p-4 bg-white border-b border-gray-100 flex items-center justify-between shrink-0">
+    <div className="flex-1 flex flex-col h-full max-h-full min-h-0 bg-[#FAFAFA] relative w-full overflow-hidden">
+      {/* Header (Fixed Top) */}
+      <div className="p-4 bg-white border-b border-gray-100 flex items-center justify-between shrink-0 z-10">
         <div className="flex items-center gap-3 min-w-0">
           <button
+            type="button"
             onClick={onBack}
-            className="md:hidden p-1.5 -ml-1 hover:bg-gray-100 rounded-full text-gray-600 transition-colors shrink-0"
+            className="md:hidden p-1.5 -ml-1 hover:bg-gray-100 rounded-full text-gray-600 transition-colors shrink-0 cursor-pointer"
           >
             <ArrowLeft size={20} />
           </button>
@@ -198,13 +203,19 @@ export default function MessageArea({
             </p>
           </div>
         </div>
-        <button className="p-1.5 hover:bg-gray-50 rounded-full text-teal-600 transition-colors shrink-0">
+        <button
+          type="button"
+          className="p-1.5 hover:bg-gray-50 rounded-full text-teal-600 transition-colors shrink-0 cursor-pointer"
+        >
           <Info size={20} />
         </button>
       </div>
 
-      {/* Message History */}
-      <div className="bg-white flex-1 overflow-y-auto px-4 py-6 md:p-6 space-y-6">
+      {/* Message History (Scrollable Body) */}
+      <div
+        ref={scrollContainerRef}
+        className="bg-white flex-1 min-h-0 overflow-y-auto px-4 py-6 md:p-6 space-y-6 scroll-smooth"
+      >
         {localMessages.length > 0 ? (
           [...localMessages].reverse().map((msg, idx) => {
             const isIncoming = msg?.sender_id === otherUserId;
@@ -294,7 +305,7 @@ export default function MessageArea({
                               download
                               target="_blank"
                               rel="noreferrer"
-                              className="p-1.5 hover:bg-gray-100 rounded text-gray-500 shrink-0"
+                              className="p-1.5 hover:bg-gray-100 rounded text-gray-500 shrink-0 cursor-pointer"
                             >
                               <Download size={14} />
                             </a>
@@ -315,10 +326,10 @@ export default function MessageArea({
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Tray */}
-      <div className="p-4 bg-white border-t border-gray-100 shrink-0">
+      {/* Input Tray (Fixed Bottom) */}
+      <div className="p-4 bg-white border-t border-gray-100 shrink-0 z-10">
         {selectedFiles.length > 0 && (
-          <div className="flex flex-wrap gap-2 pb-3 mb-2 border-b border-gray-50">
+          <div className="flex flex-wrap gap-2 pb-3 mb-2 border-b border-gray-50 max-h-28 overflow-y-auto">
             {selectedFiles.map((file, idx) => (
               <div
                 key={idx}
@@ -332,7 +343,7 @@ export default function MessageArea({
                   onClick={() =>
                     setSelectedFiles((prev) => prev.filter((_, i) => i !== idx))
                   }
-                  className="text-red-500 hover:text-red-600 shrink-0"
+                  className="text-red-500 hover:text-red-600 shrink-0 cursor-pointer"
                 >
                   <X size={14} />
                 </button>
@@ -358,7 +369,7 @@ export default function MessageArea({
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isLoading}
-            className="p-3 bg-white hover:bg-gray-50 text-gray-400 border border-gray-200 rounded-full transition-all flex items-center justify-center h-11 w-11 md:h-12 md:w-12 shrink-0 shadow-xs"
+            className="p-3 bg-white hover:bg-gray-50 text-gray-400 border border-gray-200 rounded-full transition-all flex items-center justify-center h-11 w-11 md:h-12 md:w-12 shrink-0 shadow-xs cursor-pointer disabled:cursor-not-allowed"
           >
             <Plus size={20} />
           </button>
@@ -377,7 +388,7 @@ export default function MessageArea({
             disabled={
               isLoading || (!messageText.trim() && selectedFiles.length === 0)
             }
-            className="p-2.5 bg-[#2cb2be] hover:bg-[#228f99] disabled:bg-gray-100 disabled:text-gray-300 text-white rounded-full transition-all flex items-center justify-center h-11 w-11 md:h-12 md:w-12 shrink-0 shadow-sm"
+            className="p-2.5 bg-[#2cb2be] hover:bg-[#228f99] disabled:bg-gray-100 disabled:text-gray-300 text-white rounded-full transition-all flex items-center justify-center h-11 w-11 md:h-12 md:w-12 shrink-0 shadow-sm cursor-pointer disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <Loader2 className="animate-spin" size={20} />

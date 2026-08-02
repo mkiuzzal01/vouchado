@@ -50,6 +50,7 @@ export interface Deal {
   deal_days: DealDay[];
   deal_months: DealMonth[];
   reviews: any[];
+  is_wishlisted: boolean;
 }
 
 export interface DealImage {

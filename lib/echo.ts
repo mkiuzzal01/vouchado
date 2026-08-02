@@ -7,15 +7,24 @@ if (typeof window !== "undefined") {
 }
 
 export const getEchoInstance = (token?: string) => {
+  const apiBase = (
+    process.env.NEXT_PUBLIC_BASE_API_URL || "https://admin.vouchado.com/api"
+  ).replace(/\/$/, "");
+  const domainBase = apiBase.replace(/\/api$/, "");
+
   return new Echo({
     broadcaster: "reverb",
     key: process.env.NEXT_PUBLIC_REVERB_APP_KEY,
     wsHost: process.env.NEXT_PUBLIC_REVERB_HOST,
-    wsPort: process.env.NEXT_PUBLIC_REVERB_PORT ? Number(process.env.NEXT_PUBLIC_REVERB_PORT) : 80,
-    wssPort: process.env.NEXT_PUBLIC_REVERB_PORT ? Number(process.env.NEXT_PUBLIC_REVERB_PORT) : 443,
+    wsPort: process.env.NEXT_PUBLIC_REVERB_PORT
+      ? Number(process.env.NEXT_PUBLIC_REVERB_PORT)
+      : 80,
+    wssPort: process.env.NEXT_PUBLIC_REVERB_PORT
+      ? Number(process.env.NEXT_PUBLIC_REVERB_PORT)
+      : 443,
     forceTLS: (process.env.NEXT_PUBLIC_REVERB_SCHEME ?? "https") === "https",
     enabledTransports: ["ws", "wss"],
-    authEndpoint: "/broadcasting/auth",
+    authEndpoint: `${domainBase}/broadcasting/auth`,
     auth: {
       headers: {
         ...(token ? { Authorization: `Bearer ${token}` } : {}),

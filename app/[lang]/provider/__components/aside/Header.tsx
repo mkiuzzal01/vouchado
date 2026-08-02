@@ -11,6 +11,8 @@ import { Bell } from "lucide-react";
 import Container from "@/app/components/shared/Container";
 import { NotificationBell } from "./NotificationBell";
 
+import { useUnreadMessageCount } from "@/redux/hooks/useUnreadMessageCount";
+
 interface HeaderProps {
   lang: string;
   profileInfo: any;
@@ -23,6 +25,7 @@ export default function Header({
   notifications,
 }: HeaderProps) {
   const pathname = usePathname();
+  const unreadCount = useUnreadMessageCount();
 
   const isActiveRoute = (href: string) => {
     const fullHref = `/${lang}${href}`;
@@ -57,12 +60,13 @@ export default function Header({
               const Icon = item.icon;
               const fullHref = `/${lang}${item.href}`;
               const isActive = isActiveRoute(item.href);
+              const isMessageItem = item.href.includes("message");
 
               return (
                 <Link
                   key={item.href}
                   href={fullHref}
-                  className={`flex items-center gap-2.5 rounded-full px-5 py-2.5 text-sm font-medium tracking-wide transition-all duration-200 ${
+                  className={`relative flex items-center gap-2.5 rounded-full px-5 py-2.5 text-sm font-medium tracking-wide transition-all duration-200 ${
                     isActive
                       ? "bg-linear-to-r from-[#31BFC8] to-[#2DAEB6] text-white font-semibold"
                       : "text-[#637381] hover:text-gray-900 hover:bg-gray-200/50"
@@ -70,6 +74,11 @@ export default function Header({
                 >
                   <Icon color={isActive ? "#FFFFFF" : "#637381"} size={18} />
                   <span>{item.label}</span>
+                  {isMessageItem && unreadCount > 0 && (
+                    <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white shadow-xs">
+                      {unreadCount > 99 ? "99+" : unreadCount}
+                    </span>
+                  )}
                 </Link>
               );
             })}
@@ -88,6 +97,7 @@ export default function Header({
             const Icon = item.icon;
             const fullHref = `/${lang}${item.href}`;
             const isActive = isActiveRoute(item.href);
+            const isMessageItem = item.href.includes("message");
 
             return (
               <Link
@@ -97,7 +107,14 @@ export default function Header({
                   isActive ? "text-[#2bb4c4]" : "text-gray-400"
                 }`}
               >
-                <Icon size={20} color={isActive ? "#2bb4c4" : "#637381"} />
+                <div className="relative">
+                  <Icon size={20} color={isActive ? "#2bb4c4" : "#637381"} />
+                  {isMessageItem && unreadCount > 0 && (
+                    <span className="absolute -top-1.5 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[9px] font-bold text-white ring-1 ring-white">
+                      {unreadCount > 99 ? "99+" : unreadCount}
+                    </span>
+                  )}
+                </div>
                 <span>{item.label}</span>
               </Link>
             );

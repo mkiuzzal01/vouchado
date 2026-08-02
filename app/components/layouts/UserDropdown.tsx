@@ -46,11 +46,11 @@ export default function UserDropdown({
   ) : (
     <div className="bg-[#31BFC8] h-full w-full flex items-center justify-center text-white rounded-full">
       {user?.name
-        .split(" ")
-        .map((n: string) => n[0])
-        .join("")
-        .toUpperCase()
-        .slice(0, 2)}
+        ?.split(" ")
+        ?.map((n: string) => n[0])
+        ?.join("")
+        ?.toUpperCase()
+        ?.slice(0, 2) || "U"}
     </div>
   );
 
@@ -73,11 +73,13 @@ export default function UserDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-100 p-1 hover:bg-gray-50 transition outline-none focus-visible:ring-2 focus-visible:ring-slate-200">
-          {/* Avatar */}
-          <Avatar className="h-8 w-8 shrink-0">
-            <AvatarFallback>{initials}</AvatarFallback>
-          </Avatar>
+        <button className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-100 p-1 hover:bg-gray-50 transition outline-none focus-visible:ring-2 focus-visible:ring-slate-200 relative">
+          {/* Avatar with unread message count badge */}
+          <div className="relative shrink-0">
+            <Avatar className="h-8 w-8 shrink-0">
+              <AvatarFallback>{initials}</AvatarFallback>
+            </Avatar>
+          </div>
 
           {/* Money Display Panel */}
           <div className="hidden sm:flex items-center ga  p-1.5 pr-2 pl-0.5">

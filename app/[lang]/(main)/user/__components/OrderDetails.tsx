@@ -50,9 +50,11 @@ export default function OrderDetails({ lang, orderId }: OrderDetailsProps) {
         router.push(`/${lang}/chat?id=${res?.data?.id}`);
       }
     } catch (error: any) {
-      if (!error?.data?.status) {
-        toast.warn("Please Login to chat with support");
-        router.push(`/${lang}/login`);
+      if (error?.status == 422) {
+        toast.error(error?.data?.message);
+      } else {
+        toast.error("Please login first to start chat");
+        router.push(`/${lang}/login?redirect=${window.location.href}`);
       }
     }
   };
@@ -69,7 +71,7 @@ export default function OrderDetails({ lang, orderId }: OrderDetailsProps) {
             className="flex flex-col sm:flex-row gap-4 p-3 border border-gray-100 rounded-2xl bg-white shadow-sm"
           >
             {/* Service Thumbnail */}
-            <div className="relative w-full h-48 sm:w-[180px] sm:h-[180px] shrink-0">
+            <div className="relative w-full h-48 sm:w-[150px] sm:h-[150px] shrink-0">
               <Image
                 src={
                   item.image ||
@@ -78,7 +80,6 @@ export default function OrderDetails({ lang, orderId }: OrderDetailsProps) {
                 alt={item.title || "Service location"}
                 fill
                 className="object-cover rounded-xl"
-                sizes="(max-width: 640px) 100vw, 180px"
               />
             </div>
 
@@ -125,7 +126,7 @@ export default function OrderDetails({ lang, orderId }: OrderDetailsProps) {
                 {/* Chat with Seller Button */}
                 <button
                   type="button"
-                  onClick={() => handleChatWithSeller(item?.providerId)}
+                  onClick={() => handleChatWithSeller(item?.provider_id)}
                   className="w-full sm:w-auto h-10 inline-flex items-center justify-center border border-gray-200 text-gray-600 hover:bg-gray-50 font-semibold text-xs sm:text-sm px-5 rounded-full transition-colors active:scale-95 whitespace-nowrap"
                 >
                   Chat with Seller

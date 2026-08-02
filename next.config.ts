@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/broadcasting/auth",
-        destination: "https://whatevvaaa.thewarriors.team/broadcasting/auth",
+        destination: "https://admin.vouchado.com/broadcasting/auth",
       },
       {
         source: "/uploads/deals/:path*",

@@ -3,25 +3,15 @@
 import React, { useEffect, useState, useRef, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  Bell,
-  Check,
-  ExternalLink,
-  ChevronRight,
-  Sparkles,
-  Inbox,
-} from "lucide-react";
-import cookie from "js-cookie";
+import { Bell, Check, ChevronRight, Inbox } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import {
-  setNotifications,
-  addNotification,
   markAsRead,
   markAllAsRead,
   setSelectedNotification,
   NotificationItem,
 } from "@/redux/features/notifications/notification.slice";
-import { getEchoInstance } from "@/lib/echo";
+import { useUnreadNotificationCount } from "@/redux/hooks/useUnreadNotificationCount";
 import {
   formatTimeAgo,
   getNotificationBadge,
@@ -41,56 +31,8 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { notifications, unreadCount } = useAppSelector(
-    (state) => state.notification,
-  );
-  const auth = useAppSelector((state: any) => state.auth);
-  const token = auth?.vuchado_token || cookie.get("vuchado_token");
-  const userId = auth?.user?.id;
-
-  // 1. Sync server-rendered notifications into Redux on mount if store is uninitialized
-  useEffect(() => {
-    if (initialNotifications && initialNotifications.length > 0) {
-      // If store is empty, sync initial server data
-      if (notifications.length === 0) {
-        dispatch(setNotifications(initialNotifications));
-      }
-    }
-  }, [initialNotifications, dispatch, notifications.length]);
-
-  // 2. Setup global Echo / Reverb WebSockets listener for real-time notifications
-  useEffect(() => {
-    if (!token || !userId) return;
-
-    try {
-      const echo = getEchoInstance(token);
-      const channelName = `App.Models.User.${userId}`;
-      const channel = echo.private(channelName);
-
-      channel.notification((notification: any) => {
-        const newNotif: NotificationItem = {
-          id: notification.id || `notif_${Date.now()}`,
-          type: notification.type || "general",
-          data: notification.data || notification || {
-            title: "New Notification",
-            message: "You have a new update.",
-            url: null,
-          },
-          read_at: null,
-          created_at: new Date().toISOString(),
-        };
-
-        dispatch(addNotification(newNotif));
-      });
-
-      return () => {
-        echo.leave(channelName);
-        echo.disconnect();
-      };
-    } catch (error) {
-      console.error("Reverb Notification error:", error);
-    }
-  }, [token, userId, dispatch]);
+  const { notifications } = useAppSelector((state) => state.notification);
+  const unreadCount = useUnreadNotificationCount();
 
   // 3. Close dropdown when clicking outside or pressing ESC
   useEffect(() => {
@@ -134,8 +76,41 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
     dispatch(markAllAsRead());
   };
 
-  const activeNotifications =
-    notifications.length > 0 ? notifications : initialNotifications;
+  const rawList = notifications.length > 0 ? notifications : initialNotifications;
+  const activeNotifications: NotificationItem[] = Array.isArray(
+    (rawList as any)?.data?.data,
+  )
+    ? (rawList as any).data.data
+    : Array.isArray((rawList as any)?.data)
+    ? (rawList as any).data
+    : Array.isArray(rawList)
+    ? rawList
+    : [];
+
+  const computedUnreadCount = activeNotifications.filter((item: any) => {
+    return (
+      !item?.read_at ||
+      item?.read_at === "null" ||
+      item?.read_at === null ||
+      item?.is_read === false ||
+      item?.is_read === 0 ||
+      item?.read === false ||
+      item?.read === 0 ||
+      item?.status === "unread"
+    );
+  }).length;
+
+  const displayUnreadCount =
+    unreadCount > 0 ? unreadCount : computedUnreadCount;
+
+  console.log("🔔 [NotificationBell Debug]", {
+    unreadCountFromHook: unreadCount,
+    computedUnreadCount,
+    displayUnreadCount,
+    activeCount: activeNotifications.length,
+    firstItem: activeNotifications[0],
+  });
+
   const recentNotifications = activeNotifications.slice(0, 5);
 
   return (
@@ -145,24 +120,16 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
-        aria-label={`Notifications (${unreadCount} unread)`}
+        aria-label={`Notifications (${displayUnreadCount} unread)`}
         className="relative flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-gray-600 hover:text-teal-600 hover:border-teal-300 hover:bg-teal-50/30 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 cursor-pointer shadow-2xs"
       >
         <Bell className="w-5 h-5 stroke-[1.75]" />
 
         {/* Animated Unread Badge */}
-        {unreadCount > 0 && (
-          <>
-            {/* Subtle pulse animation indicator */}
-            <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-            </span>
-
-            {/* Badge pill */}
-            <span className="absolute -top-1 -right-1 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-linear-to-r from-red-500 to-rose-600 px-1 text-[10px] font-bold text-white shadow-xs ring-2 ring-white">
-              {unreadCount > 99 ? "99+" : unreadCount}
-            </span>
-          </>
+        {displayUnreadCount > 0 && (
+          <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white shadow-xs ring-2 ring-white animate-pulse">
+            {displayUnreadCount > 99 ? "99+" : displayUnreadCount}
+          </span>
         )}
       </button>
 
@@ -175,14 +142,14 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
               <span className="font-semibold text-gray-900 text-sm">
                 Notifications
               </span>
-              {unreadCount > 0 && (
+              {displayUnreadCount > 0 && (
                 <span className="px-2 py-0.5 text-[11px] font-semibold bg-teal-100 text-teal-800 rounded-full">
-                  {unreadCount} new
+                  {displayUnreadCount} new
                 </span>
               )}
             </div>
 
-            {unreadCount > 0 && (
+            {displayUnreadCount > 0 && (
               <button
                 type="button"
                 onClick={handleMarkAllRead}
@@ -210,7 +177,15 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
               </div>
             ) : (
               recentNotifications.map((item) => {
-                const isUnread = !item.read_at;
+                const isUnread =
+                  !item.read_at ||
+                  (item.read_at as any) === "null" ||
+                  (item as any).is_read === false ||
+                  (item as any).is_read === 0 ||
+                  (item as any).read === false ||
+                  (item as any).read === 0 ||
+                  (item as any).status === "unread";
+
                 const badge = getNotificationBadge(item.data.title);
 
                 return (

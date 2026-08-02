@@ -25,14 +25,13 @@ export default function Inbox({ list, message }: Props) {
     [list],
   );
 
-  // console.log(message);
-
   const idFromParams = searchParams.get("id");
   const selectedConversationId = idFromParams
     ? parseInt(idFromParams, 10)
     : null;
 
   const [isMobileMessageView, setIsMobileMessageView] = useState(false);
+
   useEffect(() => {
     if (conversations.length > 0 && selectedConversationId === null) {
       const firstConvId =
@@ -69,14 +68,14 @@ export default function Inbox({ list, message }: Props) {
   };
 
   return (
-    <div className="flex h-[calc(100vh-1rem)] max-h-[calc(100vh-1rem)] w-full rounded-lg bg-gray-50 border border-gray-200 overflow-hidden text-gray-800 my-2">
+    <div className="flex w-full h-[calc(100vh-1rem)] max-h-[850px] min-h-[500px] rounded-lg bg-gray-50 border border-gray-200 overflow-hidden text-gray-800 my-2">
       {/* User List Sidebar */}
       <aside
-        className={`w-full md:w-80 lg:w-96 border-r border-gray-200 bg-white flex flex-col min-h-0 overflow-hidden ${
+        className={`w-full md:w-80 lg:w-96 border-r border-gray-200 bg-white flex flex-col h-full shrink-0 min-h-0 ${
           isMobileMessageView ? "hidden md:flex" : "flex"
         }`}
       >
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 min-h-0 overflow-y-auto">
           <UserList
             onSelectUser={handleSelectUser}
             list={conversations}
@@ -87,7 +86,7 @@ export default function Inbox({ list, message }: Props) {
 
       {/* Message Area */}
       <main
-        className={`flex-1 flex flex-col bg-white min-h-0 overflow-hidden ${
+        className={`flex-1 flex flex-col bg-white h-full min-h-0 overflow-hidden ${
           !isMobileMessageView ? "hidden md:flex" : "flex"
         }`}
       >

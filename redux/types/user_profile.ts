@@ -48,7 +48,7 @@ export interface OrderItem {
   image: string;
   slug: string;
   avg_rating: number;
-  providerId: number;
+  provider_id: number;
 }
 
 export interface PurchaseOrder {

@@ -122,7 +122,7 @@ export default function PromoCreateDeals() {
         isOpen={scanModal}
         onClose={() => setScanModal(!scanModal)}
       >
-        <ScanVoucher />
+        <ScanVoucher setScanModal={setScanModal} />
       </ModalContainer>
     </div>
   );

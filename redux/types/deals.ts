@@ -12,4 +12,5 @@ export interface IDeals {
   discounted_price: string;
   service_end_at: string;
   purchased_count: number;
+  is_wishlisted: boolean;
 }

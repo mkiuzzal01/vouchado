@@ -18,6 +18,7 @@ export interface Deal {
   discounted_price: string;
   service_end_at: string;
   purchased_count: number;
+  is_wishlisted: boolean;
 }
 
 interface Props {

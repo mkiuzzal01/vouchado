@@ -24,6 +24,7 @@ export interface Deal {
   discounted_price: string;
   service_end_at: string;
   purchased_count: number;
+  is_wishlisted: boolean;
 }
 
 export interface TrendingProductCardProps {
@@ -90,7 +91,10 @@ export default function TrendingProductCard({
             {isLoading ? (
               <Loader2 className="animate-spin size-5" />
             ) : (
-              <WishList size={20} />
+              <WishList
+                size={20}
+                color={product?.is_wishlisted ? "#1ec6cc" : "#212B36"}
+              />
             )}
           </button>
 

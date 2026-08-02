@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import {
   Loader2,
@@ -8,29 +8,41 @@ import {
   Monitor,
   CheckCircle2,
   AlertCircle,
+  Camera,
 } from "lucide-react";
 import { useVoucherRedeemMutation } from "@/redux/features/deal/deal.api";
 import { cn } from "@/lib/utils";
+import { toast } from "react-toastify";
 
 interface RedeemPayload {
   voucher_code: string;
-  qr_token: string;
   notes: string;
 }
 
-export default function ScanVoucher() {
-  const [voucherRedeem, { data, isLoading, isSuccess }] =
-    useVoucherRedeemMutation();
+const DESKTOP_AUTO_OPEN_SECONDS = 4;
+const MODAL_CLOSE_DELAY_MS = 1500; // 1.5 seconds delay before closing modal
+
+export default function ScanVoucher({
+  setScanModal,
+}: {
+  setScanModal: (value: boolean) => void;
+}) {
+  const [voucherRedeem, { isLoading, isSuccess }] = useVoucherRedeemMutation();
 
   const [isMobile, setIsMobile] = useState(false);
   const [scannedValue, setScannedValue] = useState("");
   const [notes, setNotes] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [isWebcamActive, setIsWebcamActive] = useState(false);
+  const [countdown, setCountdown] = useState(DESKTOP_AUTO_OPEN_SECONDS);
 
   const desktopScanBuffer = useRef("");
   const html5QrcodeRef = useRef<Html5Qrcode | null>(null);
-
+  const scannerTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const modalCloseTimerRef = useRef<NodeJS.Timeout | null>(null);
   const notesRef = useRef("");
+
   useEffect(() => {
     notesRef.current = notes;
   }, [notes]);
@@ -40,17 +52,14 @@ export default function ScanVoucher() {
     currentNotes: string,
   ): RedeemPayload => {
     let voucher_code = "";
-    let qr_token = "";
 
     try {
       const parsed = JSON.parse(rawText);
       voucher_code = parsed.voucher_code || parsed.code || "";
-      qr_token = parsed.qr_token || parsed.token || "";
     } catch (e) {
       try {
         const url = new URL(rawText);
         voucher_code = url.searchParams.get("voucher_code") || "";
-        qr_token = url.searchParams.get("qr_token") || "";
       } catch (urlErr) {
         voucher_code = rawText;
       }
@@ -58,21 +67,130 @@ export default function ScanVoucher() {
 
     return {
       voucher_code,
-      qr_token,
       notes: currentNotes,
     };
   };
 
   const handleRedeemPayload = async (rawText: string) => {
     const payload = parseScannedData(rawText, notesRef.current);
-
-    console.log("Sending payload to API:", payload);
     try {
-      await voucherRedeem(payload).unwrap();
-      setErrorMsg("");
+      const res = await voucherRedeem(payload).unwrap();
+
+      if (res?.status) {
+        toast.success(res?.message || "Voucher redeemed successfully!");
+        setScannedValue("");
+        setNotes("");
+        setErrorMsg("");
+
+        // Auto close modal after redemption is completed
+        modalCloseTimerRef.current = setTimeout(() => {
+          setScanModal(false);
+        }, MODAL_CLOSE_DELAY_MS);
+      } else {
+        toast.error(res?.message || "Redemption failed.");
+      }
     } catch (err: any) {
-      console.error("Mutation failed:", err);
-      setErrorMsg(err?.data?.message || "Failed to redeem voucher.");
+      // console.error("Mutation failed:", err);
+      toast.error(err?.data?.message || "Failed to redeem voucher.");
+    }
+  };
+
+  const stopCamera = async () => {
+    if (html5QrcodeRef.current && html5QrcodeRef.current.isScanning) {
+      try {
+        await html5QrcodeRef.current.stop();
+        html5QrcodeRef.current.clear();
+        // console.log("Camera stopped successfully.");
+      } catch (err) {
+        console.error("Failed to stop camera:", err);
+      } finally {
+        setIsWebcamActive(false);
+      }
+    }
+  };
+
+  /**
+   * Initializes and starts the camera stream within a designated DOM element.
+   * Applies optimal video resolution and auto-focus constraints for crisp barcode scanning.
+   */
+  const startCamera = async (elementId: string): Promise<void> => {
+    try {
+      setIsWebcamActive(true);
+
+      // Ensure target DOM element is rendered before binding Html5Qrcode
+      let targetElement = document.getElementById(elementId);
+      let attempts = 0;
+
+      while (!targetElement && attempts < 10) {
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        targetElement = document.getElementById(elementId);
+        attempts++;
+      }
+
+      if (!targetElement) {
+        throw new Error(
+          `Target container #${elementId} could not be located in the DOM.`,
+        );
+      }
+
+      // Safely stop and clear previous instance if one exists
+      if (html5QrcodeRef.current) {
+        if (html5QrcodeRef.current.isScanning) {
+          await html5QrcodeRef.current.stop();
+        }
+        html5QrcodeRef.current.clear();
+        html5QrcodeRef.current = null;
+      }
+
+      const scannerInstance = new Html5Qrcode(elementId);
+      html5QrcodeRef.current = scannerInstance;
+
+      // Optimized configuration for high-clarity scan capture
+      const cameraConfig: MediaTrackConstraints = {
+        facingMode: "environment",
+        width: { min: 640, ideal: 1280, max: 1920 },
+        height: { min: 480, ideal: 720, max: 1080 },
+        advanced: [{ focusMode: "continuous" } as MediaTrackConstraintSet],
+      };
+
+      const qrcodeConfig = {
+        fps: 15,
+        qrbox: { width: 250, height: 250 },
+        aspectRatio: 1.0,
+        videoConstraints: cameraConfig,
+      };
+
+      await scannerInstance.start(
+        cameraConfig,
+        qrcodeConfig,
+        (decodedText: string) => {
+          setScannedValue(decodedText);
+          stopCamera();
+          handleRedeemPayload(decodedText);
+        },
+        () => {}, // Suppress per-frame scan failure logs
+      );
+    } catch (err: unknown) {
+      console.error("[Scanner Error]: Failed to start camera:", err);
+
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Camera permission denied or device unavailable.";
+
+      setErrorMsg(message);
+      setIsWebcamActive(false);
+    }
+  };
+
+  const clearAutoOpenTimers = () => {
+    if (scannerTimeoutRef.current) {
+      clearTimeout(scannerTimeoutRef.current);
+      scannerTimeoutRef.current = null;
+    }
+    if (countdownIntervalRef.current) {
+      clearInterval(countdownIntervalRef.current);
+      countdownIntervalRef.current = null;
     }
   };
 
@@ -89,61 +207,46 @@ export default function ScanVoucher() {
   useEffect(() => {
     if (!isMobile) return;
 
-    const html5QrcodeScanner = new Html5Qrcode("mobile-reader");
-    html5QrcodeRef.current = html5QrcodeScanner;
-
-    const startCamera = async () => {
-      try {
-        await html5QrcodeScanner.start(
-          { facingMode: "environment" },
-          {
-            fps: 10,
-            qrbox: { width: 250, height: 250 },
-          },
-          (decodedText) => {
-            console.log("Mobile Camera Scan Value:", decodedText);
-            setScannedValue(decodedText);
-            stopCamera();
-            handleRedeemPayload(decodedText);
-          },
-          () => {},
-        );
-      } catch (err: any) {
-        console.error("Failed to auto-start camera:", err);
-        setErrorMsg("Camera permission denied or camera unavailable.");
-      }
-    };
-
     const timer = setTimeout(() => {
-      startCamera();
+      startCamera("mobile-reader");
     }, 300);
 
     return () => {
       clearTimeout(timer);
       stopCamera();
     };
-  }, [isMobile]); // Keystroke notes no longer trigger re-renders here
+  }, [isMobile]);
 
-  const stopCamera = () => {
-    if (html5QrcodeRef.current && html5QrcodeRef.current.isScanning) {
-      html5QrcodeRef.current
-        .stop()
-        .then(() => console.log("Camera stopped successfully."))
-        .catch((err) => console.error("Failed to stop camera:", err));
-    }
-  };
-
-  // 3. SCENARIO B: Desktop External Hardware Scanner Listener
+  // 3. SCENARIO B & C: Desktop Hardware Detection with Auto-Fallback to Webcam
   useEffect(() => {
     if (isMobile) return;
 
+    // Start UI visual countdown interval
+    setCountdown(DESKTOP_AUTO_OPEN_SECONDS);
+    countdownIntervalRef.current = setInterval(() => {
+      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+
+    // Auto-open webcam after set delay if no scanner keystroke occurs
+    scannerTimeoutRef.current = setTimeout(() => {
+      console.log(
+        "No hardware scanner input detected. Falling back to desktop webcam...",
+      );
+      clearAutoOpenTimers();
+      startCamera("desktop-reader");
+    }, DESKTOP_AUTO_OPEN_SECONDS * 1000);
+
     const handleKeyPress = (e: KeyboardEvent) => {
+      // Ignore input when user is typing in form fields
       if (
         (e.target as HTMLElement).tagName === "INPUT" ||
         (e.target as HTMLElement).tagName === "TEXTAREA"
       ) {
         return;
       }
+
+      // Hardware scanner activity detected -> Cancel webcam auto-fallback
+      clearAutoOpenTimers();
 
       if (e.key === "Enter") {
         if (desktopScanBuffer.current.length > 0) {
@@ -152,6 +255,7 @@ export default function ScanVoucher() {
           setScannedValue(finalValue);
           desktopScanBuffer.current = "";
 
+          stopCamera();
           handleRedeemPayload(finalValue);
         }
       } else {
@@ -162,13 +266,18 @@ export default function ScanVoucher() {
     window.addEventListener("keypress", handleKeyPress);
 
     return () => {
+      clearAutoOpenTimers();
+      if (modalCloseTimerRef.current) {
+        clearTimeout(modalCloseTimerRef.current);
+      }
       window.removeEventListener("keypress", handleKeyPress);
+      stopCamera();
     };
   }, [isMobile]);
 
   return (
     <div className="w-full max-w-lg mx-auto p-5 text-center font-sans">
-      {/* Note input panel element */}
+      {/* Custom Note input field */}
       <div className="mb-5 text-left space-y-1.5">
         <label className="block text-sm font-semibold text-gray-700">
           Add Custom Note (Optional):
@@ -210,17 +319,49 @@ export default function ScanVoucher() {
           ></div>
         </div>
       ) : (
-        <div className="border-2 border-dashed border-gray-300 p-10 rounded-xl bg-gray-50 flex flex-col items-center justify-center space-y-3 shadow-sm">
-          <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
-            <Monitor size={24} />
-          </div>
-          <p className="text-blue-600 font-bold tracking-tight">
-            Desktop Device Detected
-          </p>
-          <p className="text-sm text-gray-500 max-w-xs leading-normal">
-            Please click anywhere on this window background and pull the trigger
-            on your physical USB QR scanner.
-          </p>
+        <div className="space-y-4">
+          {!isWebcamActive ? (
+            <div className="border-2 border-dashed border-gray-300 p-8 rounded-xl bg-gray-50 flex flex-col items-center justify-center space-y-3 shadow-sm">
+              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
+                <Monitor size={24} />
+              </div>
+              <p className="text-blue-600 font-bold tracking-tight">
+                Listening for Barcode Scanner...
+              </p>
+              <p className="text-sm text-gray-500 max-w-xs leading-normal">
+                Pull the trigger on your USB hardware scanner. Webcam will
+                auto-open in{" "}
+                <span className="font-semibold text-blue-600">
+                  {countdown}s
+                </span>{" "}
+                if unused.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  clearAutoOpenTimers();
+                  startCamera("desktop-reader");
+                }}
+                className="mt-2 inline-flex items-center space-x-2 text-xs font-semibold bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 px-3 py-1.5 rounded-md shadow-sm transition-all cursor-pointer"
+              >
+                <Camera size={14} />
+                <span>Open Webcam Now</span>
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <div className="flex items-center justify-center space-x-2 text-sm font-medium p-3 rounded-md bg-blue-50 text-blue-700">
+                <Camera className="animate-pulse" size={18} />
+                <span>
+                  Webcam Scanner Active (Hardware scanner listen mode active)
+                </span>
+              </div>
+              <div
+                id="desktop-reader"
+                className="w-full rounded-lg overflow-hidden border border-gray-200 bg-black aspect-square shadow-inner"
+              ></div>
+            </div>
+          )}
         </div>
       )}
 
@@ -236,13 +377,8 @@ export default function ScanVoucher() {
         <div className="mt-5 bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-lg font-medium text-left shadow-sm space-y-2">
           <div className="flex items-center space-x-2 text-emerald-700 font-bold">
             <CheckCircle2 size={18} />
-            <span>Success! Voucher Redeemed.</span>
+            <span>Success! Voucher Redeemed. Closing modal...</span>
           </div>
-          {data && (
-            <pre className="text-xs font-mono bg-white border border-emerald-100 p-2.5 rounded overflow-x-auto text-gray-700 max-h-40 shadow-inner">
-              {JSON.stringify(data, null, 2)}
-            </pre>
-          )}
         </div>
       )}
 

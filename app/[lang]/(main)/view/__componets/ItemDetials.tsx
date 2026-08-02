@@ -380,7 +380,9 @@ export default function ItemDetails({ lang, details }: Props) {
                   {createWishlistLoading ? (
                     <Loader2 className="animate-spin size-5" />
                   ) : (
-                    <Heart color={"#31BFC8"} />
+                    <Heart
+                      color={details?.deal?.is_wishlisted ? "#31BFC8" : "red"}
+                    />
                   )}
                   Add to wishlist
                 </Button>
@@ -406,7 +408,10 @@ export default function ItemDetails({ lang, details }: Props) {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl border border-gray-100 p-4 flex items-center gap-3 text-left">
+            <Link
+              href={`/${lang}/contact`}
+              className="bg-white rounded-2xl border border-gray-100 p-4 flex items-center gap-3 text-left hover:bg-gray-50 transition-all duration-200 cursor-pointer"
+            >
               <div className="shrink-0 w-9 h-9 rounded-full border border-gray-300 flex items-center justify-center">
                 <Contact size={25} />
               </div>
@@ -418,7 +423,7 @@ export default function ItemDetails({ lang, details }: Props) {
                   Our team is here for you.
                 </p>
               </div>
-            </div>
+            </Link>
             <ProductLocation
               location={{
                 visit_location: details?.deal?.visit_location,

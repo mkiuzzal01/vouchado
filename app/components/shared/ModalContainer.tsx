@@ -4,6 +4,7 @@ import React, { useEffect, useId } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
+
 export type ModalWidth =
   | "sm"
   | "md"
@@ -24,9 +25,7 @@ export interface ModalContainerProps {
   onModalClose?: () => void;
   children: React.ReactNode;
   title?: string;
-
   width?: ModalWidth;
-
   className?: string;
 }
 
@@ -81,6 +80,7 @@ export default function ModalContainer({
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-0 backdrop-blur-sm sm:items-center sm:p-4"
       aria-hidden="true"
+      onClick={onClose}
     >
       <div
         role="dialog"
@@ -88,8 +88,8 @@ export default function ModalContainer({
         aria-labelledby={title ? titleId : undefined}
         onClick={(e) => e.stopPropagation()}
         className={cn(
-          "relative flex w-full flex-col bg-white shadow-2xl",
-          "max-h-[95vh] rounded-t-3xl sm:rounded-2xl",
+          "relative flex w-full max-h-[90vh] flex-col bg-white shadow-2xl",
+          "rounded-t-3xl sm:rounded-2xl",
           "animate-in fade-in zoom-in-95 duration-200 ease-out",
           maxWidthClasses[width],
           className,
@@ -99,7 +99,7 @@ export default function ModalContainer({
           <div className="h-1.5 w-12 rounded-full bg-slate-200" />
         </div>
 
-        <header className="sticky top-0 z-10 flex items-center justify-between rounded-t-3xl bg-white px-5 py-4 sm:rounded-t-2xl">
+        <header className="flex shrink-0 items-center justify-between rounded-t-3xl bg-white px-5 py-4 sm:rounded-t-2xl border-b border-slate-100">
           <h2
             id={titleId}
             className="text-lg font-semibold tracking-tight text-slate-900"
@@ -119,7 +119,8 @@ export default function ModalContainer({
           </Button>
         </header>
 
-        <div className="flex-1 overflow-y-auto px-5 py-4 max-h-[calc(95vh-80px)]">
+        {/* min-h-0 is essential for nested flex scrolling to work correctly */}
+        <div className="flex-1 min-h-0 overflow-y-auto px-5 py-4">
           {children}
         </div>
       </div>

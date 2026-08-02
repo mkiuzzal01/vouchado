@@ -5,4 +5,5 @@ export const tagTypes = [
   "chat",
   "message",
   "order",
+  "conversation",
 ];

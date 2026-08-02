@@ -28,10 +28,10 @@ const STEPS_DATA: StepItem[] = [
     imageSrc: step_1,
     imageAlt:
       "Dashboard view showing options to scan voucher or add new service",
-    borderColor: "border-[#2DD4BF]",
-    badgeBg: "bg-linear-to-r from-teal-400 to-teal-500",
+    borderColor: "border-[#14B8A6]",
+    badgeBg: "bg-gradient-to-r from-[#14B8A6] to-[#0D9488]",
     shadowClass:
-      "shadow-[0_10px_25px_-5px_rgba(45,212,191,0.12),0_8px_16px_-6px_rgba(45,212,191,0.12)]",
+      "shadow-[0_10px_25px_-5px_rgba(20,184,166,0.15),0_8px_16px_-6px_rgba(20,184,166,0.12)]",
   },
   {
     id: 2,
@@ -41,9 +41,9 @@ const STEPS_DATA: StepItem[] = [
     imageSrc: step_2,
     imageAlt: "Notification preview showing user purchase status",
     borderColor: "border-[#C084FC]",
-    badgeBg: "bg-linear-to-r from-purple-400 to-purple-500",
+    badgeBg: "bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED]",
     shadowClass:
-      "shadow-[0_10px_25px_-5px_rgba(192,132,252,0.12),0_8px_16px_-6px_rgba(192,132,252,0.12)]",
+      "shadow-[0_10px_25px_-5px_rgba(139,92,246,0.15),0_8px_16px_-6px_rgba(139,92,246,0.12)]",
   },
   {
     id: 3,
@@ -53,9 +53,9 @@ const STEPS_DATA: StepItem[] = [
     imageSrc: step_3,
     imageAlt: "Smartphone screen scanning a dynamic QR code",
     borderColor: "border-[#4ADE80]",
-    badgeBg: "bg-linear-to-r from-green-400 to-green-500",
+    badgeBg: "bg-gradient-to-r from-[#16A34A] to-[#15803D]",
     shadowClass:
-      "shadow-[0_10px_25px_-5px_rgba(74,222,128,0.12),0_8px_16px_-6px_rgba(74,222,128,0.12)]",
+      "shadow-[0_10px_25px_-5px_rgba(22,163,74,0.15),0_8px_16px_-6px_rgba(22,163,74,0.12)]",
   },
 ];
 
@@ -64,10 +64,10 @@ export default function LaunchSteps() {
     <Container className="py-12">
       <div className="grid grid-cols-1 md:grid-cols-3 justify-between gap-4 w-full p-6">
         {STEPS_DATA.map((step, index) => (
-          <div key={step.id} className="relative lg:w-[80%] m-auto">
+          <div key={step.id} className="relative lg:w-[80%]  m-auto">
             {/* Main Step Card Container with themed shadow styling */}
             <div
-              className={`relative bg-white border-2 ${step.borderColor} ${step.shadowClass} rounded-4xl p-6 pt-12 pb-10 flex flex-col items-center justify-between text-center h-full min-h-[380px]`}
+              className={`relative bg-white border-2 ${step.borderColor} ${step.shadowClass} rounded-4xl pt-12 pb-10 flex flex-col items-center justify-between text-center h-full`}
             >
               {/* Overlapping Top-Left Badge */}
               <div
@@ -77,7 +77,7 @@ export default function LaunchSteps() {
               </div>
 
               {/* Image Container */}
-              <div className="relative w-full h-[170px] flex items-center justify-center">
+              <div className="relative w-full h-[336px] flex items-center justify-center">
                 <Image
                   src={step.imageSrc}
                   alt={step.imageAlt}

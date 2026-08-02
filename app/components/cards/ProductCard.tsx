@@ -85,7 +85,10 @@ export default function ProductCard({ lang, product }: Props) {
               {isLoading ? (
                 <Loader2 className="animate-spin size-5 text-[#1ec6cc]" />
               ) : (
-                <WishList size={20} />
+                <WishList
+                  size={20}
+                  color={product?.is_wishlisted ? "#1ec6cc" : "#212B36"}
+                />
               )}
             </button>
           </div>

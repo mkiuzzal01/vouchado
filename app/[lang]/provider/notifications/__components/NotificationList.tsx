@@ -10,19 +10,10 @@ import {
   setNotifications,
   setSelectedNotification,
 } from "@/redux/features/notifications/notification.slice";
-import {
-  ExternalLink,
-  CheckCheck,
-  Filter,
-  Bell,
-  CheckCircle2,
-} from "lucide-react";
+import { ExternalLink, CheckCheck, Bell } from "lucide-react";
 import ViewNotification from "./ViewNotification";
 import ModalContainer from "@/app/components/shared/ModalContainer";
-import {
-  formatTimeAgo,
-  getNotificationBadge,
-} from "./notificationUtils";
+import { formatTimeAgo, getNotificationBadge } from "./notificationUtils";
 
 interface NotificationListProps {
   initialNotifications: NotificationItem[];
@@ -45,13 +36,31 @@ export default function NotificationList({
     }
   }, [initialNotifications, notifications.length, dispatch]);
 
+  const rawList = notifications.length > 0 ? notifications : initialNotifications;
+  const activeNotifications: NotificationItem[] = Array.isArray(
+    (rawList as any)?.data?.data,
+  )
+    ? (rawList as any).data.data
+    : Array.isArray((rawList as any)?.data)
+    ? (rawList as any).data
+    : Array.isArray(rawList)
+    ? rawList
+    : [];
+
+  const computedUnreadCount = activeNotifications.filter(
+    (item) => !item?.read_at || (item?.read_at as any) === "null",
+  ).length;
+  const displayUnreadCount =
+    unreadCount > 0 ? unreadCount : computedUnreadCount;
+
   const activeList = useMemo(() => {
-    const list = notifications.length > 0 ? notifications : initialNotifications;
     if (filter === "unread") {
-      return list.filter((item) => !item.read_at);
+      return activeNotifications.filter(
+        (item) => !item?.read_at || (item?.read_at as any) === "null",
+      );
     }
-    return list;
-  }, [notifications, initialNotifications, filter]);
+    return activeNotifications;
+  }, [activeNotifications, filter]);
 
   const handleSelectNotification = (item: NotificationItem) => {
     dispatch(setSelectedNotification(item));
@@ -71,9 +80,9 @@ export default function NotificationList({
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2.5">
             Notifications
-            {unreadCount > 0 && (
+            {displayUnreadCount > 0 && (
               <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-teal-100 text-teal-800">
-                {unreadCount} unread
+                {displayUnreadCount} unread
               </span>
             )}
           </h1>
@@ -106,7 +115,7 @@ export default function NotificationList({
                   : "text-gray-600 hover:text-gray-900"
               }`}
             >
-              Unread {unreadCount > 0 && `(${unreadCount})`}
+              Unread {displayUnreadCount > 0 && `(${displayUnreadCount})`}
             </button>
           </div>
 

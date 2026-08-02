@@ -15,6 +15,8 @@ import WishList from "../icons/WishList";
 import Voucher from "../icons/Voucher";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 
+import { useUnreadMessageCount } from "@/redux/hooks/useUnreadMessageCount";
+
 interface Props {
   systemInfo: any;
   lang: string;
@@ -43,6 +45,8 @@ export default function Navbar({
   const [showNavbar, setShowNavbar] = useState(false);
   const user = useAppSelector((state) => state.auth.user);
   const path = usePathname();
+  const unreadCount = useUnreadMessageCount();
+  const { items } = useAppSelector((state) => state.cart);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-[#ffff]">
@@ -86,34 +90,56 @@ export default function Navbar({
 
           {/* Right Section */}
           <div className="flex items-center gap-2 sm:gap-3 xl:gap-1 2xl:gap-3 ">
-            {/* Cart */}
-            <div className="bg-gray-50 rounded-full">
+            {/* Chat */}
+            <div className="bg-gray-50 rounded-full relative">
               <Link
                 href={`/${lang}/chat`}
-                className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10 2xl:h-12 2xl:w-12 items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
+                className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10 2xl:h-12 2xl:w-12 items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/chat") && "bg-[#2EC4C6]"}`}
               >
                 <Chat
                   color={path.includes("/chat") ? "white" : "#292D32"}
                   className="size-5 lg:size-6 xl:size-4 2xl:size-6"
                 />
               </Link>
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white shadow-xs ring-2 ring-white animate-pulse">
+                  {unreadCount > 99 ? "99+" : unreadCount}
+                </span>
+              )}
             </div>
 
             {/* Auth */}
             <div className="flex items-center gap-2  rounded-full lg:bg-[#F4F6F8] lg:border lg:p-1 xl:p-0.5 2xl:p-1">
-              {user?.email && (
-                <div className="bg-white rounded-full">
-                  <Link
-                    href={`/${lang}/wishlist`}
-                    className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10  items-center justify-center rounded-full  hover:bg-gray-200 transition ${path.includes("/wishlist") && "bg-[#2EC4C6]"}`}
-                  >
-                    <WishList
-                      color={path.includes("/wishlist") ? "white" : "#292D32"}
-                      className="size-5 lg:size-6 xl:size-4 2xl:size-6"
-                    />
-                  </Link>
-                </div>
-              )}
+              {(() => {
+                const wishlistCount =
+                  user_info?.value?.data?.wishlist_count || 0;
+                const isWishlistActive = path.includes("/wishlist");
+
+                return (
+                  <div className="relative inline-flex bg-white rounded-full">
+                    <Link
+                      href={`/${lang}/wishlist`}
+                      className={`flex h-8 w-8 lg:h-10 lg:w-10 xl:h-10 xl:w-10 items-center justify-center rounded-full transition-colors cursor-pointer ${
+                        isWishlistActive
+                          ? "bg-[#2EC4C6] hover:bg-[#28b2b4]"
+                          : "hover:bg-gray-200"
+                      }`}
+                    >
+                      <WishList
+                        color={isWishlistActive ? "white" : "#292D32"}
+                        className="size-5 lg:size-6 xl:size-4 2xl:size-6"
+                      />
+                    </Link>
+
+                    {/* Notification Badge */}
+                    {wishlistCount > 0 && (
+                      <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white shadow-xs ring-2 ring-white animate-pulse pointer-events-none">
+                        {wishlistCount > 99 ? "99+" : wishlistCount}
+                      </span>
+                    )}
+                  </div>
+                );
+              })()}
               <div className="bg-white rounded-full">
                 {user?.email && (
                   <Link
@@ -126,16 +152,26 @@ export default function Navbar({
                   </Link>
                 )}
               </div>
-              <div className="bg-white rounded-full">
+              <div className="relative inline-flex bg-white rounded-full">
                 <Link
                   href={`/${lang}/cart`}
-                  className={`flex h-8 w-8 lg:w-10 xl:h-10 xl:w-10  items-center justify-center rounded-full hover:bg-gray-200 transition ${path.includes("/cart") && "bg-[#2EC4C6]"}`}
+                  className={`flex h-8 w-8 lg:h-10 lg:w-10 xl:h-10 xl:w-10 items-center justify-center rounded-full transition-colors cursor-pointer ${
+                    path.includes("/cart")
+                      ? "bg-[#2EC4C6] hover:bg-[#28b2b4]"
+                      : "hover:bg-gray-200"
+                  }`}
                 >
                   <Cart
                     color={path.includes("/cart") ? "white" : "#292D32"}
                     className="size-5 lg:size-6 xl:size-4 2xl:size-6"
                   />
                 </Link>
+
+                {items.length > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white shadow-xs ring-2 ring-white animate-pulse pointer-events-none">
+                    {items.length}
+                  </span>
+                )}
               </div>
 
               {user ? (

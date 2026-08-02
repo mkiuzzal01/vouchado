@@ -2,13 +2,21 @@ import { baseApi } from "@/redux/API/baseAPI";
 
 export const conversionalApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getConversations: builder.query<any, string | void>({
+      query: (slug = "") => ({
+        url: `/conversations${slug ? `?${slug}` : ""}`,
+        method: "GET",
+      }),
+      providesTags: ["conversation"],
+    }),
+
     sendMessage: builder.mutation({
       query: (body) => ({
         url: `/messages`,
         method: "POST",
         body,
       }),
-      invalidatesTags: ["message"],
+      invalidatesTags: ["message", "conversation"],
     }),
 
     createConversation: builder.mutation({
@@ -22,5 +30,8 @@ export const conversionalApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useSendMessageMutation, useCreateConversationMutation } =
-  conversionalApi;
+export const {
+  useGetConversationsQuery,
+  useSendMessageMutation,
+  useCreateConversationMutation,
+} = conversionalApi;

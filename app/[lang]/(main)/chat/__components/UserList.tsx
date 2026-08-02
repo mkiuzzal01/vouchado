@@ -69,9 +69,9 @@ export default function UserList({
   };
 
   return (
-    <div className="flex flex-col h-full bg-white border-r border-gray-100 w-full max-w-sm">
-      {/* Search Header */}
-      <div className="p-4">
+    <div className="flex flex-col h-full min-h-0 bg-white border-r border-gray-100 w-full max-w-sm">
+      {/* Search Header (Fixed Top) */}
+      <div className="p-4 shrink-0">
         <div className="relative">
           <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
             <Search className="w-4 h-4 text-gray-400" />
@@ -86,8 +86,8 @@ export default function UserList({
         </div>
       </div>
 
-      {/* Users Scroll Container */}
-      <div className="flex-1 overflow-y-auto px-2 space-y-1">
+      {/* Users Scroll Container (Scrollable Body) */}
+      <div className="flex-1 min-h-0 overflow-y-auto px-2 space-y-1">
         {list.length > 0 ? (
           list.map((item: any) => {
             const convId = item.conversation_id || item.id;
@@ -113,6 +113,7 @@ export default function UserList({
             return (
               <button
                 key={convId}
+                type="button"
                 onClick={() => onSelectUser(convId)}
                 className={`w-full text-left p-3.5 flex items-center gap-3 rounded-xl transition-all ${
                   isSelected ? "bg-teal-50/70" : "hover:bg-gray-50/50"
