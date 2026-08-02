@@ -381,7 +381,7 @@ export default function ItemDetails({ lang, details }: Props) {
                     <Loader2 className="animate-spin size-5" />
                   ) : (
                     <Heart
-                      color={details?.deal?.is_wishlisted ? "#31BFC8" : "red"}
+                      color={details?.deal?.is_wishlisted ? "red" : "#31BFC8"}
                     />
                   )}
                   Add to wishlist

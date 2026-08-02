@@ -20,7 +20,7 @@ interface RedeemPayload {
 }
 
 const DESKTOP_AUTO_OPEN_SECONDS = 4;
-const MODAL_CLOSE_DELAY_MS = 1500; // 1.5 seconds delay before closing modal
+const MODAL_CLOSE_DELAY_MS = 1500;
 
 export default function ScanVoucher({
   setScanModal,
