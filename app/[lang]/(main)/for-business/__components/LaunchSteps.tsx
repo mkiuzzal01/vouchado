@@ -87,7 +87,7 @@ export default function LaunchSteps() {
               </div>
 
               {/* Text Content */}
-              <div className="space-y-3 mt-6 w-full">
+              <div className="space-y-3 mt-6 w-full px-6">
                 <h3 className="text-3xl font-semibold text-[#111827]">
                   {step.title}
                 </h3>

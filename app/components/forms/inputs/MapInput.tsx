@@ -33,7 +33,7 @@ export default function MapInput({
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_MAP_API_KEY!,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY!,
     libraries: LIBRARIES,
   });
 

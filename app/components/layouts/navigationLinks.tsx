@@ -3,7 +3,6 @@ import { getDictionary } from "@/app/[lang]/dictionaries";
 import { Category, ChildCategory } from "@/redux/types/categoris";
 
 export const getServices = async (lang: string): Promise<Category[]> => {
-  // const dict = await getDictionary(lang);
   const categories = await getCategories();
 
   return categories?.data?.map((category: Category) => ({

@@ -16,7 +16,7 @@ const setLocationCookie = (name: string, value: string | number | null) => {
 
 async function fetchAreaFromCoords(lat: number, lng: number): Promise<string> {
   const response = await fetch(
-    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.NEXT_PUBLIC_MAP_API_KEY}`,
+    `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.NEXT_PUBLIC_GOOGLE_API_KEY}`,
   );
   if (!response.ok) throw new Error("Google Geocoding request failed");
 

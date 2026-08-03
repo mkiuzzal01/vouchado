@@ -19,7 +19,6 @@ import {
 } from "@/components/ui/accordion";
 
 import Menu from "../icons/Menu";
-import Location from "../icons/Location";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import LocationOrigin from "./LocationOrigin";

@@ -16,6 +16,7 @@ import Voucher from "../icons/Voucher";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 
 import { useUnreadMessageCount } from "@/redux/hooks/useUnreadMessageCount";
+import ToggleLang from "./ToggleLang";
 
 interface Props {
   systemInfo: any;
@@ -90,6 +91,7 @@ export default function Navbar({
 
           {/* Right Section */}
           <div className="flex items-center gap-2 sm:gap-3 xl:gap-1 2xl:gap-3 ">
+            <ToggleLang />
             {/* Chat */}
             <div className="bg-gray-50 rounded-full relative">
               <Link

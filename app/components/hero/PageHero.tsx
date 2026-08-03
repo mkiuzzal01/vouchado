@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Container from "../shared/Container";
 
 interface PageHeroProps {
   title?: string;
@@ -15,7 +14,7 @@ export default function PageHero({
   backgroundImage,
 }: PageHeroProps) {
   return (
-    <section className="relative  w-full h-[100px]  mx-auto overflow-hidden  rounded-2xl lg:max-w-[90%]  lg:min-h-[227px] lg:rounded-3xl flex items-center">
+    <section className="relative w-full max-w-full 2xl:w-[1856px] mx-auto rounded-2xl sm:rounded-[32px] py-10 sm:py-16 2xl:py-[80px] overflow-hidden mt-4 sm:mt-[24px]">
       {/* Background Image */}
       {backgroundImage && (
         <Image
@@ -28,22 +27,23 @@ export default function PageHero({
       )}
 
       {/* Content */}
-      <Container className="relative z-10 w-full py-10 text-white">
+      <div className="relative z-10 w-full text-white px-6 sm:px-12 2xl:px-0 2xl:pl-[120px]">
         <div className="flex flex-col justify-center gap-4">
-          {/* Changed text-center lg:text-left to text-left */}
-          <div className="ml-[75px]">
+          <div>
             {title && (
-              <h1 className="text-[30px] lg:text-[48px] font-bold">{title}</h1>
+              <h1 className="text-2xl sm:text-[30px] lg:text-[48px] font-bold leading-tight">
+                {title}
+              </h1>
             )}
 
             {description && (
-              <p className="mt-2 text-xs font-medium tracking-wide sm:mt-3 sm:text-sm">
+              <p className="mt-2 text-xs font-medium tracking-wide sm:mt-3 sm:text-sm max-w-2xl">
                 {description}
               </p>
             )}
           </div>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }
