@@ -10,20 +10,26 @@ import Link from "next/link";
 import Image from "next/image";
 import { Category } from "@/redux/types/categoris";
 import NotFoundData from "../shared/NotFoundData";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   categories: Category[];
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function ExploreCategories({ categories }: Props) {
+export default function ExploreCategories({ categories, t }: Props) {
   if (categories?.length === 0) {
-    return <NotFoundData title="No categories found" />;
+    return (
+      <NotFoundData title={t.shared.utility.no_data || "No categories found"} />
+    );
   }
 
   return (
     <Container>
       <div className="flex items-center justify-between">
-        <SectionHeader title="Explore Categories" />
+        <SectionHeader
+          title={t?.home?.sections?.explore_categories || "Explore Categories"}
+        />
 
         {/* Navigation Buttons */}
         <div className="flex gap-2">

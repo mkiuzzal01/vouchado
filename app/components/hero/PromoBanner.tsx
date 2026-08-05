@@ -4,21 +4,32 @@ import Image from "next/image";
 import Link from "next/link";
 import Container from "../shared/Container";
 import promo from "@/public/hero/promo_banner.png";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
-  lang: string;
+  lang: "en" | "de";
+  t?: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function PromoBanner({ lang }: Props) {
-  const ctaText = "Partner With us";
+export default function PromoBanner({ lang, t }: Props) {
+  const ctaText = t?.home?.promo?.cta || "Partner With us";
   const imageUrl =
     promo ||
     "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80";
 
   const stats = [
-    { value: "300+", label: "Partner Businesses" },
-    { value: "50k+", label: "Active Customers" },
-    { value: "2M+", label: "Deals Redeemed" },
+    {
+      value: "300+",
+      label: t?.home?.promo?.stats?.businesses || "Partner Businesses",
+    },
+    {
+      value: "50k+",
+      label: t?.home?.promo?.stats?.customers || "Active Customers",
+    },
+    {
+      value: "2M+",
+      label: t?.home?.promo?.stats?.redeemed || "Deals Redeemed",
+    },
   ];
 
   return (
@@ -29,12 +40,15 @@ export default function PromoBanner({ lang }: Props) {
           {/* LEFT CONTENT BLOCK */}
           <div className="relative z-20 w-full md:w-[48%] p-8 sm:p-10 lg:p-14 flex flex-col justify-center text-left">
             <h2 className="text-2xl md:text-3xl lg:text-[36px] xl:text-[40px] leading-[1.15] font-semibold">
-              Grow Your Business <br /> With VOUCHADO
+              {t?.home?.promo?.title_first || "Grow Your Business"} <br />{" "}
+              {t?.home?.promo?.title_second || "With VOUCHADO"}
             </h2>
 
             <p className="text-sm lg:text-xl mt-5 font-semibold">
-              Join 300+ local businesses and reach <br /> thousands of new
-              customers
+              {t?.home?.promo?.subtitle_first ||
+                "Join 300+ local businesses and reach"}{" "}
+              <br />{" "}
+              {t?.home?.promo?.subtitle_second || "thousands of new customers"}
             </p>
 
             <div className="mt-8">

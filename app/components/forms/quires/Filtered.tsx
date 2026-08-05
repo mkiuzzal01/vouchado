@@ -3,6 +3,7 @@
 import { useEffect, useState, useTransition, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Slider } from "@/components/ui/slider";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 const MAX_RANGE = 1000;
 const DEFAULT_MIN = 10;
@@ -10,19 +11,30 @@ const DEFAULT_MAX = 1000;
 const DEBOUNCE_DELAY = 400;
 
 const RATING_OPTIONS = ["5.0", "4.0+", "3.0+", "2.0+", "1.0+"];
-const AVAILABILITY_OPTIONS = [
-  { id: "last_day", label: "Last Day Offers" },
-  { id: "in_stock", label: "Only one week to go" },
-  { id: "out_stock", label: "50% Discounted and More" },
-];
 
-export default function Filtered() {
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function Filtered({ t }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [, startTransition] = useTransition();
 
   const [isRatingOpen, setIsRatingOpen] = useState(true);
   const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(true);
+
+  const AVAILABILITY_OPTIONS = [
+    { id: "last_day", label: t?.shared?.filters?.availability?.last_day },
+    {
+      id: "in_stock",
+      label: t?.shared?.filters?.availability?.only_one_week,
+    },
+    {
+      id: "out_stock",
+      label: t?.shared?.filters?.availability?.discount,
+    },
+  ];
 
   // --- Filter States ---
   const [range, setRange] = useState<[number, number]>(() => {
@@ -120,20 +132,21 @@ export default function Filtered() {
     <div className="sticky top-12 z-10 w-full bg-white rounded-2xl border border-slate-100 p-6 shadow-sm">
       {/* Header */}
       <div className="text-[17px] font-semibold text-[#1F2E3D] pb-4 border-b border-slate-100 flex items-center justify-between">
-        <span>Filters</span>
+        <span>{t?.shared?.filters?.title}</span>
         {hasActiveFilters && (
           <button
             type="button"
             onClick={handleClearAll}
             className="text-xs text-[#1ec6cc] font-semibold hover:underline bg-transparent border-none cursor-pointer transition-colors"
           >
-            Clear All
+            {t?.shared?.filters?.clear_all}
           </button>
         )}
       </div>
 
       {/* Dynamic Price Filter Section */}
       <PriceFilter
+        t={t}
         range={range}
         onChange={setRange}
         defaultMaxRange={MAX_RANGE}
@@ -143,7 +156,7 @@ export default function Filtered() {
 
       {/* Ratings Section */}
       <AccordionSection
-        title="Rating"
+        title={t?.shared?.filters?.rating}
         isOpen={isRatingOpen}
         onToggle={() => setIsRatingOpen((prev) => !prev)}
       >
@@ -180,7 +193,7 @@ export default function Filtered() {
 
       {/* Availability Section */}
       <AccordionSection
-        title="Availability"
+        title={t?.shared?.filters?.availability?.title}
         isOpen={isAvailabilityOpen}
         onToggle={() => setIsAvailabilityOpen((prev) => !prev)}
       >
@@ -211,12 +224,18 @@ export default function Filtered() {
    Dynamic Price Filter Component
 ======================================================================== */
 interface PriceFilterProps {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   range: [number, number];
   onChange: (val: [number, number]) => void;
   defaultMaxRange: number;
 }
 
-function PriceFilter({ range, onChange, defaultMaxRange }: PriceFilterProps) {
+function PriceFilter({
+  t,
+  range,
+  onChange,
+  defaultMaxRange,
+}: PriceFilterProps) {
   const [minPrice, maxPrice] = range;
 
   // Local state buffers for typing
@@ -270,7 +289,7 @@ function PriceFilter({ range, onChange, defaultMaxRange }: PriceFilterProps) {
     <div className="mt-5 flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <span className="text-[15px] font-semibold text-[#1F2E3D]">
-          Price Range
+          {t?.shared?.filters?.price_range}
         </span>
         <span className="text-xs font-semibold text-slate-500">
           €{minPrice} – €{maxPrice}
@@ -293,7 +312,7 @@ function PriceFilter({ range, onChange, defaultMaxRange }: PriceFilterProps) {
       <div className="grid grid-cols-2 gap-3 pt-1">
         <div className="flex flex-col gap-1">
           <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-            Min Price
+            {t?.shared?.filters?.min_price}
           </label>
           <div className="relative flex items-center">
             <span className="absolute left-3 text-sm font-medium text-slate-400">
@@ -313,7 +332,7 @@ function PriceFilter({ range, onChange, defaultMaxRange }: PriceFilterProps) {
 
         <div className="flex flex-col gap-1">
           <label className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-            Max Price
+            {t?.shared?.filters?.max_price}
           </label>
           <div className="relative flex items-center">
             <span className="absolute left-3 text-sm font-medium text-slate-400">

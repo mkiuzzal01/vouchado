@@ -9,6 +9,7 @@ import Image, { StaticImageData } from "next/image";
 import CustomerService from "../icons/CustomerService";
 import PaymentIcon from "../icons/PaymentIcon";
 import ReviewsIcon from "../icons/ReviewsIcon";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Feature {
   id: string;
@@ -21,27 +22,6 @@ interface Brand {
   id: string;
   icon: StaticImageData;
 }
-
-const TRUST_FEATURES: Feature[] = [
-  {
-    id: "reviews",
-    title: "4.8/5 Rating",
-    subtitle: "Based on 12,500+ reviews",
-    icon: <ReviewsIcon size={48} />,
-  },
-  {
-    id: "payments",
-    title: "Secure Payments",
-    subtitle: "100% protected transactions",
-    icon: <PaymentIcon size={48} />,
-  },
-  {
-    id: "support",
-    title: "24/7 Support",
-    subtitle: "We're always here to help",
-    icon: <CustomerService size={48} />,
-  },
-];
 
 const BRAND_LOGOS: Brand[] = [
   {
@@ -93,17 +73,49 @@ function BrandCard({ icon, id }: Brand) {
   );
 }
 
-export default function Trusted() {
+interface Props {
+  t?: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function Trusted({ t }: Props) {
+  const trustFeatures: Feature[] = [
+    {
+      id: "reviews",
+      title: t?.home?.trusted?.reviews?.title || "4.8/5 Rating",
+      subtitle:
+        t?.home?.trusted?.reviews?.subtitle || "Based on 12,500+ reviews",
+      icon: <ReviewsIcon size={48} />,
+    },
+    {
+      id: "payments",
+      title: t?.home?.trusted?.payments?.title || "Secure Payments",
+      subtitle:
+        t?.home?.trusted?.payments?.subtitle || "100% protected transactions",
+      icon: <PaymentIcon size={48} />,
+    },
+    {
+      id: "support",
+      title: t?.home?.trusted?.support?.title || "24/7 Support",
+      subtitle:
+        t?.home?.trusted?.support?.subtitle || "We're always here to help",
+      icon: <CustomerService size={48} />,
+    },
+  ];
+
   return (
     <Container>
       <section className="py-10">
-        <SectionHeader title="Trusted by the best and loved by all" />
+        <SectionHeader
+          title={
+            t?.home?.trusted?.title || "Trusted by the best and loved by all"
+          }
+        />
 
         {/* Main responsive wrapper */}
         <div className="flex flex-col xl:flex-row gap-6 mt-8 w-full">
           {/* Trust Features Grid */}
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 w-full xl:w-[60%]">
-            {TRUST_FEATURES.map((feature) => (
+            {trustFeatures.map((feature) => (
               <FeatureCard key={feature.id} {...feature} />
             ))}
           </div>

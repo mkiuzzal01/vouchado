@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import SearchIcon from "../../icons/SearchIcon";
 import LocationIcon from "../../icons/LocationIcon";
@@ -30,26 +30,21 @@ export default function ModernSearch({
 
   // Input states
   const [address, setAddress] = useState("");
-  const [service, setService] = useState(searchParams.get("service") || "");
+  const [service, setService] = useState(
+    () => searchParams.get("service") || "",
+  );
   const [coordinates, setCoordinates] = useState<{
     lat: number | null;
     lng: number | null;
-  }>({
-    lat: searchParams.get("lat") ? Number(searchParams.get("lat")) : null,
-    lng: searchParams.get("lng") ? Number(searchParams.get("lng")) : null,
-  });
-
-  // Keep state synced with URL changes
-  useEffect(() => {
-    setService(searchParams.get("service") || "");
+  }>(() => {
     const lat = searchParams.get("lat");
     const lng = searchParams.get("lng");
 
-    setCoordinates({
+    return {
       lat: lat ? Number(lat) : null,
       lng: lng ? Number(lng) : null,
-    });
-  }, [searchParams]);
+    };
+  });
 
   // MapInput change handler
   const handleLocationChange = useCallback(

@@ -18,17 +18,20 @@ export const getServices = async (lang: string): Promise<Category[]> => {
 export const getNavLinks = async (lang: string) => {
   const dict = await getDictionary(lang);
   return [
-    { title: dict.nav?.deals || "Deals", href: `/${lang}/deals` },
-    { title: dict.nav?.nearby || "Nearby", href: `/${lang}/nearby` },
+    { title: dict.layout?.nav?.deals || "Deals", href: `/${lang}/deals` },
+    { title: dict.layout?.nav?.nearby || "Nearby", href: `/${lang}/nearby` },
     {
-      title: dict.nav?.how_it_works || "How it works",
+      title: dict.layout?.nav?.how_it_works || "How it works",
       href: `/${lang}/how-it-works`,
     },
     {
-      title: dict.nav?.for_business || "For Business",
+      title: dict.layout?.nav?.for_business || "For Business",
       href: `/${lang}/for-business`,
     },
-    { title: dict.nav?.contact_us || "Contact us", href: `/${lang}/contact` },
+    {
+      title: dict.layout?.nav?.contact_us || "Contact us",
+      href: `/${lang}/contact`,
+    },
   ];
 };
 
@@ -38,25 +41,26 @@ export const footerLinks = async (lang: string) => {
   return {
     shopping: [
       {
-        title: dict.footer?.links?.wishlist || "Wishlist",
+        title: dict.layout?.footer?.links?.wishlist || "Wishlist",
         href: `/${lang}/wishlist`,
       },
       {
-        title: dict.footer?.links?.deals || "Deals",
+        title: dict.layout?.footer?.links?.deals || "Deals",
         href: `/${lang}/deals`,
       },
       {
-        title: dict.footer?.links?.contact_us || "Contact us",
+        title: dict.layout?.footer?.links?.contact_us || "Contact us",
         href: `/${lang}/contact`,
       },
     ],
     customer: [
       {
-        title: dict.footer?.links?.privacy_policy || "Privacy Policy",
+        title: dict.layout?.footer?.links?.privacy_policy || "Privacy Policy",
         href: `/${lang}/privacy`,
       },
       {
-        title: dict.footer?.links?.terms_condition || "Terms & Conditions",
+        title:
+          dict.layout?.footer?.links?.terms_condition || "Terms & Conditions",
         href: `/${lang}/terms`,
       },
     ],

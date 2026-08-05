@@ -19,11 +19,11 @@
       "terms": "Ich stimme den Nutzungsbedingungen und der Datenschutzrichtlinie von Tech Takes zu.",
       "register": "Registrieren",
       "already_account": "Bereits ein Konto?",
-      "agree_terms": "Ik ga akkoord met Tech Takes.",
-      "and": "En",
-      "terms_of_service.": "Gebruiksvoorwaarden",
-      "privacy_policy.": "Privacybeleid",
-      "login": "Anmelden"
+      "login": "Anmelden",
+      "agree_terms": "Ich stimme Tech Takes zu",
+      "and": "und",
+      "terms_of_service": "Nutzungsbedingungen",
+      "privacy_policy": "Datenschutzrichtlinie"
     },
     "forgot": {
       "title": "Passwort zurücksetzen",
@@ -53,35 +53,367 @@
       "update": "Passwort aktualisieren"
     }
   },
-  "top": {
-    "desktop": "🔥 Genieße bis zu 70 % Rabatt auf erstklassige Wellness-Erlebnisse. Buche deinen nächsten Self-Care-Moment noch heute.",
-    "mobile": "🔥 Bis zu 70 % Rabatt – nicht verpassen!"
-  },
-  "nav": {
-    "home": "Startseite",
-    "deals": "Deals",
-    "nearby": "In der Nähe",
-    "how_it_works": "So funktioniert's",
-    "for_business": "Für Unternehmen",
-    "contact_us": "Kontakt",
-    "category": "Kategorie",
-    "service1": "Dienst 1",
-    "service2": "Dienst 2",
-    "service3": "Dienst 3",
-    "subService1": "Unterdienst 1",
-    "subService2": "Unterdienst 2",
-    "subService3": "Unterdienst 3",
-    "mobile_menu": "Menü"
-  },
-  "footer": {
-    "links": {
-      "wishlist": "Wunschliste",
-      "category": "Kategorie",
+  "layout": {
+    "top": {
+      "desktop": "🔥 Genieße bis zu 70 % Rabatt auf erstklassige Wellness-Erlebnisse. Buche deinen nächsten Self-Care-Moment noch heute.",
+      "mobile": "🔥 Bis zu 70 % Rabatt – nicht verpassen!"
+    },
+    "nav": {
+      "home": "Startseite",
       "deals": "Deals",
-      "faq": "FAQ",
+      "nearby": "In der Nähe",
+      "how_it_works": "So funktioniert's",
+      "for_business": "Für Unternehmen",
       "contact_us": "Kontakt",
-      "privacy_policy": "Datenschutzrichtlinie",
-      "terms_condition": "Allgemeine Geschäftsbedingungen"
+      "category": "Kategorie",
+      "mobile_menu": "Menü"
+    },
+    "footer": {
+      "shopping": "Einkaufen",
+      "customer_services": "Kundenservice",
+      "newsletter_desc": "Abonnieren Sie unseren Newsletter & erhalten Sie exklusiv 10% Rabatt auf Ihre erste Bestellung.",
+      "email_placeholder": "E-Mail-Adresse eingeben",
+      "subscribe": "ABONNIEREN",
+      "follow_us": "Folgen Sie uns",
+      "links": {
+        "wishlist": "Wishlist",
+        "category": "Kategorie",
+        "deals": "Deals",
+        "faq": "FAQ",
+        "contact_us": "Kontakt",
+        "privacy_policy": "Datenschutzrichtlinie",
+        "terms_condition": "Allgemeine Geschäftsbedingungen"
+      },
+      "features": {
+        "discover": {
+          "title": "Lokale Deals entdecken",
+          "desc": "Finde die besten Angebote in deiner Nähe in Echtzeit."
+        },
+        "save": {
+          "title": "Jedes Mal mehr sparen",
+          "desc": "Exklusive Rabatte bei jedem Einkauf."
+        },
+        "payment": {
+          "title": "Flexible Zahlung",
+          "desc": "Wähle deine bevorzugte Option."
+        },
+        "support": {
+          "title": "Online-Support",
+          "desc": "24 Stunden am Tag, 7 Tage die Woche."
+        }
+      }
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "DEINE STADT. DEINE DEALS.",
+      "title": {
+        "first": "Entdecke tolle",
+        "second": "lokale",
+        "third": "Angebote"
+      },
+      "sub_title": "Spare bis zu 70 % auf Erlebnisse, die du liebst.",
+      "desc": "Finde exklusive Rabatte auf Restaurants, Spas, Abenteuer, Beauty-Behandlungen und lokale Aktivitäten. Jeden Tag neue Deals!",
+
+      "features": {
+        "verified_deals": "Geprüfte Angebote",
+        "secure_checkout": "Sicherer Bezahlvorgang",
+        "support": "24/7 Support"
+      }
+    },
+    "stats": {
+      "happy_customers": {
+        "value": "2,500+",
+        "label": "Zufriedene Kunden"
+      },
+      "deals_sold": {
+        "value": "50,000+",
+        "label": "Verkaufte Angebote"
+      },
+      "local_partners": {
+        "value": "300+",
+        "label": "Lokale Partner"
+      },
+      "based_on_reviews": {
+        "value": "4,8 Sterne",
+        "label": "Basierend auf 12.500+ Bewertungen"
+      }
+    },
+    "trusted": {
+      "title": "Von den Besten geschätzt und von allen geliebt",
+      "reviews": {
+        "title": "4,8/5 Bewertung",
+        "subtitle": "Basierend auf 12.500+ Bewertungen"
+      },
+      "payments": {
+        "title": "Sichere Zahlungen",
+        "subtitle": "100% geschützte Transaktionen"
+      },
+      "support": {
+        "title": "24/7 Support",
+        "subtitle": "Wir sind immer für Sie da"
+      }
+    },
+    "steps": {
+      "step1": {
+        "title": "1. Entdecken",
+        "description": "Finde die besten lokalen Angebote in deiner Nähe."
+      },
+      "step2": {
+        "title": "2. Kaufen",
+        "description": "Sicher und sofort online kaufen."
+      },
+      "step3": {
+        "title": "3. Einlösen",
+        "description": "Löse deinen Deal ein und genieße fantastische Erlebnisse."
+      }
+    },
+    "sections": {
+      "explore_categories": "Kategorien erkunden",
+      "deals_near_you": "Angebote in deiner Nähe",
+      "trending_now": "Angesagt",
+      "no_categories": "Keine Kategorien gefunden",
+      "no_deals_near": "Keine Angebote in deiner Nähe",
+      "no_trending_deals": "Keine angesagten Angebote"
+    },
+    "promo": {
+      "title_first": "Lass dein Unternehmen wachsen",
+      "title_second": "Mit VOUCHADO",
+      "subtitle_first": "Schließe dich 300+ lokalen Unternehmen an und erreiche",
+      "subtitle_second": "Tausende neue Kunden",
+      "cta": "Werde unser Partner",
+      "stats": {
+        "businesses": "Partnerunternehmen",
+        "customers": "Aktive Kunden",
+        "redeemed": "Eingelöste Angebote"
+      }
+    }
+  },
+  "deals": {
+    "title": "Angebote entdecken und mehr sparen",
+    "description": "Durchstöbern Sie ausgewählte Angebote für jeden Trend, Anlass und Lebensstil.",
+    "filters": {
+      "title": "Filter",
+      "price_range": "Preisspanne",
+      "min_price": "Mindestpreis",
+      "max_price": "Höchstpreis",
+      "rating": "Bewertung",
+      "availability": {
+        "title": "Verfügbarkeit",
+        "last_day": "Angebote am letzten Tag",
+        "only_one_week": "Nur noch eine Woche",
+        "50_discount": "50 % Rabatt und MEHR"
+      }
+    }
+  },
+  "nearby": {
+    "deals_available": "Verfügbare Angebote"
+  },
+  "how_it_work": {
+    "title": "So funktioniert's",
+    "how_it_work": "So geht's",
+    "vouchado": "Vouchado?",
+    "desc": {
+      "desc_1": "Wir haben Vouchado um einen einfachen Drei-Schritte-Prozess herum entwickelt:",
+      "desc_2": "Kaufen",
+      "desc_3": "Einlösen",
+      "desc_4": "und",
+      "desc_5": "Freischalten",
+      "desc_6": "Dieser Ansatz eliminiert unnötige Komplexität und schafft ein reibungsloses Erlebnis für Kunden und Unternehmen gleichermaßen. Nutzer können schnell inspirierende lokale Angebote finden, Gutscheine in Sekundenschnelle kaufen und diese mühelos über einen QR-Code einlösen. Durch die Konzentration auf einen klaren und intuitiven Ablauf fördern wir das Entdecken, steigern die Konversionsraten und machen das gesamte Erlebnis einfach zu verstehen und zu nutzen."
+    },
+    "steps": {
+      "step_1": {
+        "title": "Angebote entdecken",
+        "desc": "Durchstöbern Sie Angebote in Ihrer Nähe, entdecken Sie kuratierte Kategorien oder suchen Sie nach Erlebnissen, die zu Ihren Interessen passen.",
+        "features": {
+          "curated": "Kuratierte Angebote",
+          "nearby": "Angebote in der Nähe",
+          "search": "Einfache Suche"
+        }
+      },
+      "step_2": {
+        "title": "Gutschein kaufen",
+        "desc": "Wählen Sie Ihr Lieblingsangebot und kaufen Sie Ihre Dienstleistung mit nur wenigen Klicks sicher ein.",
+        "features": {
+          "secure": "Sichere Zahlungen",
+          "instant": "Sofortige Bestätigung",
+          "best": "Bestpreisgarantie"
+        }
+      },
+      "step_3": {
+        "title": "Gutschein erhalten",
+        "desc": "Ihr Gutschein wird sofort in Ihrem Konto gespeichert und ist jederzeit einsatzbereit.",
+        "features": {
+          "instant": "Sofortiger Gutschein",
+          "stored": "Im Konto gespeichert",
+          "accessible": "Jederzeit abrufbar"
+        }
+      },
+      "step_4": {
+        "title": "Einlösen & Genießen",
+        "desc": "Besuchen Sie das Unternehmen, zeigen Sie Ihren QR-Code vor und genießen Sie Ihr Erlebnis, während Sie Geld sparen.",
+        "features": {
+          "quick": "Schnelle & einfache Einlösung",
+          "enjoy": "Exklusive Erlebnisse genießen",
+          "save": "Bei jedem Besuch mehr sparen"
+        }
+      },
+      "step_5": {
+        "title": "Treuepunkte sammeln",
+        "desc": "Sammeln Sie bei jedem Kauf Punkte und lösen Sie diese für zukünftige Vouchado-Gutscheine ein.",
+        "features": {
+          "collect": "Punkte sammeln",
+          "unlock": "Belohnungen freischalten",
+          "benefits": "Mehr Vorteile"
+        }
+      }
+    },
+    "for_customer": {
+      "sec_1": "Die besten Angebote gelten nicht ewig.",
+      "sec_2": "Gehören Sie zu den Ersten, die sich die heißesten Deals in Ihrer Stadt sichern.",
+      "sec_3": "Entdecken Sie neue Orte, sparen Sie Geld und genießen Sie exklusive Angebote.",
+      "sec_4": "Und haben Sie SPASS!"
+    },
+    "for_customer_form": {
+      "title": "Kundeninformation",
+      "description": "Erstellen Sie Ihr Kundenkonto, um lokale Angebote zu entdecken.",
+      "full_name": "Vollständiger Name",
+      "full_name_placeholder": "Geben Sie Ihren Namen ein",
+      "phone_number": "Telefonnummer",
+      "phone_number_placeholder": "Geben Sie Ihre Telefonnummer ein",
+      "your_address": "Ihre Adresse",
+      "your_address_placeholder": "Geben Sie Ihre Adresse ein",
+      "city": "Stadt",
+      "city_placeholder": "Geben Sie Ihre Stadt ein",
+      "email": "E-Mail",
+      "email_placeholder": "Geben Sie Ihre E-Mail ein",
+      "submit": "Absenden"
+    }
+  },
+  "cart": {
+    "title": "Warenkorb",
+    "your_items": "Ihre Artikel",
+    "select_all_items": "Alle Artikel auswählen",
+    "select_all": "Alle auswählen",
+    "continue_shopping": "Weiter einkaufen",
+    "clear_cart": "Warenkorb leeren",
+    "empty_title": "Ihr Warenkorb ist leer",
+    "empty_desc": "Sie haben noch keine Artikel in Ihren Warenkorb gelegt.",
+    "order_summary": "Bestellübersicht",
+    "selected_items": "Ausgewählte Artikel",
+    "unit": "Stück",
+    "units": "Stück",
+    "no_items_selected": "Keine Artikel ausgewählt. Bitte wählen Sie Artikel aus Ihrem Warenkorb.",
+    "subtotal": "Zwischensumme",
+    "vat": "MwSt.",
+    "coupon_discount": "Gutschein-Rabatt",
+    "points_discount": "Punkte-Rabatt",
+    "total": "Gesamtsumme",
+    "use_points": "Nutzen Sie Ihre Punkte für noch mehr Rabatt",
+    "points_available": "Punkte verfügbar.",
+    "redeem_points": "Punkte einlösen",
+    "agree_cancelation": "Ich stimme der",
+    "cancelation_policy": "Stornierungsrichtlinie",
+    "proceed_checkout": "Zur Kasse gehen"
+  },
+  "wishlist": {
+    "title": "Wunschliste",
+    "empty_title": "Ihre Wunschliste ist leer",
+    "empty_desc": "Speichern Sie Ihre Lieblingsartikel, um sie später hier zu sehen."
+  },
+  "vouchers": {
+    "title": "Unbenutzter Gutschein",
+    "unredeemed_vouchers": "Nicht eingelöste Gutscheine",
+    "voucher_id": "Gutschein-ID",
+    "qty": "Menge",
+    "deal_name": "Angebotsname",
+    "payment": "Zahlung",
+    "expire_date": "Ablaufdatum",
+    "no_unused_voucher": "Kein unbenutzter Gutschein"
+  },
+  "contact": {
+    "title": "Kontaktieren Sie uns",
+    "badge": "WIR SIND FÜR SIE DA",
+    "heading": "Haben Sie Fragen oder brauchen Unterstützung?",
+    "subheading": "Senden Sie uns eine Nachricht und unser Team wird sich so schnell wie möglich bei Ihnen melden.",
+    "quick_response": "Schnelle Antwort",
+    "quick_response_sub": "In der Regel innerhalb von 24 Stunden",
+    "real_people": "Echte Ansprechpartner",
+    "real_people_sub": "Hier um zu helfen",
+    "secure_100": "100% Sicher",
+    "secure_100_sub": "Ihre Daten sind sicher",
+    "name": "Name",
+    "email": "E-Mail",
+    "topic": "Thema",
+    "message": "Nachricht",
+    "send_message": "Nachricht senden",
+    "name_placeholder": "Max Mustermann",
+    "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
+    "topic_placeholder": "Geben Sie Ihr Thema ein",
+    "message_placeholder": "Beschreiben Sie Ihre Nachricht hier..."
+  },
+  "user_profile": {
+    "my_profile": "Mein Profil",
+    "dashboard": "Dashboard",
+    "change_password": "Passwort ändern",
+    "logout": "Abmelden",
+    "delete_account": "Konto löschen",
+    "logout_confirm_title": "Abmelden?",
+    "logout_confirm_desc": "Sind Sie sicher, dass Sie sich von Ihrem Konto abmelden möchten?",
+    "delete_confirm_title": "Konto löschen?",
+    "delete_confirm_desc": "Diese Aktion kann nicht rückgängig gemacht werden. Ihre Daten werden unwiderruflich gelöscht.",
+    "confirm_deletion": "Löschung bestätigen"
+  },
+  "shared": {
+    "utility": {
+      "no_data": "Keine Daten verfügbar",
+      "no_data_desc": "Wir konnten keine Daten finden, die Ihrer Suche entsprechen.",
+      "no_data_try_again": "Versuchen Sie es später erneut."
+    },
+    "search": {
+      "search_location": "Suchort eingeben",
+      "search_category": "Kategorie oder Dienstleistung suchen",
+      "search_button": "Suche"
+    },
+    "filters": {
+      "title": "Filter",
+      "price_range": "Preisspanne",
+      "min_price": "Mindestpreis",
+      "max_price": "Höchstpreis",
+      "rating": "Bewertung",
+      "clear_all": "Filter löschen",
+      "availability": {
+        "title": "Verfügbarkeit",
+        "last_day": "Angebote am letzten Tag",
+        "only_one_week": "Nur noch eine Woche",
+        "discount": "50 % Rabatt und MEHR"
+      }
+    },
+    "sort": {
+      "title": "Sortieren nach",
+      "options": {
+        "popular": "Beliebtheit",
+        "low_to_high": "Preis: Aufsteigend",
+        "high_to_low": "Preis: Absteigend"
+      }
+    },
+    "policy_steps": {
+      "step_1": {
+        "title": "Vouchado-Garantie",
+        "description": "Sparen Sie immer 20 % und MEHR!"
+      },
+      "step_2": {
+        "title": "Sofortige Bestätigung",
+        "description": "Buchen Sie und erhalten Sie sofort eine Bestätigung."
+      },
+      "step_3": {
+        "title": "Sichere Zahlungen",
+        "description": "100 % sicher und geschützt."
+      },
+      "step_4": {
+        "title": "24/7-Support",
+        "description": "Persönlicher Support – kein Chatbot"
+      }
     }
   }
 }

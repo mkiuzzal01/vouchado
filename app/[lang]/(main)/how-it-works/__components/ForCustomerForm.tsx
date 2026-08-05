@@ -8,8 +8,14 @@ import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
-export default function ForCustomerForm({ lang }: { lang: string }) {
+interface Props {
+  lang: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function ForCustomerForm({ lang, t }: Props) {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const router = useRouter();
 
@@ -26,10 +32,10 @@ export default function ForCustomerForm({ lang }: { lang: string }) {
       {/* Header Section */}
       <div className="select-none text-left">
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">
-          Customer Information
+          {t.how_it_work?.for_customer_form?.title}
         </h2>
         <p className="text-sm sm:text-base text-[#637381] font-normal mt-1 leading-relaxed">
-          Create your customer account to start exploring local deals.
+          {t.how_it_work?.for_customer_form?.description}
         </p>
       </div>
 
@@ -39,42 +45,50 @@ export default function ForCustomerForm({ lang }: { lang: string }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
             <TextInput
               disabled
-              label="Full Name"
+              label={t.how_it_work?.for_customer_form?.full_name}
               name="fullName"
-              placeholder="Enter your name"
+              placeholder={
+                t.how_it_work?.for_customer_form?.full_name_placeholder
+              }
             />
 
             <TextInput
               disabled
-              label="Phone Number"
+              label={t.how_it_work?.for_customer_form?.phone_number}
               name="phoneNumber"
-              placeholder="Enter your phone number"
+              placeholder={
+                t.how_it_work?.for_customer_form?.phone_number_placeholder
+              }
             />
 
             <div className="md:col-span-2">
               <TextInput
                 disabled
-                label="Email Address"
+                label={t.how_it_work?.for_customer_form?.email}
                 type="email"
                 name="emailAddress"
-                placeholder="Enter your email"
+                placeholder={
+                  t.how_it_work?.for_customer_form?.email_placeholder
+                }
               />
             </div>
 
             <TextInput
               disabled
-              label="Your Address"
+              label={t.how_it_work?.for_customer_form?.your_address}
               type="text"
               name="address"
-              placeholder="Enter your address"
+              placeholder={
+                t.how_it_work?.for_customer_form?.your_address_placeholder
+              }
             />
 
             <TextInput
               disabled
-              label="City"
+              label={t.how_it_work?.for_customer_form?.city}
               type="text"
               name="city"
-              placeholder="Enter your city"
+              placeholder={t.how_it_work?.for_customer_form?.city_placeholder}
             />
           </div>
 
@@ -90,19 +104,19 @@ export default function ForCustomerForm({ lang }: { lang: string }) {
               className="text-xs sm:text-sm text-gray-700 leading-snug cursor-pointer select-none"
               htmlFor="terms"
             >
-              I agree to Tech Takes{" "}
+              {t.auth.register.agree_terms}{" "}
               <Link
                 href={`/${lang}/terms`}
                 className="underline text-primary font-semibold hover:opacity-80 transition-opacity"
               >
-                Terms of Service
+                {t.auth.register.terms_of_service}
               </Link>{" "}
-              and{" "}
+              {t.auth.register.and}{" "}
               <Link
                 href={`/${lang}/privacy`}
                 className="underline text-primary font-semibold hover:opacity-80 transition-opacity"
               >
-                Privacy Policy
+                {t.auth.register.privacy_policy}
               </Link>
               .
             </label>
@@ -119,12 +133,12 @@ export default function ForCustomerForm({ lang }: { lang: string }) {
         {/* Footer Link */}
         <div className="mt-6 text-center">
           <p className="text-[#637381] text-xs sm:text-sm font-medium">
-            Already have an account?
+            {t.auth.register.already_account}{" "}
             <Link
               href={`/${lang}/login`}
               className="text-[#29b6be] font-bold ml-1.5 hover:underline transition-all"
             >
-              Log in
+              {t.auth.register.login}
             </Link>
           </p>
         </div>

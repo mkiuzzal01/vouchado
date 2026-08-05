@@ -10,28 +10,34 @@ import {
   AvatarFallback,
   AvatarGroup,
 } from "@/components/ui/avatar";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
-export default function Stats() {
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function Stats({ t }: Props) {
   const stats = [
     {
       icon: <Clients size={40} />,
-      value: "2,500+",
-      label: "Happy Customers",
+      value: t?.home.stats.happy_customers.value || "2,500+",
+      label: t?.home.stats.happy_customers.label || "Happy Customers",
     },
     {
       icon: <Sold size={40} />,
-      value: "50,000+",
-      label: "Deals Sold",
+      value: t?.home.stats.deals_sold.value || "50,000+",
+      label: t?.home.stats.deals_sold.label || "Deals Sold",
     },
     {
       icon: <Partner size={40} />,
-      value: "300+",
-      label: "Local Partners",
+      value: t?.home.stats.local_partners.value || "300+",
+      label: t?.home.stats.local_partners.label || "Local Partners",
     },
     {
       icon: <Review size={40} />,
-      value: "4.8 Star",
-      label: "Based on 12,500+ Review",
+      value: t?.home?.stats.based_on_reviews.value || "4.8 Star",
+      label:
+        t?.home?.stats.based_on_reviews.label || "Based on 12,500+ Reviews",
       star: <Star size={185.6} />,
     },
   ];

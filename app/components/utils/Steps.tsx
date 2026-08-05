@@ -3,22 +3,31 @@ import Bag from "../icons/Bag";
 import Scanner from "../icons/Scanner";
 import Search from "../icons/Search";
 import Container from "../shared/Container";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
-export default function Steps() {
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function Steps({ t }: Props) {
   const steps = [
     {
-      title: "1. Discover",
-      description: "Find the best local deals near you.",
+      title: t.home.steps.step1.title || "1. Discover",
+      description:
+        t.home.steps.step1.description || "Find the best local deals near you.",
       icon: <Search size={70} />,
     },
     {
-      title: "2. Purchase",
-      description: "Buy securely and instantly online.",
+      title: t.home.steps.step2.title || "2. Purchase",
+      description:
+        t.home.steps.step2.description || "Buy securely and instantly online.",
       icon: <Bag size={70} />,
     },
     {
-      title: "3. Redeem",
-      description: "Redeem your deal and enjoy amazing experiences.",
+      title: t.home.steps.step3.title || "3. Redeem",
+      description:
+        t.home.steps.step3.description ||
+        "Redeem your deal and enjoy amazing experiences.",
       icon: <Scanner size={70} />,
     },
   ];

@@ -10,17 +10,18 @@ import { IDeals } from "@/redux/types/deals";
 interface Props {
   lang: string;
   items: IDeals[];
+  t?: any;
 }
 
-export default function Wishlist({ lang, items }: Props) {
+export default function Wishlist({ lang, items, t }: Props) {
   const hasItems = useMemo(() => items?.length > 0, [items]);
 
   if (!hasItems) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center">
         <NotFoundData
-          title="Your wishlist is empty"
-          description="Save your favorite items to view them here later."
+          title={t?.wishlist?.empty_title || "Your wishlist is empty"}
+          description={t?.wishlist?.empty_desc || "Save your favorite items to view them here later."}
         />
       </div>
     );
@@ -28,7 +29,7 @@ export default function Wishlist({ lang, items }: Props) {
 
   return (
     <div>
-      <PageHero backgroundImage={wishlistBg.src} title="Wishlist" />
+      <PageHero backgroundImage={wishlistBg.src} title={t?.wishlist?.title || "Wishlist"} />
       <Container className="py-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {items.map((item: IDeals) => (

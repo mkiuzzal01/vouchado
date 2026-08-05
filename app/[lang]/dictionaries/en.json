@@ -19,7 +19,11 @@
       "terms": "I agree to Tech Takes Terms of Service and Privacy Policy.",
       "register": "Register",
       "already_account": "Already have an account?",
-      "login": "Log in"
+      "login": "Log in",
+      "agree_terms": "I agree to Tech Takes",
+      "and": "and",
+      "terms_of_service": "Terms of Service",
+      "privacy_policy": "Privacy Policy"
     },
     "forgot": {
       "title": "Forgot Password",
@@ -49,39 +53,355 @@
       "update": "Update Password"
     }
   },
-  "top": {
-    "desktop": "🔥 Enjoy up to 70% off on premium wellness experiences. Book your next self-care moment today.",
-    "mobile": "🔥 Up to 70% off — don't miss out!"
-  },
-  "nav": {
-    "home": "Home",
-    "deals": "Deals",
-    "nearby": "Nearby",
-    "how_it_works": "How it works",
-    "for_business": "For Business",
-    "contact_us": "Contact Us",
-    "category": "Category",
-    "service1": "Service 1",
-    "service2": "Service 2",
-    "service3": "Service 3",
-    "subService1": "Sub Service 1",
-    "subService2": "Sub Service 2",
-    "subService3": "Sub Service 3",
-    "mobile_menu": "Menu"
-  },
-  "footer": {
-    "links": {
-      "wishlist": "Wishlist",
-      "category": "Category",
-      "deals": "Deals",
-      "faq": "FAQ",
-      "contact_us": "Contact Us",
-      "privacy_policy": "Privacy Policy",
-      "terms_condition": "Terms & Condition"
+  "layout": {
+    "top": {
+      "desktop": "🔥 Enjoy up to 70% off on premium wellness experiences. Book your next self-care moment today.",
+      "mobile": "🔥 Up to 70% off — don't miss out!"
     },
-    "features": {
-      "title": "Tech Takes",
-      "desc": "Customer"
+    "nav": {
+      "home": "Home",
+      "deals": "Deals",
+      "nearby": "Nearby",
+      "how_it_works": "How it works",
+      "for_business": "For Business",
+      "contact_us": "Contact Us",
+      "category": "Category",
+      "mobile_menu": "Menu"
+    },
+    "footer": {
+      "shopping": "Shopping",
+      "customer_services": "Customer Services",
+      "newsletter_desc": "Subscribe to our newsletter & get exclusive 10% off your first order.",
+      "email_placeholder": "Enter Your Email",
+      "subscribe": "SUBSCRIBE",
+      "follow_us": "Follow Us On",
+      "links": {
+        "wishlist": "Wishlist",
+        "category": "Category",
+        "deals": "Deals",
+        "faq": "FAQ",
+        "contact_us": "Contact Us",
+        "privacy_policy": "Privacy Policy",
+        "terms_condition": "Terms & Condition"
+      },
+      "features": {
+        "discover": {
+          "title": "Discover Local Deals",
+          "desc": "Find the best offers near you in real-time."
+        },
+        "save": {
+          "title": "Save More Every Time",
+          "desc": "Exclusive discounts on every purchase."
+        },
+        "payment": {
+          "title": "Flexible Payment",
+          "desc": "Choose your most convenient option."
+        },
+        "support": {
+          "title": "Support Online",
+          "desc": "24 hours a day, 7 days a week."
+        }
+      }
+    },
+    "user_profile": {
+      "my_profile": "My Profile",
+      "dashboard": "Dashboard",
+      "change_password": "Change Password",
+      "logout": "Log Out",
+      "delete_account": "Delete Account",
+      "logout_confirm_title": "Log Out?",
+      "logout_confirm_desc": "Are you sure you want to log out of your account session?",
+      "delete_confirm_title": "Delete Account?",
+      "delete_confirm_desc": "This action is completely irreversible. Your data will be cleared instantly.",
+      "confirm_deletion": "Confirm Deletion"
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "YOUR CITY. YOUR DEALS.",
+      "title": {
+        "first": "Discover Amazing",
+        "second": "Local",
+        "third": "Deals"
+      },
+      "sub_title": "Save up to 70% on experiences you love.",
+      "desc": "Find exclusive discounts on restaurants, spas, adventures, beauty treatments, and local activities. New deals added every day!",
+      "features": {
+        "verified_deals": "Verified Deals",
+        "secure_checkout": "Secure Checkout",
+        "support": "24/7 Support"
+      }
+    },
+    "stats": {
+      "happy_customers": {
+        "value": "2,500+",
+        "label": "Happy Customers"
+      },
+      "deals_sold": {
+        "value": "50,000+",
+        "label": "Deals Sold"
+      },
+      "local_partners": {
+        "value": "300+",
+        "label": "Local Partners"
+      },
+      "based_on_reviews": {
+        "value": "4.8 Star",
+        "label": "Based on 12,500+ Reviews"
+      }
+    },
+    "trusted": {
+      "title": "Trusted by the best and loved by all",
+      "reviews": {
+        "title": "4.8/5 Rating",
+        "subtitle": "Based on 12,500+ reviews"
+      },
+      "payments": {
+        "title": "Secure Payments",
+        "subtitle": "100% protected transactions"
+      },
+      "support": {
+        "title": "24/7 Support",
+        "subtitle": "We're always here to help"
+      }
+    },
+    "steps": {
+      "step1": {
+        "title": "1. Discover",
+        "description": "Find the best local deals near you."
+      },
+      "step2": {
+        "title": "2. Purchase",
+        "description": "Buy securely and instantly online."
+      },
+      "step3": {
+        "title": "3. Redeem",
+        "description": "Redeem your deal and enjoy amazing experiences."
+      }
+    },
+    "sections": {
+      "explore_categories": "Explore Categories",
+      "deals_near_you": "Deals Near You",
+      "trending_now": "Trending Now",
+      "no_categories": "No categories found",
+      "no_deals_near": "No Deals Near You",
+      "no_trending_deals": "No Trending Deals"
+    },
+    "promo": {
+      "title_first": "Grow Your Business",
+      "title_second": "With VOUCHADO",
+      "subtitle_first": "Join 300+ local businesses and reach",
+      "subtitle_second": "thousands of new customers",
+      "cta": "Partner With us",
+      "stats": {
+        "businesses": "Partner Businesses",
+        "customers": "Active Customers",
+        "redeemed": "Deals Redeemed"
+      }
+    }
+  },
+  "deals": {
+    "title": "Explore Deals and Save More",
+    "description": "Browse handpicked deals for every trend, occasion and lifestyle."
+  },
+  "nearby": {
+    "deals_available": "Deals Available"
+  },
+  "how_it_work": {
+    "title": "How it works",
+    "how_it_work": "How to",
+    "vouchado": "Vouchado?",
+    "desc": {
+      "desc_1": "We designed Vouchado around a simple three-step journey:",
+      "desc_2": "Discover",
+      "desc_3": "Purchase",
+      "desc_4": "and",
+      "desc_5": "Redeem",
+      "desc_6": "This approach removes unnecessary complexity and creates a frictionless experience for both customers and businesses. Users can quickly find inspiring local offers, purchase vouchers in seconds, and redeem them effortlessly through a QR code. By focusing on a clear and intuitive flow, we encourage exploration, increase conversion rates, and make the entire experience easy to understand and use."
+    },
+
+    "steps": {
+      "step_1": {
+        "title": "Discover Deals",
+        "desc": "Browse nearby offers, explore curated categories or search for experiences that match your interests.",
+        "features": {
+          "curated": "Curated offers",
+          "nearby": "Nearby deals",
+          "search": "Easy search"
+        }
+      },
+      "step_2": {
+        "title": "Purchase Your Voucher",
+        "desc": "Choose your favourite deal and securely purchase your service in just a few taps.",
+        "features": {
+          "secure": "Secure payments",
+          "instant": "Instant confirmation",
+          "best": "Best price guarantee"
+        }
+      },
+      "step_3": {
+        "title": "Receive Your Voucher",
+        "desc": "Your voucher is instantly stored in your account, ready to use whenever you are.",
+        "features": {
+          "instant": "Instant voucher",
+          "stored": "Stored in your account",
+          "accessible": "Always accessible"
+        }
+      },
+      "step_4": {
+        "title": "Redeem & Enjoy",
+        "desc": "Visit the business, present your QR code, and enjoy your experience while saving money.",
+        "features": {
+          "quick": "Quick & easy redemption",
+          "enjoy": "Enjoy exclusive experiences",
+          "save": "Save more on every visit"
+        }
+      },
+      "step_5": {
+        "title": "Earn Loyalty Points",
+        "desc": "Collect points with every purchase and redeem them for future Vouchado vouchers.",
+        "features": {
+          "collect": "Collect points",
+          "unlock": "Unlock rewards",
+          "benefits": "More benefits"
+        }
+      }
+    },
+
+    "for_customer": {
+      "sec_1": "The best deals don't last forever.",
+      "sec_2": "Be among the first to grab the hottest offers in your city.",
+      "sec_3": "Discover new places, save money, and enjoy exclusive deals.",
+      "sec_4": "And have FUN!"
+    },
+    "for_customer_form": {
+      "title": "Customer Information",
+      "description": "Create your customer account to start exploring local deals.",
+      "full_name": "Full Name",
+      "full_name_placeholder": "Enter your name",
+      "phone_number": "Phone Number",
+      "phone_number_placeholder": "Enter your phone number",
+      "your_address": "Your Address",
+      "your_address_placeholder": "Enter your address",
+      "city": "City",
+      "city_placeholder": "Enter your city",
+      "email": "Email",
+      "email_placeholder": "Enter your email",
+      "submit": "Submit"
+    }
+  },
+  "cart": {
+    "title": "Cart",
+    "your_items": "Your Items",
+    "select_all_items": "Select all items",
+    "select_all": "Select all",
+    "continue_shopping": "Continue Shopping",
+    "clear_cart": "Clear Cart",
+    "empty_title": "Your cart is empty",
+    "empty_desc": "Looks like you haven't added any items to your cart yet.",
+    "order_summary": "Order Summary",
+    "selected_items": "Selected Items",
+    "unit": "unit",
+    "units": "units",
+    "no_items_selected": "No items selected. Please select items from your cart to proceed.",
+    "subtotal": "Subtotal",
+    "vat": "VAT",
+    "coupon_discount": "Coupon Discount",
+    "points_discount": "Points Discount",
+    "total": "Total",
+    "use_points": "Use your points & enjoy even more discount",
+    "points_available": "points available.",
+    "redeem_points": "Redeem Points",
+    "agree_cancelation": "I agree with",
+    "cancelation_policy": "Cancelation Policy",
+    "proceed_checkout": "Proceed to Checkout"
+  },
+  "wishlist": {
+    "title": "Wishlist",
+    "empty_title": "Your wishlist is empty",
+    "empty_desc": "Save your favorite items to view them here later."
+  },
+  "vouchers": {
+    "title": "Unused Voucher",
+    "unredeemed_vouchers": "Unredeemed vouchers",
+    "voucher_id": "Voucher ID",
+    "qty": "Qty",
+    "deal_name": "Deal Name",
+    "payment": "Payment",
+    "expire_date": "Expire date",
+    "no_unused_voucher": "No unused voucher"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "badge": "WE'RE HERE TO HELP",
+    "heading": "Got a question or need support?",
+    "subheading": "Send us a message and our team will get back to you as soon as possible.",
+    "quick_response": "Quick Response",
+    "quick_response_sub": "Usually within 24h",
+    "real_people": "Real People",
+    "real_people_sub": "Here to help",
+    "secure_100": "100% Secure",
+    "secure_100_sub": "Your data is safe",
+    "name": "Name",
+    "email": "Email",
+    "topic": "Topic",
+    "message": "Message",
+    "send_message": "Send Message",
+    "name_placeholder": "Johnathan Smith",
+    "email_placeholder": "Enter your email Address",
+    "topic_placeholder": "Enter your topic",
+    "message_placeholder": "Discribe your message here..."
+  },
+  "shared": {
+    "utility": {
+      "no_data": "No Data Available",
+      "no_data_desc": "We couldn't find any data matching your search.",
+      "no_data_try_again": "Try again later."
+    },
+    "search": {
+      "search_location": "Search your Location",
+      "search_category": "Search your Category or Service",
+      "search_button": "Search"
+    },
+    "filters": {
+      "title": "Filters",
+      "price_range": "Price Range",
+      "min_price": "Min Price",
+      "max_price": "Max Price",
+      "rating": "Rating",
+      "clear_all": "Clear All",
+      "availability": {
+        "title": "Availability",
+        "last_day": "Last Day Offers",
+        "only_one_week": "Only one week to go",
+        "discount": "50% Discounted and MORE"
+      }
+    },
+    "sort": {
+      "title": "Sort by",
+      "options": {
+        "popular": "Popularity",
+        "low_to_high": "Price: Low to High",
+        "high_to_low": "Price: High to Low"
+      }
+    },
+    "policy_steps": {
+      "step_1": {
+        "title": "Vouchado Guarantee",
+        "description": "Always save 20% and MORE!"
+      },
+      "step_2": {
+        "title": "Instant Confirmation",
+        "description": "Book and get confirmed instantly."
+      },
+      "step_3": {
+        "title": "Secure Payments",
+        "description": "100% secure and protected."
+      },
+      "step_4": {
+        "title": "24/7 Support",
+        "description": "In person support - no chatboot"
+      }
     }
   }
 }

@@ -6,17 +6,22 @@ import ArrowUp from "@/app/components/icons/ArrowUp";
 import batch from "@/public/business/Frame 2147240691 (2).png";
 import homeIcon from "@/public/business/Frame 2147240661 (2).png";
 import ForCustomerForm from "./ForCustomerForm";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   lang: string;
 }
 
-export default function ForCustomer({ lang }: Props) {
+export default async function ForCustomer({ lang }: Props) {
+  const t = (await getDictionary(lang)) as Awaited<
+    ReturnType<typeof getDictionary>
+  >;
+
   const features = [
-    "The best deals don't last forever.",
-    "Be among the first to grab the hottest offers in your city.",
-    "Discover new places, save money, and enjoy exclusive deals.",
-    "And have FUN!",
+    t.how_it_work?.for_customer?.sec_1,
+    t.how_it_work?.for_customer?.sec_2,
+    t.how_it_work?.for_customer?.sec_3,
+    t.how_it_work?.for_customer?.sec_4,
   ];
 
   return (
@@ -54,7 +59,9 @@ export default function ForCustomer({ lang }: Props) {
               <ul className="space-y-4">
                 {features.map((feature, idx) => (
                   <li key={idx} className="flex items-center gap-3 text-white">
-                    <CheckIcon size={22} />
+                    <div>
+                      <CheckIcon size={22} />
+                    </div>
 
                     <span className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-[32px] font-medium">
                       {feature}
@@ -73,7 +80,7 @@ export default function ForCustomer({ lang }: Props) {
             {/* Right */}
             <div className="w-full lg:w-[55%] xl:max-w-[800px]">
               <div className="bg-white rounded-4xl py-[32px] lg:px-[48px]">
-                <ForCustomerForm lang={lang} />
+                <ForCustomerForm lang={lang} t={t} />
               </div>
             </div>
           </div>

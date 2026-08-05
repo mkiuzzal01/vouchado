@@ -14,29 +14,7 @@ import Save from "@/app/components/icons/Save";
 import SecurePayment from "@/app/components/icons/SecurePayment";
 import Container from "@/app/components/shared/Container";
 import NotFoundData from "@/app/components/shared/NotFoundData";
-
-export const promos = [
-  {
-    title: "Vouchado Guarantee",
-    description: "Always save 20% and MORE!",
-    icon: <Save />,
-  },
-  {
-    title: "Instant Confirmation",
-    description: "Book & get confirmed instantly.",
-    icon: <InstantConfirm />,
-  },
-  {
-    title: "Secure Payments",
-    description: "100% secure and protected.",
-    icon: <SecurePayment />,
-  },
-  {
-    title: "24/7 Support",
-    description: "In person support - no chatboot",
-    icon: <Contact />,
-  },
-];
+import { getDictionary } from "../../dictionaries";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -89,11 +67,40 @@ export default async function page({ params, searchParams }: Props) {
 
   const deals = await getDeals(query.toString());
   const categories = await getCategories();
+  const t: Awaited<ReturnType<typeof getDictionary>> =
+    await getDictionary(lang);
+
+  const promos = [
+    {
+      title: t.shared.policy_steps.step_1.title,
+      description: t.shared.policy_steps.step_1.description,
+      icon: <Save />,
+    },
+    {
+      title: t.shared.policy_steps.step_2.title,
+      description: t.shared.policy_steps.step_2.description,
+      icon: <InstantConfirm />,
+    },
+    {
+      title: t.shared.policy_steps.step_3.title,
+      description: t.shared.policy_steps.step_3.description,
+      icon: <SecurePayment />,
+    },
+    {
+      title: t.shared.policy_steps.step_4.title,
+      description: t.shared.policy_steps.step_4.description,
+      icon: <Contact />,
+    },
+  ];
 
   return (
     <div>
       <Container>
-        <ModernSearch />
+        <ModernSearch
+          locationPlaceholder={t?.shared?.search?.search_location}
+          servicePlaceholder={t?.shared?.search?.search_category}
+          buttonText={t?.shared?.search?.search_button}
+        />
 
         <div className="mt-8">
           <FilterWithCategory categories={categories?.data} />
@@ -102,12 +109,12 @@ export default async function page({ params, searchParams }: Props) {
         <div className="flex flex-col lg:flex-row gap-8 my-4">
           {/* Sidebar Filters */}
           <div className="w-full lg:w-3/12">
-            <Filtered />
+            <Filtered t={t} />
           </div>
 
           {/* Core Content Area */}
           <div className="flex flex-col gap-6 w-full lg:w-9/12">
-            <Sort total={deals?.data?.length || 0} />
+            <Sort total={deals?.data?.length || 0} t={t} />
 
             {deals?.data?.length > 0 ? (
               <>

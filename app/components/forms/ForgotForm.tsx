@@ -45,7 +45,7 @@ export default function ForgotForm({ t, locale }: Props) {
               }}
             >
               <ArrowLeft size={18} />
-              Back
+              {t.auth.forgot.back}
             </button>
           </div>
           {/* ================= RIGHT FORM ================= */}

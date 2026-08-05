@@ -8,6 +8,7 @@ import PromoBanner from "@/app/components/hero/PromoBanner";
 import DealsNear from "@/app/components/sections/DealsNear";
 import Trusted from "@/app/components/sections/Trusted";
 import Steps from "@/app/components/utils/Steps";
+import { getDictionary } from "../dictionaries";
 
 interface Props {
   params: Promise<{ lang: "en" | "de" }>;
@@ -16,6 +17,7 @@ interface Props {
 
 export default async function page({ params, searchParams }: Props) {
   const { lang } = await params;
+  const t = await getDictionary(lang);
   const { service, lat, lng } = await searchParams;
 
   const query = new URLSearchParams();
@@ -37,13 +39,13 @@ export default async function page({ params, searchParams }: Props) {
 
   return (
     <>
-      <Hero banner={banner} />
-      <Steps />
-      <ExploreCategories categories={categories?.data} />
-      <DealsNear lang={lang} deals={deals} />
-      <TrendingNow lang={lang} deals={trendingDeals} />
-      <Trusted />
-      <PromoBanner lang={lang} />
+      <Hero banner={banner} t={t} />
+      <Steps t={t} />
+      <ExploreCategories categories={categories?.data} t={t} />
+      <DealsNear lang={lang} deals={deals} t={t} />
+      <TrendingNow lang={lang} deals={trendingDeals} t={t} />
+      <Trusted t={t} />
+      <PromoBanner lang={lang} t={t} />
     </>
   );
 }

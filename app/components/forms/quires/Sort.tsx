@@ -9,22 +9,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   total: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-const SORT_OPTIONS = [
-  { value: "none", label: "Sort By" },
-  { value: "popular", label: "Popularity" },
-  { value: "low_to_high", label: "Price: Low to High" },
-  { value: "high_to_low", label: "Price: High to Low" },
-];
-
-export default function Sort({ total }: Props) {
+export default function Sort({ total, t }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  const SORT_OPTIONS = [
+    { value: "none", label: t.shared.sort.title },
+    { value: "popular", label: t.shared.sort.options.popular },
+    { value: "low_to_high", label: t.shared.sort.options.low_to_high },
+    { value: "high_to_low", label: t.shared.sort.options.high_to_low },
+  ];
 
   const currentSort = searchParams.get("popular") || "none";
 
@@ -48,7 +50,7 @@ export default function Sort({ total }: Props) {
       {/* Total Deals Counter */}
       <div>
         <h1 className="text-[#637381] font-medium text-[15px]">
-          {total} Deals Available
+          {total} {t.nearby.deals_available}
         </h1>
       </div>
 

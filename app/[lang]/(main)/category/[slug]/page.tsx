@@ -12,6 +12,7 @@ import Container from "@/app/components/shared/Container";
 import SectionHeader from "@/app/components/shared/SectionHeader";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import { getDeals } from "@/actions/quires/deals.api";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 export const promos = [
   {
@@ -58,6 +59,9 @@ export default async function Page({ params, searchParams }: Props) {
   const { lang, slug } = resolvedParams;
   const { min_price, max_price, location, rating, availability, sort, page } =
     resolvedSearchParams;
+  const t = (await getDictionary(lang)) as Awaited<
+    ReturnType<typeof getDictionary>
+  >;
 
   const query = new URLSearchParams();
 
@@ -84,11 +88,11 @@ export default async function Page({ params, searchParams }: Props) {
       <div className="flex flex-col lg:flex-row gap-6 mt-4">
         {/* Left Side Filter Panel */}
         <div className="w-full lg:w-1/4 shrink-0">
-          <Filtered />
+          <Filtered t={t} />
         </div>
 
         <div className="flex flex-col gap-4 w-full lg:w-3/4">
-          <Sort total={totalDeals} />
+          <Sort total={totalDeals} t={t} />
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {deals?.data?.length > 0 ? (

@@ -13,29 +13,7 @@ import { Deal } from "@/app/components/sections/DealsNear";
 import Container from "@/app/components/shared/Container";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import SectionHeader from "@/app/components/shared/SectionHeader";
-
-export const promos = [
-  {
-    title: "Vouchado Guarantee",
-    description: "Always save 20% and MORE!",
-    icon: <Save />,
-  },
-  {
-    title: "Instant Confirmation",
-    description: "Book and get confirmed instantly.",
-    icon: <InstantConfirm />,
-  },
-  {
-    title: "Secure Payments",
-    description: "100% secure and protected.",
-    icon: <SecurePayment />,
-  },
-  {
-    title: "24/7 Support",
-    description: "In person support - no chatboot",
-    icon: <Contact />,
-  },
-];
+import { getDictionary } from "../../dictionaries";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -79,12 +57,38 @@ export default async function Page({ params, searchParams }: Props) {
 
   const deals = await getDeals(query.toString());
   const categories = await getCategories();
+  const t = (await getDictionary(lang)) as Awaited<
+    ReturnType<typeof getDictionary>
+  >;
+
+  const promos = [
+    {
+      title: t.shared.policy_steps.step_1.title,
+      description: t.shared.policy_steps.step_1.description,
+      icon: <Save />,
+    },
+    {
+      title: t.shared.policy_steps.step_2.title,
+      description: t.shared.policy_steps.step_2.description,
+      icon: <InstantConfirm />,
+    },
+    {
+      title: t.shared.policy_steps.step_3.title,
+      description: t.shared.policy_steps.step_3.description,
+      icon: <SecurePayment />,
+    },
+    {
+      title: t.shared.policy_steps.step_4.title,
+      description: t.shared.policy_steps.step_4.description,
+      icon: <Contact />,
+    },
+  ];
 
   return (
     <Container>
       <SectionHeader
-        title="Explore Deals and Save More"
-        description="Browse handpicked Deals for every trend, occasion and lifestyle."
+        title={t?.deals?.title}
+        description={t?.deals?.description}
       />
 
       <div className="mt-8">
@@ -93,7 +97,7 @@ export default async function Page({ params, searchParams }: Props) {
 
       <div className="flex flex-col lg:flex-row gap-8 my-4">
         <div className="w-full lg:w-3/12">
-          <Filtered />
+          <Filtered t={t} />
         </div>
 
         <div className="flex flex-col gap-6 w-full lg:w-9/12">
@@ -118,7 +122,8 @@ export default async function Page({ params, searchParams }: Props) {
           ) : (
             <NotFoundData
               className="w-full"
-              description="No data found matching the active filters."
+              title={t?.shared?.utility?.no_data}
+              description={t?.shared?.utility?.no_data_desc}
             />
           )}
           <PromoSteps steps={promos} />

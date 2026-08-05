@@ -23,6 +23,7 @@ import SaveMore from "@/app/components/icons/SaveMore";
 import Collect from "@/app/components/icons/Collect";
 import Unlock from "@/app/components/icons/Unlock";
 import Benefits from "@/app/components/icons/Benefits";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface SubFeature {
   label: string;
@@ -38,81 +39,119 @@ interface StepItem {
   features: SubFeature[];
 }
 
-const steps: StepItem[] = [
-  {
-    id: "step-1",
-    number: "01",
-    title: "Discover Deals",
-    description:
-      "Browse nearby offers, explore curated categories or search for experiences that match your interests.",
-    imageSrc: step_1,
-    features: [
-      { label: "Curated offers", icon: <Curated size={30} /> },
-      { label: "Nearby deals", icon: <Nearby size={30} /> },
-      { label: "Easy search", icon: <EasySearch size={30} /> },
-    ],
-  },
-  {
-    id: "step-2",
-    number: "02",
-    title: "Purchase Your Voucher",
-    description:
-      "Choose your favourite deal and securely purchase your service in just a few taps.",
-    imageSrc: step_2,
-    features: [
-      { label: "Secure payments", icon: <SPayment size={30} /> },
-      {
-        label: "Instant confirmation",
-        icon: <InstantConfiremation size={30} />,
-      },
-      {
-        label: "Best price guarantee",
-        icon: <BestPriceGuranted size={30} />,
-      },
-    ],
-  },
-  {
-    id: "step-3",
-    number: "03",
-    title: "Receive Your Voucher",
-    description:
-      "Your voucher is instantly stored in your account, ready to use whenever you are.",
-    imageSrc: step_3,
-    features: [
-      { label: "Instant voucher", icon: <InstantVoucher size={30} /> },
-      { label: "Stored in your account", icon: <StoredAcct size={30} /> },
-      { label: "Always accessible", icon: <Accessible size={30} /> },
-    ],
-  },
-  {
-    id: "step-4",
-    number: "04",
-    title: "Redeem & Enjoy",
-    description:
-      "Visit the business, present your QR code, and enjoy your experience while saving money.",
-    imageSrc: step_4,
-    features: [
-      { label: "Quick & easy redemption", icon: <Quick size={30} /> },
-      { label: "Enjoy exclusive experiences", icon: <Enjoy size={30} /> },
-      { label: "Save more on every visit", icon: <SaveMore size={30} /> },
-    ],
-  },
-  {
-    id: "step-5",
-    number: "05",
-    title: "Earn Loyalty Points",
-    description:
-      "Collect points with every purchase and redeem them for future Vouchado vouchers.",
-    imageSrc: step_5,
-    features: [
-      { label: "Collect points", icon: <Collect size={30} /> },
-      { label: "Unlock rewards", icon: <Unlock size={30} /> },
-      { label: "More benefits", icon: <Benefits size={30} /> },
-    ],
-  },
-];
+interface Prop {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
 
-export default function Steps() {
+export default function Steps({ t }: Prop) {
+  const steps: StepItem[] = [
+    {
+      id: "step-1",
+      number: "01",
+      title: t?.how_it_work?.steps?.step_1?.title,
+      description: t?.how_it_work?.steps?.step_1?.desc,
+      imageSrc: step_1,
+      features: [
+        {
+          label: t?.how_it_work?.steps?.step_1?.features?.curated,
+          icon: <Curated size={30} />,
+        },
+        {
+          label: t?.how_it_work?.steps?.step_1?.features?.nearby,
+          icon: <Nearby size={30} />,
+        },
+        {
+          label: t?.how_it_work?.steps?.step_1?.features?.search,
+          icon: <EasySearch size={30} />,
+        },
+      ],
+    },
+    {
+      id: "step-2",
+      number: "02",
+      title: t?.how_it_work?.steps?.step_2?.title,
+      description: t?.how_it_work?.steps?.step_2?.desc,
+      imageSrc: step_2,
+      features: [
+        {
+          label: t?.how_it_work?.steps?.step_2?.features?.secure,
+          icon: <SPayment size={30} />,
+        },
+        {
+          label: t?.how_it_work?.steps?.step_2?.features?.instant,
+          icon: <InstantConfiremation size={30} />,
+        },
+        {
+          label: t?.how_it_work?.steps?.step_2?.features?.best,
+          icon: <BestPriceGuranted size={30} />,
+        },
+      ],
+    },
+    {
+      id: "step-3",
+      number: "03",
+      title: t?.how_it_work?.steps?.step_3?.title,
+      description: t?.how_it_work?.steps?.step_3?.desc,
+      imageSrc: step_3,
+      features: [
+        {
+          label: t?.how_it_work?.steps?.step_3?.features?.instant,
+          icon: <InstantVoucher size={30} />,
+        },
+        {
+          label: t?.how_it_work?.steps?.step_3?.features?.stored,
+          icon: <StoredAcct size={30} />,
+        },
+        {
+          label: t?.how_it_work?.steps?.step_3?.features?.accessible,
+          icon: <Accessible size={30} />,
+        },
+      ],
+    },
+    {
+      id: "step-4",
+      number: "04",
+      title: t?.how_it_work?.steps?.step_4?.title,
+      description: t?.how_it_work?.steps?.step_4?.desc,
+      imageSrc: step_4,
+      features: [
+        {
+          label: t?.how_it_work?.steps?.step_4?.features?.quick,
+          icon: <Quick size={30} />,
+        },
+        {
+          label: t?.how_it_work?.steps?.step_4?.features?.enjoy,
+          icon: <Enjoy size={30} />,
+        },
+        {
+          label: t?.how_it_work?.steps?.step_4?.features?.save,
+          icon: <SaveMore size={30} />,
+        },
+      ],
+    },
+    {
+      id: "step-5",
+      number: "05",
+      title: t?.how_it_work?.steps?.step_5?.title,
+      description: t?.how_it_work?.steps?.step_5?.desc,
+      imageSrc: step_5,
+      features: [
+        {
+          label: t?.how_it_work?.steps?.step_5?.features?.collect,
+          icon: <Collect size={30} />,
+        },
+        {
+          label: t?.how_it_work?.steps?.step_5?.features?.unlock,
+          icon: <Unlock size={30} />,
+        },
+        {
+          label: t?.how_it_work?.steps?.step_5?.features?.benefits,
+          icon: <Benefits size={30} />,
+        },
+      ],
+    },
+  ];
+
   return (
     <section className="w-full py-12 md:py-16 lg-18 xl:py-24">
       <Container>

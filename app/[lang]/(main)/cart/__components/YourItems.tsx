@@ -10,9 +10,10 @@ import NotFoundData from "@/app/components/shared/NotFoundData";
 
 interface Props {
   lang: string;
+  t?: any;
 }
 
-export default function YourItems({ lang }: Props) {
+export default function YourItems({ lang, t }: Props) {
   const { items } = useAppSelector((state) => state.cart);
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -28,8 +29,8 @@ export default function YourItems({ lang }: Props) {
   if (!items?.length) {
     return (
       <NotFoundData
-        title="Your cart is empty"
-        description="Looks like you haven't added any items to your cart yet."
+        title={t?.cart?.empty_title || "Your cart is empty"}
+        description={t?.cart?.empty_desc || "Looks like you haven't added any items to your cart yet."}
       />
     );
   }
@@ -39,7 +40,7 @@ export default function YourItems({ lang }: Props) {
       <div className="bg-white rounded-2xl p-4 md:p-6 border border-slate-100 shadow-2xs">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-4 border-b border-slate-100 gap-3">
           <h2 className="text-xl font-bold text-slate-900">
-            Your Items ({items?.length})
+            {t?.cart?.your_items || "Your Items"} ({items?.length})
           </h2>
 
           <div className="flex items-center gap-3">
@@ -49,7 +50,7 @@ export default function YourItems({ lang }: Props) {
                 onClick={() => dispatch(toggleSelectAll(true))}
                 className="text-xs font-semibold text-[#31BFC8] hover:underline cursor-pointer"
               >
-                Select all items
+                {t?.cart?.select_all_items || "Select all items"}
               </button>
             )}
 
@@ -65,7 +66,7 @@ export default function YourItems({ lang }: Props) {
                 htmlFor="select-all"
                 className="text-sm font-semibold text-slate-700 cursor-pointer select-none"
               >
-                Select all ({selectedCount}/{items.length})
+                {t?.cart?.select_all || "Select all"} ({selectedCount}/{items.length})
               </label>
             </div>
           </div>
@@ -86,7 +87,7 @@ export default function YourItems({ lang }: Props) {
             className="w-full sm:w-auto rounded-full border-2 bg-transparent border-[#31BFC8] text-[#31BFC8] hover:border-[#31BFC8] hover:bg-[#31BFC8]/10 hover:text-[#31BFC8] font-semibold p-6 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Continue Shopping
+            {t?.cart?.continue_shopping || "Continue Shopping"}
           </Button>
 
           <Button
@@ -95,7 +96,7 @@ export default function YourItems({ lang }: Props) {
             className="w-full sm:w-auto text-slate-500 hover:text-red-600 hover:bg-red-50 font-medium px-4 transition-colors cursor-pointer"
           >
             <Trash2 className="w-4 h-4 mr-2" />
-            Clear Cart
+            {t?.cart?.clear_cart || "Clear Cart"}
           </Button>
         </div>
       </div>

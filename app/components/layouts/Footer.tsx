@@ -28,17 +28,20 @@ import {
 } from "@/redux/features/cart/cart.slice";
 import { updatePointsPerOrder } from "@/redux/features/auth/auth.slice";
 import { setSystem } from "@/redux/features/system/system.slice";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface FooterLinks {
   footerLinks: any;
   socialLinks: any;
   systemInfo: any;
+  t?: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 export default function Footer({
   footerLinks,
   socialLinks,
   systemInfo,
+  t,
 }: FooterLinks) {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -90,23 +93,32 @@ export default function Footer({
   const features = [
     {
       icon: <Search />,
-      title: "Discover Local Deals",
-      desc: "Find the best offers near you in real-time.",
+      title:
+        t?.layout?.footer?.features?.discover?.title || "Discover Local Deals",
+      desc:
+        t?.layout?.footer?.features?.discover?.desc ||
+        "Find the best offers near you in real-time.",
     },
     {
       icon: <Money />,
-      title: "Save More Every Time",
-      desc: "Exclusive discounts on every purchase.",
+      title: t?.layout?.footer?.features?.save?.title || "Save More Every Time",
+      desc:
+        t?.layout?.footer?.features?.save?.desc ||
+        "Exclusive discounts on every purchase.",
     },
     {
       icon: <Payment />,
-      title: "Flexible Payment",
-      desc: "Choose your most convenient option.",
+      title: t?.layout?.footer?.features?.payment?.title || "Flexible Payment",
+      desc:
+        t?.layout?.footer?.features?.payment?.desc ||
+        "Choose your most convenient option.",
     },
     {
       icon: <SupportOnline />,
-      title: "Support Online",
-      desc: "24 hours a day, 7 days a week.",
+      title: t?.layout?.footer?.features?.support?.title || "Support Online",
+      desc:
+        t?.layout?.footer?.features?.support?.desc ||
+        "24 hours a day, 7 days a week.",
     },
   ];
 
@@ -149,7 +161,7 @@ export default function Footer({
             <div className="grid grid-cols-2 gap-5 xl:gap-10">
               <div>
                 <h3 className="mb-4 text-base sm:text-lg xl:text-xl font-semibold text-white">
-                  Shopping
+                  {t?.layout?.footer?.shopping || "Shopping"}
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-400">
                   {footerLinks?.shopping?.map((item: any) => (
@@ -167,7 +179,7 @@ export default function Footer({
 
               <div>
                 <h3 className="mb-4 text-base sm:text-lg xl:text-xl font-semibold text-white">
-                  Customer Services
+                  {t?.layout?.footer?.customer_services || "Customer Services"}
                 </h3>
                 <ul className="space-y-2 text-sm text-gray-400">
                   {footerLinks?.customer?.map((item: any) => (
@@ -187,8 +199,8 @@ export default function Footer({
             {/* NEWSLETTER */}
             <div className="space-y-4 col-span-1 sm:col-span-2 lg:col-span-1">
               <p className="text-sm font-normal text-gray-400 leading-relaxed">
-                Subscribe to our newsletter & get exclusive
-                <br className="hidden sm:block" /> 10% off your first order.
+                {t?.layout?.footer?.newsletter_desc ||
+                  "Subscribe to our newsletter & get exclusive 10% off your first order."}
               </p>
 
               <form
@@ -201,7 +213,9 @@ export default function Footer({
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter Your Email"
+                  placeholder={
+                    t?.layout?.footer?.email_placeholder || "Enter Your Email"
+                  }
                   className={cn(
                     "h-11 border-0 bg-transparent px-4 text-white placeholder:text-gray-400 focus-visible:ring-0 focus-visible:ring-offset-0 flex-1 min-w-0 text-sm",
                   )}
@@ -214,7 +228,9 @@ export default function Footer({
                     "h-11 cursor-pointer bg-linear-to-r from-[#4cd3e3] to-[#25a5b5] text-white rounded-full px-4 sm:px-8 font-semibold tracking-wider uppercase text-xs hover:opacity-90 transition-opacity shrink-0",
                   )}
                 >
-                  {isLoading ? "..." : "SUBSCRIBE"}
+                  {isLoading
+                    ? "..."
+                    : t?.layout?.footer?.subscribe || "SUBSCRIBE"}
                 </Button>
               </form>
             </div>
@@ -223,7 +239,7 @@ export default function Footer({
           <div className="flex items-center py-5 flex-col gap-6 lg:flex-row justify-between">
             <div className="space-y-2.5  lg:ml-[57px] flex flex-col items-center lg:items-start">
               <h3 className="text-xs xl:text-base font-normal text-[#DFE3E8]">
-                Follow Us On
+                {t?.layout?.footer?.follow_us || "Follow Us On"}
               </h3>
               <div className="flex items-center gap-3">
                 {socialIcons.map((item, i) => (

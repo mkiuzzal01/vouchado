@@ -2,6 +2,7 @@ import Container from "@/app/components/shared/Container";
 import ProductCard from "../cards/ProductCard";
 import SectionHeader from "../shared/SectionHeader";
 import NotFoundData from "../shared/NotFoundData";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 export interface Deal {
   id: number;
@@ -23,17 +24,24 @@ export interface Deal {
 interface Props {
   lang: string;
   deals: { data: Deal[] };
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function DealsNear({ lang, deals }: Props) {
+export default function DealsNear({ lang, deals, t }: Props) {
   if (deals?.data?.length === 0) {
-    return <NotFoundData title="No Deals Near You" />;
+    return (
+      <NotFoundData
+        title={t?.shared?.utility?.no_data || "No Deals Near You"}
+      />
+    );
   }
 
   return (
     <Container>
       <section className="pb-8">
-        <SectionHeader title="Deals Near You" />
+        <SectionHeader
+          title={t?.home?.sections?.deals_near_you || "Deals Near You"}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {deals?.data?.map((deal: Deal, idx) => (

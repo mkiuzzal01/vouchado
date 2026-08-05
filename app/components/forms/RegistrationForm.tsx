@@ -145,19 +145,19 @@ export default function RegistrationForm({
                     onCheckedChange={(checked) => setAgreedToTerms(!!checked)}
                   />
                   <label className="text-xs text-gray-700" htmlFor="terms">
-                    I agree to Tech Takes{" "}
+                    {t?.auth?.register?.agree_terms}{" "}
                     <Link
                       href={`/${locale}/terms`}
                       className="underline text-primary font-semibold"
                     >
-                      Terms of Service
+                      {t?.auth?.register?.terms_of_service}
                     </Link>{" "}
-                    and{" "}
+                    {t?.auth?.register?.and}{" "}
                     <Link
                       href={`/${locale}/privacy`}
                       className="underline text-primary font-semibold"
                     >
-                      Privacy Policy
+                      {t?.auth?.register?.privacy_policy}
                     </Link>
                     .
                   </label>
@@ -166,7 +166,7 @@ export default function RegistrationForm({
                 {/* SUBMIT */}
                 <SubmitButton
                   isLoading={isLoading}
-                  title="Register"
+                  title={t.auth.register.register}
                   className="h-12 w-full rounded-full text-white bg-primary hover:bg-[#0f7275]"
                   disabled={!agreedToTerms}
                 />

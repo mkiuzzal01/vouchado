@@ -12,18 +12,29 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Autoplay } from "swiper/modules";
 import bannerImage from "@/public/hero/hero.png";
-
-const FEATURES = [
-  { title: "100% Verified Deals", icon: <Verified size={20} /> },
-  { title: "Secure Checkout", icon: <Payment size={20} /> },
-  { title: "24/7 Support", icon: <CallSupport size={20} /> },
-];
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   banner: any;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function Hero({ banner }: Props) {
+export default function Hero({ banner, t }: Props) {
+  const featuresData = [
+    {
+      title: t?.home?.hero?.features?.verified_deals,
+      icon: <Verified size={20} />,
+    },
+    {
+      title: t?.home?.hero?.features?.secure_checkout,
+      icon: <Payment size={20} />,
+    },
+    {
+      title: t?.home?.hero?.features?.support,
+      icon: <CallSupport size={20} />,
+    },
+  ];
+
   return (
     <div className="w-full xl:max-w-[90%] 2xl:max-w-[1856px] mx-auto mt-4 sm:mt-6">
       <div className="relative rounded-2xl md:rounded-[32px] flex flex-col justify-between shadow-2xl min-h-[859px]">
@@ -87,38 +98,40 @@ export default function Hero({ banner }: Props) {
             <div className="relative z-10 w-full max-w-2xl md:max-w-md lg:max-w-lg xl:max-w-5xl lg:left-[18px] space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-4 xl:space-y-3 text-center md:text-left mt-20">
               {/* Badge */}
               <div className="inline-flex items-center rounded-full bg-[#BFEBEE1F]  px-4 py-1.5 md:px-3 md:py-1 lg:px-4 lg:py-2 text-[10px] sm:text-xs md:text-[10px] lg:text-[11px] xl:text-xs font-semibold tracking-widest text-white backdrop-blur-md shadow-sm">
-                YOUR CITY. YOUR DEALS.
+                {t?.home?.hero?.badge}
               </div>
 
               {/* Heading */}
               <h1 className="text-4xl sm:text-5xl md:text-5xl lg:text-5xl xl:text-[88px] font-bold leading-[1.1] text-white drop-shadow-md">
-                Discover Amazing <br className="hidden sm:block" />
+                {t?.home?.hero?.title?.first} <br className="hidden sm:block" />
                 <span className="text-[#31BFC8] drop-shadow-sm">
-                  Local
+                  {t?.home?.hero?.title?.second}
                 </span>{" "}
-                Deals.
+                {t?.home?.hero?.title?.third}
               </h1>
 
               {/* Subheading */}
               <h4 className="text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-semibold text-white drop-shadow">
-                Save up to 70% on experiences you love.
+                {t?.home?.hero?.sub_title}
               </h4>
 
               {/* Description */}
               <p className="text-base sm:text-lg md:text-sm lg:text-base xl:text-lg font-normal text-[#FFFFFFCC] max-w-xl mx-auto md:mx-0">
-                Find exclusive discounts on restaurants, spas, adventures,
-                beauty treatments, and local activities. New deals added every
-                day!
+                {t?.home?.hero?.desc}
               </p>
 
               <div>
                 <div className="w-full mx-auto md:mx-0 md:scale-[0.9] lg:scale-[0.95] xl:scale-100 origin-center md:origin-left">
-                  <HeroSearch />
+                  <HeroSearch
+                    locationPlaceholder={t?.shared?.search?.search_location}
+                    servicePlaceholder={t?.shared?.search?.search_category}
+                    buttonText={t?.shared?.search?.search_button}
+                  />
                 </div>
 
                 {/* Features */}
                 <div className="flex flex-wrap justify-center md:justify-start gap-3 md:gap-2 lg:gap-3 mt-4 sm:pt-6 md:pt-3 lg:pt-4 xl:pt-6">
-                  {FEATURES.map((feature) => (
+                  {featuresData.map((feature) => (
                     <div
                       key={feature.title}
                       className="flex items-center gap-2 rounded-full  bg-[#31BFC8]/40  md:bg-[#BFEBEE1F] px-4 py-2 md:px-3 md:py-1.5 lg:px-4 lg:py-2 text-[10px] sm:text-xs md:text-[10px] lg:text-[11px] xl:text-xs font-medium text-white  [&>svg]:scale-75 lg:[&>svg]:scale-90 xl:[&>svg]:scale-100"
@@ -134,7 +147,7 @@ export default function Hero({ banner }: Props) {
         </div>
 
         {/* Stats Component - Positioned at the bottom */}
-        <Stats />
+        <Stats t={t} />
       </div>
     </div>
   );

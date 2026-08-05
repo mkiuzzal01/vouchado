@@ -14,6 +14,7 @@ import TimeInput from "./inputs/TimeInput";
 import { useUpdateProviderProfileMutation } from "@/redux/features/provider/provider.api";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import PhoneInput from "./inputs/PhoneInput";
 
 const DAYS_OF_WEEK = [
   "Monday",
@@ -54,9 +55,17 @@ function SundayHoursSection() {
       {/* Conditionally reveal time selection inputs when Sunday is marked open */}
       {hoursSunday === "open" && (
         <div className="flex justify-between items-center gap-2 animate-fadeIn">
-          <TimeInput name="open_time_sunday" placeholder="09:00" />
+          <TimeInput
+            isCurrentDateValidation={false}
+            name="open_time_sunday"
+            placeholder="09:00"
+          />
           <span className="text-gray-400">-</span>
-          <TimeInput name="close_time_sunday" placeholder="18:00" />
+          <TimeInput
+            isCurrentDateValidation={false}
+            name="close_time_sunday"
+            placeholder="18:00"
+          />
         </div>
       )}
     </div>
@@ -226,11 +235,13 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
           {/* File Uploads */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FileInput
+              imageFeatures={true}
               defaultImage={data?.business_logo_full_url}
               label="Business Logo"
               name="business_logo"
             />
             <FileInput
+              imageFeatures={true}
               defaultImage={data?.business_cover_image_full_url}
               label="Cover Image"
               name="business_cover_image"
@@ -296,11 +307,11 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
               placeholder="johncarter@brix.com"
               icon={<Mail size={16} />}
             />
-            <TextInput
+
+            <PhoneInput
               name="phone"
               label="Phone Number"
               placeholder="12134564598"
-              icon={<Phone size={16} />}
             />
             <TextInput
               name="business_website"

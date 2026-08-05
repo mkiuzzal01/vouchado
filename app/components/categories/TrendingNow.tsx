@@ -3,6 +3,7 @@ import Container from "../shared/Container";
 import SectionHeader from "../shared/SectionHeader";
 import Fire from "../icons/Fire";
 import NotFoundData from "../shared/NotFoundData";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 export interface Deal {
   id: number;
@@ -24,16 +25,24 @@ export interface Deal {
 interface Props {
   lang: "en" | "de";
   deals: { data: Deal[] };
+  t?: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function TrendingNow({ lang, deals }: Props) {
+export default function TrendingNow({ lang, deals, t }: Props) {
   if (deals?.data?.length === 0) {
-    return <NotFoundData title="No Trending Deals" />;
+    return (
+      <NotFoundData
+        title={t?.shared?.utility?.no_data || "No Trending Deals"}
+      />
+    );
   }
 
   return (
     <Container>
-      <SectionHeader icon={<Fire />} title="Trending Now" />
+      <SectionHeader
+        icon={<Fire />}
+        title={t?.home?.sections?.trending_now || "Trending Now"}
+      />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-5">
         {deals?.data?.map((product: Deal, idx: number) => (
           <TrendingProductCard key={idx} lang={lang} product={product} />
