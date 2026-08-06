@@ -11,6 +11,7 @@ import Flag from "@/app/components/icons/Flag";
 import Universal from "@/app/components/icons/Universal";
 import Opening from "@/app/components/icons/Opening";
 import EventBasePropotion from "@/app/components/icons/EventBasePropotion";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface DealType {
   id: number;
@@ -18,64 +19,71 @@ interface DealType {
   iconPath: React.ReactNode;
 }
 
-const DEAL_TYPES: DealType[] = [
-  {
-    id: 1,
-    title: "Limited Quantity Offers",
-    iconPath: <Limited size={36} />,
-  },
-  {
-    id: 2,
-    title: "Last-Minute Promotions",
-    iconPath: <Promotion size={36} />,
-  },
-  {
-    id: 3,
-    title: "Seasonal Campaigns",
-    iconPath: <Campaigns size={36} />,
-  },
-  {
-    id: 4,
-    title: "Weekday Specials",
-    iconPath: <Calendar size={36} />,
-  },
-  {
-    id: 5,
-    title: "Time-Based Deals",
-    iconPath: <TimeBased size={36} />,
-  },
-  {
-    id: 6,
-    title: "Family & Kids Offers",
-    iconPath: <Smiley size={36} />,
-  },
-  {
-    id: 7,
-    title: "Event-Based Promotions",
-    iconPath: <EventBasePropotion size={36} />,
-  },
-  {
-    id: 8,
-    title: "Universal Business Vouchers",
-    iconPath: <Universal size={36} />,
-  },
-  {
-    id: 9,
-    title: "Opening Specials",
-    iconPath: <Opening size={36} />,
-  },
-];
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
 
-export default function CreateDeal() {
+export default function CreateDeal({ t }: Props) {
+  const DEAL_TYPES: DealType[] = [
+    {
+      id: 1,
+      title: t?.for_business.create_deals?.deal_types?.limited_quantity_offers,
+      iconPath: <Limited size={36} />,
+    },
+    {
+      id: 2,
+      title: t?.for_business.create_deals?.deal_types?.last_minute_promotions,
+      iconPath: <Promotion size={36} />,
+    },
+    {
+      id: 3,
+      title: t?.for_business.create_deals?.deal_types?.seasonal_campaigns,
+      iconPath: <Campaigns size={36} />,
+    },
+    {
+      id: 4,
+      title: t?.for_business.create_deals?.deal_types?.weekday_specials,
+      iconPath: <Calendar size={36} />,
+    },
+    {
+      id: 5,
+      title: t?.for_business.create_deals?.deal_types?.time_based_deals,
+      iconPath: <TimeBased size={36} />,
+    },
+    {
+      id: 6,
+      title: t?.for_business.create_deals?.deal_types?.family_and_kids_offers,
+      iconPath: <Smiley size={36} />,
+    },
+    {
+      id: 7,
+      title: t?.for_business.create_deals?.deal_types?.event_based_promotions,
+      iconPath: <EventBasePropotion size={36} />,
+    },
+    {
+      id: 8,
+      title:
+        t?.for_business.create_deals?.deal_types?.universal_business_vouchers,
+      iconPath: <Universal size={36} />,
+    },
+    {
+      id: 9,
+      title: t?.for_business.create_deals?.deal_types?.opening_specials,
+      iconPath: <Opening size={36} />,
+    },
+  ];
+
   return (
     <Container className="pb-24">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
         <div className="lg:col-span-4 space-y-4 text-left">
           <h2 className="text-3xl lg:text-5xl font-semibold tracking-tight">
-            Create Deals That Fit Your Business
+            {t?.for_business.create_deals?.title_1}
+            <br />
+            {t?.for_business.create_deals?.title_2}
           </h2>
           <p className="text-[#6B7280] text-sm lg:text-xl font-normal leading-relaxed max-w-md">
-            You decide how, when, and where your offers are available.
+            {t?.for_business.create_deals?.subtitle}
           </p>
         </div>
 
@@ -89,7 +97,7 @@ export default function CreateDeal() {
                   className={`
                       flex items-center gap-4 p-8 bg-white rounded-4xl
                       sm:border-r ${(idx + 1) % 2 === 0 ? "sm:border-r-0" : ""}
-                      md:border-r ${(idx + 1) % 3 === 0 ? "md:border-r-0" : "md:border-r"}
+                      md:border-r ${(idx + 1) % 3 === 0 ? "md:border-r-0" : ""}
                       ${idx >= 6 ? "md:border-b-0" : ""}
                       ${idx >= 8 ? "sm:border-b-0" : ""}
                     `}

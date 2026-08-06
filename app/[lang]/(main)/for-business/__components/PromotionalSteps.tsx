@@ -1,11 +1,11 @@
 import React from "react";
 import Container from "@/app/components/shared/Container";
 import SecurePayment from "@/app/components/icons/SecurePayment";
-import QRCode from "@/app/components/icons/QRCode";
 import ProtectedRedeem from "@/app/components/icons/ProtectedRedeem";
 import VerifyedCustomer from "@/app/components/icons/VerifyedCustomer";
 import Fraud from "@/app/components/icons/Fraud";
 import SafeTransaction from "@/app/components/icons/SafeTransaction";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface SecurityBadge {
   id: number;
@@ -14,40 +14,44 @@ interface SecurityBadge {
   iconPath: React.ReactNode;
 }
 
-const SECURITY_BADGES: SecurityBadge[] = [
-  {
-    id: 1,
-    title: "Secure Payments",
-    description: "Bank-grade encryption on every transaction.",
-    iconPath: <SecurePayment size={32} />,
-  },
-  {
-    id: 2,
-    title: "QR-Protected Redemption",
-    description: "Each voucher is verified at point of use.",
-    iconPath: <ProtectedRedeem size={32} />,
-  },
-  {
-    id: 3,
-    title: "Verified Customers",
-    description: "Real, accountable buyers visit your business.",
-    iconPath: <VerifyedCustomer size={32} />,
-  },
-  {
-    id: 4,
-    title: "Fraud Prevention",
-    description: "Active monitoring protects your revenue.",
-    iconPath: <Fraud size={32} />,
-  },
-  {
-    id: 5,
-    title: "Safe Transactions",
-    description: "Funds handled with full transparency.",
-    iconPath: <SafeTransaction size={32} />,
-  },
-];
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
 
-export default function PromotionalSteps() {
+export default function PromotionalSteps({ t }: Props) {
+  const SECURITY_BADGES: SecurityBadge[] = [
+    {
+      id: 1,
+      title: t?.for_business.features.secure_payments.title,
+      description: t?.for_business.features.secure_payments.desc,
+      iconPath: <SecurePayment size={32} />,
+    },
+    {
+      id: 2,
+      title: t?.for_business.features.qr_protected_redemption.title,
+      description: t?.for_business.features.qr_protected_redemption.desc,
+      iconPath: <ProtectedRedeem size={32} />,
+    },
+    {
+      id: 3,
+      title: t?.for_business.features.verified_customers.title,
+      description: t?.for_business.features.verified_customers.desc,
+      iconPath: <VerifyedCustomer size={32} />,
+    },
+    {
+      id: 4,
+      title: t?.for_business.features.fraud_prevention.title,
+      description: t?.for_business.features.fraud_prevention.desc,
+      iconPath: <Fraud size={32} />,
+    },
+    {
+      id: 5,
+      title: t?.for_business.features.safe_transactions.title,
+      description: t?.for_business.features.safe_transactions.desc,
+      iconPath: <SafeTransaction size={32} />,
+    },
+  ];
+
   return (
     <Container className="pb-8">
       <div className="w-full bg-white rounded-3xl border border-[#EDF2F7] p-3">

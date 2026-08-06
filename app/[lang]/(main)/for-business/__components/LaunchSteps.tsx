@@ -6,6 +6,7 @@ import step_1 from "@/public/business/lounch_step (3).png";
 import step_2 from "@/public/business/lounch_step (2).png";
 import step_3 from "@/public/business/lounch_step (1).png";
 import Image, { StaticImageData } from "next/image";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface StepItem {
   id: number;
@@ -19,47 +20,51 @@ interface StepItem {
   shadowClass: string;
 }
 
-const STEPS_DATA: StepItem[] = [
-  {
-    id: 1,
-    stepNumber: 1,
-    title: "Create your deal",
-    description: "Choose discount, availability, and duration in minutes.",
-    imageSrc: step_1,
-    imageAlt:
-      "Dashboard view showing options to scan voucher or add new service",
-    borderColor: "border-[#14B8A6]",
-    badgeBg: "bg-gradient-to-r from-[#14B8A6] to-[#0D9488]",
-    shadowClass:
-      "shadow-[0_10px_25px_-5px_rgba(20,184,166,0.15),0_8px_16px_-6px_rgba(20,184,166,0.12)]",
-  },
-  {
-    id: 2,
-    stepNumber: 2,
-    title: "Customers purchase",
-    description: "Users discover and buy vouchers on the marketplace.",
-    imageSrc: step_2,
-    imageAlt: "Notification preview showing user purchase status",
-    borderColor: "border-[#C084FC]",
-    badgeBg: "bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED]",
-    shadowClass:
-      "shadow-[0_10px_25px_-5px_rgba(139,92,246,0.15),0_8px_16px_-6px_rgba(139,92,246,0.12)]",
-  },
-  {
-    id: 3,
-    stepNumber: 3,
-    title: "Voucher redemption",
-    description: "Customer visits and redeems instantly via QR code.",
-    imageSrc: step_3,
-    imageAlt: "Smartphone screen scanning a dynamic QR code",
-    borderColor: "border-[#4ADE80]",
-    badgeBg: "bg-gradient-to-r from-[#16A34A] to-[#15803D]",
-    shadowClass:
-      "shadow-[0_10px_25px_-5px_rgba(22,163,74,0.15),0_8px_16px_-6px_rgba(22,163,74,0.12)]",
-  },
-];
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
 
-export default function LaunchSteps() {
+export default function LaunchSteps({ t }: Props) {
+  const STEPS_DATA: StepItem[] = [
+    {
+      id: 1,
+      stepNumber: 1,
+      title: t.for_business.steps.step_1.title,
+      description: t.for_business.steps.step_1.desc,
+      imageSrc: step_1,
+      imageAlt:
+        "Dashboard view showing options to scan voucher or add new service",
+      borderColor: "border-[#14B8A6]",
+      badgeBg: "bg-gradient-to-r from-[#14B8A6] to-[#0D9488]",
+      shadowClass:
+        "shadow-[0_10px_25px_-5px_rgba(20,184,166,0.15),0_8px_16px_-6px_rgba(20,184,166,0.12)]",
+    },
+    {
+      id: 2,
+      stepNumber: 2,
+      title: t.for_business.steps.step_2.title,
+      description: t.for_business.steps.step_2.desc,
+      imageSrc: step_2,
+      imageAlt: "Notification preview showing user purchase status",
+      borderColor: "border-[#C084FC]",
+      badgeBg: "bg-gradient-to-r from-[#8B5CF6] to-[#7C3AED]",
+      shadowClass:
+        "shadow-[0_10px_25px_-5px_rgba(139,92,246,0.15),0_8px_16px_-6px_rgba(139,92,246,0.12)]",
+    },
+    {
+      id: 3,
+      stepNumber: 3,
+      title: t.for_business.steps.step_3.title,
+      description: t.for_business.steps.step_3.desc,
+      imageSrc: step_3,
+      imageAlt: "Smartphone screen scanning a dynamic QR code",
+      borderColor: "border-[#4ADE80]",
+      badgeBg: "bg-gradient-to-r from-[#16A34A] to-[#15803D]",
+      shadowClass:
+        "shadow-[0_10px_25px_-5px_rgba(22,163,74,0.15),0_8px_16px_-6px_rgba(22,163,74,0.12)]",
+    },
+  ];
+
   return (
     <Container className="py-12">
       <div className="grid grid-cols-1 md:grid-cols-3 justify-between gap-4 w-full p-6">
@@ -88,7 +93,7 @@ export default function LaunchSteps() {
 
               {/* Text Content */}
               <div className="space-y-3 mt-6 w-full px-6">
-                <h3 className="text-3xl font-semibold text-[#111827]">
+                <h3 className="text-2xl font-semibold text-[#111827]">
                   {step.title}
                 </h3>
                 <p className="text-[#52525b] font-normal">{step.description}</p>

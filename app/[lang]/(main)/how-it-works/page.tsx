@@ -17,7 +17,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <>
-      <PageHero backgroundImage={bgImage.src} title={t.how_it_work.title} />
+      <PageHero backgroundImage={bgImage.src} title={t?.how_it_work?.title} />
       <HowToVuchado t={t} />
       <Steps t={t} />
       <ForCustomer lang={lang} />

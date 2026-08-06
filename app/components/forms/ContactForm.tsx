@@ -7,12 +7,14 @@ import { useContactMutation } from "@/redux/features/contact/contact.api";
 import { toast } from "react-toastify";
 import { FieldValues } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   locale: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function ContactForm({ locale }: Props) {
+export default function ContactForm({ locale, t }: Props) {
   const router = useRouter();
   const [contact, { isLoading }] = useContactMutation();
 
@@ -36,33 +38,33 @@ export default function ContactForm({ locale }: Props) {
           <div className="w-full">
             <TextInput
               required
-              label="Name"
+              label={t.contact.form.name}
               name="name"
-              placeholder="Johnathan Smith"
+              placeholder={t.contact.form.name_placeholder}
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
             <TextInput
               required
-              label="Email"
+              label={t.contact.form.email}
               name="email"
-              placeholder="Enter your email Address"
+              placeholder={t.contact.form.email_placeholder}
             />
 
             <TextInput
               required
-              label="Topic"
+              label={t.contact.form.topic}
               name="topic"
-              placeholder="Enter your topic"
+              placeholder={t.contact.form.topic_placeholder}
             />
           </div>
 
           <div className="w-full">
             <TextArea
               name="message"
-              label="Message"
-              placeholder="Discribe your message here..."
+              label={t.contact.form.message}
+              placeholder={t.contact.form.message_placeholder}
               required
             />
           </div>
@@ -70,7 +72,7 @@ export default function ContactForm({ locale }: Props) {
           <div className="flex justify-center  lg:justify-end">
             <SubmitButton
               isLoading={isLoading}
-              title="Send Message"
+              title={t.contact.form.send_message}
               className="bg-[#2bc4ca] hover:bg-[#23aab0] active:scale-[0.98] text-white font-bold px-10 py-4 h-auto rounded-full shadow-md shadow-[#2bc4ca]/10 transition-all text-base tracking-wide"
             />
           </div>

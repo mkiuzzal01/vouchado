@@ -10,6 +10,7 @@ import HeadPhone from "@/app/components/icons/HeadPhone";
 import LocationIcon from "@/app/components/icons/LocationIcon";
 import Phone from "@/app/components/icons/Phone";
 import MailIcon from "@/app/components/icons/MailIcon";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface TrustBadge {
   id: number;
@@ -35,54 +36,54 @@ interface SystemInfo {
 interface ContactUsProps {
   lang: string;
   systemInfo?: SystemInfo;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-const TRUST_BADGES: TrustBadge[] = [
-  {
-    id: 1,
-    label: "Quick Response",
-    subLabel: "Usually within 24h",
-    iconPath: <QuickResponse />,
-  },
-  {
-    id: 2,
-    label: "Real People",
-    subLabel: "Here to help",
-    iconPath: <RealPeople />,
-  },
-  {
-    id: 3,
-    label: "100% Secure",
-    subLabel: "Your data is safe",
-    iconPath: <Secure100 />,
-  },
-];
+export default function ContactUs({ lang, systemInfo, t }: ContactUsProps) {
+  const getSidebarInfo = (systemInfo?: SystemInfo): SidebarInfo[] => [
+    {
+      id: 1,
+      label: t.contact.contact_info.email.title,
+      value: systemInfo?.email || t.contact.contact_info.email.value,
+      iconPath: <MailIcon />,
+    },
+    {
+      id: 2,
+      label: t.contact.contact_info.phone.title,
+      value: systemInfo?.number || t.contact.contact_info.phone.value,
+      subValue: t.contact.contact_info.phone.time,
+      iconPath: <Phone />,
+    },
+    {
+      id: 3,
+      label: t.contact.contact_info.address.title,
+      value: systemInfo?.address || t.contact.contact_info.address.value,
+      iconPath: <LocationIcon color="#ffff" />,
+    },
+  ];
 
-const getSidebarInfo = (systemInfo?: SystemInfo): SidebarInfo[] => [
-  {
-    id: 1,
-    label: "Email",
-    value: systemInfo?.email || "info@okazzion.com",
-    iconPath: <MailIcon />,
-  },
-  {
-    id: 2,
-    label: "Phone",
-    value: systemInfo?.number || "(555) 123-4567",
-    subValue: "Mon-Fri, 9am-6pm EST",
-    iconPath: <Phone />,
-  },
-  {
-    id: 3,
-    label: "Address",
-    value: systemInfo?.address || "123 Commerce Street",
-    subValue: "New York, NY 10013",
-    iconPath: <LocationIcon color="#ffff" />,
-  },
-];
-
-export default function ContactUs({ lang, systemInfo }: ContactUsProps) {
   const sidebarInfo = getSidebarInfo(systemInfo);
+
+  const TRUST_BADGES: TrustBadge[] = [
+    {
+      id: 1,
+      label: t.contact.quick_response,
+      subLabel: t.contact.quick_response_sub,
+      iconPath: <QuickResponse />,
+    },
+    {
+      id: 2,
+      label: t.contact.real_people,
+      subLabel: t.contact.real_people_sub,
+      iconPath: <RealPeople />,
+    },
+    {
+      id: 3,
+      label: t.contact.secure_100,
+      subLabel: t.contact.secure_100_sub,
+      iconPath: <Secure100 />,
+    },
+  ];
 
   return (
     <section className="relative mx-auto w-full max-w-full 2xl:w-[1856px] overflow-hidden py-10 px-4 sm:px-8 2xl:py-16 2xl:ps-[80px] 2xl:pe-[64px] rounded-2xl sm:rounded-[32px]">
@@ -101,17 +102,15 @@ export default function ContactUs({ lang, systemInfo }: ContactUsProps) {
           <div className="space-y-4 sm:space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-white/90 text-xs font-bold tracking-wide uppercase max-w-max">
               <HeadPhone />
-              <span>WE'RE HERE TO HELP</span>
+              <span>{t.contact.badge}</span>
             </div>
 
             <h2 className="text-3xl sm:text-5xl lg:text-[64px] font-bold text-white tracking-tight leading-tight sm:leading-[1.1]">
-              Got a question or <br className="hidden sm:inline" /> need
-              support?
+              {t.contact.heading}
             </h2>
 
             <p className="text-base sm:text-lg text-white/80">
-              Send us a message and our team will get back to you as soon as
-              possible.
+              {t.contact.subheading}
             </p>
           </div>
 
@@ -135,7 +134,7 @@ export default function ContactUs({ lang, systemInfo }: ContactUsProps) {
 
         {/* CENTER COLUMN */}
         <div className="xl:col-span-5 w-full">
-          <ContactForm locale={lang} />
+          <ContactForm locale={lang} t={t} />
         </div>
 
         {/* RIGHT COLUMN */}

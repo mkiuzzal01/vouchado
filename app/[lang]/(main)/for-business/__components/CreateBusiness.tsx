@@ -4,19 +4,21 @@ import bgImage from "@/public/section-headers/Hero Section (6).png";
 import CheckIcon from "@/app/components/icons/CheckIcon";
 import ArrowUp from "@/app/components/icons/ArrowUp";
 import batch from "@/public/business/Frame 2147240691.png";
-import homeIcon from "@/public/business/Frame 2147240661.png";
+import homeIcon from "@/public/business/Frame 2147240726.png";
 import ForBusinessForm from "@/app/components/forms/ForBusinessForm";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   lang: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function CreateBusiness({ lang }: Props) {
+export default function CreateBusiness({ lang, t }: Props) {
   const features = [
-    "Get Free of fee (provision) for 6 months",
-    "Create Deals that fit your business",
-    "get featured in our newsletter",
-    "no risk - only win",
+    t.for_business.for_business_section_left.sec_1,
+    t.for_business.for_business_section_left.sec_2,
+    t.for_business.for_business_section_left.sec_3,
+    t.for_business.for_business_section_left.sec_4,
   ];
 
   return (
@@ -43,12 +45,25 @@ export default function CreateBusiness({ lang }: Props) {
         <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10 px-5 py-8 sm:px-8 sm:py-12 md:px-12 lg:px-20 lg:py-24">
           {/* Left */}
           <div className="relative w-full lg:w-[45%] flex flex-col gap-6">
-            <Image
-              src={homeIcon}
-              alt="Grow your business"
-              className="w-72 lg:w-auto h-auto"
-              priority
-            />
+            <div className="relative flex flex-row gap-4 items-center">
+              <Image
+                src={homeIcon}
+                alt="Customer accounts"
+                width={180}
+                height={180}
+                priority
+              />
+              <div className="inline-flex font-semibold text-[48px] ">
+                <p className="text-white">
+                  {t.for_business?.for_business?.title_1} <br />
+                  {t.for_business?.for_business?.title_2} <br />
+                  <span className="bg-gradient-to-r from-[#5ACCD3] to-[#2DAEB6] bg-clip-text text-transparent">
+                    {" "}
+                    {t.for_business?.for_business?.title_3}
+                  </span>{" "}
+                </p>
+              </div>
+            </div>
 
             <ul className="space-y-4">
               {features.map((feature, idx) => (
@@ -72,7 +87,7 @@ export default function CreateBusiness({ lang }: Props) {
           {/* Right */}
           <div className="w-full lg:w-[55%] xl:max-w-[800px]">
             <div className="bg-white rounded-4xl py-[32px] px-5 lg:px-[48px]">
-              <ForBusinessForm lang={lang} />
+              <ForBusinessForm lang={lang} t={t} />
             </div>
           </div>
         </div>

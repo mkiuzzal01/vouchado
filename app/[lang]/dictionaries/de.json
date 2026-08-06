@@ -268,13 +268,19 @@
         }
       }
     },
+
     "for_customer": {
       "sec_1": "Die besten Angebote gelten nicht ewig.",
       "sec_2": "Gehören Sie zu den Ersten, die sich die heißesten Deals in Ihrer Stadt sichern.",
       "sec_3": "Entdecken Sie neue Orte, sparen Sie Geld und genießen Sie exklusive Angebote.",
       "sec_4": "Und haben Sie SPASS!"
     },
-    "for_customer_form": {
+    "for_customer_left_section": {
+      "sec_1": "Melden Sie sich jetzt an und Starten",
+      "sec_2": "entdecken",
+      "sec_3": "die besten Angebote in Ihrer Stadt."
+    },
+    "for_customer_right_section": {
       "title": "Kundeninformation",
       "description": "Erstellen Sie Ihr Kundenkonto, um lokale Angebote zu entdecken.",
       "full_name": "Vollständiger Name",
@@ -288,6 +294,144 @@
       "email": "E-Mail",
       "email_placeholder": "Geben Sie Ihre E-Mail ein",
       "submit": "Absenden"
+    }
+  },
+  "for_business": {
+    "title": {
+      "title_1": "Launchen Sie Angebote in",
+      "title_2": "MINUTEN",
+      "title_3": "UND STEIGERN SIE IHREN UMSATZ",
+      "desc": "Ein einfacher, geführter Prozess von der Einrichtung bis zur Einlösung. Keine technischen Vorkenntnisse erforderlich."
+    },
+    "steps": {
+      "step_1": {
+        "title": "Erstellen Sie Ihr Angebot",
+        "desc": "Wählen Sie Rabatt, Verfügbarkeit und Laufzeit in wenigen Minuten."
+      },
+      "step_2": {
+        "title": "Kunden kaufen",
+        "desc": "Nutzer entdecken und kaufen Gutscheine auf dem Marktplatz."
+      },
+      "step_3": {
+        "title": "Kunden lösen Gutscheine ein",
+        "desc": "Kunden kommen vorbei und lösen diese sofort per QR-Code ein."
+      }
+    },
+    "for_business": {
+      "title_1": "Registrieren Sie sich in",
+      "title_2": "2 Minuten als ",
+      "title_3": "Pionier"
+    },
+    "for_business_section_left": {
+      "sec_1": "6 Monate lang keine Provision zahlen",
+      "sec_2": "Erstellen Sie Angebote, die zu Ihrem Unternehmen passen",
+      "sec_3": "Werden Sie in unserem Newsletter vorgestellt",
+      "sec_4": "Kein Risiko – nur Gewinne"
+    },
+    "for_business_section_right": {
+      "title": "Unternehmensinformationen",
+      "description": "Bitte richten Sie Ihre Unternehmensinformationen ein",
+      "business_name": "Unternehmensname",
+      "business_name_placeholder": "Geben Sie Ihren Unternehmensnamen ein",
+      "contact_person": "Ansprechpartner",
+      "contact_person_placeholder": "Geben Sie den Namen des Ansprechpartners ein",
+      "your_address": "Ihre Adresse",
+      "your_address_placeholder": "Geben Sie Ihre Adresse ein",
+      "email": "E-Mail-Adresse",
+      "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
+      "phone_number": "Telefonnummer",
+      "phone_number_placeholder": "Geben Sie Ihre Telefonnummer ein",
+      "business_category": "Branchenkategorie",
+      "business_category_placeholder": "Wählen oder geben Sie Ihre Kategorie ein",
+      "city": "Stadt",
+      "city_placeholder": "Geben Sie Ihre Stadt ein"
+    },
+    "why_business_with_us": {
+      "title": "Warum Unternehmen mit uns zusammenarbeiten",
+      "subtitle": "Ein modernes Toolkit zur Umsatzsteigerung ohne Erhöhung Ihrer Fixkosten",
+      "reach_new_customers": {
+        "title": "Neue Kunden erreichen",
+        "desc": "Erreichen Sie Menschen, die aktiv nach lokalen Erlebnissen suchen."
+      },
+      "increase_local_visibility": {
+        "title": "Lokale Sichtbarkeit erhöhen",
+        "desc": "Erscheinen Sie in Suchanfragen, Kategorien und Stadt-Empfehlungen."
+      },
+      "fill_quiet_periods": {
+        "title": "Ruhige Zeiten überbrücken",
+        "desc": "Bewerben Sie Angebote außerhalb der Stoßzeiten."
+      },
+      "build_customer_loyalty": {
+        "title": "Kundenbindung aufbauen",
+        "desc": "Verwandeln Sie Erstbesucher in treue Stammkunden."
+      },
+      "easy_deal_management": {
+        "title": "Einfache Angebotsverwaltung",
+        "desc": "Erstellen und verwalten Sie Angebote über ein einfaches Dashboard."
+      },
+      "performance_based_growth": {
+        "title": "Leistungsbasiertes Wachstum",
+        "desc": "Generieren Sie Umsatz durch zielgerichtete Kampagnen."
+      }
+    },
+    "create_deals": {
+      "title_1": "Erstellen Sie Angebote, die zu Ihrem ",
+      "title_2": "Unternehmen passen",
+      "subtitle": "Sie entscheiden, wie, wann und wo Ihre Angebote verfügbar sind.",
+      "deal_types": {
+        "limited_quantity_offers": "Angebote mit limitierter Stückzahl",
+        "last_minute_promotions": "Last-Minute-Aktionen",
+        "seasonal_campaigns": "Saisonale Kampagnen",
+        "weekday_specials": "Wochentags-Specials",
+        "time_based_deals": "Zeitbasierte Angebote",
+        "family_and_kids_offers": "Angebote für Familien & Kinder",
+        "event_based_promotions": "Eventbasierte Aktionen",
+        "universal_business_vouchers": "Universelle Gutscheine",
+        "opening_specials": "Eröffnungs-Specials"
+      }
+    },
+    "features": {
+      "secure_payments": {
+        "title": "Sichere Zahlungen",
+        "desc": "Verschlüsselung auf Bankenniveau bei jeder Transaktion."
+      },
+      "qr_protected_redemption": {
+        "title": "QR-geschützte Einlösung",
+        "desc": "Jeder Gutschein wird direkt bei der Einlösung überprüft."
+      },
+      "verified_customers": {
+        "title": "Verifizierte Kunden",
+        "desc": "Echte, verifizierte Käufer besuchen Ihr Unternehmen."
+      },
+      "fraud_prevention": {
+        "title": "Betrugsprävention",
+        "desc": "Aktive Überwachung schützt Ihre Einnahmen."
+      },
+      "safe_transactions": {
+        "title": "Sichere Transaktionen",
+        "desc": "Gelder werden mit voller Transparenz verwaltet."
+      }
+    },
+    "steps": {
+      "step_1": {
+        "title": "Erstellen Sie Ihr Angebot",
+        "desc": "Wählen Sie Rabatt, Verfügbarkeit und Laufzeit in wenigen Minuten."
+      },
+      "step_2": {
+        "title": "Kunden kaufen",
+        "desc": "Nutzer entdecken und kaufen Gutscheine auf dem Marktplatz."
+      },
+      "step_3": {
+        "title": "Kunden lösen Gutscheine ein",
+        "desc": "Kunden kommen vorbei und lösen diese sofort per QR-Code ein."
+      }
+    },
+
+    "promotional_banner": {
+      "title": "Bereit, Ihr Unternehmen auszubauen?",
+      "description": "Schließen Sie sich lokalen Unternehmen an, die Vouchado nutzen, um Kunden zu gewinnen, freie Kapazitäten zu nutzen und zusätzlichen Umsatz zu generieren.",
+      "cta_primary": "Partner werden",
+      "cta_secondary": "Sprechen Sie mit unserem Team"
     }
   },
   "cart": {
@@ -331,26 +475,53 @@
     "expire_date": "Ablaufdatum",
     "no_unused_voucher": "Kein unbenutzter Gutschein"
   },
+
   "contact": {
-    "title": "Kontaktieren Sie uns",
+    "title": "Kontakt",
     "badge": "WIR SIND FÜR SIE DA",
-    "heading": "Haben Sie Fragen oder brauchen Unterstützung?",
+    "heading": "Haben Sie eine Frage oder benötigen Sie Unterstützung?",
     "subheading": "Senden Sie uns eine Nachricht und unser Team wird sich so schnell wie möglich bei Ihnen melden.",
-    "quick_response": "Schnelle Antwort",
-    "quick_response_sub": "In der Regel innerhalb von 24 Stunden",
+    "quick_response": "Schnelle Rückmeldung",
+    "quick_response_sub": "In der Regel innerhalb von 24 Std.",
     "real_people": "Echte Ansprechpartner",
-    "real_people_sub": "Hier um zu helfen",
+    "real_people_sub": "Gerne für Sie da",
     "secure_100": "100% Sicher",
-    "secure_100_sub": "Ihre Daten sind sicher",
-    "name": "Name",
-    "email": "E-Mail",
-    "topic": "Thema",
-    "message": "Nachricht",
-    "send_message": "Nachricht senden",
-    "name_placeholder": "Max Mustermann",
-    "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
-    "topic_placeholder": "Geben Sie Ihr Thema ein",
-    "message_placeholder": "Beschreiben Sie Ihre Nachricht hier..."
+    "secure_100_sub": "Ihre Daten sind geschützt",
+
+    "form": {
+      "name": "Name",
+      "email": "E-Mail",
+      "topic": "Betreff",
+      "message": "Nachricht",
+      "send_message": "Nachricht senden",
+      "name_placeholder": "Max Mustermann",
+      "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
+      "topic_placeholder": "Geben Sie Ihren Betreff ein",
+      "message_placeholder": "Beschreiben Sie Ihr Anliegen hier..."
+    },
+    "contact_info": {
+      "email": {
+        "title": "E-Mail",
+        "value": "info@gmail.com"
+      },
+      "phone": {
+        "title": "Telefon",
+        "value": "+1234567890",
+        "time": "Mo – Fr: 8:00 – 18:00 Uhr"
+      },
+      "address": {
+        "title": "Adresse",
+        "value": "123 Main St, Anytown, USA"
+      }
+    },
+    "promotional_banner": {
+      "title": "Bringen Sie Ihr Unternehmen mit VOUCHADO voran",
+      "description_1": "Schließen Sie sich über 300 Unternehmen an, die bereits unsere Plattform nutzen, um neue Kunden zu erreichen, freie",
+      "description_2": "Kapazitäten zu nutzen und den Umsatz ohne Vorabkosten zu steigern.",
+      "description_3": "Über 300 Partner vertrauen uns",
+      "cta_primary": "Partner werden",
+      "cta_secondary": "Sprechen Sie mit unserem Team"
+    }
   },
   "user_profile": {
     "my_profile": "Mein Profil",

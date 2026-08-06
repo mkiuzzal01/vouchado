@@ -4,7 +4,7 @@ import bgImage from "@/public/section-headers/Hero Section (6).png";
 import CheckIcon from "@/app/components/icons/CheckIcon";
 import ArrowUp from "@/app/components/icons/ArrowUp";
 import batch from "@/public/business/Frame 2147240691 (2).png";
-import homeIcon from "@/public/business/Frame 2147240661 (2).png";
+import homeIcon from "@/public/business/Frame 2147240726.png";
 import ForCustomerForm from "./ForCustomerForm";
 import { getDictionary } from "@/app/[lang]/dictionaries";
 
@@ -48,13 +48,26 @@ export default async function ForCustomer({ lang }: Props) {
           {/* Content */}
           <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10">
             {/* Left */}
-            <div className="relative w-full lg:w-[45%] flex flex-col gap-6">
-              <Image
-                src={homeIcon}
-                alt="Customer accounts"
-                className="w-72 lg:w-auto h-auto"
-                priority
-              />
+            <div className="relative w-full flex-1 flex flex-col gap-6">
+              <div className="relative flex flex-row gap-4 items-center">
+                <Image
+                  src={homeIcon}
+                  alt="Customer accounts"
+                  width={180}
+                  height={180}
+                  priority
+                />
+                <div className="inline-flex font-semibold text-[48px] ">
+                  <p className="text-white">
+                    {t.how_it_work?.for_customer_left_section?.sec_1}{" "}
+                    <span className="bg-gradient-to-r from-[#5ACCD3] to-[#2DAEB6] bg-clip-text text-transparent">
+                      {" "}
+                      {t.how_it_work?.for_customer_left_section?.sec_2}
+                    </span>{" "}
+                    {t.how_it_work?.for_customer_left_section?.sec_3}
+                  </p>
+                </div>
+              </div>
 
               <ul className="space-y-4">
                 {features.map((feature, idx) => (
@@ -78,7 +91,7 @@ export default async function ForCustomer({ lang }: Props) {
             </div>
 
             {/* Right */}
-            <div className="w-full lg:w-[55%] xl:max-w-[800px]">
+            <div className="w-full lg:w-[55%] 2xl:max-w-[800px]">
               <div className="bg-white rounded-4xl py-[32px] lg:px-[48px]">
                 <ForCustomerForm lang={lang} t={t} />
               </div>

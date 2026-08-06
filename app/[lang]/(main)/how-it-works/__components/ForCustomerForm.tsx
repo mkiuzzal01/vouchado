@@ -28,14 +28,14 @@ export default function ForCustomerForm({ lang, t }: Props) {
   };
 
   return (
-    <div className="w-full p-6 lg:p-4 space-y-6 sm:space-y-8">
+    <div className="w-full space-y-6 sm:space-y-8">
       {/* Header Section */}
       <div className="select-none text-left">
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">
-          {t.how_it_work?.for_customer_form?.title}
+          {t.how_it_work?.for_customer_right_section?.title}
         </h2>
         <p className="text-sm sm:text-base text-[#637381] font-normal mt-1 leading-relaxed">
-          {t.how_it_work?.for_customer_form?.description}
+          {t.how_it_work?.for_customer_right_section?.description}
         </p>
       </div>
 
@@ -45,50 +45,54 @@ export default function ForCustomerForm({ lang, t }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
             <TextInput
               disabled
-              label={t.how_it_work?.for_customer_form?.full_name}
+              label={t.how_it_work?.for_customer_right_section?.full_name}
               name="fullName"
               placeholder={
-                t.how_it_work?.for_customer_form?.full_name_placeholder
+                t.how_it_work?.for_customer_right_section?.full_name_placeholder
               }
             />
 
             <TextInput
               disabled
-              label={t.how_it_work?.for_customer_form?.phone_number}
+              label={t.how_it_work?.for_customer_right_section?.phone_number}
               name="phoneNumber"
               placeholder={
-                t.how_it_work?.for_customer_form?.phone_number_placeholder
+                t.how_it_work?.for_customer_right_section
+                  ?.phone_number_placeholder
               }
             />
 
             <div className="md:col-span-2">
               <TextInput
                 disabled
-                label={t.how_it_work?.for_customer_form?.email}
+                label={t.how_it_work?.for_customer_right_section?.email}
                 type="email"
                 name="emailAddress"
                 placeholder={
-                  t.how_it_work?.for_customer_form?.email_placeholder
+                  t.how_it_work?.for_customer_right_section?.email_placeholder
                 }
               />
             </div>
 
             <TextInput
               disabled
-              label={t.how_it_work?.for_customer_form?.your_address}
+              label={t.how_it_work?.for_customer_right_section?.your_address}
               type="text"
               name="address"
               placeholder={
-                t.how_it_work?.for_customer_form?.your_address_placeholder
+                t.how_it_work?.for_customer_right_section
+                  ?.your_address_placeholder
               }
             />
 
             <TextInput
               disabled
-              label={t.how_it_work?.for_customer_form?.city}
+              label={t.how_it_work?.for_customer_right_section?.city}
               type="text"
               name="city"
-              placeholder={t.how_it_work?.for_customer_form?.city_placeholder}
+              placeholder={
+                t.how_it_work?.for_customer_right_section?.city_placeholder
+              }
             />
           </div>
 

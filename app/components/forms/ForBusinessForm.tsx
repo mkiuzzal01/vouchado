@@ -1,17 +1,18 @@
 "use client";
 import AppForm from "./AppForm";
 import TextInput from "./inputs/TextInput";
-import SelectInput from "./inputs/SelectInput";
 import SubmitButton from "../buttons/SubmitButton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   lang: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function ForBusinessForm({ lang }: Props) {
+export default function ForBusinessForm({ lang, t }: Props) {
   const router = useRouter();
 
   const handleSubmit = (value: FieldValues) => {
@@ -23,10 +24,10 @@ export default function ForBusinessForm({ lang }: Props) {
       {/* Section Header */}
       <div className="select-none">
         <h2 className=" text-2xl lg:text-[32px] font-bold text-gray-900 tracking-tight">
-          Business Settings
+          {t.for_business?.for_business_section_right?.title}
         </h2>
         <p className="text-[#637381] font-normal mt-0.5">
-          Please set up your business information
+          {t.for_business?.for_business_section_right.description}
         </p>
       </div>
 
@@ -37,46 +38,64 @@ export default function ForBusinessForm({ lang }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             <TextInput
               disabled
-              label="Business Name"
+              label={t.for_business?.for_business_section_right?.business_name}
               name="businessName"
-              placeholder="Enter your business name"
+              placeholder={
+                t.for_business?.for_business_section_right
+                  ?.business_name_placeholder
+              }
             />
 
             <TextInput
               disabled
-              label="Contact Person"
+              label={t.for_business?.for_business_section_right?.contact_person}
               name="contactPerson"
-              placeholder="Enter your name"
+              placeholder={
+                t.for_business?.for_business_section_right
+                  ?.contact_person_placeholder
+              }
             />
 
             <TextInput
               disabled
-              label="Email Address"
+              label={t.for_business?.for_business_section_right?.email}
               type="email"
               name="emailAddress"
-              placeholder="Enter your email"
+              placeholder={
+                t.for_business?.for_business_section_right?.email_placeholder
+              }
             />
 
             <TextInput
               disabled
-              label="Phone Number"
+              label={t.for_business?.for_business_section_right?.phone_number}
               type="tel"
               name="phoneNumber"
-              placeholder="XXXXXXXXXX"
+              placeholder={
+                t.for_business?.for_business_section_right
+                  ?.phone_number_placeholder
+              }
             />
             <TextInput
               disabled
-              label="Business Category"
+              label={
+                t.for_business?.for_business_section_right?.business_category
+              }
               type="text"
               name="category"
-              placeholder="Select a category"
+              placeholder={
+                t.for_business?.for_business_section_right
+                  ?.business_category_placeholder
+              }
             />
 
             <TextInput
               disabled
-              label="City"
+              label={t.for_business?.for_business_section_right?.city}
               name="city"
-              placeholder="Enter your city name"
+              placeholder={
+                t.for_business?.for_business_section_right?.city_placeholder
+              }
             />
           </div>
 

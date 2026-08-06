@@ -1,14 +1,16 @@
 import Image from "next/image";
 import Container from "@/app/components/shared/Container";
 import Link from "next/link";
-import readyGrowIcon from "@/public/business/home.png";
+import readyGrowIcon from "@/public/business/Frame 2147240726.png";
 import bg_image from "@/public/section-headers/Hero Section (5).png";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   lang: string;
 }
 
-export default function PromoReadyGrow({ lang }: Props) {
+export default function PromoReadyGrow({ lang, t }: Props) {
   return (
     <Container className="py-8">
       {/* Banner Container matching image_ae98e0.png shape */}
@@ -32,18 +34,17 @@ export default function PromoReadyGrow({ lang }: Props) {
               width={120}
               height={120}
               quality={95}
-              className="w-24 h-24 sm:w-28 sm:h-28 md:w-[120px] md:h-[120px] object-contain border border-gray-400 p-2 rounded-full"
+              className="w-24 h-24 sm:w-28 sm:h-28 md:w-[120px] md:h-[120px] object-contain"
             />
           </div>
 
           {/* Typography */}
           <div className="space-y-2.5">
             <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white tracking-tight leading-tight">
-              Ready to grow your business?
+              {t.for_business.promotional_banner.title}
             </h2>
             <p className="text-white/85 text-xl lg:text-2xl font-normal ">
-              Join local businesses using Vouchado to attract customers, fill
-              unused capacity, and generate additional revenue.
+              {t.for_business.promotional_banner.description}
             </p>
           </div>
         </div>
@@ -53,7 +54,7 @@ export default function PromoReadyGrow({ lang }: Props) {
           {/* Primary Action Button */}
           <Link href={`/${lang}/provider-login`} className="w-full sm:w-auto">
             <button className="w-full bg-[#49c2c9] hover:bg-[#3db3ba] text-white font-semibold text-sm sm:text-base px-6 py-3.5 rounded-full active:scale-[0.99] transition-all duration-200 shadow-sm flex items-center justify-center gap-2 group whitespace-nowrap">
-              <span>Become a Partner</span>
+              <span>{t.for_business.promotional_banner.cta_primary}</span>
               <svg
                 className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
                 fill="none"
@@ -75,7 +76,7 @@ export default function PromoReadyGrow({ lang }: Props) {
             href={`/${lang}/contact`}
             className="w-full sm:w-auto border border-white text-white font-semibold text-sm sm:text-base px-6 py-3.5 rounded-full hover:bg-white/10 active:scale-[0.99] transition-all duration-200 whitespace-nowrap text-center block"
           >
-            Talk to Our Team
+            {t.for_business.promotional_banner.cta_secondary}
           </Link>
         </div>
       </div>

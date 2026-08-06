@@ -2,12 +2,14 @@ import Container from "@/app/components/shared/Container";
 import Image from "next/image";
 import Link from "next/link";
 import contactImage from "@/public/hero/Contact us 2.png";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface props {
   lang: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function PromoContact({ lang }: props) {
+export default function PromoContact({ lang, t }: props) {
   const partnerAvatars = [
     {
       src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80",
@@ -32,12 +34,10 @@ export default function PromoContact({ lang }: props) {
             {/* LEFT CONTENT BLOCK: Headings & Text */}
             <div className="space-y-2.5 text-left max-w-2xl">
               <h2 className="text-2xl font-bold sm:text-3xl md:text-[32px] text-[#0E6A70] tracking-tight leading-snug">
-                Grow Your Business with VOUCHADO
+                {t.contact.promotional_banner.title}
               </h2>
               <p className="text-sm sm:text-base text-[#4A6B6C] leading-relaxed">
-                Join 300+ businesses already using our platform to reach new
-                customers, fill empty capacity, and increase revenue with zero
-                upfront costs.
+                {t.contact.promotional_banner.description_1}
               </p>
             </div>
 
@@ -49,7 +49,7 @@ export default function PromoContact({ lang }: props) {
                 className="w-full sm:w-auto"
               >
                 <button className="w-full sm:w-auto bg-[#2BC4CA] hover:bg-[#23AAB0] active:scale-[0.98] text-white font-bold text-base px-8 py-3.5 rounded-full transition-all duration-200 shadow-md shadow-[#2BC4CA]/20 whitespace-nowrap text-center">
-                  Partner With us
+                  {t.contact.promotional_banner.cta_primary}
                 </button>
               </Link>
 
@@ -71,7 +71,7 @@ export default function PromoContact({ lang }: props) {
 
                 {/* Text Descriptor Label */}
                 <p className="text-xs sm:text-[13px] text-[#4A6B6C] font-semibold leading-tight text-left">
-                  300+ partners <br /> trust us
+                  {t.contact.promotional_banner.description_3}
                 </p>
               </div>
             </div>

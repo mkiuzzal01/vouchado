@@ -274,7 +274,13 @@
       "sec_3": "Discover new places, save money, and enjoy exclusive deals.",
       "sec_4": "And have FUN!"
     },
-    "for_customer_form": {
+
+    "for_customer_left_section": {
+      "sec_1": "Sign in now and Start",
+      "sec_2": "discovering",
+      "sec_3": "the best deals in your city."
+    },
+    "for_customer_right_section": {
       "title": "Customer Information",
       "description": "Create your customer account to start exploring local deals.",
       "full_name": "Full Name",
@@ -288,6 +294,147 @@
       "email": "Email",
       "email_placeholder": "Enter your email",
       "submit": "Submit"
+    }
+  },
+  "for_business": {
+    "title": {
+      "title_1": "Launch Deals in",
+      "title_2": "Minutes",
+      "title_3": "AND GROW YOUR BUSINESS",
+      "desc": "A Simple, guided flow from setup to redemption. No technical skill required."
+    },
+    "launch_steps": {
+      "step_1": {
+        "title": "Create your deal",
+        "desc": "Choose discount, availability, and duration in minutes."
+      },
+      "step_2": {
+        "title": "Customers purchase",
+        "desc": "Users discover and buy vouchers on the marketplace."
+      },
+      "step_3": {
+        "title": "Customer Redeem Vouchers",
+        "desc": "Customer visits and redeems instantly via QR code."
+      }
+    },
+
+    "for_business": {
+      "title_1": "Register in",
+      "title_2": "2 Minutes as ",
+      "title_3": "First Mover"
+    },
+
+    "for_business_section_left": {
+      "sec_1": "Get Free of fee (provision) for 6 month",
+      "sec_2": "Create Deals that fit your business",
+      "sec_3": "Get featured in our newsletter",
+      "sec_4": "No risk - only win"
+    },
+
+    "for_business_section_right": {
+      "title": "Business Information",
+      "description": "Please set up your business information",
+      "business_name": "Business Name",
+      "business_name_placeholder": "Enter your business name",
+      "contact_person": "Contact Person",
+      "contact_person_placeholder": "Enter contact person name",
+      "your_address": "Your Address",
+      "your_address_placeholder": "Enter your address",
+      "email": "Email Address",
+      "email_placeholder": "Enter your email",
+      "phone_number": "Phone Number",
+      "phone_number_placeholder": "Enter your phone number",
+      "business_category": "Business Category",
+      "business_category_placeholder": "Enter your business category",
+      "city": "City",
+      "city_placeholder": "Enter your city"
+    },
+
+    "why_business_with_us": {
+      "title": "Why businesses partner with us",
+      "subtitle": "A modern toolkit designed to grow revenue without growing fixed costs",
+      "reach_new_customers": {
+        "title": "Reach New Customers",
+        "desc": "Connect with people actively looking for local experiences."
+      },
+      "increase_local_visibility": {
+        "title": "Increase Local Visibility",
+        "desc": "Appear in searches, categories, and city recommendations."
+      },
+      "fill_quiet_periods": {
+        "title": "Fill Quiet Periods",
+        "desc": "Promote offers during slower business hours."
+      },
+      "build_customer_loyalty": {
+        "title": "Build Customer Loyalty",
+        "desc": "Turn first-time visitors into returning customers."
+      },
+      "easy_deal_management": {
+        "title": "Easy Deal Management",
+        "desc": "Create and manage offers from a simple dashboard."
+      },
+      "performance_based_growth": {
+        "title": "Performance-Based Growth",
+        "desc": "Generate revenue through targeted campaigns."
+      }
+    },
+    "create_deals": {
+      "title_1": "Create Deals That Fit",
+      "title_2": "Your Business",
+      "subtitle": "You decide how, when, and where your offers are available.",
+      "deal_types": {
+        "limited_quantity_offers": "Limited Quantity Offers",
+        "last_minute_promotions": "Last-Minute Promotions",
+        "seasonal_campaigns": "Seasonal Campaigns",
+        "weekday_specials": "Weekday Specials",
+        "time_based_deals": "Time-Based Deals",
+        "family_and_kids_offers": "Family & Kids Offers",
+        "event_based_promotions": "Event-Based Promotions",
+        "universal_business_vouchers": "Universal Business Vouchers",
+        "opening_specials": "Opening Specials"
+      }
+    },
+    "steps": {
+      "step_1": {
+        "title": "Create your deal",
+        "desc": "Choose discount, availability, and duration in minutes."
+      },
+      "step_2": {
+        "title": "Customers purchase",
+        "desc": "Users discover and buy vouchers on the marketplace."
+      },
+      "step_3": {
+        "title": "Customer Redeem Vouchers",
+        "desc": "Customer visits and redeems instantly via QR code."
+      }
+    },
+    "features": {
+      "secure_payments": {
+        "title": "Secure Payments",
+        "desc": "Bank-grade encryption on every transaction."
+      },
+      "qr_protected_redemption": {
+        "title": "QR-Protected Redemption",
+        "desc": "Each voucher is verified at point of use."
+      },
+      "verified_customers": {
+        "title": "Verified Customers",
+        "desc": "Real, accountable buyers visit your business."
+      },
+      "fraud_prevention": {
+        "title": "Fraud Prevention",
+        "desc": "Active monitoring protects your revenue."
+      },
+      "safe_transactions": {
+        "title": "Safe Transactions",
+        "desc": "Funds handled with full transparency."
+      }
+    },
+    "promotional_banner": {
+      "title": "Ready to grow your business?",
+      "description": "Join local businesses using Vouchado to attract customers, fill unused capacity, and generate additional revenue.",
+      "cta_primary": "Become a Partner",
+      "cta_secondary": "Talk to Our Team"
     }
   },
   "cart": {
@@ -342,15 +489,40 @@
     "real_people_sub": "Here to help",
     "secure_100": "100% Secure",
     "secure_100_sub": "Your data is safe",
-    "name": "Name",
-    "email": "Email",
-    "topic": "Topic",
-    "message": "Message",
-    "send_message": "Send Message",
-    "name_placeholder": "Johnathan Smith",
-    "email_placeholder": "Enter your email Address",
-    "topic_placeholder": "Enter your topic",
-    "message_placeholder": "Discribe your message here..."
+
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "topic": "Topic",
+      "message": "Message",
+      "send_message": "Send Message",
+      "name_placeholder": "Johnathan Smith",
+      "email_placeholder": "Enter your email Address",
+      "topic_placeholder": "Enter your topic",
+      "message_placeholder": "Discribe your message here..."
+    },
+    "contact_info": {
+      "email": {
+        "title": "E-mail",
+        "value": "info@gmail.com"
+      },
+      "phone": {
+        "title": "Phone",
+        "value": "+1234567890",
+        "time": "Mon - Fri : 8AM - 6PM"
+      },
+      "address": {
+        "title": "Address",
+        "value": "123 Main St, Anytown, USA"
+      }
+    },
+    "promotional_banner": {
+      "title": "Grow Your Business with VOUCHADO",
+      "description_1": "Join 300+ businesses already using our platform to reach new customers, fill empty",
+      "description_2": "capacity, and increase revenue with zero upfront costs.",
+      "description_3": "300+ partners trust us",
+      "cta_primary": "Become a Partner"
+    }
   },
   "shared": {
     "utility": {
