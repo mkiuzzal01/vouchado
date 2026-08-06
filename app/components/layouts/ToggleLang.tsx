@@ -30,7 +30,7 @@ export default function ToggleLang() {
       type="button"
       onClick={handleToggle}
       aria-label={`Switch language to ${targetLang === "en" ? "English" : "German"}`}
-      className="inline-flex items-center justify-center w-10 h-10 text-xs font-bold tracking-wider text-gray-700 uppercase bg-gray-100 hover:bg-gray-200 active:scale-95 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
+      className="inline-flex items-center justify-center size-12 text-xs font-bold tracking-wider text-gray-700 uppercase bg-gray-100 hover:bg-gray-200 active:scale-95 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400"
     >
       {currentLang === "en" ? "DE" : "EN"}
     </button>

@@ -29,7 +29,7 @@ export default function ProviderAside({
     <div className="flex flex-col gap-6 w-full ">
       {/* Profile Avatar Block overlapping the banner */}
       <div className="relative flex justify-center items-center -mt-16 md:-mt-28 z-20">
-        <div className="relative h-40 w-40 rounded-full border-4 border-white bg-black overflow-hidden shadow-md">
+        <div className="relative h-60 w-60 rounded-full border-4 border-white bg-black overflow-hidden shadow-md">
           <Image
             src={business_logo || providerImage}
             alt="Cannabis Shop"

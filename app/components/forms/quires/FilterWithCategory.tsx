@@ -1,5 +1,6 @@
 "use client";
 import { Category } from "@/redux/types/categoris";
+import Image from "next/image";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 export interface FilterWithCategoryProps {
@@ -78,10 +79,12 @@ export default function FilterWithCategory({
                 {cat.icon && (
                   <span className="flex items-center justify-center shrink-0">
                     {cat.icon.startsWith("http") || cat.icon.includes("/") ? (
-                      <img
+                      <Image
                         src={cat.icon}
                         alt={cat.name}
-                        className="w-6 h-6 object-contain"
+                        width={24}
+                        height={24}
+                        className="object-contain grayscale"
                       />
                     ) : (
                       <span

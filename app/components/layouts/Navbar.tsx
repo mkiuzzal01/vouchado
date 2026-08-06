@@ -100,7 +100,7 @@ export default function Navbar({
               >
                 <Chat
                   color={path.includes("/chat") ? "white" : "#292D32"}
-                  className="size-5 lg:size-6 xl:size-4 2xl:size-6"
+                  className="size-5 lg:size-6 xl:size-4 2xl:size-5"
                 />
               </Link>
               {unreadCount > 0 && (

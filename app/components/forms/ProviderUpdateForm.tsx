@@ -113,7 +113,7 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
 
   const formDefaultValues: Record<string, any> = {
     business_name: data?.business_name || "",
-    full_name: data?.name || "",
+    name: data?.name || "",
     email: data?.email || "",
     phone: data?.phone || "",
     business_website: data?.business_website || "",
@@ -154,7 +154,7 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
     formPayload.append("business_email", formData.email || "");
     formPayload.append("business_category", formData.business_category || "");
     formPayload.append("business_address", address || "");
-    formPayload.append("full_name", formData.full_name || "");
+    formPayload.append("name", formData.name || "");
     formPayload.append(
       "business_description",
       formData.business_description || "",
@@ -235,13 +235,17 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
           {/* File Uploads */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FileInput
+              showAspectSelector={false}
               imageFeatures={true}
+              imageFrameStyle="rounded"
               defaultImage={data?.business_logo_full_url}
               label="Business Logo"
               name="business_logo"
+              aspectRatio={1}
             />
             <FileInput
               imageFeatures={true}
+              imageFrameStyle="banner"
               defaultImage={data?.business_cover_image_full_url}
               label="Cover Image"
               name="business_cover_image"
@@ -296,7 +300,7 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
               icon={<Building2 size={16} />}
             />
             <TextInput
-              name="full_name"
+              name="name"
               label="Full name"
               placeholder="Johnathan Smith"
               icon={<User size={16} />}

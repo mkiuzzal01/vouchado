@@ -45,7 +45,7 @@ export interface FileInputProps {
   className?: string;
   multiple?: boolean;
   maxFiles?: number;
-  /** Set to true to enable Zoom, Crop, and Aspect Ratio tools */
+  imageFrameStyle?: "rounded" | "square" | "banner";
   imageFeatures?: boolean;
   aspectRatio?: number;
   aspectOptions?: AspectOption[];
@@ -129,6 +129,7 @@ export default function FileInput({
   aspectRatio,
   aspectOptions = DEFAULT_ASPECT_OPTIONS,
   showAspectSelector = true,
+  imageFrameStyle = "banner",
 }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -422,7 +423,7 @@ export default function FileInput({
               {/* Crop Modal */}
               {imageFeatures && (
                 <Dialog open={cropModalOpen} onOpenChange={setCropModalOpen}>
-                  <DialogContent className="sm:max-w-md">
+                  <DialogContent className="min-w-xl bg-white">
                     <DialogHeader>
                       <DialogTitle className="flex items-center gap-2 text-base">
                         <Crop size={18} className="text-primary" /> Crop &
@@ -450,7 +451,7 @@ export default function FileInput({
                       </div>
                     )}
 
-                    <div className="relative w-full h-64 bg-black rounded-lg overflow-hidden my-2">
+                    <div className="relative w-full h-72 bg-black rounded-lg overflow-hidden my-2">
                       {imageToCrop && (
                         <Cropper
                           image={imageToCrop}
@@ -460,6 +461,9 @@ export default function FileInput({
                           onCropChange={setCrop}
                           onZoomChange={setZoom}
                           onCropComplete={onCropComplete}
+                          cropShape={
+                            imageFrameStyle === "rounded" ? "round" : "rect"
+                          }
                         />
                       )}
                     </div>
