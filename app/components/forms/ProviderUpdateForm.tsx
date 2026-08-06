@@ -245,7 +245,8 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
             />
             <FileInput
               imageFeatures={true}
-              imageFrameStyle="banner"
+              showAspectSelector={false}
+              aspectRatio={16 / 9}
               defaultImage={data?.business_cover_image_full_url}
               label="Cover Image"
               name="business_cover_image"

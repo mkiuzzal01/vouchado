@@ -28,9 +28,18 @@ export default function Media() {
       <div className="lg:col-span-3">
         <AppForm defaultValues={media} onSubmit={onSubmit}>
           <div className="space-y-6">
-            <FileInput required name="coverImage" label="Cover Image" />
+            <FileInput
+              showAspectSelector={false}
+              aspectRatio={16 / 9}
+              imageFeatures={true}
+              imageFrameStyle="banner"
+              required
+              name="coverImage"
+              label="Cover Image"
+            />
 
             <FileInput
+              imageFeatures={true}
               required
               multiple
               maxFiles={4}

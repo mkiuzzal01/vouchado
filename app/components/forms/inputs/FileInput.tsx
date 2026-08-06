@@ -24,16 +24,14 @@ export interface AspectOption {
   value: number | undefined; // undefined = freeform crop
 }
 
-const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "gif", "svg"];
-const DEFAULT_ACCEPT =
-  "image/jpeg,image/png,image/gif,image/svg+xml,.jpg,.jpeg,.png,.gif,.svg";
+const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png"];
+const DEFAULT_ACCEPT = "image/jpeg,image/png,.jpg,.jpeg,.png";
 
 const DEFAULT_ASPECT_OPTIONS: AspectOption[] = [
   { label: "1:1 Square", value: 1 },
   { label: "16:9 Banner", value: 16 / 9 },
   { label: "4:3 Classic", value: 4 / 3 },
   { label: "4:5 Portrait", value: 4 / 5 },
-  { label: "Freeform", value: undefined },
 ];
 
 export interface FileInputProps {
@@ -316,7 +314,7 @@ export default function FileInput({
                       "flex flex-col items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary/20",
                       multiple
                         ? "w-32 h-32 p-2 text-center"
-                        : "w-full min-h-[200px] p-6",
+                        : "w-full min-h-50 p-6",
                     )}
                   >
                     <input
@@ -340,7 +338,9 @@ export default function FileInput({
                       </div>
                       {!multiple && (
                         <p className="text-xs text-muted-foreground">
-                          JPG, JPEG, PNG, GIF, or SVG
+                          {ALLOWED_EXTENSIONS.map((ext) => ext)
+                            .join(", ")
+                            .toUpperCase()}
                         </p>
                       )}
                       <span
@@ -369,7 +369,7 @@ export default function FileInput({
                       key={index}
                       className={cn(
                         "relative rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-sm group bg-neutral-100 dark:bg-neutral-900",
-                        multiple ? "w-32 h-32" : "w-full h-[220px]",
+                        multiple ? "w-32 h-32" : "w-full h-55",
                       )}
                     >
                       <Image

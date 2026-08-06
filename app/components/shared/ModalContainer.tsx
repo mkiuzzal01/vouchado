@@ -80,7 +80,6 @@ export default function ModalContainer({
     <div
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-0 backdrop-blur-sm sm:items-center sm:p-4"
       aria-hidden="true"
-      onClick={onClose}
     >
       <div
         role="dialog"
