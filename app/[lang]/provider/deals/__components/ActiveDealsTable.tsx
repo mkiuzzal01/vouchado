@@ -24,6 +24,13 @@ import { useDeleteDealMutation } from "@/redux/features/deal/deal.api";
 import { toast } from "react-toastify";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import ChangeStatusForm from "@/app/components/forms/ChangeStatusForm";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export interface IDeal {
   id: number;
@@ -82,31 +89,57 @@ export default function ActiveDealsTable({
   const [targetDealStatus, setTargetDealStatus] = useState<string | null>(null);
 
   const currentSearch = searchParams.get("search") || "";
-  const [searchTerm, setSearchTerm] = useState(currentSearch);
+  const currentStatus = searchParams.get("status") || "all";
 
-  // Sync internal search field value if URL parameters are updated externally
+  const [searchTerm, setSearchTerm] = useState(currentSearch);
+  const [statusQuery, setStatusQuery] = useState(currentStatus);
+
+  // Sync internal states if URL parameters change externally
   useEffect(() => {
     setSearchTerm(searchParams.get("search") || "");
+    setStatusQuery(searchParams.get("status") || "all");
   }, [searchParams]);
 
-  // Handle updates to the browser search parameters with a debounced wrapper
+  // Handle search updates to URL with debounce
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       const params = new URLSearchParams(searchParams.toString());
       if (searchTerm.trim()) {
-        params.set("search", searchTerm);
+        params.set("search", searchTerm.trim());
       } else {
         params.delete("search");
       }
       params.delete("page");
 
-      startTransition(() => {
-        router.push(`${pathname}?${params.toString()}`);
-      });
+      // Avoid redundant navigations if search state matches URL parameter
+      if ((searchParams.get("search") || "") !== searchTerm.trim()) {
+        startTransition(() => {
+          router.push(`${pathname}?${params.toString()}`);
+        });
+      }
     }, 400);
 
     return () => clearTimeout(delayDebounce);
-  }, [searchTerm, pathname, router]);
+  }, [searchTerm, pathname, router, searchParams]);
+
+  // Handle status select change
+  const handleStatusQuery = (value: any) => {
+    setStatusQuery(value);
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (value && value !== "all") {
+      params.set("status", value);
+    } else {
+      params.delete("status");
+    }
+
+    // Reset page on filter change
+    params.delete("page");
+
+    startTransition(() => {
+      router.push(`${pathname}?${params.toString()}`);
+    });
+  };
 
   const handleChangeStatus = (dealID: number, currentStatus: string) => {
     setTargetDealID(dealID);
@@ -134,7 +167,9 @@ export default function ActiveDealsTable({
         router.refresh();
       }
     } catch (error: any) {
-      toast.error(error.data.message);
+      toast.error(
+        error?.data?.message || "Something went wrong during deletion",
+      );
     }
   };
 
@@ -160,18 +195,32 @@ export default function ActiveDealsTable({
           </div>
         </div>
 
-        {/* Input field structured under shadcn guidelines */}
-        <div className="relative w-full sm:w-80">
-          <Input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search here..."
-            className={`w-full pl-4 pr-10 h-10 rounded-full text-xs placeholder:text-slate-400 focus-visible:ring-1 text-slate-700 transition-opacity ${
-              isPending ? "opacity-70" : "opacity-100"
-            }`}
-          />
-          <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+        <div className="flex items-center gap-2">
+          <div>
+            <Select value={statusQuery} onValueChange={handleStatusQuery}>
+              <SelectTrigger className="w-[120px] h-10 text-xs">
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent className="bg-white">
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="relative w-full sm:w-80">
+            <Input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search here..."
+              className={`w-full pl-4 pr-10 h-10 rounded-full text-xs placeholder:text-slate-400 focus-visible:ring-1 text-slate-700 transition-opacity ${
+                isPending ? "opacity-70" : "opacity-100"
+              }`}
+            />
+            <Search className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
+          </div>
         </div>
       </div>
 
@@ -202,7 +251,6 @@ export default function ActiveDealsTable({
                 <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
                   Remaining
                 </TableHead>
-
                 <TableHead className="h-12 px-6 font-semibold text-slate-700 text-center">
                   Actions
                 </TableHead>

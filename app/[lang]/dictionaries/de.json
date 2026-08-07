@@ -555,11 +555,12 @@
       "max_price": "Höchstpreis",
       "rating": "Bewertung",
       "clear_all": "Filter löschen",
+
       "availability": {
         "title": "Verfügbarkeit",
-        "last_day": "Angebote am letzten Tag",
-        "only_one_week": "Nur noch eine Woche",
-        "discount": "50 % Rabatt und MEHR"
+        "last_day": "Endet heute",
+        "only_one_week": "Nur noch diese Woche",
+        "discount": "50 % Rabatt oder mehr"
       }
     },
     "sort": {

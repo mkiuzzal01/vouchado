@@ -11,15 +11,16 @@ import NotFoundData from "@/app/components/shared/NotFoundData";
 import { getActiveDeals } from "@/actions/quires/deals.api";
 
 interface IProps {
-  searchParams: Promise<{ search: string }>;
+  searchParams: Promise<{ search: string; status: string }>;
 }
 
 export default async function DealsPage({ searchParams }: IProps) {
-  const { search } = await searchParams;
+  const { search, status } = await searchParams;
   const revenueStats = await getProviderRevenueStats();
 
   const query = new URLSearchParams();
   if (search) query.set("search", search);
+  if (status) query.set("status", status);
 
   const activeDeals = await getActiveDeals(query.toString());
 

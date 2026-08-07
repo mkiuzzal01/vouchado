@@ -207,10 +207,18 @@ function DetailsFormContent({ category }: { category: ICategory }) {
         />
 
         <SelectInput
-          required
+          required={childCategories.length > 0}
           name="child_category"
           label="Deal subcategory"
           disabled={!selectedCategoryId || childCategories.length === 0}
+          rules={{
+            validate: (value: string) => {
+              if (childCategories.length > 0 && !value) {
+                return "Please select a subcategory";
+              }
+              return true;
+            },
+          }}
           options={[
             {
               label:
