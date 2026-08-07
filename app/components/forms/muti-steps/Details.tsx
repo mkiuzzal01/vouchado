@@ -117,6 +117,7 @@ function DetailsFormContent({ category }: { category: ICategory }) {
     register,
     watch,
     setValue,
+    trigger,
     formState: { errors },
   } = useFormContext();
 
@@ -126,12 +127,21 @@ function DetailsFormContent({ category }: { category: ICategory }) {
   const boosters = watch("boosters") || {};
   const startTime = watch("available_start_time");
   const selectedCategoryId = watch("category");
+  const selectedChildCategoryId = watch("child_category");
 
-  // Derive child categories dynamically
+  // Find the selected category object and its child categories
   const selectedCategoryObj = category?.data?.find(
     (item: Category) => item.id.toString() === selectedCategoryId?.toString(),
   );
+
   const childCategories = selectedCategoryObj?.child_categories || [];
+
+  // Check if the selected child category is valid for the current parent
+  const isValidChildCategory =
+    selectedChildCategoryId &&
+    childCategories.some(
+      (child) => child.id.toString() === selectedChildCategoryId?.toString(),
+    );
 
   // Register array validation rules safely on component mount
   useEffect(() => {
@@ -147,18 +157,85 @@ function DetailsFormContent({ category }: { category: ICategory }) {
     });
   }, [register]);
 
-  // Reset child category if the parent category changes and current child is no longer valid
+  // Reset and validate child category when parent category changes
   useEffect(() => {
-    if (selectedCategoryId) {
-      const currentChild = watch("child_category");
-      const isValidChild = childCategories.some(
-        (child) => child.id.toString() === currentChild?.toString(),
+    const resetAndValidateChild = async () => {
+      if (selectedCategoryId) {
+        // If category has no child categories, clear the selection
+        if (childCategories.length === 0) {
+          if (selectedChildCategoryId) {
+            setValue("child_category", "", {
+              shouldValidate: true,
+              shouldDirty: true,
+            });
+            // Trigger validation to show error if needed
+            await trigger("child_category");
+          }
+          return;
+        }
+
+        // If category has child categories, validate the current selection
+        const currentChildStr = selectedChildCategoryId?.toString();
+        const isValid = childCategories.some(
+          (child) => child.id.toString() === currentChildStr,
+        );
+
+        if (selectedChildCategoryId && !isValid) {
+          // Clear invalid child category
+          setValue("child_category", "", {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+          // Trigger validation to show the required error
+          await trigger("child_category");
+        } else if (selectedChildCategoryId && isValid) {
+          // Child is valid, trigger validation to clear any errors
+          await trigger("child_category");
+        }
+      } else {
+        // If no category selected, clear child category
+        if (selectedChildCategoryId) {
+          setValue("child_category", "", {
+            shouldValidate: true,
+            shouldDirty: true,
+          });
+          await trigger("child_category");
+        }
+      }
+    };
+
+    resetAndValidateChild();
+  }, [
+    selectedCategoryId,
+    childCategories,
+    selectedChildCategoryId,
+    setValue,
+    trigger,
+  ]);
+
+  // Additional effect to validate child category when it changes
+  useEffect(() => {
+    if (selectedChildCategoryId && selectedCategoryId) {
+      // Check if the selected child belongs to the current parent
+      const isStillValid = childCategories.some(
+        (child) => child.id.toString() === selectedChildCategoryId?.toString(),
       );
-      if (!isValidChild) {
-        setValue("child_category", "", { shouldValidate: true });
+
+      if (!isStillValid) {
+        setValue("child_category", "", {
+          shouldValidate: true,
+          shouldDirty: true,
+        });
+        trigger("child_category");
       }
     }
-  }, [selectedCategoryId, childCategories, setValue, watch]);
+  }, [
+    selectedChildCategoryId,
+    childCategories,
+    selectedCategoryId,
+    setValue,
+    trigger,
+  ]);
 
   const handleToggleItem = (
     fieldName: string,
@@ -207,26 +284,30 @@ function DetailsFormContent({ category }: { category: ICategory }) {
         />
 
         <SelectInput
-          required={childCategories.length > 0}
           name="child_category"
           label="Deal subcategory"
           disabled={!selectedCategoryId || childCategories.length === 0}
+          required={childCategories.length > 0}
           rules={{
             validate: (value: string) => {
-              if (childCategories.length > 0 && !value) {
-                return "Please select a subcategory";
+              // Only validate if the category has child categories
+              if (childCategories.length > 0) {
+                if (!value) {
+                  return "Please select a subcategory";
+                }
+                // Check if the selected value is valid for the current parent
+                const isValid = childCategories.some(
+                  (child) => child.id.toString() === value?.toString(),
+                );
+                if (!isValid) {
+                  return "Please select a valid subcategory for the selected category";
+                }
               }
               return true;
             },
           }}
           options={[
-            {
-              label:
-                childCategories.length === 0
-                  ? "No subcategories available"
-                  : "Select a subcategory",
-              value: "",
-            },
+            { label: "Select a subcategory", value: "" },
             ...childCategories.map((child: ChildCategory) => ({
               label: child?.name,
               value: child?.id.toString(),
