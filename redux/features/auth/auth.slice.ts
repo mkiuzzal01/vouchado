@@ -41,6 +41,10 @@ export const authSlice = createSlice({
       });
     },
 
+    updateCurrentUserInfo: (state, action) => {
+      state.user = { ...state.user, ...action.payload };
+    },
+
     logout: (state) => {
       state.user = null;
       state.vuchado_token = null;
@@ -85,6 +89,7 @@ export const {
   clearCouponCode,
   clearLoyaltyPoint,
   updatePointsPerOrder,
+  updateCurrentUserInfo,
 } = authSlice.actions;
 
 export default authSlice.reducer;

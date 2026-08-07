@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Menu } from "lucide-react";
 import MegaMenu from "./MegaMenu";
 import Container from "../shared/Container";
-import branding_logo from "@/public/logo/brand_logo.png";
+import branding_logo from "@/public/logo/logo.svg";
 import { useState } from "react";
 import UserDropdown from "./UserDropdown";
 import Chat from "../icons/Chat";
@@ -113,8 +113,7 @@ export default function Navbar({
             {/* Auth */}
             <div className="flex items-center gap-2  rounded-full lg:bg-[#F4F6F8] lg:border lg:p-1 xl:p-0.5 2xl:p-1">
               {(() => {
-                const wishlistCount =
-                  user_info?.value?.data?.wishlist_count || 0;
+                const wishlistCount = user_info?.data?.wishlist_count || 0;
                 const isWishlistActive = path.includes("/wishlist");
 
                 return (

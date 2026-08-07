@@ -112,8 +112,18 @@
         "second": "lokale",
         "third": "Angebote"
       },
-      "sub_title": "Spare bis zu 70 % auf Erlebnisse, die du liebst.",
-      "desc": "Finde exklusive Rabatte auf Restaurants, Spas, Abenteuer, Beauty-Behandlungen und lokale Aktivitäten. Jeden Tag neue Deals!",
+
+      "offer_badge": {
+        "location_badge": "Sparen bis zu",
+        "discount": "70%",
+        "daily_deals": "Heute"
+      },
+
+      "sub_title_1": "Spare ",
+      "sub_title_2": "bis zu 70 %",
+      "sub_title_3": "auf Erlebnisse, die du liebst.",
+      "desc_1": "Finde exklusive Rabatte auf Restaurants, Spas, Abenteuer, Beauty-Behandlungen und lokale Aktivitäten.",
+      "desc_2": "Jeden Tag neue Deals!",
 
       "features": {
         "verified_deals": "Geprüfte Angebote",
@@ -224,19 +234,20 @@
     "steps": {
       "step_1": {
         "title": "Angebote entdecken",
-        "desc": "Durchstöbern Sie Angebote in Ihrer Nähe, entdecken Sie kuratierte Kategorien oder suchen Sie nach Erlebnissen, die zu Ihren Interessen passen.",
+        "desc": "Entdecken Sie die besten lokalen Angebote in Ihrer Nähe. Ob Wellness, Restaurants, Freizeit oder besondere Erlebnisse – mit wenigen Klicks finden Sie genau die Deals, die zu Ihnen passen.",
         "features": {
-          "curated": "Kuratierte Angebote",
-          "nearby": "Angebote in der Nähe",
-          "search": "Einfache Suche"
+          "curated": "Handverlesene Deals",
+          "nearby": "In Ihrer Nähe",
+          "search": "Schnell gefunden"
         }
       },
+
       "step_2": {
         "title": "Gutschein kaufen",
-        "desc": "Wählen Sie Ihr Lieblingsangebot und kaufen Sie Ihre Dienstleistung mit nur wenigen Klicks sicher ein.",
+        "desc": "Ihr perfektes Angebot gefunden? Kaufen Sie Ihren Gutschein schnell, sicher und unkompliziert. In wenigen Sekunden ist Ihr Deal bereit und kann direkt genutzt werden.",
         "features": {
-          "secure": "Sichere Zahlungen",
-          "instant": "Sofortige Bestätigung",
+          "secure": "Sichere Zahlung",
+          "instant": "Sofort verfügbar",
           "best": "Bestpreisgarantie"
         }
       },
@@ -249,22 +260,23 @@
           "accessible": "Jederzeit abrufbar"
         }
       },
+
       "step_4": {
         "title": "Einlösen & Genießen",
-        "desc": "Besuchen Sie das Unternehmen, zeigen Sie Ihren QR-Code vor und genießen Sie Ihr Erlebnis, während Sie Geld sparen.",
+        "desc": "Besuchen Sie Ihren ausgewählten Partnerbetrieb, zeigen Sie Ihren QR-Code vor und genießen Sie Ihr Erlebnis – schnell, unkompliziert und zum exklusiven Vouchado-Preis.",
         "features": {
-          "quick": "Schnelle & einfache Einlösung",
+          "quick": "Einfach per QR-Code einlösen",
           "enjoy": "Exklusive Erlebnisse genießen",
-          "save": "Bei jedem Besuch mehr sparen"
+          "save": "Mehr erleben. Weniger bezahlen."
         }
       },
       "step_5": {
         "title": "Treuepunkte sammeln",
-        "desc": "Sammeln Sie bei jedem Kauf Punkte und lösen Sie diese für zukünftige Vouchado-Gutscheine ein.",
+        "desc": "Sammeln Sie bei jedem Einkauf wertvolle Treuepunkte und tauschen Sie diese gegen attraktive Vouchado-Gutscheine und exklusive Vorteile ein.",
         "features": {
-          "collect": "Punkte sammeln",
-          "unlock": "Belohnungen freischalten",
-          "benefits": "Mehr Vorteile"
+          "collect": "Treuepunkte sammeln",
+          "unlock": "Prämien freischalten",
+          "benefits": "Exklusive Vorteile"
         }
       }
     },
@@ -318,120 +330,108 @@
       }
     },
     "for_business": {
-      "title_1": "Registrieren Sie sich in",
-      "title_2": "2 Minuten als ",
-      "title_3": "Pionier"
+      "badge": "FIRST MOVER",
+      "title_1": "In 2 Minuten als ",
+      "title_2": "First Mover ",
+      "title_3": "registrieren"
     },
     "for_business_section_left": {
-      "sec_1": "6 Monate lang keine Provision zahlen",
-      "sec_2": "Erstellen Sie Angebote, die zu Ihrem Unternehmen passen",
-      "sec_3": "Werden Sie in unserem Newsletter vorgestellt",
-      "sec_4": "Kein Risiko – nur Gewinne"
+      "sec_1": "6 Monate provisionsfrei (keine Gebühren)",
+      "sec_2": "Deals erstellen, die zu deinem Business passen",
+      "sec_3": "Im Newsletter gefeatured werden",
+      "sec_4": "Kein Risiko – nur Vorteile"
     },
     "for_business_section_right": {
       "title": "Unternehmensinformationen",
-      "description": "Bitte richten Sie Ihre Unternehmensinformationen ein",
+      "description": "Bitte hinterlege die Informationen zu deinem Unternehmen",
       "business_name": "Unternehmensname",
-      "business_name_placeholder": "Geben Sie Ihren Unternehmensnamen ein",
-      "contact_person": "Ansprechpartner",
-      "contact_person_placeholder": "Geben Sie den Namen des Ansprechpartners ein",
-      "your_address": "Ihre Adresse",
-      "your_address_placeholder": "Geben Sie Ihre Adresse ein",
+      "business_name_placeholder": "Gib deinen Unternehmensnamen ein",
+      "contact_person": "Ansprechperson",
+      "contact_person_placeholder": "Gib deinen Namen ein",
       "email": "E-Mail-Adresse",
-      "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
+      "email_placeholder": "Gib deine E-Mail-Adresse ein",
       "phone_number": "Telefonnummer",
-      "phone_number_placeholder": "Geben Sie Ihre Telefonnummer ein",
-      "business_category": "Branchenkategorie",
-      "business_category_placeholder": "Wählen oder geben Sie Ihre Kategorie ein",
+      "phone_number_placeholder": "Gib deine Telefonnummer ein",
+      "business_category": "Kategorie",
+      "business_category_placeholder": "Kategorie auswählen",
       "city": "Stadt",
-      "city_placeholder": "Geben Sie Ihre Stadt ein"
+      "city_placeholder": "Gib deine Stadt ein",
+      "submit_button": "Jetzt kostenlos registrieren",
+      "login_prompt": "Du hast bereits ein Konto?",
+      "login_link": "Jetzt anmelden"
     },
+
     "why_business_with_us": {
       "title": "Warum Unternehmen mit uns zusammenarbeiten",
-      "subtitle": "Ein modernes Toolkit zur Umsatzsteigerung ohne Erhöhung Ihrer Fixkosten",
+      "subtitle": "Ein modernes Werkzeug, um mehr Umsatz zu erzielen – ohne steigende Fixkosten.",
       "reach_new_customers": {
-        "title": "Neue Kunden erreichen",
-        "desc": "Erreichen Sie Menschen, die aktiv nach lokalen Erlebnissen suchen."
+        "title": "Neue Kunden gewinnen",
+        "desc": "Erreiche Menschen, die aktiv nach lokalen Angeboten suchen."
       },
       "increase_local_visibility": {
         "title": "Lokale Sichtbarkeit erhöhen",
-        "desc": "Erscheinen Sie in Suchanfragen, Kategorien und Stadt-Empfehlungen."
+        "desc": "Erscheine in Suchen, Kategorien und als Empfehlung in deiner Stadt."
       },
       "fill_quiet_periods": {
-        "title": "Ruhige Zeiten überbrücken",
-        "desc": "Bewerben Sie Angebote außerhalb der Stoßzeiten."
+        "title": "Ruhige Zeiten optimal nutzen",
+        "desc": "Bewirb deine Angebote in schwächeren Zeiten und fülle Auslastungslücken."
       },
       "build_customer_loyalty": {
-        "title": "Kundenbindung aufbauen",
-        "desc": "Verwandeln Sie Erstbesucher in treue Stammkunden."
+        "title": "Kundenbindung stärken",
+        "desc": "Verwandle Erstbesucher in Stammkunden und begeistere mit neuen Erlebnissen."
       },
       "easy_deal_management": {
-        "title": "Einfache Angebotsverwaltung",
-        "desc": "Erstellen und verwalten Sie Angebote über ein einfaches Dashboard."
+        "title": "Einfache Deal-Verwaltung",
+        "desc": "Erstelle und verwalte deine Angebote komfortabel im Dashboard."
       },
       "performance_based_growth": {
-        "title": "Leistungsbasiertes Wachstum",
-        "desc": "Generieren Sie Umsatz durch zielgerichtete Kampagnen."
+        "title": "Erfolgsbasiertes Wachstum",
+        "desc": "Gezielte Aktionen, die nachweislich mehr Umsatz bringen."
       }
     },
     "create_deals": {
-      "title_1": "Erstellen Sie Angebote, die zu Ihrem ",
-      "title_2": "Unternehmen passen",
-      "subtitle": "Sie entscheiden, wie, wann und wo Ihre Angebote verfügbar sind.",
+      "title_1": "Erstelle Angebote, ",
+      "title_2": "die zu deinem Business passen.",
+      "subtitle": "Du bestimmst, wann, wo und wie deine Angebote verfügbar sind.",
       "deal_types": {
-        "limited_quantity_offers": "Angebote mit limitierter Stückzahl",
-        "last_minute_promotions": "Last-Minute-Aktionen",
+        "limited_quantity_offers": "Limitierte Angebote",
+        "last_minute_promotions": "Last-Minute Aktionen",
         "seasonal_campaigns": "Saisonale Kampagnen",
         "weekday_specials": "Wochentags-Specials",
-        "time_based_deals": "Zeitbasierte Angebote",
-        "family_and_kids_offers": "Angebote für Familien & Kinder",
-        "event_based_promotions": "Eventbasierte Aktionen",
+        "time_based_deals": "Zeitbasierte Deals",
+        "family_and_kids_offers": "Familien & Kinder Angebote",
+        "event_based_promotions": "Event-Promotions",
         "universal_business_vouchers": "Universelle Gutscheine",
-        "opening_specials": "Eröffnungs-Specials"
+        "opening_specials": "Eröffnungsangebote"
       }
     },
     "features": {
       "secure_payments": {
         "title": "Sichere Zahlungen",
-        "desc": "Verschlüsselung auf Bankenniveau bei jeder Transaktion."
+        "desc": "Bankverschlüsselt und sicher bei jeder Transaktion."
       },
       "qr_protected_redemption": {
         "title": "QR-geschützte Einlösung",
-        "desc": "Jeder Gutschein wird direkt bei der Einlösung überprüft."
+        "desc": "Jeder Gutschein wird sicher geprüft."
       },
       "verified_customers": {
         "title": "Verifizierte Kunden",
-        "desc": "Echte, verifizierte Käufer besuchen Ihr Unternehmen."
+        "desc": "Echte, nachvollziehbare Besucher in deinem Betrieb."
       },
       "fraud_prevention": {
-        "title": "Betrugsprävention",
-        "desc": "Aktive Überwachung schützt Ihre Einnahmen."
+        "title": "Betrugsschutz",
+        "desc": "Aktive Überwachung schützt deinen Umsatz."
       },
       "safe_transactions": {
-        "title": "Sichere Transaktionen",
-        "desc": "Gelder werden mit voller Transparenz verwaltet."
+        "title": "Transparente Abwicklung",
+        "desc": "Faire & transparente Auszahlung."
       }
     },
-    "steps": {
-      "step_1": {
-        "title": "Erstellen Sie Ihr Angebot",
-        "desc": "Wählen Sie Rabatt, Verfügbarkeit und Laufzeit in wenigen Minuten."
-      },
-      "step_2": {
-        "title": "Kunden kaufen",
-        "desc": "Nutzer entdecken und kaufen Gutscheine auf dem Marktplatz."
-      },
-      "step_3": {
-        "title": "Kunden lösen Gutscheine ein",
-        "desc": "Kunden kommen vorbei und lösen diese sofort per QR-Code ein."
-      }
-    },
-
     "promotional_banner": {
-      "title": "Bereit, Ihr Unternehmen auszubauen?",
-      "description": "Schließen Sie sich lokalen Unternehmen an, die Vouchado nutzen, um Kunden zu gewinnen, freie Kapazitäten zu nutzen und zusätzlichen Umsatz zu generieren.",
-      "cta_primary": "Partner werden",
-      "cta_secondary": "Sprechen Sie mit unserem Team"
+      "title": "Bereit, Ihr Business wachsen zu lassen?",
+      "description": "Schließen Sie sich lokalen Unternehmen auf Vouchado an, gewinnen Sie neue Kunden, füllen Sie freie Kapazitäten und steigern Sie Ihren Umsatz.",
+      "cta_primary": "Jetzt Partner werden \u2192",
+      "cta_secondary": "Mit unserem Team sprechen"
     }
   },
   "cart": {
@@ -475,18 +475,17 @@
     "expire_date": "Ablaufdatum",
     "no_unused_voucher": "Kein unbenutzter Gutschein"
   },
-
   "contact": {
     "title": "Kontakt",
     "badge": "WIR SIND FÜR SIE DA",
     "heading": "Haben Sie eine Frage oder benötigen Sie Unterstützung?",
-    "subheading": "Senden Sie uns eine Nachricht und unser Team wird sich so schnell wie möglich bei Ihnen melden.",
-    "quick_response": "Schnelle Rückmeldung",
-    "quick_response_sub": "In der Regel innerhalb von 24 Std.",
-    "real_people": "Echte Ansprechpartner",
-    "real_people_sub": "Gerne für Sie da",
+    "subheading": "Senden Sie uns eine Nachricht und unser Team meldet sich so schnell wie möglich bei Ihnen.",
+    "quick_response": "Schnelle Antwort",
+    "quick_response_sub": "In der Regel innerhalb von 24 Stunden.",
+    "real_people": "Echte Menschen",
+    "real_people_sub": "Wir sind für Sie da",
     "secure_100": "100% Sicher",
-    "secure_100_sub": "Ihre Daten sind geschützt",
+    "secure_100_sub": "Ihre Daten sind bei uns geschützt",
 
     "form": {
       "name": "Name",
@@ -494,10 +493,11 @@
       "topic": "Betreff",
       "message": "Nachricht",
       "send_message": "Nachricht senden",
-      "name_placeholder": "Max Mustermann",
-      "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
-      "topic_placeholder": "Geben Sie Ihren Betreff ein",
-      "message_placeholder": "Beschreiben Sie Ihr Anliegen hier..."
+      "name_placeholder": "Ihr Name",
+      "email_placeholder": "Ihre E-Mail-Adresse",
+      "topic_placeholder": "Worum geht es?",
+      "message_placeholder": "Beschreiben Sie Ihr Anliegen hier ...",
+      "cta": "Nachricht senden"
     },
     "contact_info": {
       "email": {
@@ -507,7 +507,7 @@
       "phone": {
         "title": "Telefon",
         "value": "+1234567890",
-        "time": "Mo – Fr: 8:00 – 18:00 Uhr"
+        "time": "Mo - Fr: 8:00 - 18:00 Uhr"
       },
       "address": {
         "title": "Adresse",
@@ -515,11 +515,13 @@
       }
     },
     "promotional_banner": {
-      "title": "Bringen Sie Ihr Unternehmen mit VOUCHADO voran",
-      "description_1": "Schließen Sie sich über 300 Unternehmen an, die bereits unsere Plattform nutzen, um neue Kunden zu erreichen, freie",
-      "description_2": "Kapazitäten zu nutzen und den Umsatz ohne Vorabkosten zu steigern.",
-      "description_3": "Über 300 Partner vertrauen uns",
-      "cta_primary": "Partner werden",
+      "title": "Lassen Sie Ihr Business mit VOUCHADO wachsen",
+      "description_1": "Bereits",
+      "description_2": "300+ Unternehmen",
+      "description_3": "nutzen unsere Plattform, um neue Kunden zu gewinnen",
+      "description_4": "freie Kapazitäten zu füllen und ihren Umsatz zu steigern - ganz ohne Vorabkosten.",
+      "description_5": "300 Partner vertrauen uns",
+      "cta_primary": "Jetzt Partner werden",
       "cta_secondary": "Sprechen Sie mit unserem Team"
     }
   },

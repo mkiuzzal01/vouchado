@@ -41,11 +41,11 @@ export default async function layout({ children, params }: RootLayout) {
     ]);
 
     if (userResult.status === "fulfilled") {
-      userInfo = userResult;
+      userInfo = userResult.value;
     }
 
     if (providerResult.status === "fulfilled") {
-      providerInfo = providerResult;
+      providerInfo = providerResult.value;
     }
   }
 

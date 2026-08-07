@@ -3,11 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
 import logo from "@/public/logo/brand_logo.png";
 import { providerNavItems } from "./HeaderLinks";
 import UserDropdown from "@/app/components/layouts/UserDropdown";
-import { Bell } from "lucide-react";
 import Container from "@/app/components/shared/Container";
 import { NotificationBell } from "./NotificationBell";
 
@@ -86,7 +84,10 @@ export default function Header({
 
           {/* Right Side */}
           <div className="flex items-center gap-4">
-            <NotificationBell lang={lang} initialNotifications={notifications} />
+            <NotificationBell
+              lang={lang}
+              initialNotifications={notifications}
+            />
             <UserDropdown lang={lang} ProviderInfo={profileInfo} />
           </div>
         </div>

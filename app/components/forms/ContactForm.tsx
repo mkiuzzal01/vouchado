@@ -72,7 +72,7 @@ export default function ContactForm({ locale, t }: Props) {
           <div className="flex justify-center  lg:justify-end">
             <SubmitButton
               isLoading={isLoading}
-              title={t.contact.form.send_message}
+              title={t.contact.form.cta}
               className="bg-[#2bc4ca] hover:bg-[#23aab0] active:scale-[0.98] text-white font-bold px-10 py-4 h-auto rounded-full shadow-md shadow-[#2bc4ca]/10 transition-all text-base tracking-wide"
             />
           </div>

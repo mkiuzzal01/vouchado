@@ -13,6 +13,8 @@ import "swiper/css/navigation";
 import { Autoplay } from "swiper/modules";
 import bannerImage from "@/public/hero/hero.png";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import Location from "../icons/Location";
+import LocationIcon from "../icons/LocationIcon";
 
 interface Props {
   banner: any;
@@ -85,20 +87,25 @@ export default function Hero({ banner, t }: Props) {
 
         <div className="max-w-[1744px] mx-auto px-3.5 sm:px-6 lg:px-4 w-full grow flex flex-col ">
           {/* Offer Badge (Absolute Positioning for perfect responsiveness) */}
-          <div className="absolute right-2 top-2 sm:right-4 sm:top-4 md:right-10 md:top-1/10 lg:left-[60%] lg:top-[10%] xl:top-[18%] z-20 transition-transform duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer">
-            <Image
-              className="w-24 h-24 sm:w-32 sm:h-32 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-44 xl:h-44 drop-shadow-2xl"
-              src={hero}
-              alt="70% Off Special Offer"
-            />
+          <div className="absolute right-2 top-2 sm:right-4 sm:top-4 md:right-10 md:top-[10%] lg:left-[60%] lg:top-[10%] xl:top-[18%] z-20 transition-transform duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer">
+            <div className="w-20 h-20 sm:w-40 sm:h-40 md:w-[204px] md:h-[204px] border-2 border-white bg-gradient-to-br from-[#5ACCD3]/80 to-[#2DAEB6]/80 backdrop-blur-sm rounded-full flex flex-col items-center justify-center p-2 sm:p-3 md:p-4 text-center shadow-lg">
+              <p className="text-[#FFFFFFA3] text-xs sm:text-sm md:text-lg font-semibold leading-tight">
+                {t?.home.hero.offer_badge.location_badge}
+              </p>
+              <p className="text-white text-sm sm:text-4xl md:text-[54px] font-bold leading-none my-0.5 md:my-1">
+                {t?.home.hero.offer_badge.discount}
+              </p>
+              <p className="text-[#FFFFFFA3] text-xs sm:text-lg md:text-[27px] font-semibold leading-tight">
+                {t?.home.hero.offer_badge.daily_deals}
+              </p>
+            </div>
           </div>
-
           <div className="relative grow flex items-center">
             {/* Text Content */}
             <div className="relative z-10 w-full max-w-2xl md:max-w-md lg:max-w-lg xl:max-w-5xl lg:left-[18px] space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-4 xl:space-y-3 text-center md:text-left mt-20">
               {/* Badge */}
-              <div className="inline-flex items-center rounded-full bg-[#BFEBEE1F]  px-4 py-1.5 md:px-3 md:py-1 lg:px-4 lg:py-2 text-[10px] sm:text-xs md:text-[10px] lg:text-[11px] xl:text-xs font-semibold tracking-widest text-white backdrop-blur-md shadow-sm">
-                {t?.home?.hero?.badge}
+              <div className="inline-flex gap-2 items-center rounded-full bg-[#31BFC8]/40  px-4 py-1.5 md:px-3 md:py-1 lg:px-4 lg:py-2 text-[10px] sm:text-xs md:text-[10px] lg:text-[11px] xl:text-xs font-semibold tracking-widest text-white backdrop-blur-md shadow-sm">
+                <LocationIcon /> {t?.home?.hero?.badge}
               </div>
 
               {/* Heading */}
@@ -112,12 +119,19 @@ export default function Hero({ banner, t }: Props) {
 
               {/* Subheading */}
               <h4 className="text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-semibold text-white drop-shadow">
-                {t?.home?.hero?.sub_title}
+                {t?.home?.hero?.sub_title_1}
+                <span className="text-[#31BFC8] drop-shadow-sm">
+                  {t?.home?.hero?.sub_title_2}
+                </span>{" "}
+                {t?.home?.hero?.sub_title_3}
               </h4>
 
               {/* Description */}
               <p className="text-base sm:text-lg md:text-sm lg:text-base xl:text-lg font-normal text-[#FFFFFFCC] max-w-xl mx-auto md:mx-0">
-                {t?.home?.hero?.desc}
+                {t?.home?.hero?.desc_1}
+                <span className="text-[#31BFC8] drop-shadow-sm">
+                  {t?.home?.hero?.desc_2}
+                </span>
               </p>
 
               <div>

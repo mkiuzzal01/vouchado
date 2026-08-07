@@ -46,9 +46,7 @@ async function fetchAreaFromCoords(lat: number, lng: number): Promise<string> {
     }
   }
 
-  return city && country
-    ? `${city}, ${country}`
-    : firstResult.formatted_address;
+  return city && country ? `${city}` : firstResult.formatted_address;
 }
 
 export default function LocationOrigin() {

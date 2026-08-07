@@ -11,7 +11,11 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import { useAppDispatch } from "@/redux/hooks/globalhooks";
-import { logout, updateLoyaltyPoint } from "@/redux/features/auth/auth.slice";
+import {
+  logout,
+  updateCurrentUserInfo,
+  updateLoyaltyPoint,
+} from "@/redux/features/auth/auth.slice";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
@@ -35,9 +39,15 @@ export default function UserDropdown({
   const dispatch = useAppDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
 
-  const userEmail = userInfo?.data?.email || user?.email;
-  const role = String(user?.role || userInfo?.data?.role);
-  const avatar = userInfo?.data?.avatar || user?.avatar;
+  const userEmail =
+    userInfo?.data?.email || ProviderInfo?.data?.email || user?.email;
+  const userName =
+    userInfo?.data?.name || ProviderInfo?.data?.name || user?.name;
+  const role = String(
+    user?.role || userInfo?.data?.role || ProviderInfo?.data?.role,
+  );
+  const avatar =
+    userInfo?.data?.avatar || ProviderInfo?.data?.logo || user?.avatar;
 
   const initials = avatar ? (
     <div className="rounded-full overflow-hidden">
@@ -60,11 +70,13 @@ export default function UserDropdown({
     router.refresh();
   };
 
-  const vouchadoPoint = userInfo?.value?.data?.vouchado_points;
-  const provider_blance =
-    ProviderInfo?.value?.data?.balance || ProviderInfo?.data?.balance;
+  const vouchadoPoint = userInfo?.data?.vouchado_points;
+  const provider_blance = ProviderInfo?.data?.balance;
 
   useEffect(() => {
+    if (userName) {
+      dispatch(updateCurrentUserInfo({ name: userName }));
+    }
     if (vouchadoPoint) {
       dispatch(updateLoyaltyPoint(vouchadoPoint));
     }

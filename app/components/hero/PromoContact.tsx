@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import contactImage from "@/public/hero/Contact us 2.png";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import ProgrssIcon from "../icons/ProgrssIcon";
 
 interface props {
   lang: string;
@@ -30,15 +31,26 @@ export default function PromoContact({ lang, t }: props) {
       <Container>
         <div className="flex flex-col gap-8 md:gap-10">
           {/* --- LIGHT TEAL PROMO BANNER POD --- */}
-          <div className="w-full rounded-[24px] bg-[#EAF5F6] border border-[#2DE2EA]/60 px-6 sm:px-10 py-8 md:py-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-8 shadow-sm">
+          <div className="w-full rounded-[24px] bg-[#EAF5F6] border border-[#2DE2EA]/60 px-6 sm:px-10 py-8 md:py-10 flex flex-col lg:flex-row lg:items-center lg:justify-between shadow-sm">
             {/* LEFT CONTENT BLOCK: Headings & Text */}
-            <div className="space-y-2.5 text-left max-w-2xl">
-              <h2 className="text-2xl font-bold sm:text-3xl md:text-[32px] text-[#0E6A70] tracking-tight leading-snug">
-                {t.contact.promotional_banner.title}
-              </h2>
-              <p className="text-sm sm:text-base text-[#4A6B6C] leading-relaxed">
-                {t.contact.promotional_banner.description_1}
-              </p>
+            <div className="flex items-start gap-[70px]">
+              <div className="flex items-center gap-4 bg-[#DCEEF0] p-4 rounded-full">
+                <ProgrssIcon />
+              </div>
+              <div className="space-y-2.5 text-left max-w-4xl">
+                <h2 className="text-2xl font-bold sm:text-3xl md:text-[32px] text-[#0E6A70] tracking-tight leading-snug">
+                  {t.contact.promotional_banner.title}
+                </h2>
+                <p className="text-sm sm:text-base text-[#4A6B6C] leading-relaxed">
+                  {t.contact.promotional_banner.description_1}{" "}
+                  <span className="font-bold text-[#0E6A70]">
+                    {" "}
+                    {t.contact.promotional_banner.description_2}
+                  </span>{" "}
+                  {t.contact.promotional_banner.description_3}{" "}
+                  {t.contact.promotional_banner.description_4}
+                </p>
+              </div>
             </div>
 
             {/* RIGHT CONTENT BLOCK: Action Button & Social Proof */}
@@ -71,7 +83,7 @@ export default function PromoContact({ lang, t }: props) {
 
                 {/* Text Descriptor Label */}
                 <p className="text-xs sm:text-[13px] text-[#4A6B6C] font-semibold leading-tight text-left">
-                  {t.contact.promotional_banner.description_3}
+                  {t.contact.promotional_banner.description_5}
                 </p>
               </div>
             </div>

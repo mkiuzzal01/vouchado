@@ -124,8 +124,16 @@
         "second": "Local",
         "third": "Deals"
       },
-      "sub_title": "Save up to 70% on experiences you love.",
-      "desc": "Find exclusive discounts on restaurants, spas, adventures, beauty treatments, and local activities. New deals added every day!",
+      "offer_badge": {
+        "location_badge": "Save Up to",
+        "discount": "70%",
+        "daily_deals": "Today"
+      },
+      "sub_title_1": "Save ",
+      "sub_title_2": "up to 70%",
+      "sub_title_3": "on experiences you love.",
+      "desc_1": "Find exclusive discounts on restaurants, spas, adventures, beauty treatments, and local activities.",
+      "desc_2": "New deals added every day!",
       "features": {
         "verified_deals": "Verified Deals",
         "secure_checkout": "Secure Checkout",
@@ -495,11 +503,11 @@
       "email": "Email",
       "topic": "Topic",
       "message": "Message",
-      "send_message": "Send Message",
       "name_placeholder": "Johnathan Smith",
       "email_placeholder": "Enter your email Address",
       "topic_placeholder": "Enter your topic",
-      "message_placeholder": "Discribe your message here..."
+      "message_placeholder": "Discribe your message here...",
+      "cta": "Send Message"
     },
     "contact_info": {
       "email": {
@@ -518,9 +526,11 @@
     },
     "promotional_banner": {
       "title": "Grow Your Business with VOUCHADO",
-      "description_1": "Join 300+ businesses already using our platform to reach new customers, fill empty",
-      "description_2": "capacity, and increase revenue with zero upfront costs.",
-      "description_3": "300+ partners trust us",
+      "description_1": "Join",
+      "description_2": "300+ businesses",
+      "description_3": "already using our platform to reach new customers, fill empty",
+      "description_4": "capacity, and increase revenue with zero upfront costs.",
+      "description_5": "300+ partners trust us",
       "cta_primary": "Become a Partner"
     }
   },

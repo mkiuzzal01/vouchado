@@ -25,7 +25,7 @@ export default function PromoReadyGrow({ lang, t }: Props) {
         />
 
         {/* LEFT SIDE: Icon + Typography Wrapper */}
-        <div className="relative z-10 flex flex-col sm:flex-row items-center text-center sm:text-left gap-6 max-w-5xl w-full">
+        <div className="relative z-10 flex flex-col sm:flex-row items-center text-center sm:text-left gap-6 max-w-6xl w-full">
           {/* Storefront Icon */}
           <div className="shrink-0 select-none pointer-events-none">
             <Image
