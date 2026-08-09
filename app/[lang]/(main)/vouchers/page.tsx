@@ -7,8 +7,16 @@ import { Voucher } from "@/redux/types/voucher";
 import QRCode from "./__components/QRCode";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import RefreshSection from "./__components/RefreshSection";
+import { getDictionary } from "../../dictionaries";
 
-export default async function Page() {
+interface PageProps {
+  params: Promise<{ lang: string }>;
+}
+
+export default async function Page({ params }: PageProps) {
+  const { lang } = await params;
+  const t = await getDictionary(lang);
+
   const unredeemed = await getUnusedVochers();
   const vouchers = unredeemed?.data?.data as Voucher[];
 
@@ -17,13 +25,13 @@ export default async function Page() {
 
   return (
     <div>
-      <PageHero backgroundImage={Promotions.src} title="Unused Voucher" />
+      <PageHero backgroundImage={Promotions.src} title={t?.vouchers?.title} />
       <Container className="my-20">
         <div className="w-full lg:max-w-7xl mx-auto ">
           {/* Title */}
           <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
             <UsedVoucher />
-            Unredeemed vouchers
+            {t?.vouchers?.unredeemed_vouchers}
           </h2>
 
           {/* Voucher List Container */}
@@ -39,7 +47,7 @@ export default async function Page() {
                   <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
                     <div>
                       <span className="block text-sm md:text-lg font-semibold text-slate-600 mb-1">
-                        Voucher ID
+                        {t?.vouchers?.voucher_id}
                       </span>
                       <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800 break-all">
                         # {voucher.id}
@@ -48,7 +56,7 @@ export default async function Page() {
 
                     <div className="sm:text-right">
                       <span className="block text-sm md:text-lg font-semibold text-gray-600 mb-1">
-                        Qty
+                        {t?.vouchers?.qty}
                       </span>
                       <span className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-800">
                         {voucher?.quantity}
@@ -59,7 +67,7 @@ export default async function Page() {
                   {/* Deal Name */}
                   <div className="flex flex-col md:flex-row md:justify-between gap-2 md:gap-6">
                     <span className="text-sm md:text-lg font-semibold text-gray-600 shrink-0">
-                      Deal Name
+                      {t?.vouchers?.deal_name}
                     </span>
 
                     <p className="text-sm sm:text-base md:text-lg text-gray-800 font-semibold md:text-right md:max-w-md">
@@ -70,7 +78,7 @@ export default async function Page() {
                   {/* Payment */}
                   <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
                     <span className="text-sm md:text-lg font-semibold text-gray-600">
-                      Payment
+                      {t?.vouchers?.payment}
                     </span>
 
                     <span className="text-lg md:text-2xl font-semibold text-gray-950">
@@ -81,7 +89,7 @@ export default async function Page() {
                   {/* Expire Date */}
                   <div className="flex flex-col sm:flex-row sm:justify-between gap-1 sm:gap-0">
                     <span className="text-sm md:text-lg font-semibold text-gray-600">
-                      Expire date
+                      {t?.vouchers?.expire_date}
                     </span>
 
                     <span className="text-sm md:text-lg font-medium text-gray-950">
@@ -101,7 +109,7 @@ export default async function Page() {
           </div>
 
           {/* Info/Help Banner at bottom */}
-          <RefreshSection />
+          <RefreshSection t={t} />
         </div>
       </Container>
     </div>

@@ -458,22 +458,47 @@
     "redeem_points": "Punkte einlösen",
     "agree_cancelation": "Ich stimme der",
     "cancelation_policy": "Stornierungsrichtlinie",
-    "proceed_checkout": "Zur Kasse gehen"
+    "proceed_checkout": "Zur Kasse gehen",
+    "trusted": {
+      "sec1": {
+        "title": "VOUCHADO-GARANTIE",
+        "desc": "Angebote immer 20 % günstiger oder MEHR!"
+      },
+      "sec2": {
+        "title": "Kostenlose Stornierung",
+        "desc": "innerhalb von 14 Tagen nach dem Kauf – ausgenommen Last-Minute-Buchungen oder feste Termine"
+      },
+      "sec3": {
+        "title": "Sichere Zahlungen",
+        "desc": "Ihre Zahlungsinformationen sind zu 100 % sicher."
+      }
+    },
+    "bottom": {
+      "title_1": "Sie erhalten",
+      "title_2": "Punkte",
+      "title_3": "mit diesem Kauf."
+    }
   },
   "wishlist": {
     "title": "Wunschliste",
     "empty_title": "Ihre Wunschliste ist leer",
     "empty_desc": "Speichern Sie Ihre Lieblingsartikel, um sie später hier zu sehen."
   },
+
   "vouchers": {
-    "title": "Unbenutzter Gutschein",
+    "title": "Unbenutzte Gutscheine",
     "unredeemed_vouchers": "Nicht eingelöste Gutscheine",
     "voucher_id": "Gutschein-ID",
-    "qty": "Menge",
-    "deal_name": "Angebotsname",
+    "qty": "Anz.",
+    "deal_name": "Angebot",
     "payment": "Zahlung",
     "expire_date": "Ablaufdatum",
-    "no_unused_voucher": "Kein unbenutzter Gutschein"
+    "no_unused_voucher": "Keine unbenutzten Gutscheine",
+    "bottom": {
+      "title": "Gutschein nicht gefunden?",
+      "description": "Es kann bis zu 5 Minuten dauern, bis Gutscheine angezeigt werden.",
+      "cta": "Aktualisieren"
+    }
   },
   "contact": {
     "title": "Kontakt",
@@ -525,18 +550,6 @@
       "cta_secondary": "Sprechen Sie mit unserem Team"
     }
   },
-  "user_profile": {
-    "my_profile": "Mein Profil",
-    "dashboard": "Dashboard",
-    "change_password": "Passwort ändern",
-    "logout": "Abmelden",
-    "delete_account": "Konto löschen",
-    "logout_confirm_title": "Abmelden?",
-    "logout_confirm_desc": "Sind Sie sicher, dass Sie sich von Ihrem Konto abmelden möchten?",
-    "delete_confirm_title": "Konto löschen?",
-    "delete_confirm_desc": "Diese Aktion kann nicht rückgängig gemacht werden. Ihre Daten werden unwiderruflich gelöscht.",
-    "confirm_deletion": "Löschung bestätigen"
-  },
   "shared": {
     "utility": {
       "no_data": "Keine Daten verfügbar",
@@ -587,6 +600,104 @@
       "step_4": {
         "title": "24/7-Support",
         "description": "Persönlicher Support – kein Chatbot"
+      }
+    }
+  },
+  "user_profile": {
+    "personal_info": {
+      "title": "Persönliche Informationen",
+      "edit_button": "Bearbeiten",
+      "form": {
+        "name": "Vollständiger Name",
+        "name_placeholder": "John Carter",
+        "email": "E-Mail-Adresse",
+        "email_placeholder": "johncarter@brix.com",
+        "phone": "Telefonnummer",
+        "phone_placeholder": "+1234567890",
+        "address": "Adresse",
+        "address_placeholder": "123 Main St, Anytown, USA",
+        "country": "Land",
+        "country_placeholder": "America",
+        "city": "Stadt",
+        "city_placeholder": "Austin",
+        "update": "Aktualisieren",
+        "cancel": "Abbrechen"
+      }
+    },
+    "my_purchases": {
+      "title": "Meine Einkäufe",
+      "order_id": "Bestell-ID",
+      "view_details": "Details anzeigen",
+      "no_purchases": "Keine Einkäufe",
+      "leave_review": "Bewertung abgeben",
+      "point": "2 Punkte für jede Bewertung",
+      "order_details": {
+        "title": "Bestelldetails",
+        "title_subtitle": "Dienstleistungen",
+        "cta": {
+          "view_coupon": "Gutschein anzeigen",
+          "view_details": "Details anzeigen",
+          "chat": "Mit Verkäufer chatten"
+        },
+        "pricing_summary": {
+          "item": "Artikel",
+          "items": "Artikel",
+          "subtotal": "Zwischensumme",
+          "vat": "MwSt.",
+          "coupon_discount": "Gutscheinrabatt",
+          "voucher_discount": "Voucherrabatt",
+          "total": "Gesamtsumme",
+          "purchase_again": "Erneut kaufen",
+          "cancel_order": "Bestellung stornieren"
+        }
+      }
+    },
+    "aside": {
+      "loyal_points": {
+        "title": "Gesammelte Punkte",
+        "desc_1": "Sie haben",
+        "desc_2": "Punkte reached",
+        "desc_3": "Sammeln Sie",
+        "desc_4": "weitere, um mehr freizuschalten",
+        "desc_5": "So nutzen Sie Punkte:",
+        "desc_6": "Lösen Sie Ihre Punkte an der Kasse ein, um exklusive Rabatte auf Ihren nächsten Einkauf freizuschalten.",
+        "voucher": "Vouchado-Gutschein",
+        "note": {
+          "title": "Hinweis:",
+          "desc_1": "Für je 1.000 eingelöste Punkte erhalten Sie einen Rabatt von €",
+          "desc_2": "."
+        }
+      },
+
+      "activity": {
+        "title": "Letzte Aktivitäten"
+      },
+
+      "action": {
+        "title": "Aktionen",
+        "change_pass": "Passwort ändern",
+        "log_out": "Abmelden",
+        "delete_account": "Konto löschen"
+      },
+
+      "form": {
+        "title": "Passwort ändern",
+        "current_pass": "Aktuelles Passwort",
+        "current_pass_placeholder": "Geben Sie Ihr aktuelles Passwort ein",
+        "new_pass": "Neues Passwort",
+        "new_pass_placeholder": "Geben Sie Ihr neues Passwort ein",
+        "confirm_pass": "Passwort bestätigen",
+        "confirm_pass_placeholder": "Bestätigen Sie Ihr neues Passwort",
+        "update": "Aktualisieren"
+      },
+
+      "delete_account_dialog": {
+        "title": "Konto löschen",
+        "description": "Aktion ist absolut unwiderruflich. Ihre aktiven Pakete, Statistikprofil und Datenlisten werden umgehend gelöscht."
+      },
+      "logout_dialog": {
+        "title": "Abmelden",
+        "description": "Sind Sie sicher, dass Sie sich aus Ihrer Sitzung im Anbieter-Dashboard abmelden möchten?"
       }
     }
   }

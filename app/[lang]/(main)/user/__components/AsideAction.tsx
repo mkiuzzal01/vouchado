@@ -12,8 +12,13 @@ import Logout from "@/app/components/icons/Logout";
 import Delete from "@/app/components/icons/Delete";
 import { useDeleteAccountMutation } from "@/redux/features/user/user.api";
 import { toast } from "react-toastify";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
-export default function AsideAction() {
+interface IAsideAction {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function AsideAction({ t }: IAsideAction) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
@@ -43,19 +48,19 @@ export default function AsideAction() {
 
   const actions = [
     {
-      label: "Change Password",
+      label: t?.user_profile?.aside?.action?.change_pass,
       icon: <ChangePass />,
       onClick: () => setIsPasswordModalOpen(true),
       isDanger: false,
     },
     {
-      label: "Log Out",
+      label: t?.user_profile?.aside?.action?.log_out,
       icon: <Logout />,
       onClick: () => setDialogType("logout"),
       isDanger: true,
     },
     {
-      label: "Delete Account",
+      label: t?.user_profile?.aside?.action?.delete_account,
       icon: <Delete />,
       onClick: () => setDialogType("delete"),
       isDanger: true,
@@ -91,24 +96,29 @@ export default function AsideAction() {
           </button>
         ))}
       </div>
-
       {/* CHANGE PASSWORD WINDOW OVERLAY */}
       <ModalContainer
-        title="Change Password"
+        title={t?.user_profile?.aside?.action?.title}
         isOpen={isPasswordModalOpen}
         onClose={() => setIsPasswordModalOpen(false)}
       >
-        <UpdateUserPassForm onClose={() => setIsPasswordModalOpen(false)} />
+        <UpdateUserPassForm
+          t={t}
+          onClose={() => setIsPasswordModalOpen(false)}
+        />
       </ModalContainer>
-
       <ReusableAlert
         open={dialogType !== null}
         onOpenChange={(open) => !open && setDialogType(null)}
-        title={dialogType === "logout" ? "Log Out?" : "Delete Account?"}
+        title={
+          dialogType === "logout"
+            ? t.user_profile?.aside?.logout_dialog?.title
+            : t.user_profile?.aside?.delete_account_dialog?.title
+        }
         description={
           dialogType === "logout"
-            ? "Are you sure you want to log out of your provider dashboard account session?"
-            : "This action is completely irreversible. Your active packages, statistics profile, and data listings will be cleared instantly."
+            ? t.user_profile?.aside?.logout_dialog?.description
+            : t.user_profile?.aside?.delete_account_dialog?.description
         }
         confirmText={dialogType === "logout" ? "Log Out" : "Confirm Deletion"}
         onConfirm={dialogType === "logout" ? handleLogout : handleDeleteAccount}

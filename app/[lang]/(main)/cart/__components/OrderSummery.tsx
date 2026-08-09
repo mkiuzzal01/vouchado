@@ -90,11 +90,15 @@ export default function OrderSummary({ lang, t }: Props) {
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider flex items-center gap-1.5">
               <ShoppingBag className="w-3.5 h-3.5 text-[#2bb3bb]" />
-              {t?.cart?.selected_items || "Selected Items"} ({selectedItems.length})
+              {t?.cart?.selected_items || "Selected Items"} (
+              {selectedItems.length})
             </span>
             {selectedItems.length > 0 && (
               <span className="text-xs font-semibold text-gray-500">
-                {totalItems} {totalItems === 1 ? (t?.cart?.unit || "unit") : (t?.cart?.units || "units")}
+                {totalItems}{" "}
+                {totalItems === 1
+                  ? t?.cart?.unit || "unit"
+                  : t?.cart?.units || "units"}
               </span>
             )}
           </div>
@@ -149,7 +153,8 @@ export default function OrderSummary({ lang, t }: Props) {
             </div>
           ) : (
             <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200/60 text-amber-800 text-xs font-medium text-center">
-              {t?.cart?.no_items_selected || "No items selected. Please select items from your cart to proceed."}
+              {t?.cart?.no_items_selected ||
+                "No items selected. Please select items from your cart to proceed."}
             </div>
           )}
         </div>
@@ -160,7 +165,8 @@ export default function OrderSummary({ lang, t }: Props) {
         <div className="space-y-4 mb-6">
           <div className="flex justify-between items-center text-lg sm:text-xl">
             <span className="text-gray-600 font-medium">
-              {t?.cart?.subtotal || "Subtotal"} ({totalItems} {totalItems === 1 ? "item" : "items"})
+              {t?.cart?.subtotal || "Subtotal"} ({totalItems}{" "}
+              {totalItems === 1 ? "item" : "items"})
             </span>
             <span className="font-bold text-gray-800">
               € {subTotal.toFixed(2)}
@@ -178,7 +184,9 @@ export default function OrderSummary({ lang, t }: Props) {
 
           {couponDiscount > 0 && (
             <div className="flex justify-between items-center text-lg sm:text-xl">
-              <span className="text-gray-600 font-medium">{t?.cart?.coupon_discount || "Coupon Discount"}</span>
+              <span className="text-gray-600 font-medium">
+                {t?.cart?.coupon_discount || "Coupon Discount"}
+              </span>
               <span className="font-bold text-red-500">
                 -€ {couponDiscount.toFixed(2)}
               </span>
@@ -187,7 +195,9 @@ export default function OrderSummary({ lang, t }: Props) {
 
           {redeemDiscountAmount > 0 && (
             <div className="flex justify-between items-center text-lg sm:text-xl">
-              <span className="text-gray-600 font-medium">{t?.cart?.points_discount || "Points Discount"}</span>
+              <span className="text-gray-600 font-medium">
+                {t?.cart?.points_discount || "Points Discount"}
+              </span>
               <span className="font-bold text-red-500">
                 -€ {redeemDiscountAmount.toFixed(2)}
               </span>
@@ -199,7 +209,9 @@ export default function OrderSummary({ lang, t }: Props) {
 
         {/* Total */}
         <div className="flex justify-between items-center mb-6 text-xl">
-          <span className="font-medium text-gray-600">{t?.cart?.total || "Total"}</span>
+          <span className="font-medium text-gray-600">
+            {t?.cart?.total || "Total"}
+          </span>
           <span className="font-extrabold text-[#2bb3bb] text-2xl">
             € {totalPrice.toFixed(2)}
           </span>
@@ -209,10 +221,12 @@ export default function OrderSummary({ lang, t }: Props) {
         <div className="bg-gray-50/70 p-4 rounded-2xl flex items-center justify-between gap-4 mb-6 border border-gray-100">
           <div className="flex-1">
             <h4 className="text-sm font-semibold text-gray-800 mb-1">
-              {t?.cart?.use_points || "Use your points & enjoy even more discount"}
+              {t?.cart?.use_points ||
+                "Use your points & enjoy even more discount"}
             </h4>
             <p className="text-xs text-gray-500">
-              {user?.loyalty_point ?? 0} {t?.cart?.points_available || "points available."}
+              {user?.loyalty_point ?? 0}{" "}
+              {t?.cart?.points_available || "points available."}
             </p>
           </div>
 
@@ -287,7 +301,7 @@ export default function OrderSummary({ lang, t }: Props) {
         </button>
 
         {/* Trust Section */}
-        <TrustSection totalPrice={totalPrice} />
+        <TrustSection totalPrice={totalPrice} t={t} />
       </div>
 
       <ModalContainer

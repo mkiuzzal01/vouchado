@@ -51,7 +51,14 @@ export default function UserDropdown({
 
   const initials = avatar ? (
     <div className="rounded-full overflow-hidden">
-      <Image src={avatar} width={100} height={100} alt="avatar" />
+      <Image
+        src={avatar}
+        width={100}
+        height={100}
+        loading="eager"
+        priority
+        alt="avatar"
+      />
     </div>
   ) : (
     <div className="bg-[#31BFC8] h-full w-full flex items-center justify-center text-white rounded-full">

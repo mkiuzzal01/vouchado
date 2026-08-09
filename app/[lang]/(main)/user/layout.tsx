@@ -1,17 +1,24 @@
 import Container from "@/app/components/shared/Container";
 import Aside from "./__components/Aside";
 import { GetRecentActivity, getUserProfile } from "@/actions/quires/user.api";
+import { getDictionary } from "../../dictionaries";
 
 interface ProfileLayoutProps {
   children: React.ReactNode;
+  params: Promise<{ lang: string }>;
 }
 
-export default async function ProfileLayout({ children }: ProfileLayoutProps) {
+export default async function ProfileLayout({
+  children,
+  params,
+}: ProfileLayoutProps) {
   let userProfile = null;
   let recentActivities = null;
   let points = null;
   let needed = null;
   let voucher_euro = null;
+  const { lang } = await params;
+  const t = await getDictionary(lang);
 
   try {
     const [profileRes, activitiesRes] = await Promise.all([
@@ -39,6 +46,7 @@ export default async function ProfileLayout({ children }: ProfileLayoutProps) {
             user_points={points}
             points_needed={needed}
             target_voucher_euro={voucher_euro}
+            t={t}
           />
         </aside>
 

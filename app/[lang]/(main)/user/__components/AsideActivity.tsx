@@ -4,12 +4,14 @@ import Redeem from "@/app/components/icons/Redeem";
 import SpaBooking from "@/app/components/icons/SpaBooking";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import { Activity } from "@/redux/types/user_profile";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface IAsideActivity {
   recentActivities: Activity[];
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function AsideActivity({ recentActivities }: IAsideActivity) {
+export default function AsideActivity({ recentActivities, t }: IAsideActivity) {
   if (!recentActivities || recentActivities.length === 0) {
     return <NotFoundData description="No recent activities found" />;
   }
@@ -17,7 +19,7 @@ export default function AsideActivity({ recentActivities }: IAsideActivity) {
   return (
     <div className="bg-white border border-gray-100 rounded-2xl p-5">
       <h3 className="text-xl font-bold text-gray-800 mb-3">
-        Recent activities
+        {t.user_profile.aside.activity.title}
       </h3>
 
       <div className="max-h-77.5 overflow-y-auto space-y-2 pr-1">

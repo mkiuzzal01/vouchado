@@ -2,6 +2,7 @@ import AsidePoint from "./AsidePoint";
 import AsideActivity from "./AsideActivity";
 import AsideAction from "./AsideAction";
 import { Activity, IUserProfile } from "@/redux/types/user_profile";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface IAside {
   data: IUserProfile;
@@ -9,6 +10,7 @@ interface IAside {
   user_points: any;
   points_needed: any;
   target_voucher_euro: any;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 export default function Aside({
@@ -17,6 +19,7 @@ export default function Aside({
   user_points,
   points_needed,
   target_voucher_euro,
+  t,
 }: IAside) {
   return (
     <>
@@ -26,10 +29,11 @@ export default function Aside({
           user_points={user_points}
           points_needed={points_needed}
           target_voucher_euro={target_voucher_euro}
+          t={t}
         />
-        <AsideActivity recentActivities={recentActivities} />
+        <AsideActivity recentActivities={recentActivities} t={t} />
       </div>
-      <AsideAction />
+      <AsideAction t={t} />
     </>
   );
 }

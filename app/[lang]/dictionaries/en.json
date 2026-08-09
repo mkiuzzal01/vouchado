@@ -469,7 +469,26 @@
     "redeem_points": "Redeem Points",
     "agree_cancelation": "I agree with",
     "cancelation_policy": "Cancelation Policy",
-    "proceed_checkout": "Proceed to Checkout"
+    "proceed_checkout": "Proceed to Checkout",
+    "trusted": {
+      "sec1": {
+        "title": "VOUCHADO GUARANTEE",
+        "desc": "Deals always 20% cheaper or MORE!"
+      },
+      "sec2": {
+        "title": "Free Cancellation",
+        "desc": "within 14 days of purchase - except last minute bookings or specific dates"
+      },
+      "sec3": {
+        "title": "Secure Payments",
+        "desc": "Your payment information is 100% secure."
+      }
+    },
+    "bottom": {
+      "title_1": "You'll earn",
+      "title_2": "points",
+      "title_3": "with this purchase."
+    }
   },
   "wishlist": {
     "title": "Wishlist",
@@ -484,7 +503,12 @@
     "deal_name": "Deal Name",
     "payment": "Payment",
     "expire_date": "Expire date",
-    "no_unused_voucher": "No unused voucher"
+    "no_unused_voucher": "No unused voucher",
+    "bottom": {
+      "title": "Can't find your coupon?",
+      "description": "Coupons may take up to 5 minutes to appear.",
+      "cta": "Refresh"
+    }
   },
   "contact": {
     "title": "Contact Us",
@@ -583,6 +607,106 @@
       "step_4": {
         "title": "24/7 Support",
         "description": "In person support - no chatboot"
+      }
+    }
+  },
+  "user_profile": {
+    "personal_info": {
+      "title": "Personal Information",
+      "edit_button": "Edit",
+      "form": {
+        "name": "Full Name",
+        "name_placeholder": "John Carter",
+        "email": "Email Address",
+        "email_placeholder": "johncarter@brix.com",
+        "phone": "Phone Number",
+        "phone_placeholder": "+1234567890",
+        "address": "Address",
+        "address_placeholder": "123 Main St, Anytown, USA",
+        "country": "Country",
+        "country_placeholder": "America",
+        "city": "City",
+        "city_placeholder": "Austin",
+        "update": "Update",
+        "cancel": "Cancel"
+      }
+    },
+    "my_purchases": {
+      "title": "My Purchases",
+      "order_id": "Order ID",
+      "view_details": "View details",
+      "no_purchases": "No purchases",
+      "leave_review": "Leave review",
+      "point": "2 points for each review",
+      "order_details": {
+        "title": "Order Details",
+        "title_subtitle": "Services",
+        "cta": {
+          "view_coupon": "View Coupon",
+          "view_details": "View Details",
+          "chat": "Chat with Seller"
+        },
+        "pricing_summary": {
+          "item": "Item",
+          "items": "Items",
+          "subtotal": "Subtotal",
+          "vat": "VAT",
+          "coupon_discount": "Coupon Discount",
+          "voucher_discount": "Voucher Discount",
+          "total": "Total",
+          "purchase_again": "Purchase Again",
+          "cancel_order": "Cancel Order"
+        }
+      }
+    },
+
+    "aside": {
+      "loyal_points": {
+        "title": "Points you've collected",
+        "desc_1": "You have reached",
+        "desc_2": "points",
+        "desc_3": "collect",
+        "desc_4": "more to unlock more",
+        "desc_5": "How to use points:",
+        "desc_6": "Apply your points at checkout to unlock exclusive discounts on your next purchase.",
+        "voucher": "Vouchado Voucher",
+        "note": {
+          "title": "Note:",
+          "desc_1": "Every 1,000 points spent gives you a €",
+          "desc_2": "discount."
+        }
+      },
+
+      "activity": {
+        "title": "Recent Activity"
+      },
+
+      "action": {
+        "title": "Actions",
+        "change_pass": "Change Password",
+        "log_out": "Log Out",
+        "delete_account": "Delete Account"
+      },
+
+      "form": {
+        "title": "Change Password",
+        "current_pass": "Current Password",
+        "current_pass_placeholder": "Enter your current password",
+        "new_pass": "New Password",
+        "new_pass_placeholder": "Enter your new password",
+        "confirm_pass": "Confirm Password",
+        "confirm_pass_placeholder": "Enter your confirm password",
+        "update": "Update"
+      },
+
+      "delete_account_dialog": {
+        "title": "Delete Account",
+        "description": "This action is completely irreversible. Your active packages, statistics profile, and data listings will be cleared instantly."
+      },
+
+      "logout_dialog": {
+        "title": "Log Out",
+        "description": "Are you sure you want to log out of your provider dashboard account session?"
       }
     }
   }

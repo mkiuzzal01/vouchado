@@ -4,6 +4,7 @@ import {
   getUserProfile,
   getUserPurchaseHistory,
 } from "@/actions/quires/user.api";
+import { getDictionary } from "../../dictionaries";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -11,6 +12,7 @@ interface Props {
 
 export default async function Page({ params }: Props) {
   const { lang } = await params;
+  const t = await getDictionary(lang);
 
   const [userProfile, purchaseHistory] = await Promise.all([
     getUserProfile(),
@@ -19,8 +21,9 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className="space-y-4">
-      <PersonalInfo userProfile={userProfile?.data} />
+      <PersonalInfo userProfile={userProfile?.data} t={t} />
       <MyPurchases
+        t={t}
         lang={lang}
         purchaseHistory={purchaseHistory?.data}
         pagination={purchaseHistory?.data?.pagination}

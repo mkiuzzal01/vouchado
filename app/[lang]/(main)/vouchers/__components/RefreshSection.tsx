@@ -1,10 +1,14 @@
 "use client";
-
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import { Info, RotateCw } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
-export default function RefreshSection() {
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function RefreshSection({ t }: Props) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -20,10 +24,10 @@ export default function RefreshSection() {
         </div>
         <div>
           <h4 className="font-bold text-gray-900 text-sm lg:text-2xl">
-            Can't find your coupon?
+            {t?.vouchers?.bottom?.title}
           </h4>
           <p className="text-xs text-gray-500 mt-0.5">
-            Coupons may take up to 5 minutes to appear.
+            {t?.vouchers?.bottom?.description}
           </p>
         </div>
       </div>
@@ -32,7 +36,7 @@ export default function RefreshSection() {
         className="flex items-center gap-2 px-4 py-2 border border-teal-500 rounded-full text-teal-600 font-medium text-sm lg:text-lg hover:bg-teal-50/50 transition bg-white shadow-sm self-end sm:self-auto"
       >
         <RotateCw className="w-5 h-5" />
-        Refresh
+        {t?.vouchers?.bottom?.cta}
       </button>
     </div>
   );

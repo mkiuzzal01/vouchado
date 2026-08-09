@@ -9,15 +9,18 @@ import { useUpdateUserProfileMutation } from "@/redux/features/user/user.api";
 import { toast } from "react-toastify";
 import AddressInput from "./inputs/AddressInput";
 import { useState } from "react";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface UserUpdateFormProps {
   onClose?: () => void;
   userProfile?: IUserProfile;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 export default function UserUpdateForm({
   onClose,
   userProfile,
+  t,
 }: UserUpdateFormProps) {
   const [location, setLocation] = useState({
     value: userProfile?.address || "",
@@ -27,7 +30,7 @@ export default function UserUpdateForm({
   const [updateUserProfile, { isLoading }] = useUpdateUserProfileMutation();
 
   const defaultValues = {
-    fullName: userProfile?.name,
+    name: userProfile?.name,
     number: userProfile?.phone,
     email: userProfile?.email,
     country: userProfile?.country,
@@ -37,7 +40,7 @@ export default function UserUpdateForm({
   const onSubmit = async (data: FieldValues) => {
     const formData = new FormData();
 
-    formData.append("fullName", data.fullName);
+    formData.append("name", data.name);
     formData.append("phone", data.number);
     formData.append("email", data.email);
     formData.append("address", location.value);
@@ -76,9 +79,9 @@ export default function UserUpdateForm({
             <div className="sm:col-span-2">
               <TextInput
                 icon={<User size={16} className="text-gray-400" />}
-                name="fullName"
-                label="Full name"
-                placeholder="Johnathan Smith"
+                name="name"
+                label={t.user_profile.personal_info.form.name}
+                placeholder={t.user_profile.personal_info.form.name_placeholder}
               />
             </div>
 
@@ -87,16 +90,20 @@ export default function UserUpdateForm({
               <TextInput
                 icon={<Phone size={16} className="text-gray-400" />}
                 name="number"
-                label="Number"
-                placeholder="1234567892"
+                label={t.user_profile.personal_info.form.phone}
+                placeholder={
+                  t.user_profile.personal_info.form.phone_placeholder
+                }
               />
             </div>
             <div>
               <TextInput
                 icon={<Mail size={16} className="text-gray-400" />}
                 name="email"
-                label="Email address"
-                placeholder="johncarter@brix.com"
+                label={t.user_profile.personal_info.form.email}
+                placeholder={
+                  t.user_profile.personal_info.form.email_placeholder
+                }
               />
             </div>
 
@@ -118,16 +125,18 @@ export default function UserUpdateForm({
               <TextInput
                 icon={<Globe size={16} className="text-gray-400" />}
                 name="country"
-                label="Country"
-                placeholder="America"
+                label={t.user_profile.personal_info.form.country}
+                placeholder={
+                  t.user_profile.personal_info.form.country_placeholder
+                }
               />
             </div>
             <div>
               <TextInput
                 icon={<Building2 size={16} className="text-gray-400" />}
                 name="city"
-                label="City"
-                placeholder="Austin"
+                label={t.user_profile.personal_info.form.city}
+                placeholder={t.user_profile.personal_info.form.city_placeholder}
               />
             </div>
           </div>
@@ -140,13 +149,13 @@ export default function UserUpdateForm({
                 onClick={onClose}
                 className="px-6 py-2.5 text-xs font-bold text-gray-500 border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
               >
-                Cancel
+                {t.user_profile.personal_info.form.cancel}
               </button>
             )}
             <div className="w-full sm:w-auto">
               <SubmitButton
                 isLoading={isLoading}
-                title="Update"
+                title={t.user_profile.personal_info.form.update}
                 className="w-full h-10 sm:w-auto px-8 py-2.5 bg-[#31BFC8] hover:bg-[#31BF96]/90 text-white font-bold text-xs rounded-full transition-colors shadow-sm"
               />
             </div>

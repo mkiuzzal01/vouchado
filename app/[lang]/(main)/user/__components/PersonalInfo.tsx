@@ -7,12 +7,14 @@ import { IUserProfile } from "@/redux/types/user_profile";
 import Image from "next/image";
 import { useState } from "react";
 import avatar from "@/public/auth/profile_placeholder.png";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface PersonalInfoProps {
   userProfile: IUserProfile;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
+export default function PersonalInfo({ userProfile, t }: PersonalInfoProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   if (!userProfile) return <NotFoundData description="No profile found" />;
@@ -22,14 +24,14 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
       {/* Header with Edit Button */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl lg:text-2xl font-semibold text-gray-900">
-          Personal Information
+          {t.user_profile.personal_info.title}
         </h2>
         <button
           onClick={() => setIsEditModalOpen(true)}
           className="flex items-center gap-1.5 px-4 py-2 border border-teal-500/20 text-teal-600 rounded-full text-xs font-semibold hover:bg-teal-50/50"
         >
           <Edit />
-          Edit
+          {t.user_profile.personal_info.edit_button}
         </button>
       </div>
 
@@ -49,7 +51,7 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
         <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-xs">
           <div>
             <span className="text-gray-400 block font-medium text-xs">
-              Full name
+              {t.user_profile.personal_info.form.name}
             </span>
             <span className="text-gray-900 font-bold text-lg lg:text-xl">
               {userProfile?.name || "N/A"}
@@ -57,7 +59,7 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
           </div>
           <div>
             <span className="text-gray-400 block font-medium text-xs">
-              Phone Number
+              {t.user_profile.personal_info.form.phone}
             </span>
             <span className="text-gray-900 font-bold text-lg lg:text-xl">
               {userProfile?.phone || "N/A"}
@@ -65,7 +67,7 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
           </div>
           <div className="sm:col-span-2">
             <span className="text-gray-400 block font-medium text-xs">
-              Email
+              {t.user_profile.personal_info.form.email}
             </span>
             <span className="text-gray-900 font-bold text-lg lg:text-xl">
               {userProfile?.email || "N/A"}
@@ -73,7 +75,7 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
           </div>
           <div className="sm:col-span-2">
             <span className="text-gray-400 block font-medium text-xs">
-              Address
+              {t.user_profile.personal_info.form.address}
             </span>
             <p className="text-gray-900 font-bold text-lg lg:text-xl leading-relaxed">
               {userProfile?.address || "N/A"}
@@ -82,11 +84,12 @@ export default function PersonalInfo({ userProfile }: PersonalInfoProps) {
         </div>
       </div>
       <ModalContainer
-        title="Edit Profile"
+        title={t.user_profile.personal_info.edit_button}
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
       >
         <UserUpdateForm
+          t={t}
           userProfile={userProfile}
           onClose={() => setIsEditModalOpen(false)}
         />

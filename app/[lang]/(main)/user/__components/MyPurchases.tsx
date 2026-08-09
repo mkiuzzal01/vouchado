@@ -10,11 +10,13 @@ import OrderDetails from "./OrderDetails";
 import { PurchaseHistory, PurchaseItem } from "@/redux/types/user_profile";
 import { IPagination } from "@/redux/types/_global";
 import ReviewForm from "@/app/components/forms/ReviewForm";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface MyPurchasesProps {
   lang: string;
   purchaseHistory: PurchaseHistory[];
   pagination?: IPagination;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 const DEFAULT_IMAGE =
@@ -24,6 +26,7 @@ export default function MyPurchases({
   purchaseHistory,
   lang,
   pagination,
+  t,
 }: MyPurchasesProps) {
   const [showOrderDetails, setShowOrderDetails] = useState<boolean>(false);
   const [selectedOrderId, setSelectedOrderId] = useState<number | null>(null);
@@ -54,7 +57,7 @@ export default function MyPurchases({
       {/* Page Header */}
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
         <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 tracking-tight">
-          My Purchases
+          {t.user_profile.my_purchases.title}
         </h2>
       </div>
 
@@ -87,7 +90,7 @@ export default function MyPurchases({
                     onClick={() => handleShowOrderDetails(order.id)}
                     className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#26c2cb] hover:text-[#1eb0b8] transition-colors self-start sm:self-auto focus:outline-hidden focus:ring-2 focus:ring-[#26c2cb]/20 rounded-md px-1 py-0.5"
                   >
-                    <span>View details</span>
+                    <span>{t.user_profile.my_purchases.view_details}</span>
                     <svg
                       className="w-4 h-4"
                       fill="none"
@@ -161,11 +164,11 @@ export default function MyPurchases({
                               onClick={() => handleShowReviewModal(item?.id)}
                               className="px-5 py-2 bg-[#26c2cb] hover:bg-[#1eb0b8] active:scale-95 text-white lg:text-sm text-xs font-semibold rounded-full shadow-xs transition-all focus:outline-hidden focus:ring-2 focus:ring-[#26c2cb]/40"
                             >
-                              Leave a Review
+                              {t.user_profile.my_purchases.leave_review}
                             </button>
                           )}
                           <span className="lg:text-sm text-xs text-[#637381] font-bold">
-                            2 Points for each review
+                            {t.user_profile.my_purchases.point}
                           </span>
                         </div>
                       </div>
@@ -191,13 +194,13 @@ export default function MyPurchases({
 
       {/* Modal Dialogs */}
       <ModalContainer
-        width="2xl"
-        title="Order Details"
+        width="3xl"
+        title={t.user_profile.my_purchases.view_details}
         isOpen={showOrderDetails}
         onClose={handleCloseModal}
       >
         {selectedOrderId !== null && (
-          <OrderDetails lang={lang} orderId={selectedOrderId} />
+          <OrderDetails lang={lang} orderId={selectedOrderId} t={t} />
         )}
       </ModalContainer>
 

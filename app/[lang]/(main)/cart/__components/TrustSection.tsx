@@ -1,3 +1,4 @@
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import EarnedPoints from "@/app/components/icons/EarnedPoints";
 import FreeCancellation from "@/app/components/icons/FreeCancellation";
 import InstantConfirm from "@/app/components/icons/InstantConfirm";
@@ -5,28 +6,31 @@ import SecurePayment from "@/app/components/icons/SecurePayment";
 
 interface Props {
   totalPrice: number;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-const trustItems = [
-  {
-    title: "VOUCHADO GUARANTEE",
-    description: "Deals always 20% cheaper or MORE!",
-    icon: InstantConfirm,
-  },
-  {
-    title: "Free Cancellation",
-    description:
-      "within 14 days of purchase - except last minute bookings or specific dates",
-    icon: FreeCancellation,
-  },
-  {
-    title: "Secure Payments",
-    description: "Your payment information is 100% secure.",
-    icon: SecurePayment,
-  },
-];
+export default function TrustSection({ totalPrice, t }: Props) {
+  const trustItems = [
+    {
+      title: t?.cart?.trusted?.sec1?.title || "VOUCHADO GUARANTEE",
+      description:
+        t?.cart?.trusted?.sec1?.desc || "Deals always 20% cheaper or MORE!",
+      icon: InstantConfirm,
+    },
+    {
+      title: t?.cart?.trusted?.sec2?.title || "Free Cancellation",
+      description:
+        t?.cart?.trusted?.sec2?.desc ||
+        "within 14 days of purchase - except last minute bookings or specific dates",
+      icon: FreeCancellation,
+    },
+    {
+      title: "Secure Payments",
+      description: "Your payment information is 100% secure.",
+      icon: SecurePayment,
+    },
+  ];
 
-export default function TrustSection({ totalPrice }: Props) {
   return (
     <div className="mt-8 space-y-6">
       <div className="overflow-hidden rounded-2xl bg-[#F9FAFB]">
@@ -56,11 +60,12 @@ export default function TrustSection({ totalPrice }: Props) {
         </div>
 
         <p className="text-sm font-medium text-gray-700">
-          You'll earn{" "}
+          {t?.cart?.bottom?.title_1 || "You"}{" "}
           <span className="font-semibold text-[#2bb3bb]">
-            {Math.floor(totalPrice).toLocaleString()} points
+            {Math.floor(totalPrice).toLocaleString()}{" "}
+            {t?.cart?.bottom?.title_2 || "points"}
           </span>{" "}
-          with this purchase.
+          {t?.cart?.bottom?.title_3 || "with this purchase."}
         </p>
       </div>
     </div>
