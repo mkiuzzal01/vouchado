@@ -4,7 +4,13 @@ const LOCALES = ["en", "de"] as const;
 const DEFAULT_LOCALE = "en";
 const AUTH_COOKIE = "vuchado_token";
 
-const PRIVATE_ROUTES = ["/user", "/provider", "/wishlist", "/chat"];
+const PRIVATE_ROUTES = [
+  "/user",
+  "/provider",
+  "/wishlist",
+  "/chat",
+  "/vouchers",
+];
 
 /**
  * Returns the locale from the pathname, if present.

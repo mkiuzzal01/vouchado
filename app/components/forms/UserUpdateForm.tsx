@@ -66,6 +66,8 @@ export default function UserUpdateForm({
         <div className="space-y-5">
           <div className="flex justify-center mb-6">
             <FileInput
+              imageFeatures={true}
+              aspectRatio={1}
               defaultImage={userProfile?.avatar_full_url ?? ""}
               name="avatar"
               label="Upload your photo"

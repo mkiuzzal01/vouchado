@@ -84,8 +84,15 @@ export async function apiFetch<T>(
       body && typeof body !== "string"
         ? JSON.stringify(body)
         : (body as string | undefined),
-    cache: isGet ? (cache ?? "force-cache") : "no-store",
   };
+
+  if (cache !== undefined) {
+    fetchConfig.cache = cache;
+  } else if (!isGet) {
+    fetchConfig.cache = "no-store";
+  } else if (revalidate === undefined) {
+    fetchConfig.cache = "force-cache";
+  }
 
   if (isGet && (revalidate !== undefined || tags !== undefined)) {
     fetchConfig.next = { revalidate, tags };
