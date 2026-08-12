@@ -5,6 +5,7 @@ import Aside from "../__components/Aside";
 import ShopProduct from "../__components/ShopProduct";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import ProfileAction from "../__components/ProfileAction";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   params: Promise<{ id: string; lang: string }>;
@@ -12,6 +13,7 @@ interface Props {
 
 export default async function page({ params }: Props) {
   const { id, lang } = await params;
+  const t = await getDictionary(lang);
 
   const profileInfo = await getBusinessProfileById(id);
 
@@ -31,6 +33,7 @@ export default async function page({ params }: Props) {
         </div>
         <div className="lg:col-span-3">
           <ProfileAction
+            t={t}
             lang={lang}
             business_profile={profileInfo?.data?.business_profile}
           />

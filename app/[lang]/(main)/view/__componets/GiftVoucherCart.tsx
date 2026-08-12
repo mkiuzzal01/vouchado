@@ -4,13 +4,15 @@ import cart_image from "@/public/services/Frame 2147240718.png";
 import batch from "@/public/services/Frame 2147240724.png";
 import Image from "next/image";
 import { useState } from "react";
+import { getDictionary } from "../../../dictionaries";
 
 interface Props {
   lang: string;
   deal_id: number;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function GiftVoucherCart({ lang, deal_id }: Props) {
+export default function GiftVoucherCart({ lang, deal_id, t }: Props) {
   const [openGiftVoucherModal, setOpenGiftVoucherModal] = useState(false);
   return (
     <div className="rounded-3xl overflow-hidden max-w-[950px] w-full border border-gray-100 shadow-sm">
@@ -67,6 +69,7 @@ export default function GiftVoucherCart({ lang, deal_id }: Props) {
         onClose={() => setOpenGiftVoucherModal(false)}
       >
         <GiftVoucherForm
+          t={t}
           onClose={() => setOpenGiftVoucherModal(false)}
           lang={lang}
           deal_id={deal_id}

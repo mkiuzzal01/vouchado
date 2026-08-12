@@ -35,6 +35,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { useCreateConversationMutation } from "@/redux/features/conversional/conversional.api";
 import { parsePrice } from "@/lib/currency";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 export const promos = [
   {
@@ -64,9 +65,10 @@ const tabItems = ["Overview", "What's Included", "Reviews"];
 interface Props {
   lang: string;
   details: TService;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function ItemDetails({ lang, details }: Props) {
+export default function ItemDetails({ lang, details, t }: Props) {
   const router = useRouter();
   const [createConversation, { isLoading }] = useCreateConversationMutation();
   const [createWishlist, { isLoading: createWishlistLoading }] =
@@ -434,7 +436,7 @@ export default function ItemDetails({ lang, details }: Props) {
               accessibility={details?.deal?.accessibility_info}
             />
             <VouchadoCount service_end_at={details?.deal?.service_end_at} />
-            <GiftVoucherCart lang={lang} deal_id={details?.deal?.id} />
+            <GiftVoucherCart lang={lang} deal_id={details?.deal?.id} t={t} />
           </div>
         </div>
 

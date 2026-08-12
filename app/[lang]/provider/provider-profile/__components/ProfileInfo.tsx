@@ -102,17 +102,20 @@ export default function ProfileInfo({ profileData, t }: Props) {
         {/* Business Description */}
         <div className="md:col-span-3 p-5 rounded-2xl flex flex-col gap-3">
           <div className="flex items-center gap-2 font-bold text-gray-800 text-xl">
-            <BusinessDescription size={18} /> {t.provider_profile.description.title}
+            <BusinessDescription size={18} />{" "}
+            {t?.provider_profile?.provider?.description?.title}
           </div>
           <p className="text-gray-600 bg-[#F3F6FA] rounded-xl p-4 text-sm leading-relaxed">
-            {profileData?.business_description || t.provider_profile.description.no_description}
+            {profileData?.business_description ||
+              t?.provider_profile?.provider?.description?.no_description}
           </p>
         </div>
 
         {/* Address Map Card */}
         <div className="md:col-span-2 p-5 rounded-2xl flex flex-col gap-3">
           <div className="flex items-center gap-2 font-bold text-gray-800 text-xl">
-            <Location size={18} /> {t.provider_profile.address.title}
+            <Location size={18} />{" "}
+            {t?.provider_profile?.provider?.address?.title}
           </div>
           <ProfileMap
             latitude={Number(profileData?.latitude || 0)}
@@ -125,16 +128,37 @@ export default function ProfileInfo({ profileData, t }: Props) {
       {/* Payment History Table */}
       <div className="rounded-2xl overflow-hidden">
         <div className="p-5 font-bold text-gray-800 flex items-center gap-2 text-xl">
-          <PaymentIcon size={18} /> {t.provider_profile.payment_history.title}
+          <PaymentIcon size={18} />{" "}
+          {t?.provider_profile?.provider?.payment_history?.title}
         </div>
         <div className="border border-gray-100 overflow-x-auto">
           <table className="w-full text-left text-gray-600 min-w-[500px]">
             <thead className="bg-gray-50 text-gray-400 uppercase text-[11px] tracking-wider font-bold border-b border-gray-100">
               <tr>
-                <th className="px-6 py-3.5">{t.provider_profile.payment_history.columns.date}</th>
-                <th className="px-6 py-3.5">{t.provider_profile.payment_history.columns.transaction_id}</th>
-                <th className="px-6 py-3.5">{t.provider_profile.payment_history.columns.amount}</th>
-                <th className="px-6 py-3.5 text-right">{t.provider_profile.payment_history.columns.status}</th>
+                <th className="px-6 py-3.5">
+                  {
+                    t?.provider_profile?.provider?.payment_history?.columns
+                      ?.date
+                  }
+                </th>
+                <th className="px-6 py-3.5">
+                  {
+                    t?.provider_profile?.provider?.payment_history?.columns
+                      ?.transaction_id
+                  }
+                </th>
+                <th className="px-6 py-3.5">
+                  {
+                    t?.provider_profile?.provider?.payment_history?.columns
+                      ?.amount
+                  }
+                </th>
+                <th className="px-6 py-3.5 text-right">
+                  {
+                    t?.provider_profile?.provider?.payment_history?.columns
+                      ?.status
+                  }
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-100">
@@ -153,7 +177,7 @@ export default function ProfileInfo({ profileData, t }: Props) {
                     <span
                       className={`inline-block text-xs px-2.5 py-1 rounded-lg border font-semibold ${row.color}`}
                     >
-                      {t.provider_profile.payment_history.status[row.statusKey as keyof typeof t.provider_profile.payment_history.status]}
+                      {/* {t?.provider_profile?.provider?.} */}
                     </span>
                   </td>
                 </tr>

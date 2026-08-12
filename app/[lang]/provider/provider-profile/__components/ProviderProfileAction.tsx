@@ -20,10 +20,10 @@ export default function ProviderProfileAction({ profileInfo, t }: Props) {
         {/* Left Text Block */}
         <div className="flex flex-col gap-1">
           <h2 className="text-xl lg:text-3xl font-semibold text-gray-900">
-            {t.provider_profile.title}
+            {t?.provider_profile?.provider?.title}
           </h2>
           <p className="text-xs md:text-base text-gray-400 font-normal">
-            {t.provider_profile.subtitle}
+            {t?.provider_profile?.provider?.subtitle}
           </p>
         </div>
 
@@ -33,11 +33,11 @@ export default function ProviderProfileAction({ profileInfo, t }: Props) {
           className="flex items-center gap-2 border border-[#31BFC8] bg-white text-[#31BFC8] font-semibold px-5 py-2 rounded-full hover:shadow-lg active:shadow-sm transition-all duration-200"
         >
           <Pencil size={14} />
-          <span>{t.provider_profile.edit}</span>
+          <span>{t?.provider_profile?.provider?.edit}</span>
         </button>
       </div>
       <ModalContainer
-        title={t.provider_profile.edit_modal_title}
+        title={t?.provider_profile?.provider?.edit_modal_title}
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
       >

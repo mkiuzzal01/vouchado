@@ -9,13 +9,15 @@ import { useCreateConversationMutation } from "@/redux/features/conversional/con
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { getDictionary } from "../../../dictionaries";
 
 interface Props {
   business_profile: any;
   lang: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function ProfileAction({ business_profile, lang }: Props) {
+export default function ProfileAction({ business_profile, lang, t }: Props) {
   const router = useRouter();
   const [openVoucherModal, setOpenVoucherModal] = useState(false);
   const [createConversation] = useCreateConversationMutation();
@@ -127,7 +129,7 @@ export default function ProfileAction({ business_profile, lang }: Props) {
         isOpen={openVoucherModal}
         onClose={() => setOpenVoucherModal(!openVoucherModal)}
       >
-        <GiftVoucherForm lang={lang} deal_id={1} />
+        <GiftVoucherForm lang={lang} deal_id={1} t={t} />
       </ModalContainer>
     </div>
   );

@@ -12,7 +12,7 @@ export default function CoverImage({ coverImageUrl, t }: Props) {
     <div className="relative w-full aspect-3/1 sm:aspect-4/1 md:aspect-5/1 rounded-3xl overflow-hidden shadow-sm bg-gray-100">
       <Image
         src={coverImageUrl || coverImage}
-        alt={t?.provider_profile?.profile_banner || "Profile Banner"}
+        alt={t?.provider_profile?.provider?.profile_banner || "Profile Banner"}
         fill
         sizes="100vw"
         className="object-cover"
