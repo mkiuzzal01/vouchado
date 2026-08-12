@@ -9,13 +9,20 @@ import AlreadyRedeem from "@/app/components/icons/AlreadyRedeem";
 import { getProviderRevenueStats } from "@/actions/quires/stats.api";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import { getActiveDeals } from "@/actions/quires/deals.api";
+import { getDictionary } from "../../dictionaries";
 
 interface IProps {
   searchParams: Promise<{ search: string; status: string }>;
+  params: Promise<{ lang: string }>;
 }
 
-export default async function DealsPage({ searchParams }: IProps) {
+export default async function DealsPage({ searchParams, params }: IProps) {
   const { search, status } = await searchParams;
+  const { lang } = await params;
+  const t = (await getDictionary(lang)) as Awaited<
+    ReturnType<typeof getDictionary>
+  >;
+
   const revenueStats = await getProviderRevenueStats();
 
   const query = new URLSearchParams();
@@ -30,7 +37,7 @@ export default async function DealsPage({ searchParams }: IProps) {
   const metricsData = [
     {
       id: 1,
-      title: "Total Revenue",
+      title: t?.provider_profile?.dashboard?.stats_2?.total_revenue,
       value: revenueStats?.data?.total_revenue?.value,
       trend: `${revenueStats?.data?.total_revenue?.percentage} % all time`,
       isPositive: revenueStats?.data?.total_revenue?.percentage > 0,
@@ -39,7 +46,7 @@ export default async function DealsPage({ searchParams }: IProps) {
     },
     {
       id: 2,
-      title: "Active vouchers in total",
+      title: t?.provider_profile?.dashboard?.stats_2?.active_vouchers,
       value: revenueStats?.data?.active_vouchers?.value,
       trend: `${revenueStats?.data?.active_vouchers?.percentage} % this month`,
       isPositive: revenueStats?.data?.active_vouchers?.percentage > 0,
@@ -48,7 +55,7 @@ export default async function DealsPage({ searchParams }: IProps) {
     },
     {
       id: 3,
-      title: "expired vouchers in total",
+      title: t?.provider_profile?.dashboard?.stats_2?.expired_vouchers,
       value: revenueStats?.data?.expired_vouchers?.value,
       trend: `${revenueStats?.data?.expired_vouchers?.percentage} % of sold`,
       isPositive: revenueStats?.data?.expired_vouchers?.percentage > 0,
@@ -57,7 +64,7 @@ export default async function DealsPage({ searchParams }: IProps) {
     },
     {
       id: 4,
-      title: "Vouchers already redeemed",
+      title: t?.provider_profile?.dashboard?.stats_2?.redeemed_vouchers,
       value: revenueStats?.data?.redeemed_vouchers?.value,
       trend: `${revenueStats?.data?.redeemed_vouchers?.percentage} % of sold`,
       isPositive: revenueStats?.data?.redeemed_vouchers?.percentage > 0,
@@ -68,9 +75,19 @@ export default async function DealsPage({ searchParams }: IProps) {
 
   return (
     <Container className="py-6 space-y-8 bg-slate-50/50 min-h-screen">
-      <CreateDealAction title="Deals" />
+      <CreateDealAction
+        title={
+          t?.provider_profile?.dashboard?.deals_purchased?.purchase_deals?.title
+        }
+        t={t}
+      />
       <MetricCards stat={metricsData} />
-      <ActiveDealsTable payload={activeDeals} />
+      <ActiveDealsTable
+        title={t?.provider_profile?.dashboard?.active_deals?.title}
+        description={t?.provider_profile?.dashboard?.active_deals?.description}
+        payload={activeDeals}
+        t={t}
+      />
     </Container>
   );
 }

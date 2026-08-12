@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useTransition } from "react";
-import Link from "next/link";
+import { useState, useEffect, useTransition } from "react";
 import Image from "next/image";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { Search } from "lucide-react";
@@ -31,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 export interface IDeal {
   id: number;
@@ -49,6 +49,7 @@ export interface IDeal {
 }
 
 interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   title?: string;
   description?: string;
   payload?: {
@@ -75,13 +76,13 @@ export default function ActiveDealsTable({
   title = "Active Deals",
   description = "Currently running",
   payload,
+  t,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [deleteDeal] = useDeleteDealMutation();
-
   // Stores the target deal ID when user clicks delete action button
   const [activeDeleteId, setActiveDeleteId] = useState<number | null>(null);
   const [isOpenStatusModal, setIsOpenStatusModal] = useState(false);
@@ -202,9 +203,21 @@ export default function ActiveDealsTable({
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent className="bg-white">
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="inactive">Inactive</SelectItem>
+                <SelectItem value="all">
+                  {t?.provider_profile?.dashboard?.active_deals?.filter_by?.all}
+                </SelectItem>
+                <SelectItem value="active">
+                  {
+                    t?.provider_profile?.dashboard?.active_deals?.filter_by
+                      ?.active
+                  }
+                </SelectItem>
+                <SelectItem value="inactive">
+                  {
+                    t?.provider_profile?.dashboard?.active_deals?.filter_by
+                      ?.inactive
+                  }
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -214,7 +227,10 @@ export default function ActiveDealsTable({
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search here..."
+              placeholder={
+                t?.provider_profile?.dashboard?.active_deals?.search
+                  ?.placeholder || "Search here..."
+              }
               className={`w-full pl-4 pr-10 h-10 rounded-full text-xs placeholder:text-slate-400 focus-visible:ring-1 text-slate-700 transition-opacity ${
                 isPending ? "opacity-70" : "opacity-100"
               }`}
@@ -231,28 +247,40 @@ export default function ActiveDealsTable({
             <TableHeader className="bg-slate-50/40">
               <TableRow className="border-b border-slate-100 hover:bg-transparent">
                 <TableHead className="h-12 px-6 font-semibold text-slate-700 text-left">
-                  Deals Name
+                  {t?.provider_profile?.dashboard?.active_deals?.table?.deals}
                 </TableHead>
                 <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
-                  Category
+                  {
+                    t?.provider_profile?.dashboard?.active_deals?.table
+                      ?.category
+                  }
                 </TableHead>
                 <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
-                  Discount
+                  {
+                    t?.provider_profile?.dashboard?.active_deals?.table
+                      ?.discount
+                  }
                 </TableHead>
                 <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
-                  Revenue
+                  {t?.provider_profile?.dashboard?.active_deals?.table?.revenue}
                 </TableHead>
                 <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
-                  Sold
+                  {t?.provider_profile?.dashboard?.active_deals?.table?.sold}
                 </TableHead>
                 <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
-                  Redemption
+                  {
+                    t?.provider_profile?.dashboard?.active_deals?.table
+                      ?.redemption
+                  }
                 </TableHead>
                 <TableHead className="h-12 px-4 font-semibold text-slate-700 text-left">
-                  Remaining
+                  {
+                    t?.provider_profile?.dashboard?.active_deals?.table
+                      ?.remaining
+                  }
                 </TableHead>
                 <TableHead className="h-12 px-6 font-semibold text-slate-700 text-center">
-                  Actions
+                  {t?.provider_profile?.dashboard?.active_deals?.table?.action}
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -384,9 +412,10 @@ export default function ActiveDealsTable({
         width="sm"
         isOpen={isOpenStatusModal}
         onClose={() => setIsOpenStatusModal(false)}
-        title="Change Status"
+        title={t?.provider_profile?.dashboard?.active_deals?.status?.title}
       >
         <ChangeStatusForm
+          t={t}
           targetId={targetDealID}
           targetDealStatus={targetDealStatus}
           onClose={() => setIsOpenStatusModal(false)}

@@ -9,8 +9,10 @@ import Bag from "@/app/components/icons/Bag";
 import DealSold from "@/app/components/icons/DealSold";
 import DealsRedeem from "@/app/components/icons/DealsRedeem";
 import DealYet from "@/app/components/icons/DealYet";
+import { getDictionary } from "../../dictionaries";
 
 interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   lang: string;
   stat: any;
   purchases: any;
@@ -18,6 +20,7 @@ interface Props {
 }
 
 export default async function Dashboard({
+  t,
   lang,
   stat,
   purchases,
@@ -26,36 +29,36 @@ export default async function Dashboard({
   const metrics = [
     {
       id: 1,
-      title: "Deals Sold (Total)",
+      title: t?.provider_profile?.dashboard?.stats_1?.deals_sold_total,
       value: stat?.deals_sold_total?.value,
-      trend: `${stat?.deals_sold_total?.percentage} % all time`,
+      trend: `${stat?.deals_sold_total?.percentage} % ${t?.provider_profile?.dashboard?.stats_1?.all_time}`,
       isPositive: true,
       icon: DealSold,
       color: "text-blue-500 bg-blue-50",
     },
     {
       id: 2,
-      title: "Deals Sold This Month",
+      title: t?.provider_profile?.dashboard?.stats_1?.deals_sold_this_month,
       value: stat?.deals_sold_this_month?.value,
-      trend: `${stat?.deals_sold_this_month?.percentage} % this month`,
+      trend: `${stat?.deals_sold_this_month?.percentage} % ${t?.provider_profile?.dashboard?.stats_1?.this_month}`,
       isPositive: true,
       icon: Bag,
       color: "text-cyan-500 bg-cyan-50",
     },
     {
       id: 3,
-      title: "Deals Redeemed",
+      title: t?.provider_profile?.dashboard?.stats_1?.deals_redeemed,
       value: stat?.deals_redeemed?.value,
-      trend: `${stat?.deals_redeemed?.percentage} % of sold`,
+      trend: `${stat?.deals_redeemed?.percentage} % ${t?.provider_profile?.dashboard?.stats_1?.of_sold}`,
       isPositive: true,
       icon: DealsRedeem,
       color: "text-teal-500 bg-teal-50",
     },
     {
       id: 4,
-      title: "Deals yet Unredeemed",
+      title: t?.provider_profile?.dashboard?.stats_1?.deals_unredeemed,
       value: stat?.deals_unredeemed?.value,
-      trend: `${stat?.deals_unredeemed?.percentage} % of sold`,
+      trend: `${stat?.deals_unredeemed?.percentage} % ${t?.provider_profile?.dashboard?.stats_1?.of_sold}`,
       isPositive: false,
       icon: DealYet,
       color: "text-red-500 bg-red-50",
@@ -66,25 +69,27 @@ export default async function Dashboard({
     <Container>
       <div className="space-y-7 p-4 w-full text-gray-800">
         {/* Welcome Bar Header Section */}
-        <CreateGiftVoucher profileInfo={profileInfo} />
+        <CreateGiftVoucher lang={lang} t={t} profileInfo={profileInfo} />
 
         {/* Metric Cards Section Block Row */}
         <MetricCards stat={metrics} />
-        <PromoCreateDeals />
+        <PromoCreateDeals t={t} />
 
         {/* Primary Analytical Data Feed Layout Container */}
         <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm space-y-4">
           <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold text-gray-900">Deal Purchased</h2>
+            <h2 className="text-2xl font-bold text-gray-900">
+              {t?.provider_profile?.dashboard?.deals_purchased?.title}
+            </h2>
             <Link href={`/${lang}/provider/purchases`}>
               <span className="text-base font-se text-teal-500 underline">
-                View all
+                {t?.provider_profile?.dashboard?.deals_purchased?.view_all}
               </span>
             </Link>
           </div>
 
           {/* Dynamic Inner Table Grid */}
-          <DealsTable deal={purchases} />
+          <DealsTable deal={purchases} t={t} />
         </div>
       </div>
     </Container>

@@ -5,14 +5,16 @@ import SubmitButton from "../buttons/SubmitButton";
 import { useGiftVoucherPurchaseMutation } from "@/redux/features/checkout/checkout.api";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   lang?: string;
   deal_id?: number;
   onClose?: () => void;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function GiftVoucherForm({ lang, deal_id, onClose }: Props) {
+export default function GiftVoucherForm({ lang, deal_id, onClose, t }: Props) {
   const router = useRouter();
   const [giftVoucherPurchase, { isLoading }] = useGiftVoucherPurchaseMutation();
 
@@ -46,8 +48,10 @@ export default function GiftVoucherForm({ lang, deal_id, onClose }: Props) {
           <TextInput
             required
             name="email"
-            label="Person's email address"
-            placeholder="johncarter@brix.com"
+            label={t?.provider_profile?.dashboard?.voucher_form?.email}
+            placeholder={
+              t?.provider_profile?.dashboard?.voucher_form?.email_placeholder
+            }
             type="email"
           />
 
@@ -55,15 +59,17 @@ export default function GiftVoucherForm({ lang, deal_id, onClose }: Props) {
           <TextInput
             required
             name="amount"
-            label="Gift amount"
-            placeholder="150"
+            label={t?.provider_profile?.dashboard?.voucher_form?.name}
+            placeholder={
+              t?.provider_profile?.dashboard?.voucher_form?.name_placeholder
+            }
             type="number"
           />
 
           <div className="pt-2">
             <SubmitButton
               isLoading={isLoading}
-              title="Continue"
+              title={t?.provider_profile?.dashboard?.voucher_form?.continue}
               className="w-full py-6 rounded-full"
             />
           </div>

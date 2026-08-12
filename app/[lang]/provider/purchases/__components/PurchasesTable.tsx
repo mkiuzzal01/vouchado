@@ -1,3 +1,4 @@
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import SMS from "@/app/components/icons/SMS";
 import Start from "@/app/components/icons/Start";
 import {
@@ -32,40 +33,47 @@ interface IProps {
     current_page: number;
     total: number;
   };
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function PurchasesTable({ purchases }: IProps) {
+export default function PurchasesTable({ purchases, t }: IProps) {
   return (
     <div className="w-full overflow-x-auto rounded-xl border border-gray-100 bg-white">
       <Table className="min-w-[1100px]">
         <TableHeader className="bg-[#F4F6F8]">
           <TableRow className="border-b border-gray-100 hover:bg-transparent">
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
-              Service Name
+              {t?.provider_profile?.dashboard?.deals_purchased?.table?.service}
             </TableHead>
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
-              Category
+              {t?.provider_profile?.dashboard?.deals_purchased?.table?.category}
             </TableHead>
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
-              Customer
+              {t?.provider_profile?.dashboard?.deals_purchased?.table?.customer}
             </TableHead>
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
-              Voucher ID
+              {
+                t?.provider_profile?.dashboard?.deals_purchased?.table
+                  ?.voucher_id
+              }
             </TableHead>
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
-              Expire Date
+              {
+                t?.provider_profile?.dashboard?.deals_purchased?.table
+                  ?.expire_date
+              }
             </TableHead>
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
-              Rating {/* Fixed typo: Reating -> Rating */}
+              {t?.provider_profile?.dashboard?.deals_purchased?.table?.rating}
             </TableHead>
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
-              Purchase
+              {t?.provider_profile?.dashboard?.deals_purchased?.table?.purchase}
             </TableHead>
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
-              Revenue
+              {t?.provider_profile?.dashboard?.deals_purchased?.table?.revenue}
             </TableHead>
             <TableHead className="text-base font-semibold text-[#212B36] py-4 px-4">
-              Status
+              {t?.provider_profile?.dashboard?.deals_purchased?.table?.status}
             </TableHead>
             <TableHead className="w-16 py-4 px-4"></TableHead>
           </TableRow>

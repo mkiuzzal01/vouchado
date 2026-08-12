@@ -1,4 +1,5 @@
 "use client";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import GiftVoucherForm from "@/app/components/forms/GiftVoucherForm";
 import CreateDealForm from "@/app/components/forms/muti-steps/CreateDealForm";
 import CreateGiftVoucherIcon from "@/app/components/icons/CreateGiftVoucherIcon";
@@ -11,10 +12,11 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { useState } from "react";
 
 interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   title: string;
 }
 
-export default function CreateDealAction({ title }: Props) {
+export default function CreateDealAction({ title, t }: Props) {
   const [openVoucherModal, setOpenVoucherModal] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -36,7 +38,9 @@ export default function CreateDealAction({ title }: Props) {
             className="flex items-center justify-center gap-2 p-4 bg-white border font-semibold rounded-full text-[15px] hover:bg-[#2EC1CC]/5 transition-colors  w-full sm:w-auto tracking-wide"
           >
             <CreateGiftVoucherIcon />
-            <span>Create gift Voucher</span>
+            <span>
+              {t?.provider_profile?.dashboard?.create_gift_voucher?.button}
+            </span>
           </button>
 
           <button
@@ -44,7 +48,9 @@ export default function CreateDealAction({ title }: Props) {
             className="flex items-center justify-center gap-2 p-4 bg-white border border-[#2EC1CC] font-semibold rounded-full text-[15px] text-[#2EC1CC] hover:bg-[#2EC1CC]/5 transition-colors shadow-sm w-full sm:w-auto tracking-wide"
           >
             <Scan />
-            <span>Scan Voucher</span>
+            <span>
+              {t?.provider_profile?.dashboard?.utilities?.scan_voucher}
+            </span>
           </button>
 
           {/* Solid "Add New Deal" Button */}
@@ -53,7 +59,9 @@ export default function CreateDealAction({ title }: Props) {
             className="flex items-center justify-center gap-2 p-4 bg-[#2EC1CC] font-semibold rounded-full text-[15px] text-white hover:bg-[#26A6AF] transition-colors shadow-sm w-full sm:w-auto tracking-wide"
           >
             <Plus color="#fff" size={14} />
-            <span>Add New Deal</span>
+            <span>
+              {t?.provider_profile?.dashboard?.utilities?.create_new_deal}
+            </span>
           </button>
         </div>
         <div>
@@ -71,7 +79,7 @@ export default function CreateDealAction({ title }: Props) {
             isOpen={openVoucherModal}
             onClose={() => setOpenVoucherModal(!openVoucherModal)}
           >
-            <GiftVoucherForm deal_id={1} lang="en" />
+            <GiftVoucherForm deal_id={1} lang="en" t={t} />
           </ModalContainer>
 
           <ModalContainer

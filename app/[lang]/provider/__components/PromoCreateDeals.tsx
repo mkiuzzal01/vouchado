@@ -13,8 +13,13 @@ import {
   resetDealForm,
   setOpenDealModal,
 } from "@/redux/features/deal/deal.slice";
+import { getDictionary } from "../../dictionaries";
 
-export default function PromoCreateDeals() {
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function PromoCreateDeals({ t }: Props) {
   const [scanModal, setScanModal] = useState(false);
   const dispatch = useAppDispatch();
   const { openDealModal } = useAppSelector((state) => state.deal);
@@ -43,12 +48,15 @@ export default function PromoCreateDeals() {
         <div className="relative z-10 ml-auto w-full max-w-[58%] flex flex-col items-start space-y-4">
           <div className="flex items-center gap-3">
             <button className="text-[20px] lg:text-[24px] xl:text-[32px] font-bold text-gray-900">
-              Scan Voucher
+              {t?.provider_profile?.dashboard?.promo_create_deals?.scan_voucher}
             </button>
           </div>
 
           <p className="text-[12px] lg:text-[14px] xl:text-[16px] font-medium text-gray-500 max-w-xs leading-relaxed">
-            Scan a voucher QR code to redeem and validate instantly
+            {
+              t?.provider_profile?.dashboard?.promo_create_deals
+                ?.scan_voucher_description
+            }
           </p>
 
           <Button
@@ -56,7 +64,9 @@ export default function PromoCreateDeals() {
             className="rounded-full px-[30px] xl:py-[24px] text-[14px] font-medium"
           >
             <QrCode size={20} />
-            <span className="ml-2">Scan Now</span>
+            <span className="ml-2">
+              {t?.provider_profile?.dashboard?.promo_create_deals?.scan_now}
+            </span>
             <ChevronRight
               size={20}
               className="ml-1 group-hover:translate-x-0.5 transition-transform"
@@ -86,11 +96,14 @@ export default function PromoCreateDeals() {
         {/* Content Layer */}
         <div className="relative z-10 mr-auto w-full max-w-[60%] flex flex-col items-start space-y-4">
           <h3 className="text-lg lg:text-[24px] xl:text-[32px] font-bold text-gray-900">
-            Create New Deal
+            {t?.provider_profile?.dashboard?.promo_create_deals?.create_deal}
           </h3>
 
           <p className="text-lg lg:text-[14px] xl:text-[16px] font-medium text-gray-500 max-w-xs leading-relaxed">
-            Create a new deal in minutes and start attracting more customers.
+            {
+              t?.provider_profile?.dashboard?.promo_create_deals
+                ?.create_deal_description
+            }
           </p>
 
           <Button
@@ -99,7 +112,12 @@ export default function PromoCreateDeals() {
             className="rounded-full lg:bg-transparent px-[30px] xl:py-[24px] text-[14px] font-medium border border-[#009BA8]"
           >
             <Plus size={20} className="text-[#009BA8]" />
-            <span className="ml-2 text-[#009BA8]">Create New Deal</span>
+            <span className="ml-2 text-[#009BA8]">
+              {
+                t?.provider_profile?.dashboard?.promo_create_deals
+                  ?.create_new_deal
+              }
+            </span>
             <ChevronRight
               size={20}
               className="ml-1 text-[#009BA8] group-hover:translate-x-0.5 transition-transform"
@@ -109,7 +127,7 @@ export default function PromoCreateDeals() {
       </div>
       <ModalContainer
         width="8xl"
-        title="Create new voucher"
+        title={t?.provider_profile?.dashboard?.promo_create_deals?.create_deal}
         isOpen={openDealModal}
         onClose={() => dispatch(setOpenDealModal(!openDealModal))}
         onModalClose={handleOpenModal}
@@ -118,7 +136,7 @@ export default function PromoCreateDeals() {
       </ModalContainer>
       <ModalContainer
         width="2xl"
-        title="Scan Voucher"
+        title={t?.provider_profile?.dashboard?.promo_create_deals?.scan_voucher}
         isOpen={scanModal}
         onClose={() => setScanModal(!scanModal)}
       >

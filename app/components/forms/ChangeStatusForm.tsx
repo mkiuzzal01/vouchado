@@ -4,14 +4,17 @@ import SelectInput from "./inputs/SelectInput";
 import SubmitButton from "../buttons/SubmitButton";
 import { useDealStatusChangeMutation } from "@/redux/features/deal/deal.api";
 import { toast } from "react-toastify";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   onClose: () => void;
   targetId: number | null;
   targetDealStatus: string | null;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 export default function ChangeStatusForm({
+  t,
   onClose,
   targetId,
   targetDealStatus,
@@ -42,17 +45,26 @@ export default function ChangeStatusForm({
     >
       <div className="space-y-4">
         <SelectInput
-          label="Status"
           name="status"
-          placeholder="Select status"
+          placeholder={
+            t?.provider_profile?.dashboard?.active_deals?.status?.title
+          }
           options={[
-            { label: "Active", value: "active" },
-            { label: "Inactive", value: "inactive" },
+            {
+              label:
+                t?.provider_profile?.dashboard?.active_deals?.status?.active,
+              value: "active",
+            },
+            {
+              label:
+                t?.provider_profile?.dashboard?.active_deals?.status?.inactive,
+              value: "inactive",
+            },
           ]}
         />
         <SubmitButton
           isLoading={isLoading}
-          title="Submit"
+          title={t?.provider_profile?.dashboard?.active_deals?.status?.update}
           className="w-full h-12 rounded-full"
         />
       </div>

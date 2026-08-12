@@ -700,5 +700,184 @@
         "description": "Sind Sie sicher, dass Sie sich aus Ihrer Sitzung im Anbieter-Dashboard abmelden möchten?"
       }
     }
+  },
+  "provider_profile": {
+    "dashboard": {
+      "stats_1": {
+        "deals_sold_total": "Verkaufte Deals (Insgesamt)",
+        "all_time": "Gesamtzeitraum",
+        "deals_sold_this_month": "Verkaufte Deals diesen Monat",
+        "this_month": "Diesen Monat",
+        "deals_redeemed": "Eingelöste Deals",
+        "of_sold": "von den verkauften Deals",
+        "deals_unredeemed": "Noch nicht eingelöste Deals",
+        "percentage": "Prozentsatz"
+      },
+
+      "stats_2": {
+        "title": "Umsatzstatistiken",
+        "total_revenue": "Gesamtumsatz",
+        "all_time": "Gesamtzeitraum",
+        "active_vouchers": "Aktive Gutscheine insgesamt",
+        "this_month": "Diesen Monat",
+        "expired_vouchers": "Abgelaufene Gutscheine insgesamt",
+        "of_sold": "Von verkauften",
+        "redeemed_vouchers": "Bereits eingelöste Gutscheine"
+      },
+
+      "create_gift_voucher": {
+        "greeting": "Hallo",
+        "subtitle": "Lass dein Business heute wachsen",
+        "button": "Geschenkgutschein erstellen"
+      },
+
+      "voucher_form": {
+        "email": "E-Mail-Adresse",
+        "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
+        "name": "Titel des Gutscheins",
+        "name_placeholder": "Geben Sie den Titel Ihres Gutscheins ein",
+        "continue": "Weiter"
+      },
+      "promo_create_deals": {
+        "scan_voucher": "Gutschein scannen",
+        "scan_voucher_description": "Scanne einen QR-Code, um einen Gutschein einzulösen und sofort zu validieren.",
+        "create_deal": "Neuen Deal erstellen",
+        "create_deal_description": "Erstelle in wenigen Minuten einen neuen Deal und gewinne mehr Kunden.",
+        "scan_now": "Jetzt scannen",
+        "create_new_deal": "Neuen Deal erstellen"
+      },
+
+      "deals_purchased": {
+        "title": "Gekaufte Deals",
+        "view_all": "Alle anzeigen",
+        "purchase_deals": {
+          "title": "Angebote"
+        },
+        "table": {
+          "service": "Dienstleistung",
+          "category": "Kategorie",
+          "customer": "Kunde",
+          "voucher_id": "Gutschein-ID",
+          "expire_date": "Ablaufdatum",
+          "rating": "Bewertung",
+          "purchase": "Kauf",
+          "revenue": "Umsatz",
+          "status": "Status"
+        }
+      },
+
+      "active_deals": {
+        "title": "Aktive Angebote",
+        "description": "Derzeit laufend",
+        "create_deal": {
+          "title": "Dienstleistungen"
+        },
+
+        "table": {
+          "deals": "Angebotsname",
+          "category": "Kategorie",
+          "discount": "Rabatt",
+          "revenue": "Umsatz",
+          "sold": "Verkauft",
+          "remaining": "Verbleibend",
+          "redemption": "Einlösung",
+          "action": "Aktionen"
+        },
+        "filter_by": {
+          "all": "Alle",
+          "active": "Aktiv",
+          "inactive": "Inaktiv"
+        },
+        "search": {
+          "placeholder": "Hier suchen..."
+        },
+        "status": {
+          "title": "Status ändern",
+          "active": "Aktiv",
+          "inactive": "Inaktiv",
+          "update": "Aktualisieren"
+        }
+      },
+      "utilities": {
+        "scan_voucher": "Gutschein scannen",
+        "create_new_deal": "Neues Angebot erstellen"
+      }
+    },
+    "provider": {
+      "title": "Unternehmensprofil",
+      "subtitle": "Verwalten Sie Ihre Unternehmensinformationen und Ihr öffentliches Profil",
+      "edit": "Bearbeiten",
+      "edit_modal_title": "Unternehmensprofil bearbeiten",
+      "profile_banner": "Profil-Banner",
+      "business_logo_alt": "Unternehmenslogo",
+      "withdrawal": {
+        "available_balance": "Zur Auszahlung verfügbar",
+        "bg_alt": "Auszahlungshintergrund",
+        "withdraw_button": "Auszahlen"
+      },
+      "opening_hours": {
+        "title": "Öffnungszeiten",
+        "open": "Offen",
+        "closed": "Geschlossen",
+        "days": {
+          "monday": "Montag",
+          "tuesday": "Dienstag",
+          "wednesday": "Mittwoch",
+          "thursday": "Donnerstag",
+          "friday": "Freitag",
+          "saturday": "Samstag",
+          "sunday": "Sonntag"
+        }
+      },
+      "description": {
+        "title": "Unternehmensbeschreibung",
+        "no_description": "Keine Beschreibung verfügbar."
+      },
+      "address": {
+        "title": "Adresse",
+        "location_not_available": "Standort nicht verfügbar",
+        "map_title": "Unternehmensstandort"
+      },
+      "payment_history": {
+        "title": "Zahlungsverlauf",
+        "columns": {
+          "date": "Datum",
+          "transaction_id": "Transaktions-ID",
+          "amount": "Betrag",
+          "status": "Status"
+        },
+        "status": {
+          "pending": "Ausstehend",
+          "complete": "Abgeschlossen",
+          "declined": "Abgelehnt"
+        }
+      },
+      "form": {
+        "business_logo": "Unternehmenslogo",
+        "cover_image": "Titelbild",
+        "business_name": "Unternehmensname",
+        "business_name_placeholder": "Akij Group",
+        "full_name": "Vollständiger Name",
+        "full_name_placeholder": "Johnathan Smith",
+        "email": "E-Mail-Adresse",
+        "email_placeholder": "johncarter@brix.com",
+        "phone": "Telefonnummer",
+        "phone_placeholder": "12134564598",
+        "website": "Webseite (optional)",
+        "website_placeholder": "beispiel.de",
+        "business_category": "Unternehmenskategorie",
+        "categories": {
+          "cloth": "Kleidung",
+          "beauty_wellness": "Beauty & Wellness",
+          "grocery": "Lebensmittel",
+          "pet": "Haustiere"
+        },
+        "business_description": "Unternehmensbeschreibung",
+        "business_description_placeholder": "Bitte beschreiben Sie...",
+        "address_placeholder": "Vollständige Adresse eingeben",
+        "cancel": "Abbrechen",
+        "update": "Aktualisieren"
+      }
+    }
   }
 }

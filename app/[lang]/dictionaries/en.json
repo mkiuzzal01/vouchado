@@ -709,5 +709,187 @@
         "description": "Are you sure you want to log out of your provider dashboard account session?"
       }
     }
+  },
+  "provider_profile": {
+    "dashboard": {
+      "stats_1": {
+        "deals_sold_total": "Deals Sold (Total)",
+        "all_time": "All Time",
+        "deals_sold_this_month": "Deals Sold This Month",
+        "this_month": "This Month",
+        "deals_redeemed": "Deals Redeemed",
+        "of_sold": "Of Sold",
+        "deals_unredeemed": "Deals yet Unredeemed"
+      },
+
+      "stats_2": {
+        "title": "Umsatzstatistiken",
+        "total_revenue": "Gesamtumsatz",
+        "all_time": "insgesamt",
+        "active_vouchers": "Aktive Gutscheine (gesamt)",
+        "this_month": "diesen Monat",
+        "expired_vouchers": "Abgelaufene Gutscheine (gesamt)",
+        "of_sold": "der verkauften",
+        "redeemed_vouchers": "Bereits eingelöste Gutscheine"
+      },
+
+      "create_gift_voucher": {
+        "greeting": "Hi",
+        "subtitle": "Let's grow your business today",
+        "button": "Create gift Voucher"
+      },
+
+      "voucher_form": {
+        "email": "Email Address",
+        "email_placeholder": "Enter your email address",
+        "name": "Voucher title",
+        "name_placeholder": "Enter your voucher title",
+        "continue": "Continue"
+      },
+
+      "promo_create_deals": {
+        "scan_voucher": "Scan Voucher",
+        "scan_voucher_description": "Scan a voucher QR code to redeem and validate instantly",
+        "create_deal": "Create New Deal",
+        "create_deal_description": "Create a new deal in minutes and start attracting more customers.",
+        "scan_now": "Scan Now",
+        "create_new_deal": "Create New Deal"
+      },
+
+      "deals_purchased": {
+        "title": "Deal Purchased",
+        "view_all": "View all",
+        "purchase_deals": {
+          "title": "Services"
+        },
+        "table": {
+          "service": "Service Name",
+          "category": "Category",
+          "customer": "Customer",
+          "voucher_id": "Voucher ID",
+          "expire_date": "Expire Date",
+          "rating": "Rating",
+          "purchase": "Purchase",
+          "revenue": "Revenue",
+          "status": "Status"
+          
+        }
+      },
+
+      "active_deals": {
+        "create_deal": {
+          "title": "Delas"
+        },
+
+        "title": "Active Deals",
+        "description": "Currently running",
+        "table": {
+          "deals": "Deals Name",
+          "category": "Category",
+          "discount": "Discount",
+          "revenue": "Revenue",
+          "sold": "Sold",
+          "remaining": "Remaining",
+          "redemption": "Redemption",
+          "action": "Actions"
+        },
+        "filter_by": {
+          "all": "All",
+          "active": "active",
+          "inactive": "inactive"
+        },
+        "search": {
+          "placeholder": "Search Here..."
+        },
+        "status": {
+          "title": "Change status",
+          "active": "active",
+          "inactive": "inactive",
+          "update": "Update"
+        }
+      },
+
+      "utilities": {
+        "scan_voucher": "Scan Voucher",
+        "create_new_deal": "Add New Deal"
+      }
+    },
+
+    "provider": {
+      "title": "Business Profile",
+      "subtitle": "Manage your business information and public profile",
+      "edit": "Edit",
+      "edit_modal_title": "Edit Business profile",
+      "profile_banner": "Profile Banner",
+      "business_logo_alt": "Business Logo",
+      "withdrawal": {
+        "available_balance": "Available for Withdrawal",
+        "bg_alt": "Withdrawal Background",
+        "withdraw_button": "Withdraw"
+      },
+      "opening_hours": {
+        "title": "Opening Hours",
+        "open": "Open",
+        "closed": "Closed",
+        "days": {
+          "monday": "Monday",
+          "tuesday": "Tuesday",
+          "wednesday": "Wednesday",
+          "thursday": "Thursday",
+          "friday": "Friday",
+          "saturday": "Saturday",
+          "sunday": "Sunday"
+        }
+      },
+      "description": {
+        "title": "Business Description",
+        "no_description": "No description available."
+      },
+      "address": {
+        "title": "Address",
+        "location_not_available": "Location not available",
+        "map_title": "Business Location"
+      },
+      "payment_history": {
+        "title": "Payment History",
+        "columns": {
+          "date": "Date",
+          "transaction_id": "Transaction Id",
+          "amount": "Amount",
+          "status": "Status"
+        },
+        "status": {
+          "pending": "Pending",
+          "complete": "Complete",
+          "declined": "Declined"
+        }
+      },
+      "form": {
+        "business_logo": "Business Logo",
+        "cover_image": "Cover Image",
+        "business_name": "Business Name",
+        "business_name_placeholder": "Akij Group",
+        "full_name": "Full name",
+        "full_name_placeholder": "Johnathan Smith",
+        "email": "Email address",
+        "email_placeholder": "johncarter@brix.com",
+        "phone": "Phone Number",
+        "phone_placeholder": "12134564598",
+        "website": "Website (optional)",
+        "website_placeholder": "example.com",
+        "business_category": "Business Category",
+        "categories": {
+          "cloth": "Cloth",
+          "beauty_wellness": "Beauty & Wellness",
+          "grocery": "Grocery",
+          "pet": "Pet"
+        },
+        "business_description": "Business Description",
+        "business_description_placeholder": "Please Describe...",
+        "address_placeholder": "Write full address",
+        "cancel": "Cancel",
+        "update": "Update"
+      }
+    }
   }
 }

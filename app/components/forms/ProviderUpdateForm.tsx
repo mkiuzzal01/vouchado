@@ -16,6 +16,8 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import PhoneInput from "./inputs/PhoneInput";
 
+import { getDictionary } from "@/app/[lang]/dictionaries";
+
 const DAYS_OF_WEEK = [
   "Monday",
   "Tuesday",
@@ -28,17 +30,20 @@ const DAYS_OF_WEEK = [
 interface Props {
   setIsOpen: (value: boolean) => void;
   profileInfo: any;
+  t?: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 // Inner helper component to consume the form context and watch the Sunday field reactively
-function SundayHoursSection() {
+function SundayHoursSection({ t }: { t?: Awaited<ReturnType<typeof getDictionary>> }) {
   const { watch, register } = useFormContext();
   const hoursSunday = watch("hours_sunday", "closed");
 
   return (
     <div className="col-span-1 md:col-span-2 flex flex-col sm:flex-row sm:items-center justify-between bg-gray-50 border border-gray-100 px-4 py-2.5 rounded-2xl gap-3 transition-all">
       <div className="flex items-center gap-3">
-        <span className="text-sm font-semibold text-gray-700">Sunday</span>
+        <span className="text-sm font-semibold text-gray-700">
+          {t?.provider_profile?.opening_hours?.days?.sunday || "Sunday"}
+        </span>
         <select
           {...register("hours_sunday")}
           className={`text-xs font-medium rounded-xl px-2.5 py-1 focus:outline-none border ${
@@ -47,8 +52,8 @@ function SundayHoursSection() {
               : "bg-emerald-50 border-emerald-100 text-emerald-600"
           }`}
         >
-          <option value="closed">Closed</option>
-          <option value="open">Open</option>
+          <option value="closed">{t?.provider_profile?.opening_hours?.closed || "Closed"}</option>
+          <option value="open">{t?.provider_profile?.opening_hours?.open || "Open"}</option>
         </select>
       </div>
 
@@ -72,7 +77,7 @@ function SundayHoursSection() {
   );
 }
 
-export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
+export default function ProviderUpdateForm({ setIsOpen, profileInfo, t }: Props) {
   const router = useRouter();
   const data = profileInfo?.data || profileInfo;
 
@@ -239,7 +244,7 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
               imageFeatures={true}
               imageFrameStyle="rounded"
               defaultImage={data?.business_logo_full_url}
-              label="Business Logo"
+              label={t?.provider_profile?.form?.business_logo || "Business Logo"}
               name="business_logo"
               aspectRatio={1}
             />
@@ -248,7 +253,7 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
               showAspectSelector={false}
               aspectRatio={16 / 9}
               defaultImage={data?.business_cover_image_full_url}
-              label="Cover Image"
+              label={t?.provider_profile?.form?.cover_image || "Cover Image"}
               name="business_cover_image"
             />
           </div>
@@ -258,35 +263,39 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
           {/* Opening Hours Schedule Section */}
           <div>
             <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">
-              Opening Hours
+              {t?.provider_profile?.opening_hours?.title || "Opening Hours"}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {DAYS_OF_WEEK.map((day) => (
-                <div
-                  key={day}
-                  className="flex items-center justify-between bg-gray-50 border border-gray-100 px-4 py-1.5 rounded-2xl"
-                >
-                  <span className="text-sm font-semibold text-gray-700">
-                    {day}
-                  </span>
-                  <div className="flex justify-between items-center gap-2">
-                    <TimeInput
-                      isCurrentDateValidation={false}
-                      name={`open_time_${day.toLowerCase()}`}
-                      placeholder="09:00"
-                    />
-                    <span>-</span>
-                    <TimeInput
-                      isCurrentDateValidation={false}
-                      name={`close_time_${day.toLowerCase()}`}
-                      placeholder="18:00"
-                    />
+              {DAYS_OF_WEEK.map((day) => {
+                const dayKey = day.toLowerCase() as keyof NonNullable<typeof t>["provider_profile"]["opening_hours"]["days"];
+                const translatedDay = t?.provider_profile?.opening_hours?.days?.[dayKey] || day;
+                return (
+                  <div
+                    key={day}
+                    className="flex items-center justify-between bg-gray-50 border border-gray-100 px-4 py-1.5 rounded-2xl"
+                  >
+                    <span className="text-sm font-semibold text-gray-700">
+                      {translatedDay}
+                    </span>
+                    <div className="flex justify-between items-center gap-2">
+                      <TimeInput
+                        isCurrentDateValidation={false}
+                        name={`open_time_${day.toLowerCase()}`}
+                        placeholder="09:00"
+                      />
+                      <span>-</span>
+                      <TimeInput
+                        isCurrentDateValidation={false}
+                        name={`close_time_${day.toLowerCase()}`}
+                        placeholder="18:00"
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
 
               {/* Reactive Sub-component */}
-              <SundayHoursSection />
+              <SundayHoursSection t={t} />
             </div>
           </div>
 
@@ -296,43 +305,43 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <TextInput
               name="business_name"
-              label="Business Name"
-              placeholder="Akij Group"
+              label={t?.provider_profile?.form?.business_name || "Business Name"}
+              placeholder={t?.provider_profile?.form?.business_name_placeholder || "Akij Group"}
               icon={<Building2 size={16} />}
             />
             <TextInput
               name="name"
-              label="Full name"
-              placeholder="Johnathan Smith"
+              label={t?.provider_profile?.form?.full_name || "Full name"}
+              placeholder={t?.provider_profile?.form?.full_name_placeholder || "Johnathan Smith"}
               icon={<User size={16} />}
             />
             <TextInput
               name="email"
-              label="Email address"
-              placeholder="johncarter@brix.com"
+              label={t?.provider_profile?.form?.email || "Email address"}
+              placeholder={t?.provider_profile?.form?.email_placeholder || "johncarter@brix.com"}
               icon={<Mail size={16} />}
             />
 
             <PhoneInput
               name="phone"
-              label="Phone Number"
-              placeholder="12134564598"
+              label={t?.provider_profile?.form?.phone || "Phone Number"}
+              placeholder={t?.provider_profile?.form?.phone_placeholder || "12134564598"}
             />
             <TextInput
               name="business_website"
-              label="Website (optional)"
-              placeholder="example.com"
+              label={t?.provider_profile?.form?.website || "Website (optional)"}
+              placeholder={t?.provider_profile?.form?.website_placeholder || "example.com"}
               icon={<Globe size={16} />}
             />
 
             <SelectInput
               name="business_category"
-              label="Business Category"
+              label={t?.provider_profile?.form?.business_category || "Business Category"}
               options={[
-                { value: "cloth", label: "Cloth" },
-                { value: "beauty-wellness", label: "Beauty & Wellness" },
-                { value: "grocery", label: "Grocery" },
-                { value: "pet", label: "Pet" },
+                { value: "cloth", label: t?.provider_profile?.form?.categories?.cloth || "Cloth" },
+                { value: "beauty-wellness", label: t?.provider_profile?.form?.categories?.beauty_wellness || "Beauty & Wellness" },
+                { value: "grocery", label: t?.provider_profile?.form?.categories?.grocery || "Grocery" },
+                { value: "pet", label: t?.provider_profile?.form?.categories?.pet || "Pet" },
               ]}
             />
           </div>
@@ -341,13 +350,14 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
           <div className="flex flex-col gap-4">
             <TextArea
               name="business_description"
-              label="Business Description"
-              placeholder="Please Describe..."
+              label={t?.provider_profile?.form?.business_description || "Business Description"}
+              placeholder={t?.provider_profile?.form?.business_description_placeholder || "Please Describe..."}
               rows={4}
             />
 
             <AddressInput
-              placeholder="Write full address"
+              label={t?.provider_profile?.address?.title || "Address"}
+              placeholder={t?.provider_profile?.form?.address_placeholder || "Write full address"}
               onChange={handleAddressChange}
               value={address}
             />
@@ -360,10 +370,10 @@ export default function ProviderUpdateForm({ setIsOpen, profileInfo }: Props) {
               onClick={() => setIsOpen(false)}
               className="px-6 py-2.5 text-xs font-semibold text-gray-500 bg-white border border-gray-200 rounded-full hover:bg-gray-50 transition-colors"
             >
-              Cancel
+              {t?.provider_profile?.form?.cancel || "Cancel"}
             </button>
             <SubmitButton
-              title="Update"
+              title={t?.provider_profile?.form?.update || "Update"}
               isLoading={isLoading}
               className="rounded-full text-xs font-semibold p-5"
             />

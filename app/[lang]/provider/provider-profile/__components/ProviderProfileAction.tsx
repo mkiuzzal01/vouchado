@@ -4,12 +4,14 @@ import Container from "@/app/components/shared/Container";
 import ModalContainer from "@/app/components/shared/ModalContainer";
 import { Pencil } from "lucide-react";
 import { useState } from "react";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   profileInfo: any;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function ProviderProfileAction({ profileInfo }: Props) {
+export default function ProviderProfileAction({ profileInfo, t }: Props) {
   const [openModal, setOpenModal] = useState(false);
 
   return (
@@ -18,10 +20,10 @@ export default function ProviderProfileAction({ profileInfo }: Props) {
         {/* Left Text Block */}
         <div className="flex flex-col gap-1">
           <h2 className="text-xl lg:text-3xl font-semibold text-gray-900">
-            Business Profile
+            {t.provider_profile.title}
           </h2>
           <p className="text-xs md:text-base text-gray-400 font-normal">
-            Manage your business information and public profile
+            {t.provider_profile.subtitle}
           </p>
         </div>
 
@@ -31,17 +33,18 @@ export default function ProviderProfileAction({ profileInfo }: Props) {
           className="flex items-center gap-2 border border-[#31BFC8] bg-white text-[#31BFC8] font-semibold px-5 py-2 rounded-full hover:shadow-lg active:shadow-sm transition-all duration-200"
         >
           <Pencil size={14} />
-          <span>Edit</span>
+          <span>{t.provider_profile.edit}</span>
         </button>
       </div>
       <ModalContainer
-        title="Edit Business profile"
+        title={t.provider_profile.edit_modal_title}
         isOpen={openModal}
         onClose={() => setOpenModal(false)}
       >
         <ProviderUpdateForm
           setIsOpen={setOpenModal}
           profileInfo={profileInfo}
+          t={t}
         />
       </ModalContainer>
     </Container>

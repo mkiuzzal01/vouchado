@@ -2,6 +2,7 @@ import Image from "next/image";
 import providerImage from "@/public/auth/profile_placeholder.png";
 import withdrawalImage from "@/public/hero/Hero Section (2).png";
 import OpeaningTime from "@/app/components/icons/OpeaningTime";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 export interface BusinessHour {
   id: number;
@@ -18,12 +19,14 @@ export interface Props {
   openingHours?: BusinessHour[];
   business_logo?: string;
   balance: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 export default function ProviderAside({
   openingHours,
   business_logo,
   balance,
+  t,
 }: Props) {
   return (
     <div className="flex flex-col gap-6 w-full ">
@@ -32,7 +35,7 @@ export default function ProviderAside({
         <div className="relative h-60 w-60 rounded-full border-4 border-white bg-black overflow-hidden shadow-md">
           <Image
             src={business_logo || providerImage}
-            alt="Cannabis Shop"
+            alt={t.provider_profile.business_logo_alt}
             fill
             sizes="160px"
             className="object-cover"
@@ -46,14 +49,14 @@ export default function ProviderAside({
         <div className="relative rounded-4xl p-6 text-center text-white overflow-hidden h-36 flex flex-col justify-center items-center">
           <Image
             src={withdrawalImage}
-            alt="Withdrawal Background"
+            alt={t.provider_profile.withdrawal.bg_alt}
             fill
             priority
             className="object-cover z-0"
           />
           <div className="relative z-10 flex flex-col gap-1.5">
             <p className="text-sm md:text-xl text-white/90 font-medium whitespace-nowrap">
-              Available for Withdrawal
+              {t.provider_profile.withdrawal.available_balance}
             </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight">
               {balance}
@@ -62,7 +65,7 @@ export default function ProviderAside({
         </div>
 
         <button className="w-full border border-[#31BFC8] bg-white text-[#31BFC8] font-bold py-2.5 rounded-full text-md transition hover:bg-[#31BFC8] hover:text-white active:scale-[0.99]">
-          Withdraw
+          {t.provider_profile.withdrawal.withdraw_button}
         </button>
       </div>
 
@@ -70,27 +73,33 @@ export default function ProviderAside({
       <div className="w-full mt-2">
         <div className="flex items-center gap-2 font-semibold text-gray-800 pb-3 mb-2">
           <OpeaningTime size={16} />
-          <p className="text-sm font-bold text-gray-900">Opening Hours</p>
+          <p className="text-sm font-bold text-gray-900">
+            {t.provider_profile.opening_hours.title}
+          </p>
         </div>
         <ul className="space-y-3.5 text-xs text-gray-600">
-          {openingHours?.map((item, idx) => (
-            <li key={idx} className="flex justify-between items-center">
-              <span className="font-medium text-gray-800">
-                {item.day.toLocaleUpperCase()}
-              </span>
-              <span
-                className={
-                  item.is_closed
-                    ? "text-red-500 font-medium"
-                    : "text-gray-400 font-normal"
-                }
-              >
-                {item.is_closed
-                  ? "Closed"
-                  : `${item.open_time} - ${item.close_time}`}
-              </span>
-            </li>
-          ))}
+          {openingHours?.map((item, idx) => {
+            const dayKey = item.day.toLowerCase() as keyof typeof t.provider_profile.opening_hours.days;
+            const translatedDay = t.provider_profile.opening_hours.days[dayKey] || item.day;
+            return (
+              <li key={idx} className="flex justify-between items-center">
+                <span className="font-medium text-gray-800">
+                  {translatedDay.toUpperCase()}
+                </span>
+                <span
+                  className={
+                    item.is_closed
+                      ? "text-red-500 font-medium"
+                      : "text-gray-400 font-normal"
+                  }
+                >
+                  {item.is_closed
+                    ? t.provider_profile.opening_hours.closed
+                    : `${item.open_time} - ${item.close_time}`}
+                </span>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

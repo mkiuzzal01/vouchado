@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 const LIBRARIES: ["places"] = ["places"];
 
 interface Props {
+  label?: string;
   placeholder?: string;
   value?: string;
   onChange?: (
@@ -16,6 +17,7 @@ interface Props {
 }
 
 export default function AddressInput({
+  label,
   placeholder,
   value = "",
   onChange,
@@ -188,7 +190,7 @@ export default function AddressInput({
         htmlFor="address-input"
         className="block text-sm font-medium text-slate-500 mb-2"
       >
-        Address
+        {label || "Address"}
       </label>
 
       {/* Input Container */}
