@@ -77,13 +77,12 @@ export default function ProviderAside({
             {t?.provider_profile?.provider?.opening_hours?.title}
           </p>
         </div>
-        {/* <ul className="space-y-3.5 text-xs text-gray-600">
+        <ul className="space-y-3.5 text-xs text-gray-600">
           {openingHours?.map((item, idx) => {
+            const daysObj = t?.provider_profile?.provider?.opening_hours?.days;
             const dayKey =
-              item.day.toLowerCase() as keyof typeof t.provider_profile.opening_hours.days;
-            const translatedDay =
-              t?.provider_profile?.provider?.opening_hours?.days[dayKey] ||
-              item.day;
+              item.day.toLowerCase() as keyof typeof t.provider_profile.provider.opening_hours.days;
+            const translatedDay = daysObj?.[dayKey] || item.day;
             return (
               <li key={idx} className="flex justify-between items-center">
                 <span className="font-medium text-gray-800">
@@ -103,7 +102,7 @@ export default function ProviderAside({
               </li>
             );
           })}
-        </ul> */}
+        </ul>
       </div>
     </div>
   );

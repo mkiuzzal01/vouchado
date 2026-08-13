@@ -286,12 +286,12 @@ export default function ProviderUpdateForm({
                 "Opening Hours"}
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {/* {DAYS_OF_WEEK.map((day) => {
+              {DAYS_OF_WEEK.map((day) => {
                 const dayKey = day.toLowerCase() as keyof NonNullable<
                   typeof t
-                >["provider_profile"]["opening_hours"]["days"];
+                >["provider_profile"]["provider"]["opening_hours"]["days"];
                 const translatedDay =
-                  t?.provider_profile?.opening_hours?.days?.[dayKey] || day;
+                  t?.provider_profile?.provider?.opening_hours?.days?.[dayKey] || day;
                 return (
                   <div
                     key={day}
@@ -315,7 +315,7 @@ export default function ProviderUpdateForm({
                     </div>
                   </div>
                 );
-              })} */}
+              })}
 
               {/* Reactive Sub-component */}
               <SundayHoursSection t={t} />
@@ -455,7 +455,7 @@ export default function ProviderUpdateForm({
               {t?.provider_profile?.provider?.form?.cancel || "Cancel"}
             </button>
             <SubmitButton
-              title={t?.provider_profile?.provider?.  form?.update || "Update"}
+              title={t?.provider_profile?.provider?.form?.update || "Update"}
               isLoading={isLoading}
               className="rounded-full text-xs font-semibold p-5"
             />

@@ -770,8 +770,8 @@
         "scan": {
           "title": "Gutschein scannen",
           "description": "Scanne einen QR-Code, um einen Gutschein einzulösen und sofort zu validieren.",
-          "note": "Benutzerdefinierte Notiz hinzufügen (Optional)",
-          "input_placeholder": "Notizen vor dem Scannen eingeben",
+          "note": "Eigene Notiz hinzufügen (optional):",
+          "input_placeholder": "Notizen vor dem Scannen eingeben...",
           "qr_title": "Warte auf Barcode-Scanner...",
           "qr_desc_1": "Betätige den Auslöser deines USB-Hardware-Scanners. Die Webcam öffnet sich automatisch in",
           "qr_desc_2": "oder bei Nichtbenutzung.",
