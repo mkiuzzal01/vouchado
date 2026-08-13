@@ -11,27 +11,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
-const filterOptions = [
-  {
-    value: "this_month",
-    label: "This Month",
-  },
-  {
-    value: "previous_month",
-    label: "Previous Month",
-  },
-  {
-    value: "redeemed",
-    label: "Redeemed",
-  },
-  {
-    value: "unredeemed",
-    label: "Unredeemed",
-  },
-] as const;
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
 
-export default function FilterDeals() {
+export default function FilterDeals({ t }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -45,9 +31,36 @@ export default function FilterDeals() {
     router.push(`${pathname}?${params.toString()}`);
   };
 
+  const filterOptions = [
+    {
+      value: "this_month",
+      label:
+        t?.provider_profile?.dashboard?.deals_purchased?.table?.filter_by
+          ?.this_month,
+    },
+    {
+      value: "previous_month",
+      label:
+        t?.provider_profile?.dashboard?.deals_purchased?.table?.filter_by
+          ?.previous_month,
+    },
+    {
+      value: "redeemed",
+      label:
+        t?.provider_profile?.dashboard?.deals_purchased?.table?.filter_by
+          ?.redeemed,
+    },
+    {
+      value: "not_redeemed",
+      label:
+        t?.provider_profile?.dashboard?.deals_purchased?.table?.filter_by
+          ?.not_redeemed,
+    },
+  ] as const;
+
   const activeLabel =
     filterOptions.find((item) => item.value === selectedFilter)?.label ??
-    "Filter";
+    t?.provider_profile?.dashboard?.deals_purchased?.table?.filter_by?.title;
 
   return (
     <DropdownMenu>
@@ -59,7 +72,12 @@ export default function FilterDeals() {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="bg-white">
-        <DropdownMenuLabel>Deals Filter</DropdownMenuLabel>
+        <DropdownMenuLabel>
+          {
+            t?.provider_profile?.dashboard?.deals_purchased?.table?.filter_by
+              ?.desc
+          }
+        </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
         {filterOptions.map((option) => (

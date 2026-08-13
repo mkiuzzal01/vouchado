@@ -2,6 +2,7 @@ import React from "react";
 import Header from "./__components/aside/Header";
 import { getBusniessProfile } from "@/actions/quires/user.api";
 import { getNotification } from "@/actions/quires/system_info.api";
+import { getProviderNavLinks } from "./__components/aside/HeaderLinks";
 interface LayoutProps {
   children: React.ReactNode;
   params: Promise<{ lang: string }>;
@@ -11,6 +12,7 @@ export default async function Layout({ children, params }: LayoutProps) {
   const { lang } = await params;
   const profileInfo = await getBusniessProfile();
   const res = await getNotification();
+  const providerNavItems = (await getProviderNavLinks(lang)) || [];
   const notifications = res?.data || [];
 
   return (
@@ -18,6 +20,7 @@ export default async function Layout({ children, params }: LayoutProps) {
       <Header
         lang={lang}
         profileInfo={profileInfo}
+        navItems={providerNavItems}
         notifications={notifications}
       />
       <main className="flex-1 w-full overflow-x-hidden">{children}</main>

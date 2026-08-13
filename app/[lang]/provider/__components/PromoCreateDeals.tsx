@@ -48,14 +48,14 @@ export default function PromoCreateDeals({ t }: Props) {
         <div className="relative z-10 ml-auto w-full max-w-[58%] flex flex-col items-start space-y-4">
           <div className="flex items-center gap-3">
             <button className="text-[20px] lg:text-[24px] xl:text-[32px] font-bold text-gray-900">
-              {t?.provider_profile?.dashboard?.promo_create_deals?.scan_voucher}
+              {t?.provider_profile?.dashboard?.promo_create_deals?.scan?.title}
             </button>
           </div>
 
           <p className="text-[12px] lg:text-[14px] xl:text-[16px] font-medium text-gray-500 max-w-xs leading-relaxed">
             {
-              t?.provider_profile?.dashboard?.promo_create_deals
-                ?.scan_voucher_description
+              t?.provider_profile?.dashboard?.promo_create_deals?.scan
+                ?.description
             }
           </p>
 
@@ -65,7 +65,7 @@ export default function PromoCreateDeals({ t }: Props) {
           >
             <QrCode size={20} />
             <span className="ml-2">
-              {t?.provider_profile?.dashboard?.promo_create_deals?.scan_now}
+              {t?.provider_profile?.dashboard?.promo_create_deals?.scan?.btn}
             </span>
             <ChevronRight
               size={20}
@@ -96,13 +96,16 @@ export default function PromoCreateDeals({ t }: Props) {
         {/* Content Layer */}
         <div className="relative z-10 mr-auto w-full max-w-[60%] flex flex-col items-start space-y-4">
           <h3 className="text-lg lg:text-[24px] xl:text-[32px] font-bold text-gray-900">
-            {t?.provider_profile?.dashboard?.promo_create_deals?.create_deal}
+            {
+              t?.provider_profile?.dashboard?.promo_create_deals?.create_deal
+                ?.title
+            }
           </h3>
 
           <p className="text-lg lg:text-[14px] xl:text-[16px] font-medium text-gray-500 max-w-xs leading-relaxed">
             {
-              t?.provider_profile?.dashboard?.promo_create_deals
-                ?.create_deal_description
+              t?.provider_profile?.dashboard?.promo_create_deals?.create_deal
+                ?.description
             }
           </p>
 
@@ -114,7 +117,7 @@ export default function PromoCreateDeals({ t }: Props) {
             <Plus size={20} className="text-[#009BA8]" />
             <span className="ml-2 text-[#009BA8]">
               {
-                t?.provider_profile?.dashboard?.promo_create_deals
+                t?.provider_profile?.dashboard?.promo_create_deals?.create_deal
                   ?.create_new_deal
               }
             </span>
@@ -127,7 +130,10 @@ export default function PromoCreateDeals({ t }: Props) {
       </div>
       <ModalContainer
         width="8xl"
-        title={t?.provider_profile?.dashboard?.promo_create_deals?.create_deal}
+        title={
+          t?.provider_profile?.dashboard?.promo_create_deals?.create_deal
+            ?.create_new_deal
+        }
         isOpen={openDealModal}
         onClose={() => dispatch(setOpenDealModal(!openDealModal))}
         onModalClose={handleOpenModal}
@@ -136,11 +142,11 @@ export default function PromoCreateDeals({ t }: Props) {
       </ModalContainer>
       <ModalContainer
         width="2xl"
-        title={t?.provider_profile?.dashboard?.promo_create_deals?.scan_voucher}
+        title={t?.provider_profile?.dashboard?.promo_create_deals?.scan?.title}
         isOpen={scanModal}
         onClose={() => setScanModal(!scanModal)}
       >
-        <ScanVoucher setScanModal={setScanModal} />
+        <ScanVoucher setScanModal={setScanModal} t={t} />
       </ModalContainer>
     </div>
   );

@@ -12,7 +12,7 @@ interface Props {
   onClose: () => void;
 }
 
-export default function PaymentMethods({ paymentMethod, onClose }: Props) {
+export default function PaymentMethods({ paymentMethod, onClose, t }: Props) {
   const [createStripeConnect, { isLoading }] =
     useProviderStripeConnectMutation();
 
@@ -38,10 +38,20 @@ export default function PaymentMethods({ paymentMethod, onClose }: Props) {
       >
         <TextInput
           name="stripe_connect_account_id"
-          label="Account Number"
-          placeholder="Please enter your stripe connect account id"
+          label={
+            t?.provider_profile.settings.payment_information.dialog
+              .account_number
+          }
+          placeholder={
+            t?.provider_profile.settings.payment_information.dialog
+              .pleace_holder
+          }
+          required
         />
-        <SubmitButton title="Save" isLoading={isLoading} />
+        <SubmitButton
+          title={t?.provider_profile.settings.payment_information.dialog.save}
+          isLoading={isLoading}
+        />
       </AppForm>
     </div>
   );

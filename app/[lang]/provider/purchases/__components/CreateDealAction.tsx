@@ -93,7 +93,7 @@ export default function CreateDealAction({ title, t, provider_id }: Props) {
             isOpen={isScannerOpen}
             onClose={() => setIsScannerOpen(!isScannerOpen)}
           >
-            <ScanVoucher setScanModal={setIsScannerOpen} />
+            <ScanVoucher setScanModal={setIsScannerOpen} t={t} />
           </ModalContainer>
         </div>
       </div>

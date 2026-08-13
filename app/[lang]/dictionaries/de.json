@@ -724,6 +724,13 @@
   },
   "provider_profile": {
     "dashboard": {
+      "nav": {
+        "dashboard": "Dashboard",
+        "deals": "Deals",
+        "messages": "Nachrichten",
+        "settings": "Einstellungen"
+      },
+
       "stats_1": {
         "deals_sold_total": "Verkaufte Deals (Insgesamt)",
         "all_time": "Gesamtzeitraum",
@@ -760,12 +767,22 @@
         "continue": "Weiter"
       },
       "promo_create_deals": {
-        "scan_voucher": "Gutschein scannen",
-        "scan_voucher_description": "Scanne einen QR-Code, um einen Gutschein einzulösen und sofort zu validieren.",
-        "create_deal": "Neuen Deal erstellen",
-        "create_deal_description": "Erstelle in wenigen Minuten einen neuen Deal und gewinne mehr Kunden.",
-        "scan_now": "Jetzt scannen",
-        "create_new_deal": "Neuen Deal erstellen"
+        "scan": {
+          "title": "Gutschein scannen",
+          "description": "Scanne einen QR-Code, um einen Gutschein einzulösen und sofort zu validieren.",
+          "note": "Benutzerdefinierte Notiz hinzufügen (Optional)",
+          "input_placeholder": "Notizen vor dem Scannen eingeben",
+          "qr_title": "Warte auf Barcode-Scanner...",
+          "qr_desc_1": "Betätige den Auslöser deines USB-Hardware-Scanners. Die Webcam öffnet sich automatisch in",
+          "qr_desc_2": "oder bei Nichtbenutzung.",
+          "btn": "Webcam jetzt öffnen"
+        },
+        "create_deal": {
+          "title": "Neuen Deal erstellen",
+          "description": "Erstelle in wenigen Minuten einen neuen Deal und gewinne mehr Kunden.",
+          "scan_now": "Jetzt scannen",
+          "create_new_deal": "Neuen Deal erstellen"
+        }
       },
 
       "deals_purchased": {
@@ -783,7 +800,15 @@
           "rating": "Bewertung",
           "purchase": "Kauf",
           "revenue": "Umsatz",
-          "status": "Status"
+          "status": "Status",
+          "filter_by": {
+            "title": "Filter",
+            "desc": "Deals filtern",
+            "this_month": "Diesen Monat",
+            "previous_month": "Letzten Monat",
+            "redeemed": "Eingelöst",
+            "not_redeemed": "Nicht eingelöst"
+          }
         }
       },
 
@@ -929,6 +954,11 @@
         "payment_method": {
           "title": "Zahlungsmethode",
           "edit": "Bearbeiten"
+        },
+        "dialog": {
+          "account_number": "Kontonummer",
+          "pleace_holder": "Gib deine Stripe-Konto-ID ein",
+          "save": "Speichern"
         }
       },
       "notifications": {

@@ -75,8 +75,6 @@ export default async function Page({ searchParams, params }: Props) {
     },
   ];
 
-  console.log(provider_profile);
-
   return (
     <Container>
       <div className="space-y-6 text-gray-800 py-4">
@@ -94,7 +92,7 @@ export default async function Page({ searchParams, params }: Props) {
             <h2 className="text-2xl font-semibold text-gray-900">
               {t.provider_profile.dashboard.deals_purchased?.title}
             </h2>
-            <FilterDeals />
+            <FilterDeals t={t} />
           </div>
           <PurchasesTable purchases={purchases?.data} t={t} />
         </div>

@@ -1,34 +1,36 @@
-import Dasboard from "@/app/components/icons/Dasboard";
-import DealIcon from "@/app/components/icons/DealIcon";
-import MessageIcon from "@/app/components/icons/MessageIcon";
-import Settings from "@/app/components/icons/Settings";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 export interface IProviderNavItem {
-  icon: React.FC<{ size: number; color: string }>;
+  iconName: "dashboard" | "deals" | "messages" | "settings";
   label: string;
   href: string;
 }
 
-export const providerNavItems: IProviderNavItem[] = [
-  {
-    icon: Dasboard,
-    label: "Dashboard",
-    href: "/provider",
-  },
-  {
-    icon: DealIcon,
-    label: "Deals",
-    href: "/provider/deals",
-  },
-  {
-    icon: MessageIcon,
-    label: "Messages",
-    href: "/provider/message",
-  },
+export const getProviderNavLinks = async (
+  lang: string,
+): Promise<IProviderNavItem[]> => {
+  const dict = await getDictionary(lang);
 
-  {
-    icon: Settings,
-    label: "Settings",
-    href: "/provider/settings",
-  },
-];
+  return [
+    {
+      iconName: "dashboard",
+      label: dict.provider_profile.dashboard.nav.dashboard,
+      href: "/provider",
+    },
+    {
+      iconName: "deals",
+      label: dict.provider_profile.dashboard.nav.deals,
+      href: "/provider/deals",
+    },
+    {
+      iconName: "messages",
+      label: dict.provider_profile.dashboard.nav.messages,
+      href: "/provider/message",
+    },
+    {
+      iconName: "settings",
+      label: dict.provider_profile.dashboard.nav.settings,
+      href: "/provider/settings",
+    },
+  ];
+};

@@ -4,23 +4,38 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import logo from "@/public/logo/brand_logo.png";
-import { providerNavItems } from "./HeaderLinks";
 import UserDropdown from "@/app/components/layouts/UserDropdown";
 import Container from "@/app/components/shared/Container";
 import { NotificationBell } from "./NotificationBell";
-
 import { useUnreadMessageCount } from "@/redux/hooks/useUnreadMessageCount";
+import { IProviderNavItem } from "./HeaderLinks";
+
+// Import your icon components directly inside the Client Component
+import Dasboard from "@/app/components/icons/Dasboard";
+import DealIcon from "@/app/components/icons/DealIcon";
+import MessageIcon from "@/app/components/icons/MessageIcon";
+import Settings from "@/app/components/icons/Settings";
+
+// Icon lookup dictionary
+const iconMap = {
+  dashboard: Dasboard,
+  deals: DealIcon,
+  messages: MessageIcon,
+  settings: Settings,
+};
 
 interface HeaderProps {
   lang: string;
   profileInfo: any;
   notifications: any[];
+  navItems: IProviderNavItem[];
 }
 
 export default function Header({
   lang,
   profileInfo,
   notifications,
+  navItems,
 }: HeaderProps) {
   const pathname = usePathname();
   const unreadCount = useUnreadMessageCount();
@@ -52,10 +67,10 @@ export default function Header({
             </Link>
           </div>
 
-          {/* Desktop Navigation - Matched precisely with image_71d0dd.png */}
+          {/* Desktop Navigation */}
           <nav className="hidden items-center rounded-full border border-gray-100/70 bg-gray-100 p-1 lg:flex gap-1">
-            {providerNavItems.map((item) => {
-              const Icon = item.icon;
+            {navItems?.map((item: IProviderNavItem) => {
+              const Icon = iconMap[item.iconName];
               const fullHref = `/${lang}${item.href}`;
               const isActive = isActiveRoute(item.href);
               const isMessageItem = item.href.includes("message");
@@ -70,7 +85,9 @@ export default function Header({
                       : "text-[#637381] hover:text-gray-900 hover:bg-gray-200/50"
                   }`}
                 >
-                  <Icon color={isActive ? "#FFFFFF" : "#637381"} size={18} />
+                  {Icon && (
+                    <Icon color={isActive ? "#FFFFFF" : "#637381"} size={18} />
+                  )}
                   <span>{item.label}</span>
                   {isMessageItem && unreadCount > 0 && (
                     <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[10px] font-bold text-white shadow-xs">
@@ -94,8 +111,8 @@ export default function Header({
 
         {/* Mobile Navigation */}
         <nav className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t border-gray-100 bg-white px-4 py-2 shadow-lg lg:hidden">
-          {providerNavItems.map((item) => {
-            const Icon = item?.icon;
+          {navItems?.map((item: IProviderNavItem) => {
+            const Icon = iconMap[item?.iconName];
             const fullHref = `/${lang}${item?.href}`;
             const isActive = isActiveRoute(item?.href);
             const isMessageItem = item?.href?.includes("message");
@@ -109,7 +126,9 @@ export default function Header({
                 }`}
               >
                 <div className="relative">
-                  <Icon size={20} color={isActive ? "#2bb4c4" : "#637381"} />
+                  {Icon && (
+                    <Icon size={20} color={isActive ? "#2bb4c4" : "#637381"} />
+                  )}
                   {isMessageItem && unreadCount > 0 && (
                     <span className="absolute -top-1.5 -right-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[9px] font-bold text-white ring-1 ring-white">
                       {unreadCount > 99 ? "99+" : unreadCount}

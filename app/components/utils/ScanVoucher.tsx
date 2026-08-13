@@ -13,6 +13,7 @@ import {
 import { useVoucherRedeemMutation } from "@/redux/features/deal/deal.api";
 import { cn } from "@/lib/utils";
 import { toast } from "react-toastify";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface RedeemPayload {
   voucher_code: string;
@@ -24,8 +25,10 @@ const MODAL_CLOSE_DELAY_MS = 1500;
 
 export default function ScanVoucher({
   setScanModal,
+  t,
 }: {
   setScanModal: (value: boolean) => void;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }) {
   const [voucherRedeem, { isLoading, isSuccess }] = useVoucherRedeemMutation();
 
@@ -280,7 +283,7 @@ export default function ScanVoucher({
       {/* Custom Note input field */}
       <div className="mb-5 text-left space-y-1.5">
         <label className="block text-sm font-semibold text-gray-700">
-          Add Custom Note (Optional):
+          {t?.provider_profile?.dashboard?.promo_create_deals?.scan?.qr_title}
         </label>
         <input
           type="text"
@@ -326,15 +329,21 @@ export default function ScanVoucher({
                 <Monitor size={24} />
               </div>
               <p className="text-blue-600 font-bold tracking-tight">
-                Listening for Barcode Scanner...
+                {
+                  t?.provider_profile?.dashboard?.promo_create_deals?.scan
+                    ?.input_placeholder
+                }
               </p>
               <p className="text-sm text-gray-500 max-w-xs leading-normal">
-                Pull the trigger on your USB hardware scanner. Webcam will
-                auto-open in{" "}
-                <span className="font-semibold text-blue-600">
-                  {countdown}s
-                </span>{" "}
-                if unused.
+                {
+                  t?.provider_profile?.dashboard?.promo_create_deals?.scan
+                    ?.qr_desc_1
+                }{" "}
+                <span className="font-semibold text-blue-600">{countdown}</span>{" "}
+                {
+                  t?.provider_profile?.dashboard?.promo_create_deals?.scan
+                    ?.qr_desc_1
+                }
               </p>
               <button
                 type="button"
@@ -345,7 +354,12 @@ export default function ScanVoucher({
                 className="mt-2 inline-flex items-center space-x-2 text-xs font-semibold bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 px-3 py-1.5 rounded-md shadow-sm transition-all cursor-pointer"
               >
                 <Camera size={14} />
-                <span>Open Webcam Now</span>
+                <span>
+                  {
+                    t?.provider_profile?.dashboard?.promo_create_deals?.scan
+                      ?.btn
+                  }
+                </span>
               </button>
             </div>
           ) : (
