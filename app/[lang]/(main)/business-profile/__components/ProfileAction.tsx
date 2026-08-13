@@ -129,7 +129,11 @@ export default function ProfileAction({ business_profile, lang, t }: Props) {
         isOpen={openVoucherModal}
         onClose={() => setOpenVoucherModal(!openVoucherModal)}
       >
-        <GiftVoucherForm lang={lang} deal_id={1} t={t} />
+        <GiftVoucherForm
+          lang={lang}
+          business_profile_id={business_profile?.id}
+          t={t}
+        />
       </ModalContainer>
     </div>
   );

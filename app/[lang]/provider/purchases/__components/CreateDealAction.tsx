@@ -14,9 +14,10 @@ import { useState } from "react";
 interface Props {
   t: Awaited<ReturnType<typeof getDictionary>>;
   title: string;
+  provider_id: number;
 }
 
-export default function CreateDealAction({ title, t }: Props) {
+export default function CreateDealAction({ title, t, provider_id }: Props) {
   const [openVoucherModal, setOpenVoucherModal] = useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const dispatch = useAppDispatch();
@@ -79,7 +80,11 @@ export default function CreateDealAction({ title, t }: Props) {
             isOpen={openVoucherModal}
             onClose={() => setOpenVoucherModal(!openVoucherModal)}
           >
-            <GiftVoucherForm deal_id={1} lang="en" t={t} />
+            <GiftVoucherForm
+              business_profile_id={provider_id}
+              lang="en"
+              t={t}
+            />
           </ModalContainer>
 
           <ModalContainer

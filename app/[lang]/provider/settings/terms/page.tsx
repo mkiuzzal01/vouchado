@@ -1,10 +1,20 @@
 import { getTerms } from "@/actions/quires/policy.api";
 import NotFoundData from "@/app/components/shared/NotFoundData";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
-export default async function page() {
+interface Props {
+  params: Promise<{ lang: string }>;
+}
+
+export default async function page({ params }: Props) {
+  const { lang } = await params;
+  const t = (await getDictionary(lang)) as Awaited<
+    ReturnType<typeof getDictionary>
+  >;
   const termsCondition = await getTerms();
 
-  if (!termsCondition?.data) return <NotFoundData title="No Terms Found" />;
+  if (!termsCondition?.data)
+    return <NotFoundData title={t.shared.utility.no_data} />;
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6">

@@ -63,7 +63,7 @@ export default function GiftVoucherCart({ lang, deal_id, t }: Props) {
         </div>
       </div>
       <ModalContainer
-        title="Buy Gift Voucher"
+        title={t?.provider_profile?.dashboard?.create_gift_voucher?.subtitle}
         width="xl"
         isOpen={openGiftVoucherModal}
         onClose={() => setOpenGiftVoucherModal(false)}
@@ -72,7 +72,7 @@ export default function GiftVoucherCart({ lang, deal_id, t }: Props) {
           t={t}
           onClose={() => setOpenGiftVoucherModal(false)}
           lang={lang}
-          deal_id={deal_id}
+          business_profile_id={deal_id}
         />
       </ModalContainer>
     </div>

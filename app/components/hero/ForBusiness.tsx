@@ -20,15 +20,15 @@ export default function ForBusiness({ t }: Props) {
         />
 
         <div className="relative z-10 flex min-h-[300px] lg:min-h-[500px] flex-col items-center justify-center text-center space-y-5 px-6">
-          <h1 className="text-2xl md:text-[48px] lg:text-[64px] xl:text-[88px] font-bold text-white leading-[1.15] tracking-tight">
-            {t?.for_business?.title?.title_1} {t?.for_business?.title?.title_2}
+          <h1 className="text-2xl md:text-[48px] lg:text-[64px] xl:text-[80px] font-bold text-white leading-[1.15] tracking-tight">
+            {t?.for_business?.launch_offer?.title_1}{" "}
             <span className="bg-linear-to-r from-[#5ACCD3] to-[#2de2ea] bg-clip-text text-transparent">
-              <br /> {t?.for_business?.title?.title_3}
+              <br /> {t?.for_business?.launch_offer?.title_2}
             </span>
           </h1>
 
           <p className="text-xl md:text-3xl font-semibold text-[#DFE3E8]">
-            {t?.for_business?.title?.desc}
+            {t?.for_business?.launch_offer?.desc}
           </p>
         </div>
       </Container>

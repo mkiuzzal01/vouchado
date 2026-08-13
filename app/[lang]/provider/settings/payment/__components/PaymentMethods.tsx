@@ -1,4 +1,5 @@
 "use client";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import SubmitButton from "@/app/components/buttons/SubmitButton";
 import AppForm from "@/app/components/forms/AppForm";
 import TextInput from "@/app/components/forms/inputs/TextInput";
@@ -6,6 +7,7 @@ import { useProviderStripeConnectMutation } from "@/redux/features/provider/sett
 import { toast } from "react-toastify";
 
 interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   paymentMethod: any;
   onClose: () => void;
 }

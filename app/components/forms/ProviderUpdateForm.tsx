@@ -455,7 +455,7 @@ export default function ProviderUpdateForm({
               {t?.provider_profile?.provider?.form?.cancel || "Cancel"}
             </button>
             <SubmitButton
-              title={t?.provider_profile?.provider?.form?.update || "Update"}
+              title={t?.provider_profile?.provider?.  form?.update || "Update"}
               isLoading={isLoading}
               className="rounded-full text-xs font-semibold p-5"
             />

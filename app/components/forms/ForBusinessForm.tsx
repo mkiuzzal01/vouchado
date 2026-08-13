@@ -24,10 +24,10 @@ export default function ForBusinessForm({ lang, t }: Props) {
       {/* Section Header */}
       <div className="select-none">
         <h2 className=" text-2xl lg:text-[32px] font-bold text-gray-900 tracking-tight">
-          {t.for_business?.for_business_section_right?.title}
+          {t?.for_business?.for_business_section_right?.title}
         </h2>
         <p className="text-[#637381] font-normal mt-0.5">
-          {t.for_business?.for_business_section_right.description}
+          {t?.for_business?.for_business_section_right.description}
         </p>
       </div>
 
@@ -38,80 +38,82 @@ export default function ForBusinessForm({ lang, t }: Props) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
             <TextInput
               disabled
-              label={t.for_business?.for_business_section_right?.business_name}
+              label={t?.for_business?.for_business_section_right?.business_name}
               name="businessName"
               placeholder={
-                t.for_business?.for_business_section_right
+                t?.for_business?.for_business_section_right
                   ?.business_name_placeholder
               }
             />
 
             <TextInput
               disabled
-              label={t.for_business?.for_business_section_right?.contact_person}
+              label={
+                t?.for_business?.for_business_section_right?.contact_person
+              }
               name="contactPerson"
               placeholder={
-                t.for_business?.for_business_section_right
+                t?.for_business?.for_business_section_right
                   ?.contact_person_placeholder
               }
             />
 
             <TextInput
               disabled
-              label={t.for_business?.for_business_section_right?.email}
+              label={t?.for_business?.for_business_section_right?.email}
               type="email"
               name="emailAddress"
               placeholder={
-                t.for_business?.for_business_section_right?.email_placeholder
+                t?.for_business?.for_business_section_right?.email_placeholder
               }
             />
 
             <TextInput
               disabled
-              label={t.for_business?.for_business_section_right?.phone_number}
+              label={t?.for_business?.for_business_section_right?.phone_number}
               type="tel"
               name="phoneNumber"
               placeholder={
-                t.for_business?.for_business_section_right
+                t?.for_business?.for_business_section_right
                   ?.phone_number_placeholder
               }
             />
             <TextInput
               disabled
               label={
-                t.for_business?.for_business_section_right?.business_category
+                t?.for_business?.for_business_section_right?.business_category
               }
               type="text"
               name="category"
               placeholder={
-                t.for_business?.for_business_section_right
+                t?.for_business?.for_business_section_right
                   ?.business_category_placeholder
               }
             />
 
             <TextInput
               disabled
-              label={t.for_business?.for_business_section_right?.city}
+              label={t?.for_business?.for_business_section_right?.city}
               name="city"
               placeholder={
-                t.for_business?.for_business_section_right?.city_placeholder
+                t?.for_business?.for_business_section_right?.city_placeholder
               }
             />
           </div>
 
           <SubmitButton
-            title="Register Now - It's Free"
+            title={t?.for_business?.for_business_section_right?.submit_button}
             className="w-full rounded-full h-12  font-semibold"
           />
         </div>
         <div className="mt-4">
           <p className="text-[#637381] text-xs lg:text-base font-semibold text-center">
-            Already have an account yet?
+            {t?.for_business?.for_business_section_right?.login_prompt}
             <Link
               href={`/${lang}/provider-login`}
               className="text-[#29b6be] font-bold ml-1 hover:underline"
             >
-              Log in
+              {t?.for_business?.for_business_section_right?.login_link}
             </Link>
           </p>
         </div>

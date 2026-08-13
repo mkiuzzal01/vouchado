@@ -1,7 +1,8 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import ContactForm from "@/app/components/forms/ContactForm";
-import Container from "@/app/components/shared/Container";
 import bg_image from "@/public/section-headers/Hero Section (6).png";
 import QuickResponse from "@/app/components/icons/QuickResponse";
 import RealPeople from "@/app/components/icons/RealPeaple";
@@ -40,25 +41,29 @@ interface ContactUsProps {
 }
 
 export default function ContactUs({ lang, systemInfo, t }: ContactUsProps) {
+  const contactData = t?.contact;
+
   const getSidebarInfo = (systemInfo?: SystemInfo): SidebarInfo[] => [
     {
       id: 1,
-      label: t.contact.contact_info.email.title,
-      value: systemInfo?.email || t.contact.contact_info.email.value,
+      label: contactData?.contact_info?.email?.title || "E-Mail",
+      value: systemInfo?.email || contactData?.contact_info?.email?.value || "",
       iconPath: <MailIcon />,
     },
     {
       id: 2,
-      label: t.contact.contact_info.phone.title,
-      value: systemInfo?.number || t.contact.contact_info.phone.value,
-      subValue: t.contact.contact_info.phone.time,
+      label: contactData?.contact_info?.phone?.title || "Telefon",
+      value:
+        systemInfo?.number || contactData?.contact_info?.phone?.value || "",
+      subValue: contactData?.contact_info?.phone?.time || "",
       iconPath: <Phone />,
     },
     {
       id: 3,
-      label: t.contact.contact_info.address.title,
-      value: systemInfo?.address || t.contact.contact_info.address.value,
-      iconPath: <LocationIcon color="#ffff" />,
+      label: contactData?.contact_info?.address?.title || "Adresse",
+      value:
+        systemInfo?.address || contactData?.contact_info?.address?.value || "",
+      iconPath: <LocationIcon color="#ffffff" />,
     },
   ];
 
@@ -67,64 +72,77 @@ export default function ContactUs({ lang, systemInfo, t }: ContactUsProps) {
   const TRUST_BADGES: TrustBadge[] = [
     {
       id: 1,
-      label: t.contact.quick_response,
-      subLabel: t.contact.quick_response_sub,
+      label: contactData?.quick_response || "Schnelle Antwort",
+      subLabel: contactData?.quick_response_sub || "",
       iconPath: <QuickResponse />,
     },
     {
       id: 2,
-      label: t.contact.real_people,
-      subLabel: t.contact.real_people_sub,
+      label: contactData?.real_people || "Echte Menschen",
+      subLabel: contactData?.real_people_sub || "",
       iconPath: <RealPeople />,
     },
     {
       id: 3,
-      label: t.contact.secure_100,
-      subLabel: t.contact.secure_100_sub,
+      label: contactData?.secure_100 || "100 % Sicher",
+      subLabel: contactData?.secure_100_sub || "",
       iconPath: <Secure100 />,
     },
   ];
 
   return (
-    <section className="relative mx-auto w-full max-w-full 2xl:w-[1856px] overflow-hidden py-10 px-4 sm:px-8 2xl:py-16 2xl:ps-[80px] 2xl:pe-[64px] rounded-2xl sm:rounded-[32px]">
+    <section className="relative mx-auto w-full max-w-full 2xl:w-[1856px] overflow-hidden py-10 px-4 sm:px-8 2xl:py-16 2xl:ps-[80px] 2xl:pe-[64px] rounded-2xl sm:rounded-[32px] shadow-2xl">
       {/* Background Image */}
       <Image
         src={bg_image}
-        alt="Background"
+        alt="Background Pattern"
         fill
         priority
         className="object-cover object-center"
       />
 
-      <div className="relative z-10 grid grid-cols-1 xl:grid-cols-12 gap-8 xl:gap-8 items-start">
-        {/* LEFT COLUMN */}
-        <div className="xl:col-span-5 flex flex-col h-full space-y-8 sm:space-y-12 text-left">
+      <div className="relative z-10 grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+        {/* LEFT COLUMN: Headings & Trust Badges */}
+        <div className="xl:col-span-5 flex flex-col justify-between h-full space-y-8 sm:space-y-12 text-left">
           <div className="space-y-4 sm:space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-white/90 text-xs font-bold tracking-wide uppercase max-w-max">
+            {/* Top Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-white text-xs font-bold tracking-wide uppercase max-w-max">
               <HeadPhone />
-              <span>{t.contact.badge}</span>
+              <span>{contactData?.badge || "WIR SIND FÜR DICH DA"}</span>
             </div>
 
-            <h2 className="text-3xl sm:text-5xl lg:text-[64px] font-bold text-white tracking-tight leading-tight sm:leading-[1.1]">
-              {t.contact.heading}
+            {/* Title with Cyan Highlight */}
+            <h2 className="text-3xl sm:text-5xl lg:text-[56px] font-extrabold text-white tracking-tight leading-[1.15]">
+              {contactData?.heading_1 || "Hast du eine Frage oder brauchst du"}{" "}
+              <span className="text-[#1ec6cc]">
+                {contactData?.heading_highlight || "Unterstützung?"}
+              </span>
             </h2>
 
-            <p className="text-base sm:text-lg text-white/80">
-              {t.contact.subheading}
+            {/* Subheading with Highlighted Text */}
+            <p className="text-base sm:text-lg text-white/90 leading-relaxed max-w-xl">
+              {contactData?.subheading_1 ||
+                "Schreib uns einfach eine Nachricht."}{" "}
+              {contactData?.subheading_2 || "Unser Team"}{" "}
+              <span className="font-bold text-white">
+                {contactData?.subheading_highlight ||
+                  "meldet sich so schnell wie möglich"}
+              </span>{" "}
+              {contactData?.subheading_3 || "bei dir."}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-2 lg:pt-6">
+          {/* Trust Badges Bar */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-white/10">
             {TRUST_BADGES.map((badge) => (
-              <div key={badge.id} className="space-y-1">
-                <div className="flex items-center gap-1.5 text-white">
-                  <span>{badge.iconPath}</span>
-                  <span className="text-base sm:text-lg font-semibold">
+              <div key={badge.id} className="space-y-1.5">
+                <div className="flex items-center gap-2 text-white">
+                  <span className="shrink-0">{badge.iconPath}</span>
+                  <span className="text-sm sm:text-base font-bold whitespace-nowrap">
                     {badge.label}
                   </span>
                 </div>
-
-                <p className="text-xs sm:text-sm font-normal text-white/80">
+                <p className="text-xs sm:text-sm text-white/75 leading-snug">
                   {badge.subLabel}
                 </p>
               </div>
@@ -132,30 +150,31 @@ export default function ContactUs({ lang, systemInfo, t }: ContactUsProps) {
           </div>
         </div>
 
-        {/* CENTER COLUMN */}
+        {/* CENTER COLUMN: Form Container */}
         <div className="xl:col-span-5 w-full">
           <ContactForm locale={lang} t={t} />
         </div>
 
-        {/* RIGHT COLUMN */}
+        {/* RIGHT COLUMN: Contact Cards */}
         <div className="xl:col-span-2 flex flex-col gap-4">
           {sidebarInfo.map((info) => (
             <div
               key={info.id}
-              className="flex items-start gap-4 bg-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-white/30 backdrop-blur-sm"
+              className="flex items-start gap-4 bg-white/10 rounded-2xl sm:rounded-3xl p-4 sm:p-5 border border-white/20 backdrop-blur-md hover:bg-white/15 transition-all duration-200"
             >
-              <div>{info.iconPath}</div>
-              <div>
-                <span className="text-lg sm:text-xl font-bold tracking-wide text-white">
+              <div className="shrink-0 p-2.5 rounded-full bg-white/10 text-white">
+                {info.iconPath}
+              </div>
+              <div className="min-w-0 flex-1">
+                <span className="text-base sm:text-lg font-bold tracking-wide text-white block">
                   {info.label}
                 </span>
-                <div className="mt-2 sm:mt-3 space-y-0.5">
-                  <p className="font-medium text-white text-sm sm:text-base break-all">
+                <div className="mt-1 space-y-0.5">
+                  <p className="font-semibold text-white text-xs sm:text-sm break-all">
                     {info.value}
                   </p>
-
                   {info.subValue && (
-                    <p className="font-normal text-white/80 text-xs sm:text-sm">
+                    <p className="font-normal text-white/75 text-xs">
                       {info.subValue}
                     </p>
                   )}

@@ -10,6 +10,7 @@ import { getProviderRevenueStats } from "@/actions/quires/stats.api";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import { getActiveDeals } from "@/actions/quires/deals.api";
 import { getDictionary } from "../../dictionaries";
+import { getBusniessProfile } from "@/actions/quires/user.api";
 
 interface IProps {
   searchParams: Promise<{ search: string; status: string }>;
@@ -24,6 +25,7 @@ export default async function DealsPage({ searchParams, params }: IProps) {
   >;
 
   const revenueStats = await getProviderRevenueStats();
+  const provider_profile = await getBusniessProfile();
 
   const query = new URLSearchParams();
   if (search) query.set("search", search);
@@ -76,6 +78,7 @@ export default async function DealsPage({ searchParams, params }: IProps) {
   return (
     <Container className="py-6 space-y-8 bg-slate-50/50 min-h-screen">
       <CreateDealAction
+        provider_id={provider_profile?.data?.id}
         title={
           t?.provider_profile?.dashboard?.deals_purchased?.purchase_deals?.title
         }

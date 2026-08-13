@@ -38,7 +38,11 @@ export default function CreateGiftVoucher({ profileInfo, lang, t }: Props) {
         isOpen={openVoucherModal}
         onClose={() => setOpenVoucherModal(!openVoucherModal)}
       >
-        <GiftVoucherForm t={t} lang={lang} deal_id={1} />
+        <GiftVoucherForm
+          t={t}
+          lang={lang}
+          business_profile_id={profileInfo?.id}
+        />
       </ModalContainer>
     </div>
   );

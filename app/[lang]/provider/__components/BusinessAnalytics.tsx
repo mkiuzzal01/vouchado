@@ -24,17 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-
-const chartConfig = {
-  revenue: {
-    label: "Revenue",
-    color: "#1ec6cc",
-  },
-  purchases_count: {
-    label: "Purchase",
-    color: "#e2e8f0",
-  },
-} satisfies ChartConfig;
+import { getDictionary } from "../../dictionaries";
 
 interface ChartDataItem {
   date: string;
@@ -44,6 +34,7 @@ interface ChartDataItem {
 }
 
 interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   analytics: {
     chart_data?: ChartDataItem[];
     summary?: {
@@ -54,19 +45,33 @@ interface Props {
   };
 }
 
-export default function BusinessAnalytics({ analytics }: Props) {
+export default function BusinessAnalytics({ analytics, t }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
+  const chartConfig = {
+    revenue: {
+      label: t.provider_profile?.settings?.analytics?.legend.revenue,
+      color: "#1ec6cc",
+    },
+    purchases_count: {
+      label: t.provider_profile?.settings?.analytics?.legend.purchases,
+      color: "#e2e8f0",
+    },
+  } satisfies ChartConfig;
+
   // Read current active matching presets
-  const currentFilter = searchParams.get("filter") || "this_month";
+  const currentFilter =
+    searchParams.get("filter") ||
+    t.provider_profile?.settings?.analytics?.filter?.this_month;
 
   // Text label mapper for the trigger indicator element
   const filterLabels: Record<string, string> = {
-    this_week: "This Week",
-    this_month: "This Month",
-    last_3_months: "Last 3 Months",
+    this_week: t.provider_profile?.settings?.analytics?.filter?.this_week,
+    this_month: t.provider_profile?.settings?.analytics?.filter?.this_month,
+    last_3_months:
+      t.provider_profile?.settings?.analytics?.filter?.last_3_months,
   };
 
   const handleFilterChange = (filterValue: string) => {
@@ -110,7 +115,7 @@ export default function BusinessAnalytics({ analytics }: Props) {
       {/* Top Header Section */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-          Business Analytics
+          {t.provider_profile?.settings?.analytics?.title}
         </h1>
 
         <DropdownMenu>
@@ -119,7 +124,9 @@ export default function BusinessAnalytics({ analytics }: Props) {
               variant="outline"
               className="rounded-full bg-white text-xs font-semibold px-4 py-2 border-slate-200 text-slate-700 shadow-sm gap-2 hover:bg-slate-50 capitalize"
             >
-              {filterLabels[currentFilter] || "Select Filter"}{" "}
+              {filterLabels[currentFilter] ||
+                t.provider_profile?.settings?.analytics?.filter
+                  ?.select_filter}{" "}
               <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
             </Button>
           </DropdownMenuTrigger>
@@ -128,15 +135,15 @@ export default function BusinessAnalytics({ analytics }: Props) {
             className="rounded-xl bg-white border-slate-100 text-xs text-slate-700"
           >
             <DropdownMenuItem onClick={() => handleFilterChange("this_week")}>
-              This Week
+              {t.provider_profile?.settings?.analytics?.filter?.this_week}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleFilterChange("this_month")}>
-              This Month
+              {t.provider_profile?.settings?.analytics?.filter?.this_month}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => handleFilterChange("last_3_months")}
             >
-              Last 3 Months
+              {t.provider_profile?.settings?.analytics?.filter?.last_3_months}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -146,17 +153,22 @@ export default function BusinessAnalytics({ analytics }: Props) {
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-sm font-bold text-[#1ec6cc] tracking-wide">
-            Total Revenue: ${analytics?.summary?.total_revenue ?? 0}
+            {t.provider_profile?.settings?.analytics?.total_revenue}: $
+            {analytics?.summary?.total_revenue ?? 0}
           </h2>
 
           <div className="flex items-center gap-6 text-xs font-semibold text-slate-400">
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-md bg-[#1ec6cc]" />
-              <span>Revenue</span>
+              <span>
+                {t.provider_profile?.settings?.analytics?.legend.revenue}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <span className="w-3 h-3 rounded-md bg-[#e2e8f0]" />
-              <span>Purchase</span>
+              <span>
+                {t.provider_profile?.settings?.analytics?.legend.purchases}
+              </span>
             </div>
           </div>
         </div>

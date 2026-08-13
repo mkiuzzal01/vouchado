@@ -6,8 +6,13 @@ import { FieldValues } from "react-hook-form";
 import { useChangePasswordMutation } from "@/redux/features/user/user.api";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
-export default function ProviderChangePassForm() {
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function ProviderChangePassForm({ t }: Props) {
   const router = useRouter();
   const [changePassword, { isLoading }] = useChangePasswordMutation();
 
@@ -31,28 +36,49 @@ export default function ProviderChangePassForm() {
             required
             type="password"
             name="old_password"
-            label="Current Password"
-            placeholder="Enter Current Password"
+            label={
+              t?.provider_profile?.settings?.change_password?.current_password
+                ?.label || "Current Password"
+            }
+            placeholder={
+              t?.provider_profile?.settings?.change_password?.current_password
+                ?.placeholder || "Enter Current Password"
+            }
           />
           <TextInput
             required
             type="password"
             name="password"
-            label="New Password"
-            placeholder="Enter New Password"
+            label={
+              t?.provider_profile?.settings?.change_password?.new_password
+                ?.label || "New Password"
+            }
+            placeholder={
+              t?.provider_profile?.settings?.change_password?.new_password
+                ?.placeholder || "Enter New Password"
+            }
           />
           <TextInput
             required
             type="password"
             name="password_confirmation"
-            label="Confirm New Password"
-            placeholder="Confirm New Password"
+            label={
+              t?.provider_profile?.settings?.change_password?.confirm_password
+                ?.label || "Confirm New Password"
+            }
+            placeholder={
+              t?.provider_profile?.settings?.change_password?.confirm_password
+                ?.placeholder || "Confirm New Password"
+            }
           />
         </div>
         <div className="flex justify-end">
           <SubmitButton
             isLoading={isLoading}
-            title="Update"
+            title={
+              t?.provider_profile?.settings?.change_password?.update_button ||
+              "Update"
+            }
             className="py-6 w-1/4 rounded-full"
           />
         </div>

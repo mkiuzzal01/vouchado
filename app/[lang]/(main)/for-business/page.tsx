@@ -13,7 +13,9 @@ interface Props {
 
 export default async function page({ params }: Props) {
   const { lang } = await params;
-  const t = await getDictionary(lang);
+  const t = (await getDictionary(lang)) as Awaited<
+    ReturnType<typeof getDictionary>
+  >;
   return (
     <>
       <ForBusiness t={t} />

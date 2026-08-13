@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useUpdateNotificationMutation } from "@/redux/features/provider/settings.api";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface NotificationSetting {
   id: keyof NotificationPreferences;
@@ -19,10 +20,11 @@ interface NotificationPreferences {
 }
 
 interface IProps {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   notifications: NotificationPreferences;
 }
 
-export default function NotificationActions({ notifications }: IProps) {
+export default function NotificationActions({ notifications, t }: IProps) {
   const [updateNotification, { isLoading }] = useUpdateNotificationMutation();
   const [preferences, setPreferences] =
     useState<NotificationPreferences>(notifications);
@@ -34,23 +36,39 @@ export default function NotificationActions({ notifications }: IProps) {
   const settingsList: NotificationSetting[] = [
     {
       id: "stock_alert",
-      title: "Stock Alert",
-      description: "When stock is low and popular",
+      title:
+        t?.provider_profile?.settings?.notifications?.stock_warning?.title ||
+        "Stock Alert",
+      description:
+        t?.provider_profile?.settings?.notifications?.stock_warning
+          ?.description || "When stock is low and popular",
     },
     {
       id: "voucher_redemption",
-      title: "Voucher Redemption",
-      description: "Alert when a voucher is redeemed",
+      title:
+        t?.provider_profile?.settings?.notifications?.voucher_redemption
+          ?.title || "Voucher Redemption",
+      description:
+        t?.provider_profile?.settings?.notifications?.voucher_redemption
+          ?.description || "Alert when a voucher is redeemed",
     },
     {
       id: "voucher_purchase",
-      title: "New Voucher Purchase",
-      description: "Get notified when customers buy your vouchers",
+      title:
+        t?.provider_profile?.settings?.notifications?.new_voucher_purchase
+          ?.title || "New Voucher Purchase",
+      description:
+        t?.provider_profile?.settings?.notifications?.new_voucher_purchase
+          ?.description || "Get notified when customers buy your vouchers",
     },
     {
       id: "services_alert",
-      title: "Services Alert",
-      description: "Services create, delete and update",
+      title:
+        t?.provider_profile?.settings?.notifications?.service_notifications
+          ?.title || "Service Alert",
+      description:
+        t?.provider_profile?.settings?.notifications?.service_notifications
+          ?.description || "Services create, delete and update",
     },
   ];
 
@@ -79,7 +97,8 @@ export default function NotificationActions({ notifications }: IProps) {
     <div className="bg-white rounded-2xl border border-gray-100 p-6">
       <div className="pb-4">
         <h2 className="text-lg font-bold text-gray-900 tracking-tight">
-          Notifications
+          {t?.provider_profile?.settings?.notifications?.title ||
+            "Notifications"}
         </h2>
       </div>
 

@@ -216,18 +216,21 @@
     "deals_available": "Deals Available"
   },
   "how_it_work": {
-    "title": "How it works",
-    "how_it_work": "How to",
-    "vouchado": "Vouchado?",
-    "desc": {
-      "desc_1": "We designed Vouchado around a simple three-step journey:",
-      "desc_2": "Discover",
-      "desc_3": "Purchase",
-      "desc_4": "and",
-      "desc_5": "Redeem",
-      "desc_6": "This approach removes unnecessary complexity and creates a frictionless experience for both customers and businesses. Users can quickly find inspiring local offers, purchase vouchers in seconds, and redeem them effortlessly through a QR code. By focusing on a clear and intuitive flow, we encourage exploration, increase conversion rates, and make the entire experience easy to understand and use."
+    "how_it_work": {
+      "title": "How it works",
+      "how_it_work": "Vouchado –",
+      "vouchado": "how it works",
+      "desc": {
+        "desc_1": "Vouchado makes discovering local offers easier than ever before.",
+        "desc_2": "Find the best deals in your city, buy your voucher in a few seconds",
+        "desc_3": "and redeem it conveniently via QR code right on the spot.",
+        "desc_4": "Discover",
+        "desc_5": "Buy",
+        "desc_6": "Redeem",
+        "desc_7": "No printing, no complicated processes –",
+        "desc_8": "simply save money and discover local businesses."
+      }
     },
-
     "steps": {
       "step_1": {
         "title": "Discover Deals",
@@ -305,27 +308,30 @@
     }
   },
   "for_business": {
-    "title": {
-      "title_1": "Launch Deals in",
-      "title_2": "Minutes",
-      "title_3": "AND GROW YOUR BUSINESS",
-      "desc": "A Simple, guided flow from setup to redemption. No technical skill required."
+    "launch_offer": {
+      "title_1": "Launch your offer in a few minutes",
+      "title_2": "and increase your revenue.",
+      "desc": "Tailored to your needs and designed to optimize your business capacity."
     },
-    "launch_steps": {
+    "steps": {
       "step_1": {
-        "title": "Create your deal",
-        "desc": "Choose discount, availability, and duration in minutes."
+        "title": "Create your offer",
+        "desc_1": "Set discount, availability, and runtime –",
+        "desc_highlight": "in just a few minutes."
       },
       "step_2": {
-        "title": "Customers purchase",
-        "desc": "Users discover and buy vouchers on the marketplace."
+        "title": "Customers buy",
+        "desc_1": "Users discover your offer and buy vouchers",
+        "desc_highlight": "easily and securely",
+        "desc_2": "on the marketplace."
       },
       "step_3": {
-        "title": "Customer Redeem Vouchers",
-        "desc": "Customer visits and redeems instantly via QR code."
+        "title": "Customers redeem",
+        "desc_1": "Your customers visit and redeem their voucher hassle-free via",
+        "desc_highlight": "QR code.",
+        "desc_2": ""
       }
     },
-
     "for_business": {
       "title_1": "Register in",
       "title_2": "2 Minutes as ",
@@ -355,7 +361,10 @@
       "business_category": "Business Category",
       "business_category_placeholder": "Enter your business category",
       "city": "City",
-      "city_placeholder": "Enter your city"
+      "city_placeholder": "Enter your city",
+      "submit_button": "Register Now - It's Free",
+      "login_prompt": "Already have an account?",
+      "login_link": "Log in"
     },
 
     "why_business_with_us": {
@@ -402,20 +411,6 @@
         "opening_specials": "Opening Specials"
       }
     },
-    "steps": {
-      "step_1": {
-        "title": "Create your deal",
-        "desc": "Choose discount, availability, and duration in minutes."
-      },
-      "step_2": {
-        "title": "Customers purchase",
-        "desc": "Users discover and buy vouchers on the marketplace."
-      },
-      "step_3": {
-        "title": "Customer Redeem Vouchers",
-        "desc": "Customer visits and redeems instantly via QR code."
-      }
-    },
     "features": {
       "secure_payments": {
         "title": "Secure Payments",
@@ -439,8 +434,16 @@
       }
     },
     "promotional_banner": {
-      "title": "Ready to grow your business?",
-      "description": "Join local businesses using Vouchado to attract customers, fill unused capacity, and generate additional revenue.",
+      "title_1": "Ready to take your business",
+      "title_2": "to the next ",
+      "title_3": "level?",
+      "desc_1": "Become a Vouchado partner today, win",
+      "desc_highlight_1": "new customers,",
+      "desc_2": "fill",
+      "desc_highlight_2": "free capacities,",
+      "desc_3": "and",
+      "desc_highlight_3": "increase your revenue",
+      "desc_4": "– effortlessly.",
       "cta_primary": "Become a Partner",
       "cta_secondary": "Talk to Our Team"
     }
@@ -511,37 +514,42 @@
     }
   },
   "contact": {
-    "title": "Contact Us",
-    "badge": "WE'RE HERE TO HELP",
-    "heading": "Got a question or need support?",
-    "subheading": "Send us a message and our team will get back to you as soon as possible.",
+    "title": "Contact",
+    "badge": "WE ARE HERE FOR YOU",
+    "heading_1": "Do you have a question or need",
+    "heading_highlight": "support?",
+    "subheading_1": "Just send us a message.",
+    "subheading_2": "Our team will",
+    "subheading_highlight": "get back to you as soon as possible.",
+    "subheading_3": "",
     "quick_response": "Quick Response",
-    "quick_response_sub": "Usually within 24h",
+    "quick_response_sub": "We usually respond within 24 hours.",
     "real_people": "Real People",
-    "real_people_sub": "Here to help",
+    "real_people_sub": "You will speak with real people who are ready to help.",
     "secure_100": "100% Secure",
-    "secure_100_sub": "Your data is safe",
+    "secure_100_sub": "Your data is protected and treated with strict confidentiality.",
 
     "form": {
-      "name": "Name",
-      "email": "Email",
-      "topic": "Topic",
-      "message": "Message",
-      "name_placeholder": "Johnathan Smith",
-      "email_placeholder": "Enter your email Address",
-      "topic_placeholder": "Enter your topic",
-      "message_placeholder": "Discribe your message here...",
+      "name": "Your Name",
+      "email": "Your Email",
+      "topic": "Subject",
+      "message": "Your Message",
+      "message_required": "*",
+      "name_placeholder": "Your Name",
+      "email_placeholder": "Your Email Address",
+      "topic_placeholder": "What is this regarding?",
+      "message_placeholder": "Describe your request here ...",
       "cta": "Send Message"
     },
     "contact_info": {
       "email": {
-        "title": "E-mail",
+        "title": "Email",
         "value": "info@gmail.com"
       },
       "phone": {
         "title": "Phone",
-        "value": "+1234567890",
-        "time": "Mon - Fri : 8AM - 6PM"
+        "value": "+12120000000",
+        "time": "Mon – Fri: 8:00 – 18:00"
       },
       "address": {
         "title": "Address",
@@ -549,12 +557,13 @@
       }
     },
     "promotional_banner": {
-      "title": "Grow Your Business with VOUCHADO",
-      "description_1": "Join",
-      "description_2": "300+ businesses",
-      "description_3": "already using our platform to reach new customers, fill empty",
-      "description_4": "capacity, and increase revenue with zero upfront costs.",
-      "description_5": "300+ partners trust us",
+      "title_1": "Grow your business with",
+      "title_highlight": "VOUCHADO",
+      "title_2": "",
+      "desc_1": "Already",
+      "desc_highlight": "over 300 businesses",
+      "desc_2": "use our platform to win new customers, fill free capacity, and grow revenue – with zero upfront costs.",
+      "partner_trust": "300+ partners trust us",
       "cta_primary": "Become a Partner"
     }
   },
@@ -742,8 +751,8 @@
       "voucher_form": {
         "email": "Email Address",
         "email_placeholder": "Enter your email address",
-        "name": "Voucher title",
-        "name_placeholder": "Enter your voucher title",
+        "amount": "Amount",
+        "amount_placeholder": "Enter your amount",
         "continue": "Continue"
       },
 
@@ -772,7 +781,6 @@
           "purchase": "Purchase",
           "revenue": "Revenue",
           "status": "Status"
-          
         }
       },
 
@@ -816,14 +824,15 @@
     },
 
     "provider": {
-      "title": "Business Profile",
+      "title": "Your Business Profile",
       "subtitle": "Manage your business information and public profile",
       "edit": "Edit",
-      "edit_modal_title": "Edit Business profile",
+      "edit_modal_title": "Edit Business Profile",
       "profile_banner": "Profile Banner",
       "business_logo_alt": "Business Logo",
+      "not_specified": "Not specified",
       "withdrawal": {
-        "available_balance": "Available for Withdrawal",
+        "available_balance": "Available Balance",
         "bg_alt": "Withdrawal Background",
         "withdraw_button": "Withdraw"
       },
@@ -842,7 +851,7 @@
         }
       },
       "description": {
-        "title": "Business Description",
+        "title": "Description",
         "no_description": "No description available."
       },
       "address": {
@@ -853,14 +862,14 @@
       "payment_history": {
         "title": "Payment History",
         "columns": {
-          "date": "Date",
-          "transaction_id": "Transaction Id",
-          "amount": "Amount",
-          "status": "Status"
+          "date": "DATE",
+          "transaction_id": "TRANSACTION ID",
+          "amount": "AMOUNT",
+          "status": "STATUS"
         },
         "status": {
           "pending": "Pending",
-          "complete": "Complete",
+          "complete": "Completed",
           "declined": "Declined"
         }
       },
@@ -889,6 +898,120 @@
         "address_placeholder": "Write full address",
         "cancel": "Cancel",
         "update": "Update"
+      }
+    },
+    "settings": {
+      "sidebar": {
+        "analytics": "Analytics",
+        "payment_info": "Payment Information",
+        "notifications": "Notifications",
+        "change_password": "Change Password",
+        "activate_account": "Activate Account",
+        "terms_and_policies": "Terms & Policies"
+      },
+      "analytics": {
+        "title": "Business Analytics",
+        "total_revenue": "Total Revenue",
+        "filter": {
+          "select_filter": "Select Filter",
+          "this_week": "This Week",
+          "this_month": "This Month",
+          "last_3_months": "Last 3 Months"
+        },
+        "legend": {
+          "revenue": "Revenue",
+          "purchases": "Purchases"
+        }
+      },
+      "payment_information": {
+        "title": "Payment Information",
+        "payment_method": {
+          "title": "Payment Method",
+          "edit": "Edit"
+        }
+      },
+      "notifications": {
+        "title": "Benachrichtigungen",
+        "stock_warning": {
+          "title": "Bestandswarnung",
+          "description": "Erhalte eine Benachrichtigung, wenn der Bestand niedrig und beliebt ist."
+        },
+        "voucher_redemption": {
+          "title": "Gutscheineinlösung",
+          "description": "Erhalte eine Benachrichtigung, wenn ein Gutschein eingelöst wird."
+        },
+        "new_voucher_purchase": {
+          "title": "Neuer Gutscheinkauf",
+          "description": "Erhalte eine Benachrichtigung, wenn Kunden einen Gutschein kaufen."
+        },
+        "service_notifications": {
+          "title": "Service-Benachrichtigungen",
+          "description": "Erhalte Benachrichtigungen bei Erstellung, Aktualisierung oder Löschung von Services."
+        }
+      },
+      "change_password": {
+        "title": "Change Password",
+        "current_password": {
+          "label": "Current Password",
+          "placeholder": "Enter current password"
+        },
+        "new_password": {
+          "label": "New Password",
+          "placeholder": "Enter new password"
+        },
+        "confirm_password": {
+          "label": "Confirm New Password",
+          "placeholder": "Confirm new password"
+        },
+        "update_button": "Update"
+      },
+      "account_activation": {
+        "title": "Account Activation",
+        "processing": "Processing...",
+        "deleting": "Deleting...",
+        "activate": {
+          "title": "Activate Account",
+          "description": "Re-enable your business profile visibility",
+          "button": "Activate Account"
+        },
+        "deactivate": {
+          "title": "Deactivate Account",
+          "description": "Temporarily disable your business profile",
+          "button": "Deactivate Account"
+        },
+        "delete": {
+          "title": "Delete Account",
+          "description": "Permanently delete your account and all data",
+          "button": "Delete Account"
+        },
+        "email": {
+          "title": "Verify Email Address",
+          "description": "Verify your email address to access all features.",
+          "resend_button": "Resend Email"
+        },
+        "phone": {
+          "title": "Verify Phone Number",
+          "description": "Verify your phone number to access all features.",
+          "resend_button": "Resend SMS"
+        },
+        "dialog": {
+          "activate_title": "Activate Account?",
+          "deactivate_title": "Deactivate Account?",
+          "delete_title": "Delete Account?",
+          "activate_desc": "Are you sure you want to reactivate your business account? This will make your profile public again.",
+          "deactivate_desc": "Are you sure you want to temporarily deactivate your business account? You can log back in anytime to reactivate it.",
+          "delete_desc": "This action is completely irreversible. Your active packages, statistics profile, and data listings will be cleared instantly.",
+          "confirm_activate": "Activate",
+          "confirm_deactivate": "Deactivate",
+          "confirm_delete": "Confirm Deletion"
+        },
+        "errors": {
+          "something_went_wrong": "Something went wrong"
+        }
+      },
+      "terms_and_policies": {
+        "title": "Terms & Guidelines",
+        "description": "Here you will find all our legal documents."
       }
     }
   }

@@ -1,27 +1,41 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface SettingAsideProps {
   lang: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function SettingAside({ lang }: SettingAsideProps) {
+export default function SettingAside({ lang, t }: SettingAsideProps) {
   const pathname = usePathname();
 
   const navItems = [
-    { name: "Analytics", href: `/${lang}/provider/settings` },
-    { name: "Payment Information", href: `/${lang}/provider/settings/payment` },
-    { name: "Notifications", href: `/${lang}/provider/settings/notifications` },
     {
-      name: "Change Password",
+      name: t.provider_profile?.settings?.sidebar?.analytics,
+      href: `/${lang}/provider/settings`,
+    },
+    {
+      name: t.provider_profile?.settings?.sidebar?.payment_info,
+      href: `/${lang}/provider/settings/payment`,
+    },
+    {
+      name: t.provider_profile?.settings?.sidebar?.notifications,
+      href: `/${lang}/provider/settings/notifications`,
+    },
+    {
+      name: t.provider_profile?.settings?.sidebar?.change_password,
       href: `/${lang}/provider/settings/change-password`,
     },
     {
-      name: "Account Activation",
+      name: t.provider_profile?.settings?.sidebar?.activate_account,
       href: `/${lang}/provider/settings/activation`,
     },
-    { name: "Terms & Conditions", href: `/${lang}/provider/settings/terms` },
+    {
+      name: t.provider_profile?.settings?.sidebar?.terms_and_policies,
+      href: `/${lang}/provider/settings/terms`,
+    },
   ];
 
   return (

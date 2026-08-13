@@ -95,14 +95,14 @@ export default function Header({
         {/* Mobile Navigation */}
         <nav className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t border-gray-100 bg-white px-4 py-2 shadow-lg lg:hidden">
           {providerNavItems.map((item) => {
-            const Icon = item.icon;
-            const fullHref = `/${lang}${item.href}`;
-            const isActive = isActiveRoute(item.href);
-            const isMessageItem = item.href.includes("message");
+            const Icon = item?.icon;
+            const fullHref = `/${lang}${item?.href}`;
+            const isActive = isActiveRoute(item?.href);
+            const isMessageItem = item?.href?.includes("message");
 
             return (
               <Link
-                key={item.href}
+                key={item?.href}
                 href={fullHref}
                 className={`flex flex-col items-center gap-1 p-2 text-[10px] font-bold transition-colors ${
                   isActive ? "text-[#2bb4c4]" : "text-gray-400"
@@ -116,7 +116,7 @@ export default function Header({
                     </span>
                   )}
                 </div>
-                <span>{item.label}</span>
+                <span>{item?.label}</span>
               </Link>
             );
           })}

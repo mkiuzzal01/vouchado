@@ -10,6 +10,7 @@ import DealsRedeem from "@/app/components/icons/DealsRedeem";
 import DealYet from "@/app/components/icons/DealYet";
 import FilterDeals from "./__components/FilterDeals";
 import { getDictionary } from "../../dictionaries";
+import { getBusniessProfile } from "@/actions/quires/user.api";
 
 interface Props {
   searchParams: Promise<{
@@ -24,6 +25,7 @@ export default async function Page({ searchParams, params }: Props) {
     ReturnType<typeof getDictionary>
   >;
   const stats = await getProviderStats();
+  const provider_profile = await getBusniessProfile();
   const { filter } = await searchParams;
 
   const query = new URLSearchParams();
@@ -73,10 +75,13 @@ export default async function Page({ searchParams, params }: Props) {
     },
   ];
 
+  console.log(provider_profile);
+
   return (
     <Container>
       <div className="space-y-6 text-gray-800 py-4">
         <CreateDealAction
+          provider_id={provider_profile?.data?.id}
           title={
             t?.provider_profile?.dashboard?.deals_purchased?.purchase_deals
               ?.title

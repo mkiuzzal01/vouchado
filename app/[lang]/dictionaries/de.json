@@ -220,16 +220,20 @@
     "deals_available": "Verfügbare Angebote"
   },
   "how_it_work": {
-    "title": "So funktioniert's",
-    "how_it_work": "So geht's",
-    "vouchado": "Vouchado?",
-    "desc": {
-      "desc_1": "Wir haben Vouchado um einen einfachen Drei-Schritte-Prozess herum entwickelt:",
-      "desc_2": "Kaufen",
-      "desc_3": "Einlösen",
-      "desc_4": "und",
-      "desc_5": "Freischalten",
-      "desc_6": "Dieser Ansatz eliminiert unnötige Komplexität und schafft ein reibungsloses Erlebnis für Kunden und Unternehmen gleichermaßen. Nutzer können schnell inspirierende lokale Angebote finden, Gutscheine in Sekundenschnelle kaufen und diese mühelos über einen QR-Code einlösen. Durch die Konzentration auf einen klaren und intuitiven Ablauf fördern wir das Entdecken, steigern die Konversionsraten und machen das gesamte Erlebnis einfach zu verstehen und zu nutzen."
+    "how_it_work": {
+      "title": "So funktioniert's",
+      "how_it_work": "Vouchado –",
+      "vouchado": "so funktioniert’s",
+      "desc": {
+        "desc_1": "Vouchado macht das Entdecken lokaler Angebote so einfach wie nie zuvor.",
+        "desc_2": "Finde die besten Deals deiner Stadt, kaufe deinen Gutschein in wenigen Sekunden",
+        "desc_3": "und löse ihn ganz bequem per QR-Code direkt vor Ort ein.",
+        "desc_4": "Entdecken",
+        "desc_5": "Kaufen",
+        "desc_6": "Einlösen",
+        "desc_7": "Kein Ausdrucken, keine komplizierten Abläufe –",
+        "desc_8": "einfach sparen und lokale Unternehmen entdecken."
+      }
     },
     "steps": {
       "step_1": {
@@ -309,26 +313,31 @@
     }
   },
   "for_business": {
-    "title": {
-      "title_1": "Launchen Sie Angebote in",
-      "title_2": "MINUTEN",
-      "title_3": "UND STEIGERN SIE IHREN UMSATZ",
-      "desc": "Ein einfacher, geführter Prozess von der Einrichtung bis zur Einlösung. Keine technischen Vorkenntnisse erforderlich."
+    "launch_offer": {
+      "title_1": "Launche dein Angebot in wenigen Minuten",
+      "title_2": "und steigere deinen Umsatz.",
+      "desc": "Ganz nach deinen Bedürfnissen und um die Kapazitäten deines Unternehmens optimal auszulasten."
     },
     "steps": {
       "step_1": {
-        "title": "Erstellen Sie Ihr Angebot",
-        "desc": "Wählen Sie Rabatt, Verfügbarkeit und Laufzeit in wenigen Minuten."
+        "title": "Erstelle dein Angebot",
+        "desc_1": "Lege Rabatt, Verfügbarkeit und Laufzeit fest –",
+        "desc_highlight": "in nur wenigen Minuten."
       },
       "step_2": {
         "title": "Kunden kaufen",
-        "desc": "Nutzer entdecken und kaufen Gutscheine auf dem Marktplatz."
+        "desc_1": "Nutzer entdecken dein Angebot und kaufen Gutscheine",
+        "desc_highlight": "einfach und sicher",
+        "desc_2": "auf dem Marktplatz."
       },
       "step_3": {
-        "title": "Kunden lösen Gutscheine ein",
-        "desc": "Kunden kommen vorbei und lösen diese sofort per QR-Code ein."
+        "title": "Kunden lösen ein",
+        "desc_1": "Deine Kunden kommen vorbei und lösen ihren Gutschein ganz unkompliziert per",
+        "desc_highlight": "QR-Code",
+        "desc_2": "ein."
       }
     },
+
     "for_business": {
       "badge": "FIRST MOVER",
       "title_1": "In 2 Minuten als ",
@@ -428,9 +437,17 @@
       }
     },
     "promotional_banner": {
-      "title": "Bereit, Ihr Business wachsen zu lassen?",
-      "description": "Schließen Sie sich lokalen Unternehmen auf Vouchado an, gewinnen Sie neue Kunden, füllen Sie freie Kapazitäten und steigern Sie Ihren Umsatz.",
-      "cta_primary": "Jetzt Partner werden \u2192",
+      "title_1": "Bereit, dein Business auf das ",
+      "title_2": "nächste Level",
+      "title_3": "zu bringen?",
+      "desc_1": "Werde jetzt Partner auf Vouchado, gewinne",
+      "desc_highlight_1": "neue Kunden,",
+      "desc_2": "fülle",
+      "desc_highlight_2": "freie Kapazitäten",
+      "desc_3": "und",
+      "desc_highlight_3": "steigere deinen Umsatz",
+      "desc_4": "– ganz einfach.",
+      "cta_primary": "Jetzt Partner werden",
       "cta_secondary": "Mit unserem Team sprechen"
     }
   },
@@ -502,26 +519,30 @@
   },
   "contact": {
     "title": "Kontakt",
-    "badge": "WIR SIND FÜR SIE DA",
-    "heading": "Haben Sie eine Frage oder benötigen Sie Unterstützung?",
-    "subheading": "Senden Sie uns eine Nachricht und unser Team meldet sich so schnell wie möglich bei Ihnen.",
+    "badge": "WIR SIND FÜR DICH DA",
+    "heading_1": "Hast du eine Frage oder brauchst du",
+    "heading_highlight": "Unterstützung?",
+    "subheading_1": "Schreib uns einfach eine Nachricht.",
+    "subheading_2": "Unser Team",
+    "subheading_highlight": "meldet sich so schnell wie möglich",
+    "subheading_3": "bei dir.",
     "quick_response": "Schnelle Antwort",
-    "quick_response_sub": "In der Regel innerhalb von 24 Stunden.",
+    "quick_response_sub": "Wir antworten dir in der Regel innerhalb von 24 Stunden.",
     "real_people": "Echte Menschen",
-    "real_people_sub": "Wir sind für Sie da",
-    "secure_100": "100% Sicher",
-    "secure_100_sub": "Ihre Daten sind bei uns geschützt",
+    "real_people_sub": "Bei uns sprichst du mit echten Menschen, die dir weiterhelfen.",
+    "secure_100": "100 % Sicher",
+    "secure_100_sub": "Deine Daten sind bei uns geschützt und werden vertraulich behandelt.",
 
     "form": {
-      "name": "Name",
-      "email": "E-Mail",
+      "name": "Dein Name",
+      "email": "Deine E-Mail",
       "topic": "Betreff",
-      "message": "Nachricht",
-      "send_message": "Nachricht senden",
-      "name_placeholder": "Ihr Name",
-      "email_placeholder": "Ihre E-Mail-Adresse",
+      "message": "Deine Nachricht",
+      "message_required": "*",
+      "name_placeholder": "Dein Name",
+      "email_placeholder": "Deine E-Mail-Adresse",
       "topic_placeholder": "Worum geht es?",
-      "message_placeholder": "Beschreiben Sie Ihr Anliegen hier ...",
+      "message_placeholder": "Beschreibe uns dein Anliegen hier ...",
       "cta": "Nachricht senden"
     },
     "contact_info": {
@@ -531,8 +552,8 @@
       },
       "phone": {
         "title": "Telefon",
-        "value": "+1234567890",
-        "time": "Mo - Fr: 8:00 - 18:00 Uhr"
+        "value": "+12120000000",
+        "time": "Mo – Fr: 8:00 – 18:00 Uhr"
       },
       "address": {
         "title": "Adresse",
@@ -540,14 +561,14 @@
       }
     },
     "promotional_banner": {
-      "title": "Lassen Sie Ihr Business mit VOUCHADO wachsen",
-      "description_1": "Bereits",
-      "description_2": "300+ Unternehmen",
-      "description_3": "nutzen unsere Plattform, um neue Kunden zu gewinnen",
-      "description_4": "freie Kapazitäten zu füllen und ihren Umsatz zu steigern - ganz ohne Vorabkosten.",
-      "description_5": "300 Partner vertrauen uns",
-      "cta_primary": "Jetzt Partner werden",
-      "cta_secondary": "Sprechen Sie mit unserem Team"
+      "title_1": "Lass dein Business mit",
+      "title_highlight": "VOUCHADO",
+      "title_2": "wachsen",
+      "desc_1": "Bereits",
+      "desc_highlight": "über 300 Unternehmen",
+      "desc_2": "nutzen unsere Plattform, um neue Kunden zu gewinnen, freie Kapazitäten zu füllen und ihren Umsatz zu steigern – ganz ohne Vorabkosten.",
+      "partner_trust": "300+ Partner vertrauen uns",
+      "cta_primary": "Jetzt Partner werden"
     }
   },
   "shared": {
@@ -734,8 +755,8 @@
       "voucher_form": {
         "email": "E-Mail-Adresse",
         "email_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
-        "name": "Titel des Gutscheins",
-        "name_placeholder": "Geben Sie den Titel Ihres Gutscheins ein",
+        "amount": "Betrag",
+        "amount_placeholder": "Geben Sie den Betrag Ihres Gutscheins ein",
         "continue": "Weiter"
       },
       "promo_create_deals": {
@@ -804,15 +825,16 @@
       }
     },
     "provider": {
-      "title": "Unternehmensprofil",
-      "subtitle": "Verwalten Sie Ihre Unternehmensinformationen und Ihr öffentliches Profil",
+      "title": "Dein Unternehmensprofil",
+      "subtitle": "Verwalte deine Unternehmensinformationen und dein öffentliches Profil",
       "edit": "Bearbeiten",
       "edit_modal_title": "Unternehmensprofil bearbeiten",
-      "profile_banner": "Profil-Banner",
+      "profile_banner": "Profil Banner",
       "business_logo_alt": "Unternehmenslogo",
+      "not_specified": "Nicht angegeben",
       "withdrawal": {
-        "available_balance": "Zur Auszahlung verfügbar",
-        "bg_alt": "Auszahlungshintergrund",
+        "available_balance": "Verfügbares Guthaben",
+        "bg_alt": "Guthaben Hintergrund",
         "withdraw_button": "Auszahlen"
       },
       "opening_hours": {
@@ -830,7 +852,7 @@
         }
       },
       "description": {
-        "title": "Unternehmensbeschreibung",
+        "title": "Beschreibung",
         "no_description": "Keine Beschreibung verfügbar."
       },
       "address": {
@@ -841,10 +863,10 @@
       "payment_history": {
         "title": "Zahlungsverlauf",
         "columns": {
-          "date": "Datum",
-          "transaction_id": "Transaktions-ID",
-          "amount": "Betrag",
-          "status": "Status"
+          "date": "DATUM",
+          "transaction_id": "TRANSAKTIONS-ID",
+          "amount": "BETRAG",
+          "status": "STATUS"
         },
         "status": {
           "pending": "Ausstehend",
@@ -877,6 +899,120 @@
         "address_placeholder": "Vollständige Adresse eingeben",
         "cancel": "Abbrechen",
         "update": "Aktualisieren"
+      }
+    },
+    "settings": {
+      "sidebar": {
+        "analytics": "Auswertungen",
+        "payment_info": "Zahlungsinformationen",
+        "notifications": "Benachrichtigungen",
+        "change_password": "Passwort ändern",
+        "activate_account": "Konto aktivieren",
+        "terms_and_policies": "AGB & Richtlinien"
+      },
+      "analytics": {
+        "title": "Unternehmensauswertungen",
+        "total_revenue": "Gesamtumsatz",
+        "filter": {
+          "select_filter": "Filter auswählen",
+          "this_week": "Diese Woche",
+          "this_month": "Diesen Monat",
+          "last_3_months": "Letzte 3 Monate"
+        },
+        "legend": {
+          "revenue": "Umsatz",
+          "purchases": "Käufe"
+        }
+      },
+      "payment_information": {
+        "title": "Zahlungsinformationen",
+        "payment_method": {
+          "title": "Zahlungsmethode",
+          "edit": "Bearbeiten"
+        }
+      },
+      "notifications": {
+        "title": "Benachrichtigungen",
+        "stock_warning": {
+          "title": "Bestandswarnung",
+          "description": "Erhalte eine Benachrichtigung, wenn der Bestand niedrig und beliebt ist."
+        },
+        "voucher_redemption": {
+          "title": "Gutscheineinlösung",
+          "description": "Erhalte eine Benachrichtigung, wenn ein Gutschein eingelöst wird."
+        },
+        "new_voucher_purchase": {
+          "title": "Neuer Gutscheinkauf",
+          "description": "Erhalte eine Benachrichtigung, wenn Kunden einen Gutschein kaufen."
+        },
+        "service_notifications": {
+          "title": "Service-Benachrichtigungen",
+          "description": "Erhalte Benachrichtigungen bei Erstellung, Aktualisierung oder Löschung von Services."
+        }
+      },
+      "change_password": {
+        "title": "Passwort ändern",
+        "current_password": {
+          "label": "Aktuelles Passwort",
+          "placeholder": "Aktuelles Passwort eingeben"
+        },
+        "new_password": {
+          "label": "Neues Passwort",
+          "placeholder": "Neues Passwort eingeben"
+        },
+        "confirm_password": {
+          "label": "Neues Passwort bestätigen",
+          "placeholder": "Neues Passwort bestätigen"
+        },
+        "update_button": "Aktualisieren"
+      },
+      "account_activation": {
+        "title": "Kontoaktivierung",
+        "processing": "Wird verarbeitet...",
+        "deleting": "Wird gelöscht...",
+        "activate": {
+          "title": "Konto aktivieren",
+          "description": "Sichtbarkeit deines Unternehmensprofils wieder aktivieren",
+          "button": "Konto aktivieren"
+        },
+        "deactivate": {
+          "title": "Konto deaktivieren",
+          "description": "Deaktiviere dein Unternehmensprofil vorübergehend",
+          "button": "Konto deaktivieren"
+        },
+        "delete": {
+          "title": "Konto löschen",
+          "description": "Dein Konto und alle Daten dauerhaft löschen",
+          "button": "Konto löschen"
+        },
+        "email": {
+          "title": "E-Mail-Adresse bestätigen",
+          "description": "Bestätige deine E-Mail-Adresse, um alle Funktionen nutzen zu können.",
+          "resend_button": "E-Mail erneut senden"
+        },
+        "phone": {
+          "title": "Telefonnummer bestätigen",
+          "description": "Bestätige deine Telefonnummer, um alle Funktionen nutzen zu können.",
+          "resend_button": "SMS erneut senden"
+        },
+        "dialog": {
+          "activate_title": "Konto aktivieren?",
+          "deactivate_title": "Konto deaktivieren?",
+          "delete_title": "Konto löschen?",
+          "activate_desc": "Bist du sicher, dass du dein Unternehmenskonto reaktivieren möchtest? Dadurch wird dein Profil wieder öffentlich sichtbar.",
+          "deactivate_desc": "Bist du sicher, dass du dein Unternehmenskonto vorübergehend deaktivieren möchtest? Du kannst dich jederzeit wieder anmelden, um es zu reaktivieren.",
+          "delete_desc": "Diese Aktion kann nicht rückgängig gemacht werden. Deine aktiven Pakete, Statistiken und Daten werden sofort unwiderruflich gelöscht.",
+          "confirm_activate": "Aktivieren",
+          "confirm_deactivate": "Deaktivieren",
+          "confirm_delete": "Löschen bestätigen"
+        },
+        "errors": {
+          "something_went_wrong": "Etwas ist schiefgelaufen"
+        }
+      },
+      "terms_and_policies": {
+        "title": "AGB & Richtlinien",
+        "description": "Hier findest du alle unsere rechtlichen Dokumente."
       }
     }
   }

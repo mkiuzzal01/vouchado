@@ -6,22 +6,28 @@ import { useGiftVoucherPurchaseMutation } from "@/redux/features/checkout/checko
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import { FieldValues } from "react-hook-form";
 
 interface Props {
   lang?: string;
-  deal_id?: number;
+  business_profile_id?: number;
   onClose?: () => void;
   t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function GiftVoucherForm({ lang, deal_id, onClose, t }: Props) {
+export default function GiftVoucherForm({
+  lang,
+  business_profile_id,
+  onClose,
+  t,
+}: Props) {
   const router = useRouter();
   const [giftVoucherPurchase, { isLoading }] = useGiftVoucherPurchaseMutation();
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: FieldValues) => {
     try {
       const res = await giftVoucherPurchase({
-        deal_id,
+        business_profile_id,
         buyer_email: values?.email,
         amount: values?.amount,
       }).unwrap();
@@ -59,9 +65,9 @@ export default function GiftVoucherForm({ lang, deal_id, onClose, t }: Props) {
           <TextInput
             required
             name="amount"
-            label={t?.provider_profile?.dashboard?.voucher_form?.name}
+            label={t?.provider_profile?.dashboard?.voucher_form?.amount}
             placeholder={
-              t?.provider_profile?.dashboard?.voucher_form?.name_placeholder
+              t?.provider_profile?.dashboard?.voucher_form?.amount_placeholder
             }
             type="number"
           />
