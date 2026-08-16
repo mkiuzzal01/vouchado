@@ -153,8 +153,13 @@ export default function OrderSummary({ lang, t }: Props) {
             </div>
           ) : (
             <div className="p-3.5 rounded-xl bg-amber-50/80 border border-amber-200/60 text-amber-800 text-xs font-medium text-center">
-              {t?.cart?.no_items_selected ||
-                "No items selected. Please select items from your cart to proceed."}
+              <p className="font-semibold">
+                {t?.cart?.no_items_selected || "No items selected."}
+              </p>
+              <p className="mt-0.5">
+                {t?.cart?.no_items_selected_desc ||
+                  "Please select items from your cart to proceed."}
+              </p>
             </div>
           )}
         </div>
@@ -166,7 +171,10 @@ export default function OrderSummary({ lang, t }: Props) {
           <div className="flex justify-between items-center text-lg sm:text-xl">
             <span className="text-gray-600 font-medium">
               {t?.cart?.subtotal || "Subtotal"} ({totalItems}{" "}
-              {totalItems === 1 ? "item" : "items"})
+              {totalItems === 1
+                ? t?.cart?.item || "item"
+                : t?.cart?.items || "items"}
+              )
             </span>
             <span className="font-bold text-gray-800">
               € {subTotal.toFixed(2)}
@@ -175,7 +183,7 @@ export default function OrderSummary({ lang, t }: Props) {
 
           <div className="flex justify-between items-center text-lg sm:text-xl">
             <span className="text-gray-600 font-medium">
-              {t?.cart?.vat || "VAT"} ({vat_percentage}%)
+              {t?.cart?.vat || "VAT"} ({Number(vat_percentage).toFixed(2)}%)
             </span>
             <span className="font-bold text-gray-800">
               € {vatAmount.toFixed(2)}
@@ -240,47 +248,51 @@ export default function OrderSummary({ lang, t }: Props) {
         </div>
 
         {/* Coupon Input */}
-        <Coupon />
+        <Coupon t={t} />
 
+        {/* Checkbox: Terms & Privacy Policy */}
         <div className="flex items-center gap-2 py-2">
           <Checkbox
+            id="terms"
             checked={agreedToTerms}
             onCheckedChange={(checked) => setAgreedToTerms(!!checked)}
           />
           <label className="text-xs text-gray-700" htmlFor="terms">
-            {t?.auth?.register?.agree_terms || "I agree to Tech Takes"}{" "}
+            {t?.cart?.agree_terms || "I agree to the"}{" "}
             <Link
               href={`/${lang}/terms`}
               className="underline text-primary font-semibold"
             >
-              {t?.auth?.register?.terms_of_service || "Terms of Service"}
+              {t?.cart?.terms_and_conditions || "Terms of Service"}
             </Link>{" "}
-            {t?.auth?.register?.and || "and"}{" "}
+            {t?.cart?.and || "and the"}{" "}
             <Link
               href={`/${lang}/privacy`}
               className="underline text-primary font-semibold"
             >
-              {t?.auth?.register?.privacy_policy || "Privacy Policy"}
+              {t?.cart?.privacy_policy || "Privacy Policy."}
             </Link>
-            .
           </label>
         </div>
+
+        {/* Checkbox: Cancellation Policy */}
         <div className="flex items-center gap-2 py-2">
           <Checkbox
+            id="cancelation"
             checked={agreedToCancelation}
             onCheckedChange={(checked) => setAgreedToCancelation(!!checked)}
           />
-          <label className="text-xs text-gray-700" htmlFor="terms">
-            {t?.cart?.agree_cancelation || "I agree with"}{" "}
+          <label className="text-xs text-gray-700" htmlFor="cancelation">
+            {t?.cart?.agree_cancelation || "I agree to the"}{" "}
             <Link
               href={`/${lang}/cancelation`}
               className="underline text-primary font-semibold"
             >
-              {t?.cart?.cancelation_policy || "Cancelation Policy"}
+              {t?.cart?.cancelation_policy || "Cancellation Policy."}
             </Link>
-            .
           </label>
         </div>
+
         {/* Checkout Button */}
         <button
           type="button"
@@ -305,7 +317,7 @@ export default function OrderSummary({ lang, t }: Props) {
       </div>
 
       <ModalContainer
-        title="Redeem Your Loyalty Points"
+        title={t?.cart?.redeem_points || "Redeem Your Loyalty Points"}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       >

@@ -61,7 +61,7 @@
     "nav": {
       "home": "Startseite",
       "deals": "Deals",
-      "nearby": "In der Nähe",
+      "nearby": "Deals In der Nähe",
       "how_it_works": "So funktioniert's",
       "for_business": "Für Unternehmen",
       "contact_us": "Kontakt",
@@ -114,7 +114,7 @@
       },
 
       "offer_badge": {
-        "location_badge": "Sparen bis zu",
+        "location_badge": "Sparen heute bis zu",
         "discount": "70%",
         "daily_deals": "Heute"
       },
@@ -219,6 +219,62 @@
   "nearby": {
     "deals_available": "Verfügbare Angebote"
   },
+  "deal_details": {
+    "promos": {
+      "vouchado_guarantee_title": "Vouchado-Garantie",
+      "vouchado_guarantee_desc": "Sparen Sie immer 20 % und MEHR!",
+      "instant_confirmation_title": "Sofortige Bestätigung",
+      "instant_confirmation_desc": "Buchen & sofort bestätigt werden.",
+      "secure_payments_title": "Sichere Zahlungen",
+      "secure_payments_desc": "100 % sicher und geschützt.",
+      "support_title": "24/7 Support",
+      "support_desc": "Persönlicher Support – kein Chatbot"
+    },
+    "tabs": {
+      "overview": "Übersicht",
+      "whats_included": "Was enthalten ist",
+      "reviews": "Bewertungen"
+    },
+    "guarantees": {
+      "instant_confirmation": "Sofortige Bestätigung",
+      "mobile_ticket": "Mobiles Ticket",
+      "vouchado_guarantee": "Vouchado-Garantie: immer mindestens 20 % sparen"
+    },
+    "booking": {
+      "best_price_guarantee": "Bestpreisgarantie",
+      "reviews_count": "Bewertungen",
+      "save": "Sparen Sie",
+      "instant_confirmation_title": "Sofortige Bestätigung",
+      "instant_confirmation_desc": "Erhalten Sie Ihre Tickets sofort",
+      "mobile_ticket_title": "Mobiles Ticket",
+      "mobile_ticket_desc": "Zeigen Sie Ihr Ticket auf Ihrem Smartphone",
+      "view_cart": "Warenkorb anzeigen",
+      "add_to_cart": "In den Warenkorb",
+      "add_to_wishlist": "Zur Wunschliste hinzufügen",
+      "chat_with_support": "Mit dem Support chatten",
+      "secure_checkout": "Sicherer Checkout",
+      "need_help_title": "Brauchen Sie Hilfe?",
+      "need_help_desc": "Unser Team ist für Sie da."
+    },
+    "messages": {
+      "product_added": "Produkt zum Warenkorb hinzugefügt",
+      "product_removed": "Produkt aus dem Warenkorb entfernt",
+      "login_for_cart": "Bitte melden Sie sich an, um dieses Produkt zum Warenkorb hinzuzufügen",
+      "login_for_wishlist": "Bitte melden Sie sich an, um dieses Produkt zur Wunschliste hinzuzufügen",
+      "login_for_chat": "Bitte melden Sie sich an, um einen Chat zu starten"
+    },
+    "gift_voucher_cart": {
+      "title_line1": "Geschenk",
+      "title_line2": "Gutschein",
+      "subtitle": "Freude, die immer passt.",
+      "desc_prefix": "Überraschen Sie Ihre Liebsten mit einem Geschenkgutschein über",
+      "desc_highlight": "jeden beliebigen Betrag.",
+      "buy_button": "Geschenkgutschein kaufen"
+    },
+    "similar_item": {
+      "title": "Ähnliche Erlebnisse"
+    }
+  },
   "how_it_work": {
     "how_it_work": {
       "title": "So funktioniert's",
@@ -238,36 +294,38 @@
     "steps": {
       "step_1": {
         "title": "Angebote entdecken",
-        "desc": "Entdecken Sie die besten lokalen Angebote in Ihrer Nähe. Ob Wellness, Restaurants, Freizeit oder besondere Erlebnisse – mit wenigen Klicks finden Sie genau die Deals, die zu Ihnen passen.",
+        "subtitle": "Dein perfekter Deal wartet auf dich!",
+        "desc": "Entdecke die besten lokalen Angebote in deiner Nähe – ob Wellness, Restaurants, Freizeit oder besondere Erlebnisse. Mit wenigen Klicks findest du genau die Deals, die zu dir passen.",
         "features": {
           "curated": "Handverlesene Deals",
-          "nearby": "In Ihrer Nähe",
-          "search": "Schnell gefunden"
+          "nearby": "In deiner Nähe",
+          "search": "Schnell & einfach gefunden"
         }
       },
-
       "step_2": {
         "title": "Gutschein kaufen",
-        "desc": "Ihr perfektes Angebot gefunden? Kaufen Sie Ihren Gutschein schnell, sicher und unkompliziert. In wenigen Sekunden ist Ihr Deal bereit und kann direkt genutzt werden.",
+        "subtitle": "Sicher, schnell & unkompliziert!",
+        "desc": "Hast du dein Lieblingsangebot gefunden? Kaufe deinen Gutschein in wenigen Sekunden und sichere dir deinen Deal. Dein Gutschein ist sofort verfügbar und direkt einsatzbereit.",
         "features": {
           "secure": "Sichere Zahlung",
           "instant": "Sofort verfügbar",
-          "best": "Bestpreisgarantie"
+          "best": "Beste Preise garantiert"
         }
       },
       "step_3": {
         "title": "Gutschein erhalten",
-        "desc": "Ihr Gutschein wird sofort in Ihrem Konto gespeichert und ist jederzeit einsatzbereit.",
+        "subtitle": "Dein Gutschein – immer griffbereit!",
+        "desc": "Nach dem Kauf wird dein Gutschein sicher in deinem Konto gespeichert. Du kannst ihn jederzeit einsehen und sofort nutzen.",
         "features": {
           "instant": "Sofortiger Gutschein",
           "stored": "Im Konto gespeichert",
           "accessible": "Jederzeit abrufbar"
         }
       },
-
       "step_4": {
-        "title": "Einlösen & Genießen",
-        "desc": "Besuchen Sie Ihren ausgewählten Partnerbetrieb, zeigen Sie Ihren QR-Code vor und genießen Sie Ihr Erlebnis – schnell, unkompliziert und zum exklusiven Vouchado-Preis.",
+        "title": "Einlösen & genießen",
+        "subtitle": "Zeig deinen Gutschein und genieße!",
+        "desc": "Besuche den Partnerbetrieb, zeige deinen QR-Code vor und erlebe dein Angebot. Einlösen geht schnell, einfach und komplett kontaktlos.",
         "features": {
           "quick": "Einfach per QR-Code einlösen",
           "enjoy": "Exklusive Erlebnisse genießen",
@@ -276,7 +334,8 @@
       },
       "step_5": {
         "title": "Treuepunkte sammeln",
-        "desc": "Sammeln Sie bei jedem Einkauf wertvolle Treuepunkte und tauschen Sie diese gegen attraktive Vouchado-Gutscheine und exklusive Vorteile ein.",
+        "subtitle": "Punkte sammeln. Vorteile sichern.",
+        "desc": "Sammle bei jedem Einkauf wertvolle Treuepunkte und tausche sie gegen attraktive Vouchado-Gutscheine und exklusive Vorteile ein.",
         "features": {
           "collect": "Treuepunkte sammeln",
           "unlock": "Prämien freischalten",
@@ -462,19 +521,28 @@
     "empty_desc": "Sie haben noch keine Artikel in Ihren Warenkorb gelegt.",
     "order_summary": "Bestellübersicht",
     "selected_items": "Ausgewählte Artikel",
+    "item": "Artikel",
+    "items": "Artikel",
     "unit": "Stück",
     "units": "Stück",
-    "no_items_selected": "Keine Artikel ausgewählt. Bitte wählen Sie Artikel aus Ihrem Warenkorb.",
+    "no_items_selected": "Keine Artikel ausgewählt.",
+    "no_items_selected_desc": "Bitte wählen Sie Artikel aus Ihrem Warenkorb aus.",
     "subtotal": "Zwischensumme",
-    "vat": "MwSt.",
+    "vat": "Mehrwertsteuer",
     "coupon_discount": "Gutschein-Rabatt",
     "points_discount": "Punkte-Rabatt",
     "total": "Gesamtsumme",
     "use_points": "Nutzen Sie Ihre Punkte für noch mehr Rabatt",
     "points_available": "Punkte verfügbar.",
     "redeem_points": "Punkte einlösen",
+    "coupon_placeholder": "Gutscheincode eingeben",
+    "apply_coupon": "Anwenden",
+    "agree_terms": "Ich stimme den",
+    "terms_and_conditions": "Nutzungsbedingungen",
+    "and": "und der",
+    "privacy_policy": "Datenschutzrichtlinie zu.",
     "agree_cancelation": "Ich stimme der",
-    "cancelation_policy": "Stornierungsrichtlinie",
+    "cancelation_policy": "Stornierungsrichtlinie zu.",
     "proceed_checkout": "Zur Kasse gehen",
     "trusted": {
       "sec1": {
@@ -486,7 +554,7 @@
         "desc": "innerhalb von 14 Tagen nach dem Kauf – ausgenommen Last-Minute-Buchungen oder feste Termine"
       },
       "sec3": {
-        "title": "Sichere Zahlungen",
+        "title": "Sichere Zahlung",
         "desc": "Ihre Zahlungsinformationen sind zu 100 % sicher."
       }
     },
@@ -501,7 +569,6 @@
     "empty_title": "Ihre Wunschliste ist leer",
     "empty_desc": "Speichern Sie Ihre Lieblingsartikel, um sie später hier zu sehen."
   },
-
   "vouchers": {
     "title": "Unbenutzte Gutscheine",
     "unredeemed_vouchers": "Nicht eingelöste Gutscheine",

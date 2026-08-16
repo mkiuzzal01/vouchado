@@ -34,6 +34,7 @@ interface StepItem {
   id: string;
   number: string;
   title: string;
+  subtitle?: string;
   description: string;
   imageSrc: any;
   features: SubFeature[];
@@ -49,6 +50,7 @@ export default function Steps({ t }: Prop) {
       id: "step-1",
       number: "01",
       title: t?.how_it_work?.steps?.step_1?.title,
+      subtitle: t?.how_it_work?.steps?.step_1?.subtitle,
       description: t?.how_it_work?.steps?.step_1?.desc,
       imageSrc: step_1,
       features: [
@@ -70,6 +72,7 @@ export default function Steps({ t }: Prop) {
       id: "step-2",
       number: "02",
       title: t?.how_it_work?.steps?.step_2?.title,
+      subtitle: t?.how_it_work?.steps?.step_2?.subtitle,
       description: t?.how_it_work?.steps?.step_2?.desc,
       imageSrc: step_2,
       features: [
@@ -91,6 +94,7 @@ export default function Steps({ t }: Prop) {
       id: "step-3",
       number: "03",
       title: t?.how_it_work?.steps?.step_3?.title,
+      subtitle: t?.how_it_work?.steps?.step_3?.subtitle,
       description: t?.how_it_work?.steps?.step_3?.desc,
       imageSrc: step_3,
       features: [
@@ -112,6 +116,7 @@ export default function Steps({ t }: Prop) {
       id: "step-4",
       number: "04",
       title: t?.how_it_work?.steps?.step_4?.title,
+      subtitle: t?.how_it_work?.steps?.step_4?.subtitle,
       description: t?.how_it_work?.steps?.step_4?.desc,
       imageSrc: step_4,
       features: [
@@ -133,6 +138,7 @@ export default function Steps({ t }: Prop) {
       id: "step-5",
       number: "05",
       title: t?.how_it_work?.steps?.step_5?.title,
+      subtitle: t?.how_it_work?.steps?.step_5?.subtitle,
       description: t?.how_it_work?.steps?.step_5?.desc,
       imageSrc: step_5,
       features: [
@@ -184,8 +190,8 @@ export default function Steps({ t }: Prop) {
                       absolute z-10
                       ${
                         isOdd
-                          ? "left-6 top-0 lg:left-1/2 lg:top-32 lg:-translate-y-1/2 lg:-translate-x-1/2"
-                          : "left-6 top-0 lg:left-[-45px] lg:top-[140px] lg:-translate-y-1/2 lg:-translate-x-1/2"
+                          ? "left-6 top-0 lg:left-1/2 lg:top-28 lg:-translate-y-1/2 lg:-translate-x-1/2"
+                          : "left-6 top-0 lg:left-[-45px] lg:top-[110px] lg:-translate-y-1/2 lg:-translate-x-1/2"
                       }
                     `}
                   >
@@ -226,9 +232,15 @@ export default function Steps({ t }: Prop) {
                     `}
                   >
                     <div className="max-w-md w-full">
-                      <h3 className="text-xl lg:text-[32px] font-bold text-black tracking-tight mb-2 leading-snug">
+                      <h3 className="text-xl lg:text-[32px] font-bold text-black tracking-tight mb-1 leading-snug">
                         {step.title}
                       </h3>
+
+                      {step.subtitle && (
+                        <p className="text-[15px] lg:text-[17px] font-semibold text-[#23888E] mb-3">
+                          {step.subtitle}
+                        </p>
+                      )}
 
                       <p className="text-[14px] lg:text-[18px] text-gray-600 font-normal leading-[28px] mb-4">
                         {step.description}
@@ -241,7 +253,7 @@ export default function Steps({ t }: Prop) {
                           return (
                             <div key={fIdx} className="flex items-center gap-2">
                               {IconComponent}
-                              <span className=" text-[10px] md:text-[12px] lg:text-[14px] font-semibold text-[#212B36] xl:leading-[20px]">
+                              <span className="text-[10px] md:text-[12px] lg:text-[14px] font-semibold text-[#212B36] xl:leading-[20px]">
                                 {feature.label}
                               </span>
                             </div>

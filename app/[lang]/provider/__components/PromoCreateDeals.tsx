@@ -81,7 +81,7 @@ export default function PromoCreateDeals({ t }: Props) {
       </div>
 
       {/* Right Card: Create New Deal */}
-      <div className="relative flex-1 rounded-[24px] overflow-hidden min-h-[200px] flex items-center p-8 bg-linear-to-r from-[#f0f7fc] to-[#ebf3f9]">
+      <div className="relative flex-1 rounded-[24px] overflow-hidden min-h-[200px] flex items-center ps-10 py-8 bg-linear-to-r from-[#f0f7fc] to-[#ebf3f9]">
         {/* Background Graphic Asset */}
         <div className="absolute inset-0 pointer-events-none">
           <Image

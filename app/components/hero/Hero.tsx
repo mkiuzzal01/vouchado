@@ -13,7 +13,6 @@ import "swiper/css/navigation";
 import { Autoplay } from "swiper/modules";
 import bannerImage from "@/public/hero/hero.png";
 import { getDictionary } from "@/app/[lang]/dictionaries";
-import Location from "../icons/Location";
 import LocationIcon from "../icons/LocationIcon";
 
 interface Props {
@@ -89,7 +88,7 @@ export default function Hero({ banner, t }: Props) {
           {/* Offer Badge (Absolute Positioning for perfect responsiveness) */}
           <div className="absolute right-2 top-2 sm:right-4 sm:top-4 md:right-10 md:top-[10%] lg:left-[60%] lg:top-[10%] xl:top-[18%] z-20 transition-transform duration-500 hover:scale-105 hover:-translate-y-2 cursor-pointer">
             <div className="w-20 h-20 sm:w-40 sm:h-40 md:w-[204px] md:h-[204px] border-2 border-white bg-gradient-to-br from-[#5ACCD3]/80 to-[#2DAEB6]/80 backdrop-blur-sm rounded-full flex flex-col items-center justify-center p-2 sm:p-3 md:p-4 text-center shadow-lg">
-              <p className="text-[#FFFFFFA3] text-xs sm:text-sm md:text-lg font-semibold leading-tight">
+              <p className="text-[#FFFFFFA3] text-xs sm:text-sm md:text-base font-semibold leading-tight">
                 {t?.home.hero.offer_badge.location_badge}
               </p>
               <p className="text-white text-sm sm:text-4xl md:text-[54px] font-bold leading-none my-0.5 md:my-1">

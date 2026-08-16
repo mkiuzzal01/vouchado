@@ -61,7 +61,7 @@
     "nav": {
       "home": "Home",
       "deals": "Deals",
-      "nearby": "Nearby",
+      "nearby": "Deals Nearby",
       "how_it_works": "How it works",
       "for_business": "For Business",
       "contact_us": "Contact Us",
@@ -215,6 +215,62 @@
   "nearby": {
     "deals_available": "Deals Available"
   },
+  "deal_details": {
+    "promos": {
+      "vouchado_guarantee_title": "Vouchado Guarantee",
+      "vouchado_guarantee_desc": "Always save 20% and MORE!",
+      "instant_confirmation_title": "Instant Confirmation",
+      "instant_confirmation_desc": "Book & get confirmed instantly.",
+      "secure_payments_title": "Secure Payments",
+      "secure_payments_desc": "100% secure and protected.",
+      "support_title": "24/7 Support",
+      "support_desc": "In person support - no chatbot"
+    },
+    "tabs": {
+      "overview": "Overview",
+      "whats_included": "What's Included",
+      "reviews": "Reviews"
+    },
+    "guarantees": {
+      "instant_confirmation": "Instant Confirmation",
+      "mobile_ticket": "Mobile Ticket",
+      "vouchado_guarantee": "Vouchado Guarantee: always save 20% or more"
+    },
+    "booking": {
+      "best_price_guarantee": "Best Price Guarantee",
+      "reviews_count": "reviews",
+      "save": "Save",
+      "instant_confirmation_title": "Instant Confirmation",
+      "instant_confirmation_desc": "Get your tickets instantly",
+      "mobile_ticket_title": "Mobile Ticket",
+      "mobile_ticket_desc": "Show your ticket on your phone",
+      "view_cart": "View Cart",
+      "add_to_cart": "Add to Cart",
+      "add_to_wishlist": "Add to wishlist",
+      "chat_with_support": "Chat with support",
+      "secure_checkout": "Secure checkout",
+      "need_help_title": "Need help?",
+      "need_help_desc": "Our team is here for you."
+    },
+    "messages": {
+      "product_added": "Product added to cart",
+      "product_removed": "Product removed from cart",
+      "login_for_cart": "Please Login to add this item to your cart",
+      "login_for_wishlist": "Please Login to add this item to your wishlist",
+      "login_for_chat": "Please login first to start chat"
+    },
+    "gift_voucher_cart": {
+      "title_line1": "Gift",
+      "title_line2": "Voucher",
+      "subtitle": "Joy that always fits.",
+      "desc_prefix": "Surprise your loved ones with a gift voucher available for",
+      "desc_highlight": "any amount.",
+      "buy_button": "Buy Gift Voucher"
+    },
+    "similar_item": {
+      "title": "Similar Experiences"
+    }
+  },
   "how_it_work": {
     "how_it_work": {
       "title": "How it works",
@@ -234,6 +290,7 @@
     "steps": {
       "step_1": {
         "title": "Discover Deals",
+        "subtitle": "Your perfect deal is waiting for you!",
         "desc": "Browse nearby offers, explore curated categories or search for experiences that match your interests.",
         "features": {
           "curated": "Curated offers",
@@ -243,6 +300,7 @@
       },
       "step_2": {
         "title": "Purchase Your Voucher",
+        "subtitle": "Safe, fast & hassle-free!",
         "desc": "Choose your favourite deal and securely purchase your service in just a few taps.",
         "features": {
           "secure": "Secure payments",
@@ -252,6 +310,7 @@
       },
       "step_3": {
         "title": "Receive Your Voucher",
+        "subtitle": "Your voucher – always within reach!",
         "desc": "Your voucher is instantly stored in your account, ready to use whenever you are.",
         "features": {
           "instant": "Instant voucher",
@@ -261,6 +320,7 @@
       },
       "step_4": {
         "title": "Redeem & Enjoy",
+        "subtitle": "Show your voucher and enjoy!",
         "desc": "Visit the business, present your QR code, and enjoy your experience while saving money.",
         "features": {
           "quick": "Quick & easy redemption",
@@ -270,6 +330,7 @@
       },
       "step_5": {
         "title": "Earn Loyalty Points",
+        "subtitle": "Collect points. Unlock benefits.",
         "desc": "Collect points with every purchase and redeem them for future Vouchado vouchers.",
         "features": {
           "collect": "Collect points",

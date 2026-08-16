@@ -1,4 +1,5 @@
 "use client";
+
 import { toast } from "react-toastify";
 import AppForm from "@/app/components/forms/AppForm";
 import TextInput from "@/app/components/forms/inputs/TextInput";
@@ -8,7 +9,11 @@ import { useCouponPurchaseMutation } from "@/redux/features/checkout/checkout.ap
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { setApplyCoupon } from "@/redux/features/cart/cart.slice";
 
-export default function Coupon() {
+interface Prop {
+  t?: any;
+}
+
+export default function Coupon({ t }: Prop) {
   const dispatch = useAppDispatch();
   const { couponStatus } = useAppSelector((state) => state.cart);
 
@@ -36,7 +41,7 @@ export default function Coupon() {
               required
               disabled={couponStatus}
               name="coupon_code"
-              placeholder="Enter your coupon code"
+              placeholder={t?.cart?.coupon_placeholder || "Enter promo code"}
               className="rounded-full"
             />
           </div>
@@ -45,7 +50,7 @@ export default function Coupon() {
               disabled={couponStatus}
               className="h-11 rounded-full px-4"
               isLoading={isLoading}
-              title="Apply"
+              title={t?.cart?.apply_coupon || "Apply"}
               type="submit"
             />
           </div>

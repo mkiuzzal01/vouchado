@@ -13,6 +13,7 @@ import {
   getSystemInfo,
 } from "@/actions/quires/system_info.api";
 import { getBusniessProfile, getUserProfile } from "@/actions/quires/user.api";
+import { translateData } from "@/app/components/utils/translateText";
 
 interface RootLayout {
   children: React.ReactNode;
@@ -30,6 +31,10 @@ export default async function layout({ children, params }: RootLayout) {
   const footerLinksData = await footerLinks(lang);
   const socialLinks = await getSocialLinks();
   const systemInfo = await getSystemInfo();
+
+  const translatedNavLinks = await translateData(systemInfo, lang);
+
+  console.log("translatedNavLinks", translatedNavLinks);
 
   let userInfo = null;
   let providerInfo = null;

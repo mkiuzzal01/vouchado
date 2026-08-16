@@ -37,31 +37,6 @@ import { useCreateConversationMutation } from "@/redux/features/conversional/con
 import { parsePrice } from "@/lib/currency";
 import { getDictionary } from "@/app/[lang]/dictionaries";
 
-export const promos = [
-  {
-    title: "Vouchado Guarantee",
-    description: "Always save 20% and MORE!",
-    icon: <Save />,
-  },
-  {
-    title: "Instant Confirmation",
-    description: "Book & get confirmed instantly.",
-    icon: <SecurePayment />,
-  },
-  {
-    title: "Secure Payments",
-    description: "100% secure and protected.",
-    icon: <InstantConfirm />,
-  },
-  {
-    title: "24/7 Support",
-    description: "In person support - no chatboot",
-    icon: <Contact />,
-  },
-];
-
-const tabItems = ["Overview", "What's Included", "Reviews"];
-
 interface Props {
   lang: string;
   details: TService;
@@ -159,11 +134,46 @@ export default function ItemDetails({ lang, details, t }: Props) {
     }
   };
 
-  const guarantees = [
-    { label: "Instant Confirmation", icon: <CheckMark size={18} /> },
-    { label: "Mobile Ticket", icon: <Mobile size={18} /> },
+  const tabItems = [
+    t?.deal_details?.tabs?.overview,
+    t?.deal_details?.tabs?.whats_included,
+    t?.deal_details?.tabs?.reviews,
+  ];
+
+  const promos = [
     {
-      label: "Vouchado Guarantee: always safe 20% or more",
+      title: t?.deal_details?.promos?.vouchado_guarantee_title,
+      description: t?.deal_details?.promos?.vouchado_guarantee_desc,
+      icon: <Save />,
+    },
+    {
+      title: t?.deal_details?.promos?.instant_confirmation_title,
+      description: t?.deal_details?.promos?.instant_confirmation_desc,
+      icon: <SecurePayment />,
+    },
+    {
+      title: t?.deal_details?.promos?.secure_payments_title,
+      description: t?.deal_details?.promos?.secure_payments_desc,
+      icon: <InstantConfirm />,
+    },
+    {
+      title: t?.deal_details?.promos?.support_title,
+      description: t?.deal_details?.promos?.support_desc,
+      icon: <Contact />,
+    },
+  ];
+
+  const guarantees = [
+    {
+      label: t?.deal_details?.guarantees?.instant_confirmation,
+      icon: <CheckMark size={18} />,
+    },
+    {
+      label: t?.deal_details?.guarantees?.mobile_ticket,
+      icon: <Mobile size={18} />,
+    },
+    {
+      label: t?.deal_details?.guarantees?.vouchado_guarantee,
       icon: <InstantConfirm size={18} />,
     },
   ];
@@ -282,7 +292,7 @@ export default function ItemDetails({ lang, details, t }: Props) {
             <div className="flex items-center justify-end gap-2">
               <Check />
               <span className="font-medium text-[#2BC4CA]">
-                Best Price Guarantee
+                {t?.deal_details?.booking?.best_price_guarantee}
               </span>
             </div>
             <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-5">
@@ -300,7 +310,8 @@ export default function ItemDetails({ lang, details, t }: Props) {
                     {details?.deal?.reviews_avg_rating || 0}
                   </span>
                   <span className="text-sm text-[#637381]">
-                    ({details?.deal?.reviews_count} reviews)
+                    ({details?.deal?.reviews_count}{" "}
+                    {t?.deal_details?.tabs?.reviews})
                   </span>
                 </div>
               </div>
@@ -313,7 +324,8 @@ export default function ItemDetails({ lang, details, t }: Props) {
                     {details.deal?.discounted_price}
                   </span>
                   <span className="bg-[#E1F7F5] text-[#31BFC8] font-semibold text-xs px-2 py-0.5 rounded-xl">
-                    Save {details?.deal?.discount_percentage || 0} %
+                    {t?.deal_details?.booking?.save}{" "}
+                    {details?.deal?.discount_percentage || 0} %
                   </span>
                 </div>
               </div>
@@ -326,10 +338,10 @@ export default function ItemDetails({ lang, details, t }: Props) {
                   </div>
                   <div>
                     <p className="text-xl font-bold text-gray-900">
-                      Instant Confirmation
+                      {t?.deal_details?.booking?.instant_confirmation_title}
                     </p>
                     <p className="text-gray-400 mt-0.5">
-                      Get your tickets instantly
+                      {t?.deal_details?.booking?.instant_confirmation_desc}
                     </p>
                   </div>
                 </div>
@@ -339,10 +351,10 @@ export default function ItemDetails({ lang, details, t }: Props) {
                   </div>
                   <div>
                     <p className="text-xl font-bold text-gray-900">
-                      Mobile Ticket
+                      {t?.deal_details?.booking?.mobile_ticket_title}
                     </p>
                     <p className="text-gray-400 mt-0.5">
-                      Show your ticket on your phone
+                      {t?.deal_details?.booking?.mobile_ticket_desc}
                     </p>
                   </div>
                 </div>
@@ -360,7 +372,7 @@ export default function ItemDetails({ lang, details, t }: Props) {
                     <Link href={`/${lang}/cart`}>
                       <div className="flex">
                         <Button className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white  font-bold h-12 rounded-full text-lg transition-all active:scale-[0.99]">
-                          View Cart
+                          {t?.deal_details?.booking?.view_cart}
                         </Button>
                       </div>
                     </Link>
@@ -369,7 +381,7 @@ export default function ItemDetails({ lang, details, t }: Props) {
                       onClick={() => handleAddToCart()}
                       className="w-full bg-[#2BC4CA] hover:bg-[#23AAB0] text-white font-bold h-12 rounded-full text-lg transition-all active:scale-[0.99]"
                     >
-                      Add to Cart
+                      {t?.deal_details?.booking?.add_to_cart}
                     </Button>
                   )}
                 </div>
@@ -386,7 +398,7 @@ export default function ItemDetails({ lang, details, t }: Props) {
                       color={details?.deal?.is_wishlisted ? "red" : "#31BFC8"}
                     />
                   )}
-                  Add to wishlist
+                  {t?.deal_details?.booking?.add_to_wishlist}
                 </Button>
                 <Button
                   disabled={isLoading}
@@ -398,7 +410,8 @@ export default function ItemDetails({ lang, details, t }: Props) {
                     <Loader2 className="animate-spin size-5" />
                   ) : (
                     <>
-                      <Message size={17} /> Chat with support
+                      <Message size={17} />{" "}
+                      {t?.deal_details?.booking?.chat_with_support}
                     </>
                   )}
                 </Button>
@@ -406,7 +419,7 @@ export default function ItemDetails({ lang, details, t }: Props) {
 
               <div className="pt-3 flex items-center justify-center gap-1.5 text-[11px] text-gray-400 font-light">
                 <Lock />
-                <span>Secure checkout</span>
+                <span>{t?.deal_details?.booking?.secure_checkout}</span>
               </div>
             </div>
 
@@ -419,10 +432,10 @@ export default function ItemDetails({ lang, details, t }: Props) {
               </div>
               <div className="space-y-0.5">
                 <p className="text-xs font-bold text-gray-800 tracking-tight">
-                  Need help?
+                  {t?.deal_details?.booking?.need_help_title}
                 </p>
                 <p className="text-[11px] text-gray-400 font-normal leading-none">
-                  Our team is here for you.
+                  {t?.deal_details?.booking?.need_help_desc}
                 </p>
               </div>
             </Link>
