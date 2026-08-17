@@ -15,6 +15,7 @@ import SecurePayment from "@/app/components/icons/SecurePayment";
 import Container from "@/app/components/shared/Container";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import { getDictionary } from "../../dictionaries";
+import { translateData } from "@/app/components/utils/translateText";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -65,8 +66,12 @@ export default async function page({ params, searchParams }: Props) {
   if (lng) query.set("longitude", lng);
   if (service) query.set("search", service);
 
-  const deals = await getDeals(query.toString());
-  const categories = await getCategories();
+  const dealsData = await getDeals(query.toString());
+  const deals = await translateData(dealsData, lang);
+
+  const categoriesData = await getCategories();
+  const categories = await translateData(categoriesData, lang);
+
   const t: Awaited<ReturnType<typeof getDictionary>> =
     await getDictionary(lang);
 

@@ -1,11 +1,17 @@
 import { getCategories } from "@/actions/quires/cateogries.api";
 import { getDictionary } from "@/app/[lang]/dictionaries";
 import { Category, ChildCategory } from "@/redux/types/categoris";
+import { translateData } from "../utils/translateText";
 
-export const getServices = async (lang: string): Promise<Category[]> => {
-  const categories = await getCategories();
+export const getServices = async (lang: string): Promise<any[]> => {
+  const categoriesData = await getCategories();
 
-  return categories?.data?.map((category: Category) => ({
+  const translatedCategories = await translateData<Category[]>(
+    categoriesData?.data || [],
+    lang,
+  );
+
+  return (translatedCategories || []).map((category: Category) => ({
     title: category?.name,
     href: `/${lang}/category/${category?.id}`,
     subMenu: category?.child_categories?.map((subCategory: ChildCategory) => ({

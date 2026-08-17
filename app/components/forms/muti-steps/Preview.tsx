@@ -8,7 +8,6 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import {
   ChevronLeft,
-  Star,
   Smartphone,
   Zap,
   Heart,
@@ -24,7 +23,6 @@ import "swiper/css/pagination";
 
 import { Badge } from "@/components/ui/badge";
 import Container from "../../shared/Container";
-import Includes from "@/app/[lang]/(main)/view/__componets/Includes";
 import ProductLocation from "@/app/[lang]/(main)/view/__componets/ProductLocation";
 import ItemCounter from "@/app/[lang]/(main)/cart/__components/ItemCounter";
 import CheckMark from "../../icons/CheckMark";
@@ -47,6 +45,7 @@ import { useCreateDealMutation } from "@/redux/features/deal/deal.api";
 import SelectStatus from "./SelectStatus";
 import DealsTerms from "./DealsTerms";
 import Check from "../../icons/Check";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 type TabType = "overview" | "included";
 
@@ -81,7 +80,11 @@ const formatToYmdHis = (dateTimeStr: string | undefined): string => {
   return parts.length === 2 ? `${spaceSeparated}:00` : spaceSeparated;
 };
 
-export default function Preview() {
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function Preview({ t }: Props) {
   const dispatch = useAppDispatch();
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
   const [activeTab, setActiveTab] = useState<TabType>("overview");
@@ -528,6 +531,7 @@ export default function Preview() {
           </div>
 
           <ProductLocation
+            t={t}
             location={overview?.location ?? undefined}
             opening={overview?.openingHours}
             accessibility={overview?.accessibility}

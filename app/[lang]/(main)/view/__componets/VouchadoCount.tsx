@@ -23,10 +23,14 @@ function CountdownItem({ value, label }: CountdownItemProps) {
 }
 
 interface VouchadoCountProps {
+  t: any;
   service_end_at: string;
 }
 
-export default function VouchadoCount({ service_end_at }: VouchadoCountProps) {
+export default function VouchadoCount({
+  service_end_at,
+  t,
+}: VouchadoCountProps) {
   const [timeLeft, setTimeLeft] = useState({
     days: "00",
     hrs: "00",
@@ -126,12 +130,14 @@ export default function VouchadoCount({ service_end_at }: VouchadoCountProps) {
 
         <div className="flex ml-auto flex-col gap-3 z-10">
           <div>
-            <p className="text-sm font-medium">Vouchado Countdown</p>
+            <p className="text-sm font-medium">
+              {t?.deal_details?.vouchado_count?.title}
+            </p>
             <h2 className="text-3xl font-extrabold tracking-tight">
               {displayHeading}
             </h2>
             <p className="text-xs mt-0.5">
-              Don't miss out! This deal expires soon.
+              {t?.deal_details?.vouchado_count?.subtitle}
             </p>
           </div>
 
@@ -139,7 +145,10 @@ export default function VouchadoCount({ service_end_at }: VouchadoCountProps) {
           <div className="flex items-center gap-2 mt-1">
             {countdownMetrics.map((metric, idx) => (
               <React.Fragment key={metric.label}>
-                <CountdownItem value={metric.value} label={metric.label} />
+                <CountdownItem
+                  value={metric.value}
+                  label={t?.deal_details?.vouchado_count?.days}
+                />
                 {idx < countdownMetrics.length - 1 && (
                   <span className="text-xl font-bold opacity-60 animate-pulse">
                     :
@@ -159,7 +168,9 @@ export default function VouchadoCount({ service_end_at }: VouchadoCountProps) {
             <Calendar size={18} />
           </div>
           <div>
-            <p className="text-xs font-medium text-[#637381]">Deal ends</p>
+            <p className="text-xs font-medium text-[#637381]">
+              {t?.deal_details?.vouchado_count?.deal_ends}
+            </p>
             <h3 className="font-bold text-[#212B36] text-[15px] whitespace-nowrap">
               {dealDetails.date}
             </h3>
@@ -172,7 +183,9 @@ export default function VouchadoCount({ service_end_at }: VouchadoCountProps) {
         {/* Urgent Action Link Tag/Pill */}
         <div className="mt-4 flex items-center justify-center gap-2 rounded-full bg-[#EAF9FA] px-4 py-2.5 text-sm text-[#1B696E]">
           <AlertCircle size={15} className="shrink-0" />
-          <span className="text-[11px]">Act now, before it's gone!</span>
+          <span className="text-[11px]">
+            {t?.deal_details?.vouchado_count?.act_now}
+          </span>
         </div>
       </div>
     </div>

@@ -22,29 +22,24 @@ import Menu from "../icons/Menu";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import LocationOrigin from "./LocationOrigin";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface MegaMenuProps {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   lang: string;
   showNavbar: boolean;
   setShowNavbar: (value: boolean) => void;
   navLinks: any;
   services: any;
-  menuTitle: string;
-  menu: string;
-  login: string;
-  register: string;
 }
 
 export default function MegaMenu({
+  t,
   lang,
   showNavbar,
   setShowNavbar,
   navLinks,
   services,
-  menuTitle,
-  menu,
-  login,
-  register,
 }: MegaMenuProps) {
   const pathname = usePathname();
 
@@ -59,7 +54,7 @@ export default function MegaMenu({
           <MenubarMenu>
             <MenubarTrigger className="flex items-center gap-2 xl:gap-1 2xl:gap-2 rounded-full bg-gray-50 border px-4 py-2 xl:px-2 xl:py-1 2xl:py-2 2xl:px-5 text-sm xl:text-xs 2xl:text-base font-medium hover:bg-gray-200 transition cursor-pointer">
               <Menu className="size-4 lg:size-5 2xl:size-6" />
-              {menuTitle}
+              {t?.layout?.nav?.category}
             </MenubarTrigger>
 
             <MenubarContent className="bg-white shadow-xl rounded-2xl p-5 w-[48vw] mt-3">
@@ -124,7 +119,9 @@ export default function MegaMenu({
         <div className="xl:hidden fixed inset-0 z-50 bg-white p-4 overflow-y-auto flex flex-col">
           {/* HEADER */}
           <div className="flex justify-between items-center">
-            <h2 className="text-lg font-semibold pl-4">{menu}</h2>
+            <h2 className="text-lg font-semibold pl-4">
+              {t?.layout?.nav?.mobile_menu}
+            </h2>
             <Button
               variant="ghost"
               onClick={() => setShowNavbar(false)}
@@ -138,7 +135,7 @@ export default function MegaMenu({
           <Accordion className="w-full">
             <AccordionItem value="services" className="border-none">
               <AccordionTrigger className="p-3 font-medium hover:no-underline">
-                {menuTitle}
+                {t?.layout?.nav?.category}
               </AccordionTrigger>
 
               <AccordionContent>
@@ -202,7 +199,7 @@ export default function MegaMenu({
               onClick={() => setShowNavbar(false)}
               className="w-1/2 text-center rounded-full px-4 py-2 bg-gray-100 text-sm font-medium text-gray-700 hover:bg-gray-200 transition"
             >
-              {login}
+              {t?.auth?.login?.login}
             </Link>
 
             <Link
@@ -210,7 +207,7 @@ export default function MegaMenu({
               onClick={() => setShowNavbar(false)}
               className="w-1/2 text-center rounded-full bg-[#2EC4C6] px-4 py-2 text-sm font-medium text-white hover:opacity-90 transition"
             >
-              {register}
+              {t?.auth?.register?.register}
             </Link>
           </div>
         </div>

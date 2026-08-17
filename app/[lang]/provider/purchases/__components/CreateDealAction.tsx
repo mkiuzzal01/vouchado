@@ -71,7 +71,7 @@ export default function CreateDealAction({ title, t, provider_id }: Props) {
             isOpen={openDealModal}
             onClose={() => dispatch(setOpenDealModal(!openDealModal))}
           >
-            <CreateDealForm />
+            <CreateDealForm t={t} />
           </ModalContainer>
 
           <ModalContainer

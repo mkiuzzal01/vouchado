@@ -23,15 +23,18 @@ import Dashboard from "../icons/Dasboard";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import Image from "next/image";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   lang?: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
   userInfo?: any;
   ProviderInfo?: any;
 }
 
 export default function UserDropdown({
   lang = "en",
+  t,
   userInfo,
   ProviderInfo,
 }: Props) {
@@ -73,7 +76,7 @@ export default function UserDropdown({
 
   const handleLogout = () => {
     dispatch(logout());
-    toast.warning("Logout successfully");
+    toast.warning(t?.user_dropdown?.logout_success);
     router.refresh();
   };
 
@@ -141,13 +144,13 @@ export default function UserDropdown({
             {role === "user" ? (
               <>
                 <User className="w-4 h-4 text-slate-400" />
-                My Profile
+                {t?.user_dropdown?.my_profile}
               </>
             ) : (
               <>
                 {" "}
                 <Dashboard />
-                Dashboard
+                {t?.user_dropdown?.dashboard}
               </>
             )}
           </Link>
@@ -160,7 +163,7 @@ export default function UserDropdown({
               className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-semibold text-slate-600 rounded-xl hover:bg-slate-50 cursor-pointer w-full"
             >
               <User className="w-4 h-4 text-slate-400" />
-              My Profile
+              {t?.user_dropdown?.my_profile}
             </Link>
           </DropdownMenuItem>
         )}
@@ -172,7 +175,7 @@ export default function UserDropdown({
           className="flex items-center gap-2.5 px-2.5 py-2 text-xs font-semibold text-rose-600 rounded-xl focus:bg-rose-50 focus:text-rose-600 cursor-pointer"
         >
           <LogOut className="w-4 h-4 text-rose-400" />
-          Log out
+          {t?.user_dropdown?.logout}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

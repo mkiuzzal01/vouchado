@@ -3,6 +3,7 @@ import ContactUs from "./__components/ContactUs";
 import { getSystemInfo } from "@/actions/quires/system_info.api";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import { getDictionary } from "../../dictionaries";
+import { translateData } from "@/app/components/utils/translateText";
 
 interface props {
   params: Promise<{
@@ -13,7 +14,8 @@ interface props {
 export default async function page({ params }: props) {
   const { lang } = await params;
   const t = await getDictionary(lang);
-  const systemInfo = await getSystemInfo();
+  const systemInfoData = await getSystemInfo();
+  const systemInfo = await translateData(systemInfoData, lang);
 
   if (!systemInfo) {
     return (

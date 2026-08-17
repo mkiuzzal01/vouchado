@@ -4,6 +4,7 @@ import Time from "@/app/components/icons/Time";
 import ItemMap from "./ItemMap";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface LatLng {
   visit_location: string;
@@ -12,6 +13,7 @@ interface LatLng {
 }
 
 interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   location?: LatLng;
   accessibility?: string;
   opening?: string;
@@ -21,6 +23,7 @@ export default function ProductLocation({
   location,
   opening,
   accessibility,
+  t,
 }: Props) {
   const handleGetDirection = () => {
     if (!location) return;
@@ -32,7 +35,7 @@ export default function ProductLocation({
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-4 text-left">
       <h4 className="text-sm font-bold text-gray-900 tracking-tight">
-        Local Information
+        {t?.deal_details?.product_location?.title}
       </h4>
 
       <div className="space-y-3.5 text-xs text-gray-600 font-light">
@@ -41,7 +44,9 @@ export default function ProductLocation({
           <Location size={20} />
 
           <div className="space-y-0.5">
-            <p className="font-bold text-gray-900">Location</p>
+            <p className="font-bold text-gray-900">
+              {t?.deal_details?.product_location?.location_label}
+            </p>
             <p className="text-gray-400 leading-normal text-[11px]">
               {location?.visit_location || "Not Available"}
             </p>
@@ -52,7 +57,9 @@ export default function ProductLocation({
         <div className="flex items-start gap-2.5">
           <Time />
           <div className="space-y-0.5">
-            <p className="font-bold text-gray-900">Opening Hours</p>
+            <p className="font-bold text-gray-900">
+              {t?.deal_details?.product_location?.opening_hours_label}
+            </p>
             <p className="text-gray-400 leading-normal text-[11px]">
               {opening ? opening : "Not Available"}
             </p>
@@ -63,7 +70,9 @@ export default function ProductLocation({
         <div className="flex items-start gap-2.5">
           <Accessibility />
           <div className="space-y-0.5">
-            <p className="font-bold text-gray-900">Accessibility</p>
+            <p className="font-bold text-gray-900">
+              {t?.deal_details?.product_location?.accessibility_label}
+            </p>
             <p className="text-gray-400 leading-normal text-[11px]">
               {accessibility}
             </p>
@@ -87,7 +96,10 @@ export default function ProductLocation({
         variant="ghost"
         className="w-full h-12 border border-gray-200 text-[#31BFC8] rounded-full text-xs font-medium  hover:bg-gray-50 flex items-center justify-between px-8"
       >
-        <span className="text-sm">Get Direction</span> <ArrowRight size={14} />
+        <span className="text-sm">
+          {t?.deal_details?.product_location?.get_direction}
+        </span>{" "}
+        <ArrowRight size={14} />
       </Button>
     </div>
   );

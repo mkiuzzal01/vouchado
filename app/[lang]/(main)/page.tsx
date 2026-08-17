@@ -9,6 +9,7 @@ import DealsNear from "@/app/components/sections/DealsNear";
 import Trusted from "@/app/components/sections/Trusted";
 import Steps from "@/app/components/utils/Steps";
 import { getDictionary } from "../dictionaries";
+import { translateData } from "@/app/components/utils/translateText";
 
 interface Props {
   params: Promise<{ lang: "en" | "de" }>;
@@ -32,10 +33,17 @@ export default async function page({ params, searchParams }: Props) {
     query.set("search", service);
   }
 
-  const banner = await getBanner();
-  const categories = await getCategories();
-  const deals = await getDeals(query.toString());
-  const trendingDeals = await getDealTrending();
+  const bannerData = await getBanner();
+  const banner = await translateData(bannerData?.data, lang);
+
+  const categoriesData = await getCategories();
+  const categories = await translateData(categoriesData, lang);
+
+  const dealsData = await getDeals(query.toString());
+  const deals = await translateData(dealsData, lang);
+
+  const trendingDealsData = await getDealTrending();
+  const trendingDeals = await translateData(trendingDealsData, lang);
 
   return (
     <>

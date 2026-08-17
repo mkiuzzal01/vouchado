@@ -63,13 +63,18 @@ export default function OrderSummary({ lang, t }: Props) {
         router.push(res?.data?.checkout_url);
       }
     } catch (error: any) {
-      console.log(error);
-
       if (error?.status == 422) {
         toast.error(error?.data?.message);
-      } else {
-        toast.error("Please login first to checkout");
         router.push(`/${lang}/login?redirect=${window?.location?.pathname}`);
+      } else if (error?.status == 400) {
+        toast.error(error?.data?.message);
+      } else if (error?.status == 401) {
+        toast.error("Login required to checkout");
+        router.push(`/${lang}/login?redirect=${window?.location?.pathname}`);
+      } else if (error?.status == 403) {
+        toast.error(error?.data?.message);
+      } else {
+        toast.error("Something went wrong");
       }
     }
   };

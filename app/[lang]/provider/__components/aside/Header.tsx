@@ -15,6 +15,7 @@ import Dasboard from "@/app/components/icons/Dasboard";
 import DealIcon from "@/app/components/icons/DealIcon";
 import MessageIcon from "@/app/components/icons/MessageIcon";
 import Settings from "@/app/components/icons/Settings";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 // Icon lookup dictionary
 const iconMap = {
@@ -25,6 +26,7 @@ const iconMap = {
 };
 
 interface HeaderProps {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   lang: string;
   profileInfo: any;
   notifications: any[];
@@ -32,6 +34,7 @@ interface HeaderProps {
 }
 
 export default function Header({
+  t,
   lang,
   profileInfo,
   notifications,
@@ -105,7 +108,7 @@ export default function Header({
               lang={lang}
               initialNotifications={notifications}
             />
-            <UserDropdown lang={lang} ProviderInfo={profileInfo} />
+            <UserDropdown t={t} lang={lang} ProviderInfo={profileInfo} />
           </div>
         </div>
 

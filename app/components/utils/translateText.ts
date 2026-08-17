@@ -34,6 +34,18 @@ function chunkArray<T>(items: T[], chunkSize: number): T[][] {
   return chunks;
 }
 
+// List of object key names that should NEVER be translated
+const SKIP_KEYS = new Set([
+  "slug",
+  "id",
+  "href",
+  "url",
+  "key",
+  "type",
+  "category_id",
+  "parent_id",
+]);
+
 export async function translateData<T>(
   inputData: T,
   targetLang: string,
@@ -42,14 +54,11 @@ export async function translateData<T>(
     return inputData;
   }
 
-  // Retrieve API Key from environment variables
-  const apiKey =
-    process.env.GOOGLE_TRANSLATE_API_KEY ||
-    process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
   if (!apiKey) {
     throw new Error(
-      "API key is missing. Please set GOOGLE_TRANSLATE_API_KEY or NEXT_PUBLIC_GOOGLE_API_KEY in your environment.",
+      "API key is missing. Please set NEXT_PUBLIC_GOOGLE_API_KEY in your environment.",
     );
   }
 
@@ -59,17 +68,23 @@ export async function translateData<T>(
 
   const uniqueStrings = new Set<string>();
 
-  // 1. Collect unique string values, SKIPPING URLs
-  function collectStrings(data: unknown): void {
+  // 1. Collect unique string values, SKIPPING URLs and reserved keys (like slug)
+  function collectStrings(data: unknown, parentKey?: string): void {
+    if (parentKey && SKIP_KEYS.has(parentKey.toLowerCase())) {
+      return;
+    }
+
     if (typeof data === "string") {
       const trimmed = data.trim();
       if (trimmed.length > 0 && !isUrl(trimmed)) {
         uniqueStrings.add(data);
       }
     } else if (Array.isArray(data)) {
-      data.forEach(collectStrings);
+      data.forEach((item) => collectStrings(item, parentKey));
     } else if (typeof data === "object" && data !== null) {
-      Object.values(data).forEach(collectStrings);
+      Object.entries(data).forEach(([key, value]) => {
+        collectStrings(value, key);
+      });
     }
   }
 
@@ -82,11 +97,12 @@ export async function translateData<T>(
   const originalArray = Array.from(uniqueStrings);
   const translationMap = new Map<string, string>();
 
-  // Google Translate limits: max 128 segments per request
   const BATCH_SIZE = 100;
   const chunks = chunkArray(originalArray, BATCH_SIZE);
 
-  const endpoint = `https://translation.googleapis.com/language/translate/v2?key=${encodeURIComponent(apiKey)}`;
+  const endpoint = `https://translation.googleapis.com/language/translate/v2?key=${encodeURIComponent(
+    apiKey,
+  )}`;
 
   // 2. Process translation requests in batches
   for (const chunk of chunks) {
@@ -126,20 +142,24 @@ export async function translateData<T>(
     });
   }
 
-  // 3. Reconstruct data structure with translated strings
-  function replaceStrings(data: unknown): unknown {
+  // 3. Reconstruct data structure, skipping reserved keys (like slug)
+  function replaceStrings(data: unknown, parentKey?: string): unknown {
+    if (parentKey && SKIP_KEYS.has(parentKey.toLowerCase())) {
+      return data;
+    }
+
     if (typeof data === "string") {
       return translationMap.get(data) ?? data;
     }
 
     if (Array.isArray(data)) {
-      return data.map(replaceStrings);
+      return data.map((item) => replaceStrings(item, parentKey));
     }
 
     if (typeof data === "object" && data !== null) {
       const reconstructed: Record<string, unknown> = {};
       for (const [key, value] of Object.entries(data)) {
-        reconstructed[key] = replaceStrings(value);
+        reconstructed[key] = replaceStrings(value, key);
       }
       return reconstructed;
     }

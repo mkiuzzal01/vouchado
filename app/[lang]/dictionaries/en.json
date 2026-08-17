@@ -269,6 +269,30 @@
     },
     "similar_item": {
       "title": "Similar Experiences"
+    },
+    "product_location": {
+      "title": "Local Information",
+      "location_label": "Location",
+      "opening_hours_label": "Opening Hours",
+      "accessibility_label": "Accessibility",
+      "not_available": "Not Available",
+      "get_direction": "Get Direction"
+    },
+
+    "vouchado_count": {
+      "title": "Vouchado Countdown",
+      "days_suffix": "d",
+      "hours_suffix": "h",
+      "hours_left": "hrs left",
+      "left": "left",
+      "subtitle": "Don't miss out! This deal expires soon.",
+      "days": "Days",
+      "hrs": "Hrs",
+      "mins": "Mins",
+      "secs": "Secs",
+      "deal_ends": "Deal ends",
+      "loading": "Loading...",
+      "act_now": "Act now, before it's gone!"
     }
   },
   "how_it_work": {
@@ -1107,6 +1131,34 @@
         "title": "Terms & Guidelines",
         "description": "Here you will find all our legal documents."
       }
+    }
+  },
+  "user_dropdown": {
+    "my_profile": "My Profile",
+    "dashboard": "Dashboard",
+    "logout": "Log out",
+    "logout_success": "Logout successfully"
+  },
+  "checkout": {
+    "message": {
+      "order_details": "Order Details",
+      "item": "Item",
+      "items": "Items",
+      "sub_total": "Sub Total",
+      "vat": "Vat (20%)",
+      "coupon_discount": "Coupon Discount",
+      "vouchado_voucher": "Vouchado Voucher",
+      "total": "Total",
+      "earned_prefix": "You Earned",
+      "earned_suffix": "Vouchado Points with this deals.",
+      "voucher_id": "Voucher ID",
+      "qty": "Qty",
+      "code_name": "Code / Name",
+      "payment": "Payment",
+      "expire_date": "Expire date",
+      "view_coupons": "View Coupons",
+      "explore_deals": "Explore Deals",
+      "download_all": "Download All"
     }
   }
 }

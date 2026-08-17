@@ -138,7 +138,7 @@ export default function PromoCreateDeals({ t }: Props) {
         onClose={() => dispatch(setOpenDealModal(!openDealModal))}
         onModalClose={handleOpenModal}
       >
-        <CreateDealForm />
+        <CreateDealForm t={t} />
       </ModalContainer>
       <ModalContainer
         width="2xl"

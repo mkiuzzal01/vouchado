@@ -29,25 +29,25 @@ export default function GiftVoucherCart({ lang, deal_id, t }: Props) {
         {/* Top Section: Header Titles */}
         <div className="relative lg:left-22">
           <h1 className="text-2xl lg:text-4xl font-black text-[#0f2d37] tracking-tight uppercase leading-none">
-            Gift <br /> Voucher
+            {t?.deal_details?.gift_voucher_cart?.title_line1} <br />{" "}
+            {t?.deal_details?.gift_voucher_cart?.title_line2}
           </h1>
-          <p className="text-[#138a9d] font-bold tracking-wider text-xs lg:text-sm uppercase mt-1">
-            Joy that always fits.
-          </p>
         </div>
 
         {/* Bottom Section: Description & Action Link */}
         <div className="flex flex-col gap-4 max-w-[50%]">
           <p className="text-gray-700 text-sm md:text-base">
-            Surprise your loved ones with a gift voucher available for{" "}
-            <span className="text-[#138a9d] font-semibold">any amount.</span>
+            {t?.deal_details?.gift_voucher_cart?.desc_prefix}{" "}
+            <span className="text-[#138a9d] font-semibold">
+              {t?.deal_details?.gift_voucher_cart?.desc_highlight}
+            </span>
           </p>
 
           <button
             onClick={() => setOpenGiftVoucherModal(true)}
             className="inline-block bg-[#2bb0be] hover:bg-[#228e9a] text-white font-semibold p-2 lg:py-2.5 lg:px-6 rounded-full text-sm w-fit transition-colors text-center cursor-pointer"
           >
-            Buy Gift Voucher
+            {t?.deal_details?.gift_voucher_cart?.buy_button}
           </button>
         </div>
 
@@ -55,7 +55,7 @@ export default function GiftVoucherCart({ lang, deal_id, t }: Props) {
         <div className="absolute bottom-6 right-8 w-28 h-28 md:w-36 md:h-36">
           <Image
             src={batch}
-            alt="Gift Voucher Batch"
+            alt={t?.deal_details?.gift_voucher_cart?.subtitle}
             fill
             className="object-contain"
             priority

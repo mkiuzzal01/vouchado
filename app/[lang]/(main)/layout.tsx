@@ -26,15 +26,12 @@ export default async function layout({ children, params }: RootLayout) {
   const token = cookieStore.get("vuchado_token")?.value;
 
   const t = await getDictionary(lang);
+
   const navLinks = await getNavLinks(lang);
   const services = await getServices(lang);
-  const footerLinksData = await footerLinks(lang);
+  const footerLink = await footerLinks(lang);
   const socialLinks = await getSocialLinks();
   const systemInfo = await getSystemInfo();
-
-  const translatedNavLinks = await translateData(systemInfo, lang);
-
-  console.log("translatedNavLinks", translatedNavLinks);
 
   let userInfo = null;
   let providerInfo = null;
@@ -58,21 +55,18 @@ export default async function layout({ children, params }: RootLayout) {
     <div className="min-h-screen flex flex-col">
       <TopBar content={t?.layout?.top} />
       <Navbar
-        login={t.auth.login.login}
-        register={t.auth.register.register}
+        t={t}
         systemInfo={systemInfo}
         provider_info={providerInfo}
         user_info={userInfo}
         lang={lang}
-        menu={t.layout.nav?.mobile_menu}
         navLinks={navLinks}
         services={services}
-        menuTitle={t.layout.nav.category}
       />
       <main className="flex-1">{children}</main>
       <Footer
         t={t}
-        footerLinks={footerLinksData}
+        footerLinks={footerLink}
         socialLinks={socialLinks}
         systemInfo={systemInfo}
       />

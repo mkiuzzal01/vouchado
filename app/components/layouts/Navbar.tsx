@@ -17,29 +17,24 @@ import { useAppSelector } from "@/redux/hooks/globalhooks";
 
 import { useUnreadMessageCount } from "@/redux/hooks/useUnreadMessageCount";
 import ToggleLang from "./ToggleLang";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   systemInfo: any;
+  t: Awaited<ReturnType<typeof getDictionary>>;
   lang: string;
-  login: string;
-  register: string;
-  menu: string;
   navLinks: any;
   services: any;
-  menuTitle: string;
   user_info: any;
   provider_info: any;
 }
 
 export default function Navbar({
   systemInfo,
+  t,
   lang,
-  login,
-  register,
-  menu,
   navLinks,
   services,
-  menuTitle,
   user_info,
   provider_info,
 }: Props) {
@@ -78,11 +73,8 @@ export default function Navbar({
 
           {/* Desktop Menu */}
           <MegaMenu
+            t={t}
             lang={lang}
-            login={login}
-            register={register}
-            menu={menu}
-            menuTitle={menuTitle}
             navLinks={navLinks}
             services={services}
             showNavbar={showNavbar}
@@ -177,6 +169,7 @@ export default function Navbar({
 
               {user ? (
                 <UserDropdown
+                  t={t}
                   lang={lang}
                   userInfo={user_info}
                   ProviderInfo={provider_info}
@@ -187,13 +180,13 @@ export default function Navbar({
                     href={`/${lang}/login`}
                     className="rounded-full border border-gray-300 px-4 py-2 xl:px-2 xl:py-1 2xl:px-4 2xl:py-2 text-sm xl:text-xs 2xl:text-base font-medium 2xl:font-semibold text-gray-700 hover:bg-gray-200 transition"
                   >
-                    {login}
+                    {t?.auth?.login?.login}
                   </Link>
                   <Link
                     href={`/${lang}/registration`}
                     className="rounded-full bg-[#2EC4C6] px-4 py-2 xl:px-2 xl:py-1 2xl:px-4 2xl:py-2 text-sm xl:text-xs 2xl:text-base font-medium 2xl:font-semibold text-white hover:opacity-90 transition"
                   >
-                    {register}
+                    {t?.auth?.register?.register}
                   </Link>
                 </div>
               )}

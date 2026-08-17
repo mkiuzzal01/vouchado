@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MoveLeft } from "lucide-react"; // Run `npm i lucide-react` if you haven't already
+import { MoveLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,

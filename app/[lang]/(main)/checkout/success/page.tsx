@@ -1,11 +1,18 @@
 "use client";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import CheckoutMessagePage from "../checkout-message/page";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import Loader from "@/app/loading";
 import { useGetVerifySessionQuery } from "@/redux/features/deal/deal.api";
 import { useSearchParams } from "next/navigation";
 
-export default function page() {
+interface IProps {
+  params: Promise<{ lang: string }>;
+}
+
+export default async function page({ params }: IProps) {
+  const { lang } = await params;
+  const t = await getDictionary(lang);
   const searchParams = useSearchParams();
   const session_id = searchParams.get("session_id");
   const { data, isFetching, isLoading } = useGetVerifySessionQuery(session_id, {
@@ -25,5 +32,5 @@ export default function page() {
     );
   }
 
-  return <CheckoutMessagePage verifySession={data?.data} />;
+  return <CheckoutMessagePage t={t} verifySession={data?.data} />;
 }

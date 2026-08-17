@@ -8,6 +8,7 @@ import Preview from "./Preview";
 import Check from "../../icons/Check";
 import Overview from "./Overview";
 import { setStep } from "@/redux/features/deal/deal.slice";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 const WIZARD_STEPS = [
   { id: 1, label: "Media" },
@@ -16,7 +17,11 @@ const WIZARD_STEPS = [
   { id: 4, label: "Deal Info" },
 ];
 
-export default function CreateDealForm() {
+interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+
+export default function CreateDealForm({ t }: Props) {
   const dispatch = useDispatch();
   const { currentStep } = useAppSelector((step) => step.deal);
 
@@ -31,7 +36,7 @@ export default function CreateDealForm() {
       case 4:
         return <Overview />;
       case 5:
-        return <Preview />;
+        return <Preview t={t} />;
       default:
         return <Media />;
     }

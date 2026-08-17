@@ -317,11 +317,11 @@ export default function ItemDetails({ lang, details, t }: Props) {
               </div>
               <div>
                 <span className="text-xl text-gray-400 line-through block font-normal">
-                  {details?.deal?.original_price}
+                  $ {details?.deal?.original_price}
                 </span>
                 <div className="flex items-baseline gap-2 mt-0.5">
                   <span className="text-2xl sm:text-3xl font-bold text-gray-900">
-                    {details.deal?.discounted_price}
+                    $ {details.deal?.discounted_price}
                   </span>
                   <span className="bg-[#E1F7F5] text-[#31BFC8] font-semibold text-xs px-2 py-0.5 rounded-xl">
                     {t?.deal_details?.booking?.save}{" "}
@@ -440,6 +440,7 @@ export default function ItemDetails({ lang, details, t }: Props) {
               </div>
             </Link>
             <ProductLocation
+              t={t}
               location={{
                 visit_location: details?.deal?.visit_location,
                 lat: Number(details?.deal?.latitude),
@@ -448,13 +449,20 @@ export default function ItemDetails({ lang, details, t }: Props) {
               opening={details?.deal?.opening_hours}
               accessibility={details?.deal?.accessibility_info}
             />
-            <VouchadoCount service_end_at={details?.deal?.service_end_at} />
+            <VouchadoCount
+              t={t}
+              service_end_at={details?.deal?.service_end_at}
+            />
             <GiftVoucherCart lang={lang} deal_id={details?.deal?.id} t={t} />
           </div>
         </div>
 
         {details?.similar_deals && details?.similar_deals.length > 0 && (
-          <SimilarItem lang={lang} similar_deals={details?.similar_deals} />
+          <SimilarItem
+            lang={lang}
+            t={t}
+            similar_deals={details?.similar_deals}
+          />
         )}
         <PromoSteps steps={promos} />
       </Container>

@@ -273,6 +273,30 @@
     },
     "similar_item": {
       "title": "Ähnliche Erlebnisse"
+    },
+
+    "product_location": {
+      "title": "Lokale Informationen",
+      "location_label": "Standort",
+      "opening_hours_label": "Öffnungszeiten",
+      "accessibility_label": "Barrierefreiheit",
+      "not_available": "Nicht verfügbar",
+      "get_direction": "Wegbeschreibung erhalten"
+    },
+    "vouchado_count": {
+      "title": "Vouchado Countdown",
+      "days_suffix": "T",
+      "hours_suffix": "St",
+      "hours_left": "St std verbleibend",
+      "left": "verbleibend",
+      "subtitle": "Nicht verpassen! Dieses Angebot läuft bald ab.",
+      "days": "Tage",
+      "hrs": "Std",
+      "mins": "Min",
+      "secs": "Sek",
+      "deal_ends": "Angebot endet",
+      "loading": "Laden...",
+      "act_now": "Jetzt zugreifen, bevor es vorbei ist!"
     }
   },
   "how_it_work": {
@@ -1111,6 +1135,34 @@
         "title": "AGB & Richtlinien",
         "description": "Hier findest du alle unsere rechtlichen Dokumente."
       }
+    }
+  },
+  "user_dropdown": {
+    "my_profile": "Mein Profil",
+    "dashboard": "Dashboard",
+    "logout": "Abmelden",
+    "logout_success": "Erfolgreich abgemeldet"
+  },
+  "checkout": {
+    "message": {
+      "order_details": "Bestelldetails",
+      "item": "Artikel",
+      "items": "Artikel",
+      "sub_total": "Zwischensumme",
+      "vat": "MwSt. (20%)",
+      "coupon_discount": "Gutscheinrabatt",
+      "vouchado_voucher": "Vouchado-Gutschein",
+      "total": "Gesamtbetrag",
+      "earned_prefix": "Sie haben",
+      "earned_suffix": "Vouchado-Punkte mit diesen Angeboten gesammelt.",
+      "voucher_id": "Gutschein-ID",
+      "qty": "Menge",
+      "code_name": "Code / Name",
+      "payment": "Zahlung",
+      "expire_date": "Ablaufdatum",
+      "view_coupons": "Gutscheine anzeigen",
+      "explore_deals": "Angebote entdecken",
+      "download_all": "Alle herunterladen"
     }
   }
 }

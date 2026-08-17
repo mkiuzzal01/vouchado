@@ -19,7 +19,7 @@ interface Props {
 
 export default function BusineesInfoForm({ lang }: Props) {
   const router = useRouter();
-  const { data, isLoading } = useGetCategoriesQuery(null);
+  const { data } = useGetCategoriesQuery(null);
   const dispatch = useAppDispatch();
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState<{

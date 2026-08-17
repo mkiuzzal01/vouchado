@@ -136,13 +136,6 @@ function DetailsFormContent({ category }: { category: ICategory }) {
 
   const childCategories = selectedCategoryObj?.child_categories || [];
 
-  // Check if the selected child category is valid for the current parent
-  const isValidChildCategory =
-    selectedChildCategoryId &&
-    childCategories.some(
-      (child) => child.id.toString() === selectedChildCategoryId?.toString(),
-    );
-
   // Register array validation rules safely on component mount
   useEffect(() => {
     register("availableDays", {

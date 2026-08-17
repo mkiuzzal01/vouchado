@@ -25,7 +25,10 @@ export function useUnreadMessageCount() {
       const echo = getEchoInstance(token);
 
       const handleNewMessage = (msgData: any, source: string) => {
-        console.log(`💬 [Echo Debug Message] Incoming message from (${source}):`, msgData);
+        console.log(
+          `💬 [Echo Debug Message] Incoming message from (${source}):`,
+          msgData,
+        );
         refetch();
       };
 
@@ -34,14 +37,24 @@ export function useUnreadMessageCount() {
 
       // 1. App.Models.User.{id} channel
       const channel1 = echo.channel(userChannelName);
-      channel1.listen("MessageSent", (d: any) => handleNewMessage(d, userChannelName));
-      channel1.listen(".MessageSent", (d: any) => handleNewMessage(d, userChannelName));
-      channel1.listen("message.sent", (d: any) => handleNewMessage(d, userChannelName));
+      channel1.listen("MessageSent", (d: any) =>
+        handleNewMessage(d, userChannelName),
+      );
+      channel1.listen(".MessageSent", (d: any) =>
+        handleNewMessage(d, userChannelName),
+      );
+      channel1.listen("message.sent", (d: any) =>
+        handleNewMessage(d, userChannelName),
+      );
 
       // 2. user.{id} channel
       const channel2 = echo.channel(generalUserChannel);
-      channel2.listen("MessageSent", (d: any) => handleNewMessage(d, generalUserChannel));
-      channel2.listen(".MessageSent", (d: any) => handleNewMessage(d, generalUserChannel));
+      channel2.listen("MessageSent", (d: any) =>
+        handleNewMessage(d, generalUserChannel),
+      );
+      channel2.listen(".MessageSent", (d: any) =>
+        handleNewMessage(d, generalUserChannel),
+      );
 
       return () => {
         echo.leave(userChannelName);
@@ -58,7 +71,7 @@ export function useUnreadMessageCount() {
   const unreadCount = Array.isArray(conversationsList)
     ? conversationsList.reduce(
         (acc: number, item: any) => acc + (Number(item?.unread_count) || 0),
-        0
+        0,
       )
     : 0;
 

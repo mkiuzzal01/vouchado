@@ -3,17 +3,19 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Autoplay } from "swiper/modules";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
+  t: Awaited<ReturnType<typeof getDictionary>>;
   lang: string;
   similar_deals?: any;
 }
 
-export default function SimilarItem({ lang, similar_deals }: Props) {
+export default function SimilarItem({ lang, similar_deals, t }: Props) {
   return (
     <div className="py-6 md:py-10">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">
-        Similar Experiences
+        {t?.deal_details?.similar_item?.title}
       </h1>
 
       <Swiper

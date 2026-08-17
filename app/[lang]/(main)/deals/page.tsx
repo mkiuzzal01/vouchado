@@ -14,6 +14,7 @@ import Container from "@/app/components/shared/Container";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import SectionHeader from "@/app/components/shared/SectionHeader";
 import { getDictionary } from "../../dictionaries";
+import { translateData } from "@/app/components/utils/translateText";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -55,8 +56,12 @@ export default async function Page({ params, searchParams }: Props) {
   if (availability) query.set("availability", availability);
   if (page) query.set("page", page);
 
-  const deals = await getDeals(query.toString());
-  const categories = await getCategories();
+  const dealsData = await getDeals(query.toString());
+  const deals = await translateData(dealsData, lang);
+
+  const categoriesData = await getCategories();
+  const categories = await translateData(categoriesData, lang);
+
   const t = (await getDictionary(lang)) as Awaited<
     ReturnType<typeof getDictionary>
   >;

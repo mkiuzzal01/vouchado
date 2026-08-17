@@ -64,9 +64,9 @@ export default function ProviderAside({
           </div>
         </div>
 
-        <button className="w-full border border-[#31BFC8] bg-white text-[#31BFC8] font-bold py-2.5 rounded-full text-md transition hover:bg-[#31BFC8] hover:text-white active:scale-[0.99]">
+        {/* <button className="w-full border border-[#31BFC8] bg-white text-[#31BFC8] font-bold py-2.5 rounded-full text-md transition hover:bg-[#31BFC8] hover:text-white active:scale-[0.99]">
           {t?.provider_profile?.provider?.withdrawal?.withdraw_button}
-        </button>
+        </button> */}
       </div>
 
       {/* Minimalist Opening Hours (No BG/Border matching image_ccb5ce.png) */}

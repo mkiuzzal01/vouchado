@@ -13,6 +13,7 @@ import SectionHeader from "@/app/components/shared/SectionHeader";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import { getDeals } from "@/actions/quires/deals.api";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import { translateData } from "@/app/components/utils/translateText";
 
 export const promos = [
   {
@@ -74,7 +75,8 @@ export default async function Page({ params, searchParams }: Props) {
   if (sort) query.set("sort", sort);
   if (page) query.set("page", page);
 
-  const deals = await getDeals(query.toString());
+  const dealsData = await getDeals(query.toString());
+  const deals = await translateData(dealsData, lang);
 
   const totalDeals = String(deals?.meta?.total || deals?.data?.length || 0);
 
