@@ -3,8 +3,15 @@ import Image from "next/image";
 import success from "@/public/auth/Group 87.png";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
-export default function GiftVouchersPage() {
+interface Props {
+  params: Promise<{ lang: string }>;
+}
+
+export default async function GiftVouchersPage({ params }: Props) {
+  const { lang } = await params;
+  const t = await getDictionary(lang);
   return (
     <Container>
       <div className="flex min-h-screen flex-col items-center justify-center bg-[#f8fafc] px-4">
@@ -13,7 +20,7 @@ export default function GiftVouchersPage() {
           <div className="mb-6 flex items-center justify-center">
             <Image
               src={success}
-              alt="Gift Voucher Purchase Success"
+              alt={t?.deal_details?.gift_vouchers_success?.image_alt}
               width={180}
               height={180}
               priority
@@ -22,13 +29,13 @@ export default function GiftVouchersPage() {
 
           {/* Messaging */}
           <h1 className="mb-6 text-2xl font-semibold text-[#1e293b]">
-            Gift Voucher Purchase Success
+            {t?.deal_details?.gift_vouchers_success?.title}
           </h1>
 
           {/* CTA Button */}
           <Link href="/en/deals" className="w-full">
             <Button className="h-10 w-full rounded-full text-base font-medium">
-              Continue Shopping
+              {t?.deal_details?.gift_vouchers_success?.button_continue_shopping}
             </Button>
           </Link>
         </div>

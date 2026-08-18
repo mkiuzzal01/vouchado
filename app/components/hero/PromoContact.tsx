@@ -95,7 +95,7 @@ export default function PromoContact({ lang, t }: Props) {
           </div>
 
           {/* --- CONTACT ILLUSTRATION SHOWCASE POD --- */}
-          <div className="relative w-full rounded-[32px] bg-[#DFE3E8]/40 border border-slate-100 p-4 sm:p-8 md:p-12 overflow-hidden flex items-center justify-center shadow-sm min-h-[380px] sm:min-h-[500px] lg:min-h-[580px]">
+          <div className="relative w-full rounded-[32px] border border-slate-100 p-4 sm:p-8 md:p-12 overflow-hidden flex items-center justify-center shadow-sm min-h-[380px] sm:min-h-[500px] lg:min-h-[580px]">
             <div className="relative w-full h-full max-w-5xl min-h-[340px] sm:min-h-[460px] lg:min-h-[540px]">
               <Image
                 src={contactImage}

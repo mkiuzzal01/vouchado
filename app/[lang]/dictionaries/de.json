@@ -51,6 +51,48 @@
       "enter_password": "Passwort eingeben",
       "enter_confirm_password": "Passwort bestätigen",
       "update": "Passwort aktualisieren"
+    },
+    "business_profile_setup": {
+      "title": "Unternehmenseinrichtung",
+      "subtitle": "Bitte richten Sie Ihre Unternehmensinformationen ein",
+      "upload_logo": "Logo hochladen",
+      "upload_cover": "Titelbild hochladen",
+      "working_days_hours": "Arbeitstage & Öffnungszeiten",
+      "days": {
+        "Sunday": "Sonntag",
+        "Monday": "Montag",
+        "Tuesday": "Dienstag",
+        "Wednesday": "Mittwoch",
+        "Thursday": "Donnerstag",
+        "Friday": "Freitag",
+        "Saturday": "Samstag"
+      },
+      "no_days_selected": "Wählen Sie oben Arbeitstage aus, um die täglichen Schichten zu konfigurieren.",
+      "open": "Öffnet",
+      "close": "Schließt",
+      "save_continue": "Speichern & Fortfahren"
+    },
+    "business_info_form": {
+      "title": "Unternehmenseinstellungen",
+      "subtitle": "Bitte richten Sie Ihre Unternehmensinformationen ein",
+      "business_name_label": "Unternehmensname",
+      "business_name_placeholder": "Geben Sie Ihren Unternehmensnamen ein",
+      "business_category_label": "Unternehmenskategorie",
+      "phone_number_label": "Telefonnummer",
+      "phone_number_placeholder": "XXXXXXXXXX",
+      "email_address_label": "E-Mail-Adresse",
+      "email_address_placeholder": "Geben Sie Ihre E-Mail-Adresse ein",
+      "address_placeholder": "Vollständige Adresse eingeben",
+      "address_required": "Adresse ist erforderlich",
+      "submit_button": "Jetzt kostenlos registrieren",
+      "already_have_account": "Haben Sie bereits ein Konto?",
+      "login_link": "Anmelden",
+      "toast_success": "Weiter zum nächsten Schritt der Profil-Einrichtung"
+    },
+    "verification_success": {
+      "title": "E-Mail-Bestätigung erfolgreich",
+      "login_button": "Anmelden",
+      "image_alt": "E-Mail-Bestätigung erfolgreich"
     }
   },
   "layout": {
@@ -274,7 +316,6 @@
     "similar_item": {
       "title": "Ähnliche Erlebnisse"
     },
-
     "product_location": {
       "title": "Lokale Informationen",
       "location_label": "Standort",
@@ -297,6 +338,11 @@
       "deal_ends": "Angebot endet",
       "loading": "Laden...",
       "act_now": "Jetzt zugreifen, bevor es vorbei ist!"
+    },
+    "gift_vouchers_success": {
+      "title": "Geschenkgutscheinkauf erfolgreich",
+      "button_continue_shopping": "Weiter einkaufen",
+      "image_alt": "Geschenkgutscheinkauf erfolgreich"
     }
   },
   "how_it_work": {
@@ -1144,6 +1190,10 @@
     "logout_success": "Erfolgreich abgemeldet"
   },
   "checkout": {
+    "success": {
+      "title": "Zahlung erfolgreich",
+      "description": "Ihre Bestellung wurde bestätigt und Ihr Einlösegutschein ist einsatzbereit."
+    },
     "message": {
       "order_details": "Bestelldetails",
       "item": "Artikel",
@@ -1164,5 +1214,22 @@
       "explore_deals": "Angebote entdecken",
       "download_all": "Alle herunterladen"
     }
+  },
+  "review_form": {
+    "title": "Bewerte dein Erlebnis",
+    "subtitle": "Dein Feedback hilft anderen und unterstützt uns, noch besser zu werden.",
+    "overall_title": "Gesamterlebnis",
+    "overall_subtitle": "Wie zufrieden warst du insgesamt mit deinem Erlebnis?",
+    "friendliness_title": "Freundlichkeit",
+    "friendliness_subtitle": "Wie freundlich war das Team?",
+    "recommendation_title": "Würde ich wieder machen",
+    "recommendation_subtitle": "Würdest du dieses Angebot weiterempfehlen?",
+    "value_title": "Preis-Leistung",
+    "value_subtitle": "Wie zufrieden warst du mit dem Erlebnis für den bezahlten Preis?",
+    "as_described_title": "Wie beschrieben",
+    "as_described_subtitle": "Hat das Erlebnis deinen Erwartungen und der Beschreibung auf Vouchado entsprochen?",
+    "comment_label": "Anmerkungen (optional)",
+    "comment_placeholder": "Schreibe etwas zu deiner Erfahrung...",
+    "submit_button": "Bewertung absenden"
   }
 }

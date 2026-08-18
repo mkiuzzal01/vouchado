@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { FieldValues } from "react-hook-form";
@@ -15,19 +15,11 @@ import img from "@/public/auth/Rectangle 35.png";
 
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { useUpdateProviderProfileMutation } from "@/redux/features/provider/provider.api";
-
-const DAYS_OF_WEEK = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-] as const;
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   lang: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 // Helper to safely extract File objects
@@ -37,10 +29,35 @@ const getFile = (val: unknown): File | null => {
   return null;
 };
 
-export default function BusinessProfileSetupForm({ lang }: Props) {
+// Map of display day names to backend day names (always English)
+const DAY_MAP = {
+  Sunday: "sunday",
+  Monday: "monday",
+  Tuesday: "tuesday",
+  Wednesday: "wednesday",
+  Thursday: "thursday",
+  Friday: "friday",
+  Saturday: "saturday",
+} as const;
+
+export default function BusinessProfileSetupForm({ lang, t }: Props) {
   const router = useRouter();
 
-  // Store selected day names in a Set for simple, non-mutative toggles
+  // Get translated day names from dictionary
+  const translatedDays = useMemo(
+    () => [
+      t?.auth?.business_profile_setup?.days?.Sunday || "Sunday",
+      t?.auth?.business_profile_setup?.days?.Monday || "Monday",
+      t?.auth?.business_profile_setup?.days?.Tuesday || "Tuesday",
+      t?.auth?.business_profile_setup?.days?.Wednesday || "Wednesday",
+      t?.auth?.business_profile_setup?.days?.Thursday || "Thursday",
+      t?.auth?.business_profile_setup?.days?.Friday || "Friday",
+      t?.auth?.business_profile_setup?.days?.Saturday || "Saturday",
+    ],
+    [t],
+  );
+
+  // Store selected day names in a Set
   const [selectedDays, setSelectedDays] = useState<Set<string>>(new Set());
 
   const {
@@ -71,6 +88,11 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
   const handleSubmit = async (formData: FieldValues) => {
     const formPayload = new FormData();
 
+    if (selectedDays?.size === 0) {
+      toast.error(t?.auth?.business_profile_setup?.no_days_selected);
+      return;
+    }
+
     formPayload.append("phone", phone || "");
     formPayload.append("latitude", String(latitude ?? ""));
     formPayload.append("longitude", String(longitude ?? ""));
@@ -86,13 +108,18 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
     const coverFile = getFile(formData?.business_cover_image);
     if (coverFile) formPayload.append("business_cover_image", coverFile);
 
-    // Build hours payload
-    DAYS_OF_WEEK.forEach((day, index) => {
-      const isSelected = selectedDays.has(day);
-      const backendDayName = day.toLowerCase();
+    // Build hours payload with English day names for backend
+    // Use the English day names from DAY_MAP as the source of truth
+    const englishDays = Object.keys(DAY_MAP) as (keyof typeof DAY_MAP)[];
 
-      const openTime = formData?.hours?.[day]?.openingTime || "09:00";
-      const closeTime = formData?.hours?.[day]?.closingTime || "17:00";
+    englishDays.forEach((day, index) => {
+      const translatedDay = t?.auth?.business_profile_setup?.days?.[day] || day;
+      const isSelected = selectedDays.has(translatedDay);
+      const backendDayName = DAY_MAP[day];
+
+      const openTime = formData?.hours?.[translatedDay]?.openingTime || "09:00";
+      const closeTime =
+        formData?.hours?.[translatedDay]?.closingTime || "17:00";
 
       formPayload.append(`business_hours[${index}][day]`, backendDayName);
       formPayload.append(`business_hours[${index}][open_time]`, openTime);
@@ -104,6 +131,8 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
     });
 
     try {
+      console.log(formPayload);
+
       const res = await updateProviderProfile(formPayload).unwrap();
       if (res?.message) {
         toast.success(res?.message);
@@ -133,10 +162,10 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
           <div className="p-6 md:p-10 flex flex-col justify-center">
             <div className="flex justify-center items-center flex-col gap-1 mb-8 text-center">
               <h2 className="font-semibold text-2xl md:text-3xl lg:text-4xl text-slate-900">
-                Upload Assets
+                {t?.auth?.business_profile_setup?.title}
               </h2>
               <p className="text-xs md:text-sm text-gray-400">
-                Please set up your business information
+                {t?.auth?.business_profile_setup?.subtitle}
               </p>
             </div>
 
@@ -145,12 +174,15 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
                 {/* File Uploads Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="col-span-1">
-                    <FileInput name="business_logo" label="Upload Logo" />
+                    <FileInput
+                      name="business_logo"
+                      label={t?.auth?.business_profile_setup?.upload_logo}
+                    />
                   </div>
                   <div className="col-span-1 md:col-span-2">
                     <FileInput
                       name="business_cover_image"
-                      label="Upload cover image"
+                      label={t?.auth?.business_profile_setup?.upload_cover}
                     />
                   </div>
                 </div>
@@ -160,10 +192,10 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
                 {/* Working Days Selector */}
                 <div>
                   <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-                    Working Days & Hours
+                    {t?.auth?.business_profile_setup?.working_days_hours}
                   </label>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {DAYS_OF_WEEK.map((day) => {
+                    {translatedDays.map((day) => {
                       const isSelected = selectedDays.has(day);
                       return (
                         <button
@@ -182,50 +214,52 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
                     })}
                   </div>
 
-                  {/* Fixed-height scrollable time panel to prevent UI shaking */}
+                  {/* Fixed-height scrollable time panel */}
                   <div className="h-[220px] overflow-y-auto pr-1 border border-slate-100 rounded-xl p-2 bg-slate-50/50 custom-scrollbar">
                     {selectedDays.size === 0 ? (
                       <div className="h-full flex items-center justify-center">
                         <p className="text-xs text-slate-400 italic text-center">
-                          Select operating days above to configure daily shifts.
+                          {t?.auth?.business_profile_setup?.no_days_selected}
                         </p>
                       </div>
                     ) : (
                       <div className="space-y-3">
-                        {DAYS_OF_WEEK.filter((day) =>
-                          selectedDays.has(day),
-                        ).map((day) => (
-                          <div
-                            key={day}
-                            className="p-3 bg-white border border-slate-200/60 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs"
-                          >
-                            <span className="text-sm font-semibold text-slate-700 min-w-[90px]">
-                              {day}
-                            </span>
-                            <div className="grid grid-cols-2 gap-3 flex-1">
-                              <div>
-                                <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">
-                                  Open
-                                </span>
-                                <TimeInput
-                                  isCurrentDateValidation={false}
-                                  name={`hours.${day}.openingTime`}
-                                  label="00 : 00"
-                                />
-                              </div>
-                              <div>
-                                <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">
-                                  Close
-                                </span>
-                                <TimeInput
-                                  isCurrentDateValidation={false}
-                                  name={`hours.${day}.closingTime`}
-                                  label="00 : 00"
-                                />
+                        {translatedDays
+                          .filter((day) => selectedDays.has(day))
+                          .map((day) => (
+                            <div
+                              key={day}
+                              className="p-3 bg-white border border-slate-200/60 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs"
+                            >
+                              <span className="text-sm font-semibold text-slate-700 min-w-[90px]">
+                                {day}
+                              </span>
+                              <div className="grid grid-cols-2 gap-3 flex-1">
+                                <div>
+                                  <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">
+                                    {t?.auth?.business_profile_setup?.open}
+                                  </span>
+                                  <TimeInput
+                                    required
+                                    isCurrentDateValidation={false}
+                                    name={`hours.${day}.openingTime`}
+                                    label="00 : 00"
+                                  />
+                                </div>
+                                <div>
+                                  <span className="block text-[10px] uppercase font-bold text-slate-400 mb-1">
+                                    {t?.auth?.business_profile_setup?.close}
+                                  </span>
+                                  <TimeInput
+                                    required
+                                    isCurrentDateValidation={false}
+                                    name={`hours.${day}.closingTime`}
+                                    label="00 : 00"
+                                  />
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
                       </div>
                     )}
                   </div>
@@ -235,7 +269,7 @@ export default function BusinessProfileSetupForm({ lang }: Props) {
                 <div className="pt-2">
                   <SubmitButton
                     isLoading={isLoading}
-                    title="Save & Continue"
+                    title={t?.auth?.business_profile_setup?.save_continue}
                     className="h-12 w-full rounded-full text-white bg-primary hover:bg-[#0f7275] transition-colors font-medium text-sm"
                   />
                 </div>

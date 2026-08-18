@@ -1,51 +1,73 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Download } from "lucide-react";
+
 import Container from "@/app/components/shared/Container";
-import message from "@/public/notification/Success Notification.png";
 import EarnedBatch from "@/app/components/icons/EarnedBatch";
 import Voucher from "@/app/components/icons/Voucher";
 import Bag from "@/app/components/icons/Bag";
-import { VerifySession } from "@/redux/types/_global";
 import QRCode from "../../vouchers/__components/QRCode";
+import Loader from "@/app/loading";
+
+import message from "@/public/notification/Success Notification.png";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 import { clearCart } from "@/redux/features/cart/cart.slice";
-import { useEffect, useState } from "react";
 import { clearCouponCode } from "@/redux/features/auth/auth.slice";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import { useGetVerifySessionQuery } from "@/redux/features/deal/deal.api";
 
 interface Props {
+  session_id?: string;
   t: Awaited<ReturnType<typeof getDictionary>>;
-  verifySession: VerifySession;
 }
 
-export default function CheckoutMessagePage({ verifySession, t }: Props) {
+interface VoucherItem {
+  id: string | number;
+  voucher_code: string;
+  expire_date: string;
+}
+
+export default function CheckoutMessage({ session_id, t }: Props) {
   const dispatch = useAppDispatch();
   const { points_per_order } = useAppSelector((state) => state.auth);
   const [isDownloading, setIsDownloading] = useState(false);
+
+  const {
+    data: verifySession,
+    isFetching,
+    isLoading,
+  } = useGetVerifySessionQuery(session_id, {
+    skip: !session_id,
+  });
 
   useEffect(() => {
     dispatch(clearCart());
     dispatch(clearCouponCode());
   }, [dispatch]);
 
+  if (isFetching || isLoading) {
+    return <Loader />;
+  }
+
   const orderDetails = {
-    itemsCount: verifySession?.data?.order?.item_count || 0,
-    subTotal: verifySession?.data?.order?.subtotal || 0,
-    vat: verifySession?.data?.order?.tax || 0,
-    couponDiscount: verifySession?.data?.order?.coupon_discount || 0,
-    voucherDiscount: verifySession?.data?.order?.voucher_discount || 0,
-    total: verifySession?.amount_total || 0,
+    itemsCount: verifySession?.data?.data?.order?.item_count || 0,
+    subTotal: verifySession?.data?.data?.order?.subtotal || 0,
+    vat: verifySession?.data?.data?.order?.tax || 0,
+    couponDiscount: verifySession?.data?.data?.order?.coupon_discount || 0,
+    voucherDiscount: verifySession?.data?.data?.order?.voucher_discount || 0,
+    total: verifySession?.data?.amount_total || 0,
     pointsEarned: points_per_order || 0,
   };
 
   const vouchers =
-    verifySession?.data?.order?.vouchers?.map((voucher) => ({
+    verifySession?.data?.data?.order?.vouchers?.map((voucher: VoucherItem) => ({
       id: voucher.id,
       qty: 1,
       voucher_code: voucher.voucher_code,
-      payment: verifySession.data.order.total,
+      payment: verifySession?.data?.amount_total,
       expiry: voucher.expire_date,
     })) || [];
 
@@ -53,18 +75,21 @@ export default function CheckoutMessagePage({ verifySession, t }: Props) {
     try {
       setIsDownloading(true);
 
-      // Dynamic import to avoid SSR errors
+      // Import jsPDF
       const jsPDFModule = await import("jspdf");
       const autoTableModule = await import("jspdf-autotable");
+      const QRCodeModule = await import("qrcode");
+
       const jsPDF = jsPDFModule.default;
       const autoTable = autoTableModule.default;
+      const QRCode = QRCodeModule.default;
 
       const doc = new jsPDF();
       const orderId = verifySession?.data?.order?.id || "N/A";
 
       // --- Header Section ---
       doc.setFontSize(20);
-      doc.setTextColor(49, 191, 200); // Primary Theme Color (#31BFC8)
+      doc.setTextColor(49, 191, 200);
       doc.text("INVOICE", 14, 20);
 
       doc.setFontSize(10);
@@ -84,10 +109,14 @@ export default function CheckoutMessagePage({ verifySession, t }: Props) {
           ],
         ],
         headStyles: { fillColor: [49, 191, 200] },
+        styles: { fontSize: 10 },
       });
 
       // --- Calculations Breakdown ---
-      const finalY = (doc as any).lastAutoTable.finalY + 10;
+      const finalY =
+        (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable
+          .finalY + 10;
+
       doc.setFontSize(11);
       doc.setTextColor(50);
 
@@ -104,7 +133,7 @@ export default function CheckoutMessagePage({ verifySession, t }: Props) {
       });
 
       doc.text(
-        `${t?.checkout?.message?.coupon_discount || "Voucher Discount"}:`,
+        `${t?.checkout?.message?.view_coupons || "Voucher Discount"}:`,
         120,
         finalY + 12,
       );
@@ -117,25 +146,62 @@ export default function CheckoutMessagePage({ verifySession, t }: Props) {
       doc.text(`${t?.checkout?.message?.total || "Total"}:`, 120, finalY + 22);
       doc.text(`€ ${orderDetails.total}`, 180, finalY + 22, { align: "right" });
 
-      // --- Vouchers List Table ---
+      // --- Generate QR Codes and add to PDF ---
       if (vouchers.length > 0) {
-        autoTable(doc, {
-          startY: finalY + 32,
-          head: [
-            ["Voucher ID", "Code / Name", "Qty", "Payment", "Expiry Date"],
-          ],
-          body: vouchers.map((v) => [
-            v.id.toString(),
-            v.voucher_code,
-            v.qty.toString(),
-            `€ ${v.payment}`,
-            v.expiry,
-          ]),
-          headStyles: { fillColor: [15, 23, 42] }, // Slate color
-        });
+        // Create a canvas element for QR code generation
+        const canvas = document.createElement("canvas");
+
+        // Generate QR codes for each voucher and add to PDF
+        for (let i = 0; i < vouchers.length; i++) {
+          const voucher = vouchers[i];
+
+          // Generate QR code on canvas
+          await QRCode.toCanvas(canvas, voucher.voucher_code, {
+            width: 100,
+            margin: 2,
+            errorCorrectionLevel: "H",
+            color: {
+              dark: "#000000",
+              light: "#ffffff",
+            },
+          });
+
+          // Convert canvas to image data
+          const qrDataUrl = canvas.toDataURL("image/png");
+
+          // Add voucher details to PDF
+          const yPos = finalY + 35 + i * 45;
+
+          // Add voucher info
+          doc.setFontSize(9);
+          doc.setFont("helvetica", "normal");
+          doc.text(`Voucher ${i + 1}`, 14, yPos);
+          doc.text(`ID: ${voucher.id}`, 14, yPos + 6);
+          doc.text(`Code: ${voucher.voucher_code}`, 14, yPos + 12);
+          doc.text(`Qty: ${voucher.qty}`, 14, yPos + 18);
+          doc.text(`Payment: €${voucher.payment}`, 14, yPos + 24);
+          doc.text(`Expiry: ${voucher.expiry}`, 14, yPos + 30);
+
+          // Add QR code to the right side
+          const qrX = 170;
+          const qrY = yPos - 5;
+          const qrSize = 30;
+
+          try {
+            doc.addImage(qrDataUrl, "PNG", qrX, qrY, qrSize, qrSize);
+          } catch (error) {
+            console.error("Error adding QR code:", error);
+          }
+
+          // Add a separator line between vouchers
+          if (i < vouchers.length - 1) {
+            doc.setDrawColor(200, 200, 200);
+            doc.line(14, yPos + 35, 195, yPos + 35);
+          }
+        }
       }
 
-      // --- Save File ---
+      // --- Save the PDF ---
       doc.save(`Invoice_${orderId}.pdf`);
     } catch (error) {
       console.error("Failed to generate PDF invoice:", error);
@@ -149,7 +215,7 @@ export default function CheckoutMessagePage({ verifySession, t }: Props) {
     <Container>
       <div className="max-w-7xl w-full mx-auto p-4 md:p-8 text-slate-800 space-y-6">
         {/* Success Banner Image Container */}
-        <div className="flex justify-center w-full">
+        <div className="flex flex-col justify-center items-center gap-4 w-full">
           <div className="relative w-full max-w-[530px] aspect-[530/432]">
             <Image
               src={message}
@@ -158,6 +224,14 @@ export default function CheckoutMessagePage({ verifySession, t }: Props) {
               priority
               className="object-contain"
             />
+          </div>
+          <div className="flex flex-col justify-center items-center gap-4">
+            <h1 className="text-4xl font-bold text-slate-800">
+              {t?.checkout?.success?.title}
+            </h1>
+            <p className="text-xl text-slate-600">
+              {t?.checkout?.success?.description}
+            </p>
           </div>
         </div>
 
@@ -216,7 +290,8 @@ export default function CheckoutMessagePage({ verifySession, t }: Props) {
 
                 <div className="grid grid-cols-3 text-sm sm:text-lg md:text-xl font-semibold text-slate-500">
                   <span className="col-span-2">
-                    {t?.checkout?.message?.coupon_discount}
+                    {t?.checkout?.message?.coupon_discount ||
+                      "Voucher Discount"}
                   </span>
                   <span className="font-bold text-rose-500 text-right">
                     -€ {orderDetails.voucherDiscount}
@@ -255,7 +330,7 @@ export default function CheckoutMessagePage({ verifySession, t }: Props) {
 
         {/* Vouchers Section */}
         <div className="space-y-6">
-          {vouchers.map((voucher, index) => (
+          {vouchers.map((voucher: any, index: number) => (
             <div
               key={`${voucher?.id}-${index}`}
               className="bg-white border border-gray-100 rounded-2xl flex flex-col md:flex-row overflow-hidden"

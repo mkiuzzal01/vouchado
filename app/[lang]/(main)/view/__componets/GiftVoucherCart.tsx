@@ -1,7 +1,9 @@
 import GiftVoucherForm from "@/app/components/forms/GiftVoucherForm";
 import ModalContainer from "@/app/components/shared/ModalContainer";
-import cart_image from "@/public/services/Frame 2147240718.png";
-import batch from "@/public/services/Frame 2147240724.png";
+import cart_image_1 from "@/public/services/Frame 2147240718.png";
+import cart_image_2 from "@/public/services/Frame 2147240718 (1).png";
+import batch_1 from "@/public/services/Frame 2147240724.png";
+import batch_2 from "@/public/services/Frame 2147240724 (1).png";
 import Image from "next/image";
 import { useState } from "react";
 import { getDictionary } from "../../../dictionaries";
@@ -15,11 +17,11 @@ interface Props {
 export default function GiftVoucherCart({ lang, deal_id, t }: Props) {
   const [openGiftVoucherModal, setOpenGiftVoucherModal] = useState(false);
   return (
-    <div className="rounded-3xl overflow-hidden max-w-[950px] w-full border border-gray-100 shadow-sm">
-      <div className="relative w-full h-[292px] p-8 md:p-10 flex flex-col justify-between">
+    <div className="rounded-3xl overflow-hidden max-w-237.5 w-full border border-gray-100 shadow-sm">
+      <div className="relative w-full h-73 p-8 md:p-10 flex flex-col justify-between">
         {/* Background Image pushed back with -z-10 */}
         <Image
-          src={cart_image}
+          src={lang == "en" ? cart_image_1 : cart_image_2}
           alt="Gift Voucher Background"
           fill
           className="object-cover -z-10"
@@ -54,7 +56,7 @@ export default function GiftVoucherCart({ lang, deal_id, t }: Props) {
         {/* Positioned Badge Image */}
         <div className="absolute bottom-6 right-8 w-28 h-28 md:w-36 md:h-36">
           <Image
-            src={batch}
+            src={lang == "en" ? batch_1 : batch_2}
             alt={t?.deal_details?.gift_voucher_cart?.subtitle}
             fill
             className="object-contain"

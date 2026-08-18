@@ -51,6 +51,48 @@
       "enter_password": "Enter password",
       "enter_confirm_password": "Enter confirm password",
       "update": "Update Password"
+    },
+    "business_profile_setup": {
+      "title": "Business Setup",
+      "subtitle": "Please set up your business information",
+      "upload_logo": "Upload Logo",
+      "upload_cover": "Upload cover image",
+      "working_days_hours": "Working Days & Hours",
+      "days": {
+        "Sunday": "Sunday",
+        "Monday": "Monday",
+        "Tuesday": "Tuesday",
+        "Wednesday": "Wednesday",
+        "Thursday": "Thursday",
+        "Friday": "Friday",
+        "Saturday": "Saturday"
+      },
+      "no_days_selected": "Select operating days above to configure daily shifts.",
+      "open": "Open",
+      "close": "Close",
+      "save_continue": "Save & Continue"
+    },
+    "business_info_form": {
+      "title": "Business Settings",
+      "subtitle": "Please set up your business information",
+      "business_name_label": "Business Name",
+      "business_name_placeholder": "Enter your business name",
+      "business_category_label": "Business Category",
+      "phone_number_label": "Phone Number",
+      "phone_number_placeholder": "XXXXXXXXXX",
+      "email_address_label": "Email Address",
+      "email_address_placeholder": "Enter your email",
+      "address_placeholder": "Write full address",
+      "address_required": "Address is required",
+      "submit_button": "Register Now - It's Free",
+      "already_have_account": "Already have an account?",
+      "login_link": "Log in",
+      "toast_success": "Moving to next step for profile setup"
+    },
+    "verification_success": {
+      "title": "Email Verification Successful",
+      "login_button": "Login",
+      "image_alt": "Email Verification Successful"
     }
   },
   "layout": {
@@ -278,7 +320,6 @@
       "not_available": "Not Available",
       "get_direction": "Get Direction"
     },
-
     "vouchado_count": {
       "title": "Vouchado Countdown",
       "days_suffix": "d",
@@ -293,6 +334,11 @@
       "deal_ends": "Deal ends",
       "loading": "Loading...",
       "act_now": "Act now, before it's gone!"
+    },
+    "gift_vouchers_success": {
+      "title": "Gift Voucher Purchase Success",
+      "button_continue_shopping": "Continue Shopping",
+      "image_alt": "Gift Voucher Purchase Success"
     }
   },
   "how_it_work": {
@@ -1140,6 +1186,10 @@
     "logout_success": "Logout successfully"
   },
   "checkout": {
+    "success": {
+      "title": "Payment successful",
+      "description": "Your order has been confirmed and your redemption voucher is ready to use."
+    },
     "message": {
       "order_details": "Order Details",
       "item": "Item",
@@ -1160,5 +1210,22 @@
       "explore_deals": "Explore Deals",
       "download_all": "Download All"
     }
+  },
+  "review_form": {
+    "title": "Rate your experience",
+    "subtitle": "Your feedback helps others and supports us to get even better.",
+    "overall_title": "Overall Experience",
+    "overall_subtitle": "How satisfied were you overall with your experience?",
+    "friendliness_title": "Friendliness",
+    "friendliness_subtitle": "How friendly was the team?",
+    "recommendation_title": "Would do it again",
+    "recommendation_subtitle": "Would you recommend this offer?",
+    "value_title": "Value for money",
+    "value_subtitle": "How satisfied were you with the experience for the price paid?",
+    "as_described_title": "As described",
+    "as_described_subtitle": "Did the experience meet your expectations and the description on Vouchado?",
+    "comment_label": "Comments (optional)",
+    "comment_placeholder": "Write something about your experience...",
+    "submit_button": "Submit review"
   }
 }

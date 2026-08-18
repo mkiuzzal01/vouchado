@@ -1,4 +1,5 @@
 "use client";
+
 import AppForm from "./AppForm";
 import TextInput from "./inputs/TextInput";
 import SelectInput from "./inputs/SelectInput";
@@ -12,12 +13,15 @@ import { useAppDispatch } from "@/redux/hooks/globalhooks";
 import { setBusinessForm } from "@/redux/features/provider/business_profile.slice";
 import { toast } from "react-toastify";
 import { useGetCategoriesQuery } from "@/redux/features/deal/deal.api";
+import { getDictionary } from "@/app/[lang]/dictionaries";
+import PhoneInput from "./inputs/PhoneInput";
 
 interface Props {
   lang: string;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function BusineesInfoForm({ lang }: Props) {
+export default function BusineesInfoForm({ lang, t }: Props) {
   const router = useRouter();
   const { data } = useGetCategoriesQuery(null);
   const dispatch = useAppDispatch();
@@ -38,6 +42,10 @@ export default function BusineesInfoForm({ lang }: Props) {
   };
 
   const handleSubmit = async (values: FieldValues) => {
+    if (!address) {
+      toast.error(t?.auth?.business_info_form?.address_required);
+      return;
+    }
     dispatch(
       setBusinessForm({
         business_name: values?.businessName,
@@ -50,7 +58,7 @@ export default function BusineesInfoForm({ lang }: Props) {
       }),
     );
 
-    toast.success("Moving to next step for profile setup");
+    toast.success(t?.auth?.business_info_form?.toast_success);
     setTimeout(() => {
       router.push(`/${lang}/business-profile-setup`);
     }, 1000);
@@ -61,23 +69,27 @@ export default function BusineesInfoForm({ lang }: Props) {
       {/* Section Header */}
       <div>
         <h2 className=" text-2xl lg:text-[32px] font-bold text-gray-900 tracking-tight">
-          Business Settings
+          {t?.auth?.business_info_form?.title}
         </h2>
         <p className="text-[#637381] font-normal mt-0.5">
-          Please set up your business information
+          {t?.auth?.business_info_form?.subtitle}
         </p>
       </div>
       <AppForm onSubmit={handleSubmit}>
         <div className="space-y-6">
           <div className="gap-2">
             <TextInput
-              label="Business Name"
+              required
+              label={t?.auth?.business_info_form?.business_name_label}
               name="businessName"
-              placeholder="Enter your business name"
+              placeholder={
+                t?.auth?.business_info_form?.business_name_placeholder
+              }
             />
 
             <SelectInput
-              label="Business Category"
+              required
+              label={t?.auth?.business_info_form?.business_category_label}
               name="businessCategory"
               options={
                 data?.data?.map((item: any) => ({
@@ -87,40 +99,46 @@ export default function BusineesInfoForm({ lang }: Props) {
               }
             />
 
-            <TextInput
-              label="Phone Number"
-              type="tel"
+            <PhoneInput
+              required
+              className="mt-4"
+              label={t?.auth?.business_info_form?.phone_number_label}
               name="phoneNumber"
-              placeholder="XXXXXXXXXX"
+              placeholder={
+                t?.auth?.business_info_form?.phone_number_placeholder
+              }
             />
 
             <TextInput
-              label="Email Address"
+              required
+              label={t?.auth?.business_info_form?.email_address_label}
               type="email"
               name="emailAddress"
-              placeholder="Enter your email"
+              placeholder={
+                t?.auth?.business_info_form?.email_address_placeholder
+              }
             />
 
             <AddressInput
-              placeholder="Write full address"
+              placeholder={t?.auth?.business_info_form?.address_placeholder}
               onChange={handleAddressChange}
               value={address}
             />
           </div>
 
           <SubmitButton
-            title="Register Now - It's Free"
+            title={t?.auth?.business_info_form?.submit_button}
             className="w-full rounded-full h-12  font-semibold"
           />
         </div>
         <div className="mt-4">
           <p className="text-[#637381] text-sm lg:text-base font-semibold text-center">
-            Already have an account yet?
+            {t?.auth?.business_info_form?.already_have_account}
             <Link
               href={`/${lang}/provider-login`}
               className="text-[#29b6be] font-bold ml-1 hover:underline"
             >
-              Log in
+              {t?.auth?.business_info_form?.login_link}
             </Link>
           </p>
         </div>

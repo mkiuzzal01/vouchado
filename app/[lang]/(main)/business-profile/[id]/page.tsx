@@ -6,6 +6,7 @@ import ShopProduct from "../__components/ShopProduct";
 import NotFoundData from "@/app/components/shared/NotFoundData";
 import ProfileAction from "../__components/ProfileAction";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import { translateData } from "@/app/components/utils/translateText";
 
 interface Props {
   params: Promise<{ id: string; lang: string }>;
@@ -15,7 +16,8 @@ export default async function page({ params }: Props) {
   const { id, lang } = await params;
   const t = await getDictionary(lang);
 
-  const profileInfo = await getBusinessProfileById(id);
+  const profileInfoData = await getBusinessProfileById(id);
+  const profileInfo = await translateData(profileInfoData, lang);
 
   if (!profileInfo?.data) {
     return <NotFoundData title="Business profile not found" />;

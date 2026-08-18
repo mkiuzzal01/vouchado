@@ -15,10 +15,11 @@ import {
 import { useAppDispatch } from "@/redux/hooks/globalhooks";
 import { setUser } from "@/redux/features/auth/auth.slice";
 import { useState } from "react";
-import VerificationSuccess from "@/app/[lang]/(auth)/sucess/page";
+import SuccessMessage from "@/app/[lang]/(auth)/sucess/__components/SuccessMessage";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
-  t: any;
+  t: Awaited<ReturnType<typeof getDictionary>>;
   locale: string;
   email?: string;
   from?: string;
@@ -99,7 +100,7 @@ export default function Verify({ locale, t, email, from, role }: Props) {
   return (
     <Container>
       {isSuccess ? (
-        <VerificationSuccess role={role} />
+        <SuccessMessage role={role} t={t} />
       ) : (
         <div className="flex min-h-screen items-center justify-center px-4">
           <div className="w-full max-w-lg overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">

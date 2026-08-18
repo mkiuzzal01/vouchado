@@ -1,4 +1,5 @@
 import BusinessProfileSetupForm from "@/app/components/forms/BusinessProfileSetupForm";
+import { getDictionary } from "../../dictionaries";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -6,5 +7,6 @@ interface Props {
 
 export default async function page({ params }: Props) {
   const { lang } = await params;
-  return <BusinessProfileSetupForm lang={lang} />;
+  const t = await getDictionary(lang);
+  return <BusinessProfileSetupForm lang={lang} t={t} />;
 }

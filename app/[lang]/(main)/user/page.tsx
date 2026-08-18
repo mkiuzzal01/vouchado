@@ -5,6 +5,7 @@ import {
   getUserPurchaseHistory,
 } from "@/actions/quires/user.api";
 import { getDictionary } from "../../dictionaries";
+import { translateData } from "@/app/components/utils/translateText";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -14,10 +15,13 @@ export default async function Page({ params }: Props) {
   const { lang } = await params;
   const t = await getDictionary(lang);
 
-  const [userProfile, purchaseHistory] = await Promise.all([
+  const [userProfileData, purchaseHistoryData] = await Promise.all([
     getUserProfile(),
     getUserPurchaseHistory(),
   ]);
+
+  const userProfile = await translateData(userProfileData, lang);
+  const purchaseHistory = await translateData(purchaseHistoryData, lang);
 
   return (
     <div className="space-y-4">

@@ -66,22 +66,22 @@ export default function OrderDetails({ lang, orderId, t }: OrderDetailsProps) {
       {/* Services List */}
       <div className="space-y-4">
         <h3 className="text-xl font-bold text-gray-800">
-          {t.user_profile.my_purchases.title}
+          {t?.user_profile?.my_purchases?.title}
         </h3>
 
-        {order.items?.map((item: OrderItem) => (
+        {order?.items?.map((item: OrderItem) => (
           <div
-            key={item.id}
+            key={item?.id}
             className="flex flex-col sm:flex-row gap-4 p-3 border border-gray-100 rounded-2xl bg-white shadow-sm"
           >
             {/* Service Thumbnail */}
-            <div className="relative w-full h-48 sm:w-[150px] sm:h-[150px] shrink-0">
+            <div className="relative w-full h-48 sm:w-37.5 sm:h-37.5 shrink-0">
               <Image
                 src={
                   item.image ||
                   "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=180&q=80"
                 }
-                alt={item.title || "Service location"}
+                alt={item?.title || "Service location"}
                 fill
                 className="object-cover rounded-xl"
               />
@@ -91,10 +91,10 @@ export default function OrderDetails({ lang, orderId, t }: OrderDetailsProps) {
             <div className="flex-1 min-w-0 flex flex-col justify-between space-y-3 sm:space-y-2">
               <div className="space-y-1">
                 <span className="inline-block px-2 py-1 bg-[#EFF0F1CC] text-gray-800 font-medium text-[10px] rounded-full">
-                  {item.deal_name || "Deal"}
+                  {item?.deal_name || "Deal"}
                 </span>
                 <h4 className="text-base sm:text-xl font-normal text-gray-900 truncate">
-                  {item.title}
+                  {item?.title}
                 </h4>
                 <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500 font-medium">
                   <span className="flex items-center gap-0.5 text-amber-500">
@@ -103,7 +103,7 @@ export default function OrderDetails({ lang, orderId, t }: OrderDetailsProps) {
                   <div className="flex items-center gap-1">
                     <LocationIcon color="#637381" size={16} />
                     <span className="text-gray-700 font-medium">
-                      {item.location}
+                      {item?.location}
                     </span>
                   </div>
                 </div>
@@ -113,7 +113,7 @@ export default function OrderDetails({ lang, orderId, t }: OrderDetailsProps) {
               <div className="flex flex-col sm:flex-row items-center gap-2 pt-1 w-full sm:w-auto sm:justify-end">
                 {/* View Coupon Button */}
                 <Link
-                  href="/en/vouchers"
+                  href={`/${lang}/vouchers`}
                   className="w-full sm:w-auto h-10 inline-flex items-center justify-center bg-[#31BFC8] hover:bg-[#2EAEB6] text-white font-semibold text-xs sm:text-sm px-5 rounded-full transition-colors active:scale-95 whitespace-nowrap"
                 >
                   {
@@ -124,7 +124,7 @@ export default function OrderDetails({ lang, orderId, t }: OrderDetailsProps) {
 
                 {/* View Details Button */}
                 <Link
-                  href={`/en/view/${item.slug}`}
+                  href={`/${lang}/view/${item?.slug}`}
                   className="w-full sm:w-auto h-10 inline-flex items-center justify-center border border-gray-200 text-gray-600 hover:bg-gray-50 font-semibold text-xs sm:text-sm px-5 rounded-full transition-colors active:scale-95 whitespace-nowrap"
                 >
                   {
@@ -227,7 +227,7 @@ export default function OrderDetails({ lang, orderId, t }: OrderDetailsProps) {
 
       {/* Primary Action Row */}
       <div className="flex flex-col sm:flex-row gap-3 pt-2">
-        <Link href={"/en/cart"} className="w-full sm:flex-1">
+        <Link href={`/${lang}/cart`} className="w-full sm:flex-1">
           <button className="w-full py-2.5 text-center text-xs font-bold text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-50 transition-colors">
             {t?.user_profile?.my_purchases?.order_details?.cta?.view_details}
           </button>

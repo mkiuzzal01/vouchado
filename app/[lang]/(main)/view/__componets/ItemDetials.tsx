@@ -183,7 +183,7 @@ export default function ItemDetails({ lang, details, t }: Props) {
       <Container>
         {/* --- TWO-COLUMN MASTER CONTENT TRACK GRID --- */}
         <div className="flex flex-col lg:flex-row gap-5 lg:gap-20">
-          <div className="w-full lg:min-w-[992px] rounded-2xl">
+          <div className="w-full lg:min-w-248 rounded-2xl">
             {/* Header Content Info Block */}
             <div className="space-y-3">
               <h1 className="text-2xl md:text-3xl lg:text-[64px] font-bold text-[#212B36] tracking-tight leading-tight">
@@ -288,7 +288,7 @@ export default function ItemDetails({ lang, details, t }: Props) {
           </div>
 
           {/* RIGHT SIDEBAR COMPONENT: STICKY CHECKOUT BOOKING CARD */}
-          <div className="w-full lg:min-w-[608px] space-y-4">
+          <div className="w-full lg:min-w-152 space-y-4">
             <div className="flex items-center justify-end gap-2">
               <Check />
               <span className="font-medium text-[#2BC4CA]">

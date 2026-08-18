@@ -205,7 +205,7 @@ export default function MyPurchases({
       </ModalContainer>
 
       <ModalContainer
-        width="lg"
+        width="2xl"
         title="Rate this product"
         isOpen={showReviewModal}
         onClose={handleCloseModal}
@@ -213,7 +213,7 @@ export default function MyPurchases({
         {selectedOrderId !== null && (
           <ReviewForm
             onClose={handleCloseModal}
-            lang={lang}
+            t={t}
             item_id={selectedOrderId}
           />
         )}
