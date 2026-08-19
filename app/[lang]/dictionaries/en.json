@@ -1085,7 +1085,8 @@
         "title": "Payment Information",
         "payment_method": {
           "title": "Payment Method",
-          "edit": "Edit"
+          "edit": "Edit",
+          "auto_connection": "Auto Connection"
         },
         "dialog": {
           "account_number": "Account number",

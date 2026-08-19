@@ -35,3 +35,9 @@ export const getPaymentMethod = () =>
     tags: ["payment-connect"],
     revalidate: 0,
   });
+
+export const visiteBankAccount = () =>
+  api.get<any>(`/provider/stripe-connect/dashboard-link`, {
+    tags: ["visite-bank-account"],
+    revalidate: 0,
+  });

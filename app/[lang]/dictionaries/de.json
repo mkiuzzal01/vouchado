@@ -1078,7 +1078,8 @@
         "title": "Zahlungsinformationen",
         "payment_method": {
           "title": "Zahlungsmethode",
-          "edit": "Bearbeiten"
+          "edit": "Bearbeiten",
+          "auto_connection": "Automatische Verbindung"
         },
         "dialog": {
           "account_number": "Kontonummer",

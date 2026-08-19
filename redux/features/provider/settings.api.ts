@@ -28,6 +28,23 @@ export const settingApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["providerStripeConnect"],
     }),
+
+    autoPaymentConnect: builder.mutation<any, any>({
+      query: (body) => ({
+        url: "/provider/stripe-connect/onboard",
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["autoPaymentConnect"],
+    }),
+
+    visiteConnectedAccunt: builder.mutation<any, any>({
+      query: () => ({
+        url: "/provider/stripe-connect/dashboard-link",
+        method: "GET",
+      }),
+      invalidatesTags: ["visiteAccountConnect"],
+    }),
   }),
 });
 
@@ -35,4 +52,6 @@ export const {
   useUpdateNotificationMutation,
   useAccountStatusMutation,
   useProviderStripeConnectMutation,
+  useAutoPaymentConnectMutation,
+  useVisiteConnectedAccuntMutation,
 } = settingApi;
