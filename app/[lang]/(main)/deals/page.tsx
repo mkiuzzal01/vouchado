@@ -97,7 +97,7 @@ export default async function Page({ params, searchParams }: Props) {
       />
 
       <div className="mt-8">
-        <FilterWithCategory categories={categories?.data} />
+        <FilterWithCategory categories={categories?.data} t={t} />
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8 my-4">

@@ -1,4 +1,5 @@
 "use client";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 import { Category } from "@/redux/types/categoris";
 import Image from "next/image";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
@@ -7,12 +8,14 @@ export interface FilterWithCategoryProps {
   onCategoryChange?: (id: string | number) => void;
   className?: string;
   categories: Category[];
+  t?: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 export default function FilterWithCategory({
   onCategoryChange,
   className = "",
   categories = [],
+  t,
 }: FilterWithCategoryProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -63,7 +66,7 @@ export default function FilterWithCategory({
           onClick={() => handleSelect("all")}
           className={getButtonClass(selectedId === "all")}
         >
-          <span>All</span>
+          <span>{t?.deals?.category}</span>
         </button>
 
         {categories?.length > 0 ? (

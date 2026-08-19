@@ -252,7 +252,8 @@
   },
   "deals": {
     "title": "Explore Deals and Save More",
-    "description": "Browse handpicked deals for every trend, occasion and lifestyle."
+    "description": "Browse handpicked deals for every trend, occasion and lifestyle.",
+    "category": "All"
   },
   "nearby": {
     "deals_available": "Deals Available"

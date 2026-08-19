@@ -107,7 +107,7 @@
       "how_it_works": "So funktioniert's",
       "for_business": "Für Unternehmen",
       "contact_us": "Kontakt",
-      "category": "Kategorie",
+      "category": "Kategorien",
       "mobile_menu": "Menü"
     },
     "footer": {
@@ -244,19 +244,7 @@
   "deals": {
     "title": "Angebote entdecken und mehr sparen",
     "description": "Durchstöbern Sie ausgewählte Angebote für jeden Trend, Anlass und Lebensstil.",
-    "filters": {
-      "title": "Filter",
-      "price_range": "Preisspanne",
-      "min_price": "Mindestpreis",
-      "max_price": "Höchstpreis",
-      "rating": "Bewertung",
-      "availability": {
-        "title": "Verfügbarkeit",
-        "last_day": "Angebote am letzten Tag",
-        "only_one_week": "Nur noch eine Woche",
-        "50_discount": "50 % Rabatt und MEHR"
-      }
-    }
+    "category": "ALLE"
   },
   "nearby": {
     "deals_available": "Verfügbare Angebote"
