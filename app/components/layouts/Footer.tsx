@@ -20,15 +20,21 @@ import V from "../icons/V";
 import co2 from "@/public/hero/image 12.png";
 import { useSubscribeMutation } from "@/redux/features/contact/contact.api";
 import { toast } from "react-toastify";
-import { useAppDispatch } from "@/redux/hooks/globalhooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/globalhooks";
 
 import {
   setPointsConversionRate,
   updateVatPercentage,
 } from "@/redux/features/cart/cart.slice";
 import { updatePointsPerOrder } from "@/redux/features/auth/auth.slice";
-import { setSystem } from "@/redux/features/system/system.slice";
+import {
+  acceptNecessaryCookies,
+  initializeCookies,
+  setSystem,
+} from "@/redux/features/system/system.slice";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import ModalContainer from "../shared/ModalContainer";
+import CookiesModal from "../shared/CookiesModal";
 
 interface FooterLinks {
   footerLinks: any;
@@ -46,7 +52,12 @@ export default function Footer({
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [subscribe] = useSubscribeMutation();
+  const { cookieAcceptedModal } = useAppSelector((state) => state.system);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(initializeCookies());
+  }, [dispatch]);
 
   useEffect(() => {
     if (systemInfo?.data?.vat_percentage) {
@@ -321,6 +332,15 @@ export default function Footer({
           </div>
         </div>
       </Container>
+      <ModalContainer
+        title={t?.cookies_modal?.title || ""}
+        isOpen={cookieAcceptedModal}
+        onClose={() => {
+          dispatch(acceptNecessaryCookies());
+        }}
+      >
+        <CookiesModal t={t} />
+      </ModalContainer>
     </footer>
   );
 }

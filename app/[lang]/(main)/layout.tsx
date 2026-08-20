@@ -13,7 +13,6 @@ import {
   getSystemInfo,
 } from "@/actions/quires/system_info.api";
 import { getBusniessProfile, getUserProfile } from "@/actions/quires/user.api";
-import { translateData } from "@/app/components/utils/translateText";
 
 interface RootLayout {
   children: React.ReactNode;

@@ -11,17 +11,19 @@ interface StoreProviderProps {
 
 export default function ReduxProvider({ children }: StoreProviderProps) {
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <ToastContainer
-          position="bottom-center"
-          autoClose={1500}
-          closeOnClick
-          pauseOnHover
-          theme="colored"
-        />
-        {children}
-      </PersistGate>
-    </Provider>
+    <>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <ToastContainer
+            position="bottom-center"
+            autoClose={1500}
+            closeOnClick
+            pauseOnHover
+            theme="colored"
+          />
+          {children}
+        </PersistGate>
+      </Provider>
+    </>
   );
 }

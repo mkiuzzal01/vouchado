@@ -1240,5 +1240,37 @@
     "comment_label": "Comments (optional)",
     "comment_placeholder": "Write something about your experience...",
     "submit_button": "Submit review"
+  },
+  "cookies_modal": {
+    "brand":"Vouchado",
+    "title": "We use cookies 🍪",
+    "description_1": "We use necessary technologies so that Vouchado works properly.",
+    "description_2": "With your consent, we also use technologies for analytics, marketing, and personalized content. You can change your selection at any time.",
+    "accept_all": "Accept all",
+    "necessary_only": "Necessary only",
+    "settings": "Settings",
+    "imprint": "Imprint",
+    "privacy_policy": "Privacy Policy",
+    "cookie_policy": "Cookie Policy",
+    "save": "Save",
+    "categories": {
+      "necessary": {
+        "title": "Necessary",
+        "description": "These cookies and technologies are required for the website to function properly."
+      },
+      "functional": {
+        "title": "Functional",
+        "description": "These technologies enable additional features and personalized usage."
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "These technologies help us understand how visitors interact with our website."
+      },
+      "marketing": {
+        "title": "Marketing",
+        "description": "These technologies are used to show you relevant advertisements and measure campaign success."
+      }
+    },
+    "accordion_details": "Additional information about the cookies and providers used here."
   }
 }
