@@ -602,8 +602,19 @@
     "use_points": "Use your points & enjoy even more discount",
     "points_available": "points available.",
     "redeem_points": "Redeem Points",
-    "agree_cancelation": "I agree with",
+
+    "agree_with": "I agree with",
     "cancelation_policy": "Cancelation Policy",
+    "terms_and_conditions": "Terms and Conditions",
+    "and": "and the",
+    "privacy_policy": "Privacy Policy",
+
+    "early_redemption": "Early redemption",
+    "early_redemption_desc": "I expressly request that the service can be provided before the expiration of the 14-day withdrawal period at my request.",
+
+    "loss_of_the_right_of_withdrawal": "Loss of the right of withdrawal",
+    "loss_of_the_right_of_withdrawal_desc": "I confirm that I have taken note that my right of withdrawal expires upon full performance of the service.",
+
     "proceed_checkout": "Proceed to Checkout",
     "trusted": {
       "sec1": {

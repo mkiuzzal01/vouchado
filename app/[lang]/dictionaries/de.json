@@ -595,9 +595,17 @@
     "redeem_points": "Punkte einlösen",
     "coupon_placeholder": "Gutscheincode eingeben",
     "apply_coupon": "Anwenden",
-    "agree_terms": "Ich stimme den",
+
+    "agree_with": "Ich stimme den",
     "terms_and_conditions": "Nutzungsbedingungen",
     "and": "und der",
+
+    "early_redemption": "Vorzeitige Einlösung",
+    "early_redemption_desc": "Ich verlange ausdrücklich, dass die Dienstleistung auf meinen Wunsch bereits vor Ablauf der 14-tägigen Widerrufsfrist erbracht werden kann.",
+
+    "loss_of_the_right_of_withdrawal": "Verlust des Widerrufsrechts",
+    "loss_of_the_right_of_withdrawal_desc": "Ich bestätige, dass ich zur Kenntnis genommen habe, dass mein Widerrufsrecht bei vollständiger Erbringung der Dienstleistung erlischt.",
+
     "privacy_policy": "Datenschutzrichtlinie zu.",
     "agree_cancelation": "Ich stimme der",
     "cancelation_policy": "Stornierungsrichtlinie zu.",

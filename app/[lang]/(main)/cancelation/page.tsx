@@ -1,6 +1,7 @@
 import Container from "@/app/components/shared/Container";
 import { getCancellationPolicy } from "@/actions/quires/policy.api";
 import NotFoundData from "@/app/components/shared/NotFoundData";
+import { translateData } from "@/app/components/utils/translateText";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -8,7 +9,8 @@ interface Props {
 
 export default async function page({ params }: Props) {
   const { lang } = await params;
-  const cancellationPolicy = await getCancellationPolicy();
+  const cancellationPolicyData = await getCancellationPolicy();
+  const cancellationPolicy = await translateData(cancellationPolicyData, lang);
 
   if (!cancellationPolicy) {
     return <NotFoundData title="Cancellation policy not found!" />;
@@ -18,7 +20,7 @@ export default async function page({ params }: Props) {
     <Container>
       <div className="py-2">
         <h2 className="text-2xl font-semibold text-gray-800">
-          {cancellationPolicy?.data?.page_title}
+          {cancellationPolicy?.data?.page_title} :
         </h2>
         <div
           className="mt-4 prose max-w-none"

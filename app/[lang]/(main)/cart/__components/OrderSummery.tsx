@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -15,15 +14,19 @@ import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { useCreateOrderMutation } from "@/redux/features/order/order.api";
 import { Checkbox } from "@/components/ui/checkbox";
 import Link from "next/link";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   lang: string;
-  t?: any;
+  t?: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 export default function OrderSummary({ lang, t }: Props) {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [agreedToCancelation, setAgreedToCancelation] = useState(false);
+  const [earlyRedeem, setEarlyRedeem] = useState(false);
+  const [withdrawal, setWithdrawal] = useState(false);
+
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -162,7 +165,7 @@ export default function OrderSummary({ lang, t }: Props) {
                 {t?.cart?.no_items_selected || "No items selected."}
               </p>
               <p className="mt-0.5">
-                {t?.cart?.no_items_selected_desc ||
+                {t?.cart?.early_redemption ||
                   "Please select items from your cart to proceed."}
               </p>
             </div>
@@ -177,8 +180,8 @@ export default function OrderSummary({ lang, t }: Props) {
             <span className="text-gray-600 font-medium">
               {t?.cart?.subtotal || "Subtotal"} ({totalItems}{" "}
               {totalItems === 1
-                ? t?.cart?.item || "item"
-                : t?.cart?.items || "items"}
+                ? t?.cart?.your_items || "item"
+                : t?.cart?.your_items || "items"}
               )
             </span>
             <span className="font-bold text-gray-800">
@@ -255,6 +258,40 @@ export default function OrderSummary({ lang, t }: Props) {
         {/* Coupon Input */}
         <Coupon t={t} />
 
+        {/* Checkbox:lose withdrawal */}
+        <div className="flex items-center gap-2 py-2">
+          <Checkbox
+            id="withdrawal"
+            checked={withdrawal}
+            onCheckedChange={(checked) => setWithdrawal(!!checked)}
+          />
+          <label className="text-xs text-gray-700" htmlFor="withdrawal">
+            <p>
+              {t?.cart?.loss_of_the_right_of_withdrawal} :{" "}
+              <span className="text-primary font-semibold cursor-pointer">
+                {t?.cart?.loss_of_the_right_of_withdrawal_desc}
+              </span>
+            </p>
+          </label>
+        </div>
+
+        {/* Checkbox: Early Redeem */}
+        <div className="flex items-center gap-2 py-2">
+          <Checkbox
+            id="early-redeem"
+            checked={earlyRedeem}
+            onCheckedChange={(checked) => setEarlyRedeem(!!checked)}
+          />
+          <label className="text-xs text-gray-700" htmlFor="early-redeem">
+            <p>
+              {t?.cart?.early_redemption} :{" "}
+              <span className="text-primary font-semibold cursor-pointer">
+                {t?.cart?.early_redemption_desc}
+              </span>
+            </p>
+          </label>
+        </div>
+
         {/* Checkbox: Terms & Privacy Policy */}
         <div className="flex items-center gap-2 py-2">
           <Checkbox
@@ -263,7 +300,7 @@ export default function OrderSummary({ lang, t }: Props) {
             onCheckedChange={(checked) => setAgreedToTerms(!!checked)}
           />
           <label className="text-xs text-gray-700" htmlFor="terms">
-            {t?.cart?.agree_terms || "I agree to the"}{" "}
+            {t?.cart?.agree_with || "I agree to the"}{" "}
             <Link
               href={`/${lang}/terms`}
               className="underline text-primary font-semibold"
@@ -288,7 +325,7 @@ export default function OrderSummary({ lang, t }: Props) {
             onCheckedChange={(checked) => setAgreedToCancelation(!!checked)}
           />
           <label className="text-xs text-gray-700" htmlFor="cancelation">
-            {t?.cart?.agree_cancelation || "I agree to the"}{" "}
+            {t?.cart?.cancelation_policy || "I agree to the"}{" "}
             <Link
               href={`/${lang}/cancelation`}
               className="underline text-primary font-semibold"
@@ -306,7 +343,9 @@ export default function OrderSummary({ lang, t }: Props) {
             !selectedItems.length ||
             isLoading ||
             !agreedToTerms ||
-            !agreedToCancelation
+            !agreedToCancelation ||
+            !withdrawal ||
+            !earlyRedeem
           }
           className="flex justify-center items-center w-full bg-[#2bb3bb] hover:bg-[#239aa1] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-semibold py-4 rounded-full transition-colors mt-4 cursor-pointer shadow-md"
         >
@@ -316,7 +355,6 @@ export default function OrderSummary({ lang, t }: Props) {
             t?.cart?.proceed_checkout || "Proceed to Checkout"
           )}
         </button>
-
         {/* Trust Section */}
         <TrustSection totalPrice={totalPrice} t={t} />
       </div>

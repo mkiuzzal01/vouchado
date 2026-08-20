@@ -6,7 +6,7 @@ import SecurePayment from "@/app/components/icons/SecurePayment";
 
 interface Props {
   totalPrice: number;
-  t: Awaited<ReturnType<typeof getDictionary>>;
+  t?: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 export default function TrustSection({ totalPrice, t }: Props) {
@@ -25,8 +25,10 @@ export default function TrustSection({ totalPrice, t }: Props) {
       icon: FreeCancellation,
     },
     {
-      title: "Secure Payments",
-      description: "Your payment information is 100% secure.",
+      title: t?.cart?.trusted?.sec3?.title || "Secure Payments",
+      description:
+        t?.cart?.trusted?.sec3?.desc ||
+        "Your payment information is 100% secure.",
       icon: SecurePayment,
     },
   ];
@@ -35,7 +37,7 @@ export default function TrustSection({ totalPrice, t }: Props) {
     <div className="mt-8 space-y-6">
       <div className="overflow-hidden rounded-2xl bg-[#F9FAFB]">
         <div className="space-y-6 p-6">
-          {trustItems.map(({ title, description, icon: Icon }) => (
+          {trustItems?.map(({ title, description, icon: Icon }) => (
             <div key={title} className="flex items-start gap-4">
               <div className="mt-0.5 flex h-10 w-10 items-center justify-center  text-[#2bb3bb]">
                 <Icon />
@@ -60,12 +62,11 @@ export default function TrustSection({ totalPrice, t }: Props) {
         </div>
 
         <p className="text-sm font-medium text-gray-700">
-          {t?.cart?.bottom?.title_1 || "You"}{" "}
+          {t?.cart?.bottom?.title_1}{" "}
           <span className="font-semibold text-[#2bb3bb]">
-            {Math.floor(totalPrice).toLocaleString()}{" "}
-            {t?.cart?.bottom?.title_2 || "points"}
-          </span>{" "}
-          {t?.cart?.bottom?.title_3 || "with this purchase."}
+            {Math.floor(totalPrice).toLocaleString()} {t?.cart?.bottom?.title_2}
+          </span>
+          {t?.cart?.bottom?.title_3}
         </p>
       </div>
     </div>
