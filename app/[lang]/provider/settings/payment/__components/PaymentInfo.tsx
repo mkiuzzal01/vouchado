@@ -3,19 +3,28 @@ import ModalContainer from "@/app/components/shared/ModalContainer";
 import { useState } from "react";
 import PaymentMethods from "./PaymentMethods";
 import { getDictionary } from "@/app/[lang]/dictionaries";
-import { useAutoPaymentConnectMutation } from "@/redux/features/provider/settings.api";
+import {
+  useAutoPaymentConnectMutation,
+  useVisiteConnectedAccountQuery,
+} from "@/redux/features/provider/settings.api";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 interface Props {
   paymentInfo: any;
   t: Awaited<ReturnType<typeof getDictionary>>;
+  profileInfo: any;
 }
 
-export default function PaymentInfo({ paymentInfo, t }: Props) {
+export default function PaymentInfo({ paymentInfo, t, profileInfo }: Props) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [auto_connection, { isLoading }] = useAutoPaymentConnectMutation();
+  const {
+    data,
+    refetch,
+    isLoading: isLoadingViewAccount,
+  } = useVisiteConnectedAccountQuery();
 
   const handleAutoPayment = async () => {
     try {
@@ -24,6 +33,11 @@ export default function PaymentInfo({ paymentInfo, t }: Props) {
     } catch (error: any) {
       toast.error(error?.data?.message);
     }
+  };
+
+  const handleViewAccount = async () => {
+    await refetch();
+    router.push(data?.data?.url);
   };
 
   return (
@@ -51,23 +65,45 @@ export default function PaymentInfo({ paymentInfo, t }: Props) {
 
         <div className="flex gap-4">
           {/* Brand Rounded Action Button */}
-          <button
-            type="button"
-            onClick={handleAutoPayment}
-            className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border border-cyan-100 bg-cyan-50/40 text-[#29b6be] hover:bg-cyan-900 hover:border-cyan-800 transition-all duration-200"
-          >
-            {t?.provider_profile?.settings?.payment_information?.payment_method
-              ?.auto_connection || "Auto Connection"}
-          </button>
+
+          {profileInfo?.data?.is_stripe_connected ? (
+            <>
+              <button
+                type="button"
+                onClick={handleViewAccount}
+                className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border border-cyan-100 bg-cyan-50/40 text-[#29b6be] hover:bg-cyan-900 hover:border-cyan-800 transition-all duration-200"
+              >
+                {isLoadingViewAccount
+                  ? "Loading..."
+                  : t?.provider_profile?.settings?.payment_information
+                      ?.payment_method?.view_account || "View Account"}
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={handleAutoPayment}
+                disabled={isLoading}
+                className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border border-cyan-100 bg-cyan-50/40 text-[#29b6be] hover:bg-cyan-900 hover:border-cyan-800 transition-all duration-200"
+              >
+                {isLoading
+                  ? "Loading..."
+                  : t?.provider_profile?.settings?.payment_information
+                      ?.payment_method?.auto_connection || "Auto Connection"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border border-cyan-100 bg-cyan-50/40 text-[#29b6be] hover:bg-cyan-50 hover:border-cyan-200 transition-all duration-200"
+              >
+                {t?.provider_profile?.settings?.payment_information
+                  ?.payment_method?.edit || "Edit"}
+              </button>
+            </>
+          )}
+
           {/* Brand Rounded Action Button */}
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-            className="px-4 py-1.5 rounded-full text-xs font-bold tracking-wide border border-cyan-100 bg-cyan-50/40 text-[#29b6be] hover:bg-cyan-50 hover:border-cyan-200 transition-all duration-200"
-          >
-            {t?.provider_profile?.settings?.payment_information?.payment_method
-              ?.edit || "Edit"}
-          </button>
         </div>
       </div>
       <ModalContainer

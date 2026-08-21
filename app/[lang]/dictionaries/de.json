@@ -1087,7 +1087,8 @@
         "payment_method": {
           "title": "Zahlungsmethode",
           "edit": "Bearbeiten",
-          "auto_connection": "Automatische Verbindung"
+          "auto_connection": "Automatische Verbindung",
+          "view_account": "Konto anzeigen"
         },
         "dialog": {
           "account_number": "Kontonummer",

@@ -1097,7 +1097,8 @@
         "payment_method": {
           "title": "Payment Method",
           "edit": "Edit",
-          "auto_connection": "Auto Connection"
+          "auto_connection": "Auto Connection",
+          "view_account": "View Account"
         },
         "dialog": {
           "account_number": "Account number",
@@ -1242,7 +1243,7 @@
     "submit_button": "Submit review"
   },
   "cookies_modal": {
-    "brand":"Vouchado",
+    "brand": "Vouchado",
     "title": "We use cookies 🍪",
     "description_1": "We use necessary technologies so that Vouchado works properly.",
     "description_2": "With your consent, we also use technologies for analytics, marketing, and personalized content. You can change your selection at any time.",

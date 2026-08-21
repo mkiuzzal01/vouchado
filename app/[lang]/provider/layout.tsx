@@ -18,7 +18,6 @@ export default async function Layout({ children, params }: LayoutProps) {
     getNotification(),
     getProviderNavLinks(lang),
   ]);
-
   const profileInfo = await translateData(profileInfoData, lang);
   const notifications = await translateData(notificationsData, lang);
   const providerNavItems = await translateData(navItemsData, lang);
