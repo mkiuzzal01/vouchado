@@ -13,14 +13,13 @@ interface LayoutProps {
 export default async function Layout({ children, params }: LayoutProps) {
   const { lang } = await params;
   const t = await getDictionary(lang);
-  const [profileInfoData, notificationsData, navItemsData] = await Promise.all([
+  const [profileInfoData, notificationsData, navItems] = await Promise.all([
     getBusniessProfile(),
     getNotification(),
     getProviderNavLinks(lang),
   ]);
   const profileInfo = await translateData(profileInfoData, lang);
   const notifications = await translateData(notificationsData, lang);
-  const providerNavItems = await translateData(navItemsData, lang);
 
   return (
     <div className="flex min-h-screen flex-col pb-16 md:pb-0">
@@ -28,7 +27,7 @@ export default async function Layout({ children, params }: LayoutProps) {
         t={t}
         lang={lang}
         profileInfo={profileInfo}
-        navItems={providerNavItems}
+        navItems={navItems}
         notifications={notifications}
       />
       <main className="flex-1 w-full overflow-x-hidden">{children}</main>

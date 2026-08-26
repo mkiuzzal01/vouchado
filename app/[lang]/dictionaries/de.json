@@ -596,19 +596,20 @@
     "coupon_placeholder": "Gutscheincode eingeben",
     "apply_coupon": "Anwenden",
 
+    "loss_of_the_right_of_withdrawal": "Verlust des Widerrufsrechts :",
+    "loss_of_the_right_of_withdrawal_desc": "Ich bestätige, dass ich zur Kenntnis genommen habe, dass mein Widerrufsrecht bei vollständiger Erbringung der Dienstleistung erlischt.",
+
+    "early_redemption": "Vorzeitige Einlösung :",
+    "early_redemption_desc": "Ich verlange ausdrücklich, dass die Dienstleistung auf meinen Wunsch bereits vor Ablauf der 14-tägigen Widerrufsfrist erbracht werden kann.",
+
     "agree_with": "Ich stimme den",
     "terms_and_conditions": "Nutzungsbedingungen",
     "and": "und der",
-
-    "early_redemption": "Vorzeitige Einlösung",
-    "early_redemption_desc": "Ich verlange ausdrücklich, dass die Dienstleistung auf meinen Wunsch bereits vor Ablauf der 14-tägigen Widerrufsfrist erbracht werden kann.",
-
-    "loss_of_the_right_of_withdrawal": "Verlust des Widerrufsrechts",
-    "loss_of_the_right_of_withdrawal_desc": "Ich bestätige, dass ich zur Kenntnis genommen habe, dass mein Widerrufsrecht bei vollständiger Erbringung der Dienstleistung erlischt.",
-
     "privacy_policy": "Datenschutzrichtlinie zu.",
-    "agree_cancelation": "Ich stimme der",
+
+    "agree_cancelation": "Stornierungsrichtlinie zu.",
     "cancelation_policy": "Stornierungsrichtlinie zu.",
+
     "proceed_checkout": "Zur Kasse gehen",
     "trusted": {
       "sec1": {
@@ -636,7 +637,7 @@
     "empty_desc": "Speichern Sie Ihre Lieblingsartikel, um sie später hier zu sehen."
   },
   "vouchers": {
-    "title": "Unbenutzte Gutscheine",
+    "title": "Noch nicht eingelöste Gutscheine",
     "unredeemed_vouchers": "Nicht eingelöste Gutscheine",
     "voucher_id": "Gutschein-ID",
     "qty": "Anz.",
@@ -858,8 +859,8 @@
   "provider_profile": {
     "dashboard": {
       "nav": {
-        "dashboard": "Dashboard",
-        "deals": "Deals",
+        "dashboard": "Amaturenbrett",
+        "deals": "Angebote",
         "messages": "Nachrichten",
         "settings": "Einstellungen"
       },
@@ -902,7 +903,7 @@
       "promo_create_deals": {
         "scan": {
           "title": "Gutschein scannen",
-          "description": "Scanne einen QR-Code, um einen Gutschein einzulösen und sofort zu validieren.",
+          "description": "Scanne den QR-Code, um den Gutschein einzulösen und die Gültigkeit sofort zu überprüfen.",
           "note": "Eigene Notiz hinzufügen (optional):",
           "input_placeholder": "Notizen vor dem Scannen eingeben...",
           "qr_title": "Warte auf Barcode-Scanner...",
