@@ -11,13 +11,15 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { getDictionary } from "@/app/[lang]/dictionaries";
+import Status from "./Status";
 
 interface IProps {
   t: Awaited<ReturnType<typeof getDictionary>>;
   deal: any;
+  lang: string;
 }
 
-export default function DealsTable({ deal, t }: IProps) {
+export default function DealsTable({ deal, t, lang }: IProps) {
   return (
     <div className="w-full overflow-x-auto rounded-xl border border-gray-100 bg-white">
       <Table className="min-w-[1100px]">
@@ -127,26 +129,7 @@ export default function DealsTable({ deal, t }: IProps) {
 
               {/* Dynamic Badging */}
               <TableCell className="py-3.5 px-4">
-                <span
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-sm font-semibold border ${
-                    row.status === "Redeemed"
-                      ? "bg-emerald-50 border-emerald-100 text-emerald-600"
-                      : row.status === "Unredeemed"
-                        ? "bg-slate-50 border-slate-200 text-slate-500"
-                        : "bg-rose-50 border-rose-100 text-rose-500"
-                  }`}
-                >
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full ${
-                      row.status === "Redeemed"
-                        ? "bg-emerald-500"
-                        : row.status === "Unredeemed"
-                          ? "bg-slate-400"
-                          : "bg-rose-500"
-                    }`}
-                  ></span>
-                  {row?.status}
-                </span>
+                <Status lang={lang} status={row?.status} />
               </TableCell>
 
               {/* Action Chat Trigger */}

@@ -6,6 +6,7 @@ import {
 } from "@/actions/quires/conversation.api";
 import Inbox from "./__components/Inbox";
 import { translateData } from "@/app/components/utils/translateText";
+import { getDictionary } from "../../dictionaries";
 
 interface Props {
   params: Promise<{ lang: string }>;
@@ -15,6 +16,8 @@ interface Props {
 export default async function Page({ params, searchParams }: Props) {
   const { lang } = await params;
   const { search, id } = await searchParams;
+  console.log(lang);
+  const t = await getDictionary(lang);
 
   const query = new URLSearchParams();
   if (search) query.set("search", search);
@@ -49,7 +52,7 @@ export default async function Page({ params, searchParams }: Props) {
 
   return (
     <Container>
-      <Inbox list={list} message={messages} />
+      <Inbox list={list} message={messages} t={t} />
     </Container>
   );
 }

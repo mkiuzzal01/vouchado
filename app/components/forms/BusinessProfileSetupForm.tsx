@@ -175,12 +175,14 @@ export default function BusinessProfileSetupForm({ lang, t }: Props) {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="col-span-1">
                     <FileInput
+                      t={t}
                       name="business_logo"
                       label={t?.auth?.business_profile_setup?.upload_logo}
                     />
                   </div>
                   <div className="col-span-1 md:col-span-2">
                     <FileInput
+                      t={t}
                       name="business_cover_image"
                       label={t?.auth?.business_profile_setup?.upload_cover}
                     />

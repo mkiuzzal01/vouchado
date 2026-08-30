@@ -50,122 +50,126 @@ export async function translateData<T>(
   inputData: T,
   targetLang: string,
 ): Promise<T> {
-  if (inputData === null || inputData === undefined) {
+  if (inputData === null || inputData === undefined || !targetLang) {
     return inputData;
   }
 
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 
   if (!apiKey) {
-    throw new Error(
-      "API key is missing. Please set NEXT_PUBLIC_GOOGLE_API_KEY in your environment.",
+    console.warn(
+      "NEXT_PUBLIC_GOOGLE_API_KEY is not defined. Skipping translation and returning original data.",
     );
-  }
-
-  if (!targetLang) {
-    throw new Error("Target language is required.");
-  }
-
-  const uniqueStrings = new Set<string>();
-
-  // 1. Collect unique string values, SKIPPING URLs and reserved keys (like slug)
-  function collectStrings(data: unknown, parentKey?: string): void {
-    if (parentKey && SKIP_KEYS.has(parentKey.toLowerCase())) {
-      return;
-    }
-
-    if (typeof data === "string") {
-      const trimmed = data.trim();
-      if (trimmed.length > 0 && !isUrl(trimmed)) {
-        uniqueStrings.add(data);
-      }
-    } else if (Array.isArray(data)) {
-      data.forEach((item) => collectStrings(item, parentKey));
-    } else if (typeof data === "object" && data !== null) {
-      Object.entries(data).forEach(([key, value]) => {
-        collectStrings(value, key);
-      });
-    }
-  }
-
-  collectStrings(inputData);
-
-  if (uniqueStrings.size === 0) {
     return inputData;
   }
 
-  const originalArray = Array.from(uniqueStrings);
-  const translationMap = new Map<string, string>();
+  try {
+    const uniqueStrings = new Set<string>();
 
-  const BATCH_SIZE = 100;
-  const chunks = chunkArray(originalArray, BATCH_SIZE);
-
-  const endpoint = `https://translation.googleapis.com/language/translate/v2?key=${encodeURIComponent(
-    apiKey,
-  )}`;
-
-  // 2. Process translation requests in batches
-  for (const chunk of chunks) {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        q: chunk,
-        target: targetLang,
-        format: "text",
-      }),
-    });
-
-    if (!response.ok) {
-      const errorDetails = (await response
-        .json()
-        .catch(() => ({}))) as GoogleTranslateResponse;
-      throw new Error(
-        `Translation Error [${response.status}]: ${
-          errorDetails.error?.message || response.statusText
-        }`,
-      );
-    }
-
-    const result = (await response.json()) as GoogleTranslateResponse;
-    const translations = result.data?.translations;
-
-    if (!translations || translations.length !== chunk.length) {
-      throw new Error("Translation API returned an incomplete response batch.");
-    }
-
-    chunk.forEach((originalText, index) => {
-      const translatedText = translations[index]?.translatedText;
-      if (translatedText !== undefined) {
-        translationMap.set(originalText, translatedText);
+    // 1. Collect unique string values, SKIPPING URLs and reserved keys (like slug)
+    function collectStrings(data: unknown, parentKey?: string): void {
+      if (parentKey && SKIP_KEYS.has(parentKey.toLowerCase())) {
+        return;
       }
-    });
-  }
 
-  // 3. Reconstruct data structure, skipping reserved keys (like slug)
-  function replaceStrings(data: unknown, parentKey?: string): unknown {
-    if (parentKey && SKIP_KEYS.has(parentKey.toLowerCase())) {
+      if (typeof data === "string") {
+        const trimmed = data.trim();
+        if (trimmed.length > 0 && !isUrl(trimmed)) {
+          uniqueStrings.add(data);
+        }
+      } else if (Array.isArray(data)) {
+        data.forEach((item) => collectStrings(item, parentKey));
+      } else if (typeof data === "object" && data !== null) {
+        Object.entries(data).forEach(([key, value]) => {
+          collectStrings(value, key);
+        });
+      }
+    }
+
+    collectStrings(inputData);
+
+    if (uniqueStrings.size === 0) {
+      return inputData;
+    }
+
+    const originalArray = Array.from(uniqueStrings);
+    const translationMap = new Map<string, string>();
+
+    const BATCH_SIZE = 100;
+    const chunks = chunkArray(originalArray, BATCH_SIZE);
+
+    const endpoint = `https://translation.googleapis.com/language/translate/v2?key=${encodeURIComponent(
+      apiKey,
+    )}`;
+
+    // 2. Process translation requests in batches
+    for (const chunk of chunks) {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          q: chunk,
+          target: targetLang,
+          format: "text",
+        }),
+      });
+
+      if (!response.ok) {
+        const errorDetails = (await response
+          .json()
+          .catch(() => ({}))) as GoogleTranslateResponse;
+        console.warn(
+          `Translation Error [${response.status}]: ${
+            errorDetails.error?.message || response.statusText
+          }`,
+        );
+        return inputData;
+      }
+
+      const result = (await response.json()) as GoogleTranslateResponse;
+      const translations = result.data?.translations;
+
+      if (!translations || translations.length !== chunk.length) {
+        console.warn("Translation API returned an incomplete response batch.");
+        return inputData;
+      }
+
+      chunk.forEach((originalText, index) => {
+        const translatedText = translations[index]?.translatedText;
+        if (translatedText !== undefined) {
+          translationMap.set(originalText, translatedText);
+        }
+      });
+    }
+
+    // 3. Reconstruct data structure, skipping reserved keys (like slug)
+    function replaceStrings(data: unknown, parentKey?: string): unknown {
+      if (parentKey && SKIP_KEYS.has(parentKey.toLowerCase())) {
+        return data;
+      }
+
+      if (typeof data === "string") {
+        return translationMap.get(data) ?? data;
+      }
+
+      if (Array.isArray(data)) {
+        return data.map((item) => replaceStrings(item, parentKey));
+      }
+
+      if (typeof data === "object" && data !== null) {
+        const reconstructed: Record<string, unknown> = {};
+        for (const [key, value] of Object.entries(data)) {
+          reconstructed[key] = replaceStrings(value, key);
+        }
+        return reconstructed;
+      }
+
       return data;
     }
 
-    if (typeof data === "string") {
-      return translationMap.get(data) ?? data;
-    }
-
-    if (Array.isArray(data)) {
-      return data.map((item) => replaceStrings(item, parentKey));
-    }
-
-    if (typeof data === "object" && data !== null) {
-      const reconstructed: Record<string, unknown> = {};
-      for (const [key, value] of Object.entries(data)) {
-        reconstructed[key] = replaceStrings(value, key);
-      }
-      return reconstructed;
-    }
-
-    return data;
+    return replaceStrings(inputData) as T;
+  } catch (error) {
+    console.warn("Failed to translate data:", error);
+    return inputData;
   }
-
-  return replaceStrings(inputData) as T;
 }

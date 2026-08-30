@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import React from "react";
 
 export default function Error({
@@ -26,6 +27,10 @@ export default function Error({
             Try Again
           </button>
         )}
+
+        <Link href="/" className="text-blue-500 underline">
+          go back to home page
+        </Link>
       </div>
     </div>
   );

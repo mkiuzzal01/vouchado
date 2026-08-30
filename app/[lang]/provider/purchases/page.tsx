@@ -11,6 +11,7 @@ import DealYet from "@/app/components/icons/DealYet";
 import FilterDeals from "./__components/FilterDeals";
 import { getDictionary } from "../../dictionaries";
 import { getBusniessProfile } from "@/actions/quires/user.api";
+import { translateData } from "@/app/components/utils/translateText";
 
 interface Props {
   searchParams: Promise<{
@@ -34,7 +35,8 @@ export default async function Page({ searchParams, params }: Props) {
     query.set("filter", filter);
   }
 
-  const purchases = await getPurchasedDeals(query.toString());
+  const purchasesData = await getPurchasedDeals(query.toString());
+  const purchases = await translateData(purchasesData, lang);
 
   const metrics = [
     {
@@ -94,7 +96,7 @@ export default async function Page({ searchParams, params }: Props) {
             </h2>
             <FilterDeals t={t} />
           </div>
-          <PurchasesTable purchases={purchases?.data} t={t} />
+          <PurchasesTable purchases={purchases?.data} t={t} lang={lang} />
         </div>
       </div>
     </Container>

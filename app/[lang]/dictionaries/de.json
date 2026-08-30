@@ -596,10 +596,10 @@
     "coupon_placeholder": "Gutscheincode eingeben",
     "apply_coupon": "Anwenden",
 
-    "loss_of_the_right_of_withdrawal": "Verlust des Widerrufsrechts :",
+    "loss_of_the_right_of_withdrawal": "Verlust des Widerrufsrechts",
     "loss_of_the_right_of_withdrawal_desc": "Ich bestätige, dass ich zur Kenntnis genommen habe, dass mein Widerrufsrecht bei vollständiger Erbringung der Dienstleistung erlischt.",
 
-    "early_redemption": "Vorzeitige Einlösung :",
+    "early_redemption": "Vorzeitige Einlösung",
     "early_redemption_desc": "Ich verlange ausdrücklich, dass die Dienstleistung auf meinen Wunsch bereits vor Ablauf der 14-tägigen Widerrufsfrist erbracht werden kann.",
 
     "agree_with": "Ich stimme den",
@@ -618,7 +618,7 @@
       },
       "sec2": {
         "title": "Kostenlose Stornierung",
-        "desc": "innerhalb von 14 Tagen nach dem Kauf – ausgenommen Last-Minute-Buchungen oder feste Termine"
+        "desc": "innerhalb von 14 Tagen nach dem Kauf - ausgenommen Last-Minute-Buchungen oder feste Termine"
       },
       "sec3": {
         "title": "Sichere Zahlung",
@@ -705,11 +705,22 @@
       "cta_primary": "Jetzt Partner werden"
     }
   },
+  "chat": {
+    "search_by_name_placeholder": "Nach Namen suchen",
+    "write_message_placeholder": "Verfasse hier deine Nachricht...",
+    "no_messages": "Keine Nachrichten"
+  },
   "shared": {
     "utility": {
       "no_data": "Keine Daten verfügbar",
       "no_data_desc": "Wir konnten keine Daten finden, die Ihrer Suche entsprechen.",
-      "no_data_try_again": "Versuchen Sie es später erneut."
+      "no_data_try_again": "Versuchen Sie es später erneut.",
+      "file_upload": {
+        "browse_file": "Datei durchsuchen",
+        "adjust_image": "Bild anpassen",
+        "cancel": "Abbrechen",
+        "save_crop": "Speichern & Zuschneiden"
+      }
     },
     "search": {
       "search_location": "Suchort eingeben",
@@ -809,14 +820,14 @@
     },
     "aside": {
       "loyal_points": {
-        "title": "Gesammelte Punkte",
-        "desc_1": "Sie haben",
-        "desc_2": "Punkte reached",
-        "desc_3": "Sammeln Sie",
-        "desc_4": "weitere, um mehr freizuschalten",
+        "title": "Punkte gesammelt",
+        "desc_1": "Du hast bereits",
+        "desc_2": "Punkte gesammelt",
+        "desc_3": "Sammle nur noch",
+        "desc_4": "Punkte und sichere dir deinen",
         "desc_5": "So nutzen Sie Punkte:",
         "desc_6": "Lösen Sie Ihre Punkte an der Kasse ein, um exklusive Rabatte auf Ihren nächsten Einkauf freizuschalten.",
-        "voucher": "Vouchado-Gutschein",
+        "voucher": "Vouchado Gutschein",
         "note": {
           "title": "Hinweis:",
           "desc_1": "Für je 1.000 eingelöste Punkte erhalten Sie einen Rabatt von €",
@@ -857,10 +868,29 @@
     }
   },
   "provider_profile": {
+    "notifications_page": {
+      "title": "Benachrichtigungen",
+      "subtitle": "Bleiben Sie auf dem Laufenden über Ihre neuesten Bestellungen, Zahlungen und System-Updates",
+      "unread_badge": "ungelesen",
+      "new_badge": "neu",
+      "all": "Alle",
+      "unread": "Ungelesen",
+      "mark_all_read": "Alle als gelesen markieren",
+      "no_notifications_title": "Keine Benachrichtigungen gefunden",
+      "no_notifications_empty": "Derzeit gibt es keine Benachrichtigungen zum Anzeigen.",
+      "no_notifications_unread": "Sie haben alle Ihre Benachrichtigungen gelesen!",
+      "no_notifications_bell_title": "Noch keine Benachrichtigungen",
+      "no_notifications_bell_desc": "Wir benachrichtigen Sie, sobald Updates eintreffen",
+      "view_all": "Alle Benachrichtigungen anzeigen",
+      "view_details": "Details anzeigen",
+      "modal_title": "Benachrichtigungsdetails",
+      "id_label": "Benachrichtigungs-ID",
+      "received_label": "Empfangen"
+    },
     "dashboard": {
       "nav": {
         "dashboard": "Amaturenbrett",
-        "deals": "Angebote",
+        "deals": "Deals",
         "messages": "Nachrichten",
         "settings": "Einstellungen"
       },
@@ -877,14 +907,14 @@
       },
 
       "stats_2": {
-        "title": "Umsatzstatistiken",
+        "title": "Deals",
         "total_revenue": "Gesamtumsatz",
         "all_time": "Gesamtzeitraum",
-        "active_vouchers": "Aktive Gutscheine insgesamt",
+        "active_vouchers": "Aktive Deals insgesamt",
         "this_month": "Diesen Monat",
-        "expired_vouchers": "Abgelaufene Gutscheine insgesamt",
+        "expired_vouchers": "Abgelaufene Deals insgesamt",
         "of_sold": "Von verkauften",
-        "redeemed_vouchers": "Bereits eingelöste Gutscheine"
+        "redeemed_vouchers": "Bereits eingelöste Deals"
       },
 
       "create_gift_voucher": {
@@ -920,7 +950,7 @@
       },
 
       "deals_purchased": {
-        "title": "Gekaufte Deals",
+        "title": "Meine verkauften Deals",
         "view_all": "Alle anzeigen",
         "purchase_deals": {
           "title": "Angebote"
@@ -947,14 +977,14 @@
       },
 
       "active_deals": {
-        "title": "Aktive Angebote",
+        "title": "Aktive Deals",
         "description": "Derzeit laufend",
         "create_deal": {
           "title": "Dienstleistungen"
         },
 
         "table": {
-          "deals": "Angebotsname",
+          "deals": "Deals Name",
           "category": "Kategorie",
           "discount": "Rabatt",
           "revenue": "Umsatz",

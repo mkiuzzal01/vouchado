@@ -89,7 +89,7 @@ export default async function Dashboard({
           </div>
 
           {/* Dynamic Inner Table Grid */}
-          <DealsTable deal={purchases} t={t} />
+          <DealsTable deal={purchases} t={t} lang={lang} />
         </div>
       </div>
     </Container>

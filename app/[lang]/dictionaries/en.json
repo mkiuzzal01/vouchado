@@ -710,11 +710,22 @@
       "cta_primary": "Become a Partner"
     }
   },
+  "chat": {
+    "search_by_name_placeholder": "Search by Name",
+    "write_message_placeholder": "Write your message here...",
+    "no_messages": "No Messages"
+  },
   "shared": {
     "utility": {
       "no_data": "No Data Available",
       "no_data_desc": "We couldn't find any data matching your search.",
-      "no_data_try_again": "Try again later."
+      "no_data_try_again": "Try again later.",
+      "file_upload": {
+        "browse_file": "Browse File",
+        "adjust_image": "Adjust Image",
+        "cancel": "Cancel",
+        "save_crop": "Save & Crop"
+      }
     },
     "search": {
       "search_location": "Search your Location",
@@ -863,6 +874,25 @@
     }
   },
   "provider_profile": {
+    "notifications_page": {
+      "title": "Notifications",
+      "subtitle": "Stay updated with your latest orders, payments, and system updates",
+      "unread_badge": "unread",
+      "new_badge": "new",
+      "all": "All",
+      "unread": "Unread",
+      "mark_all_read": "Mark all read",
+      "no_notifications_title": "No notifications found",
+      "no_notifications_empty": "There are no notifications to display right now.",
+      "no_notifications_unread": "You have read all your notifications!",
+      "no_notifications_bell_title": "No notifications yet",
+      "no_notifications_bell_desc": "We will notify you when updates arrive",
+      "view_all": "View all notifications",
+      "view_details": "View details",
+      "modal_title": "Notification Details",
+      "id_label": "Notification ID",
+      "received_label": "Received"
+    },
     "dashboard": {
       "nav": {
         "dashboard": "Dashboard",

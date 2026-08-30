@@ -10,6 +10,7 @@ const PRIVATE_ROUTES = [
   "/wishlist",
   "/chat",
   "/vouchers",
+  "/notifications",
 ];
 
 /**

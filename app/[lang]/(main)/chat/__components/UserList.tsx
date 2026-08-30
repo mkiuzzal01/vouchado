@@ -5,17 +5,20 @@ import Image from "next/image";
 import { Search } from "lucide-react";
 import { Conversation, Message } from "@/redux/types/conversional";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   list: Conversation[];
   selectedId: number | null;
   onSelectUser: (conversationId: number) => void;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 export default function UserList({
   list = [],
   selectedId,
   onSelectUser,
+  t,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -80,7 +83,7 @@ export default function UserList({
             type="text"
             value={searchQuery}
             onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Search by name"
+            placeholder={t?.chat?.search_by_name_placeholder}
             className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-teal-500/50 focus:border-teal-500 transition-all placeholder:text-gray-400"
           />
         </div>
@@ -167,7 +170,7 @@ export default function UserList({
           })
         ) : (
           <div className="text-center text-sm text-gray-400 py-12">
-            No conversations found.
+            {t?.chat?.no_messages}
           </div>
         )}
       </div>

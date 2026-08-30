@@ -26,20 +26,38 @@ const initialState: NotificationState = {
   unreadCount: 0,
 };
 
+const isItemUnread = (item: any): boolean => {
+  if (!item) return false;
+  return (
+    !item.read_at ||
+    item.read_at === "null" ||
+    item.read_at === null ||
+    item.is_read === false ||
+    item.is_read === 0 ||
+    item.read === false ||
+    item.read === 0 ||
+    item.status === "unread"
+  );
+};
+
 export const notificationSlice = createSlice({
   name: "notification",
   initialState,
   reducers: {
     setNotifications: (state, action: PayloadAction<NotificationItem[]>) => {
-      state.notifications = action.payload;
-      state.unreadCount = action.payload.filter((item) => !item.read_at).length;
+      state.notifications = action.payload || [];
+      state.unreadCount = state.notifications.filter(isItemUnread).length;
     },
 
     addNotification: (state, action: PayloadAction<NotificationItem>) => {
-      const exists = state.notifications.some((item) => item.id === action.payload.id);
-      if (!exists) {
+      const existsIndex = state.notifications.findIndex(
+        (item) => item.id === action.payload.id,
+      );
+      if (existsIndex >= 0) {
+        state.notifications[existsIndex] = action.payload;
+      } else {
         state.notifications = [action.payload, ...state.notifications];
-        if (!action.payload.read_at) {
+        if (isItemUnread(action.payload)) {
           state.unreadCount += 1;
         }
       }
@@ -56,8 +74,10 @@ export const notificationSlice = createSlice({
       const id = action.payload;
       const target = state.notifications.find((item) => item.id === id);
 
-      if (target && !target.read_at) {
+      if (target && isItemUnread(target)) {
         target.read_at = new Date().toISOString();
+        (target as any).is_read = true;
+        (target as any).status = "read";
         state.unreadCount = Math.max(0, state.unreadCount - 1);
       }
 
@@ -69,12 +89,14 @@ export const notificationSlice = createSlice({
     markAllAsRead: (state) => {
       const now = new Date().toISOString();
       state.notifications.forEach((item) => {
-        if (!item.read_at) {
+        if (isItemUnread(item)) {
           item.read_at = now;
+          (item as any).is_read = true;
+          (item as any).status = "read";
         }
       });
       state.unreadCount = 0;
-      if (state.selectedNotification && !state.selectedNotification.read_at) {
+      if (state.selectedNotification && isItemUnread(state.selectedNotification)) {
         state.selectedNotification.read_at = now;
       }
     },

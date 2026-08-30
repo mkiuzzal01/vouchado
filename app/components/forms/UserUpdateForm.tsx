@@ -66,11 +66,13 @@ export default function UserUpdateForm({
         <div className="space-y-5">
           <div className="flex justify-center mb-6">
             <FileInput
+              t={t}
+              showAspectSelector={false}
               imageFeatures={true}
               aspectRatio={1}
+              imageFrameStyle="square"
               defaultImage={userProfile?.avatar_full_url ?? ""}
               name="avatar"
-              label="Upload your photo"
               accept="image/*"
             />
           </div>

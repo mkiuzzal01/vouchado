@@ -44,7 +44,7 @@ export default function CreateDealAction({ title, t, provider_id }: Props) {
             </span>
           </button>
 
-          <button
+          {/* <button
             onClick={() => setIsScannerOpen(!isScannerOpen)}
             className="flex items-center justify-center gap-2 p-4 bg-white border border-[#2EC1CC] font-semibold rounded-full text-[15px] text-[#2EC1CC] hover:bg-[#2EC1CC]/5 transition-colors shadow-sm w-full sm:w-auto tracking-wide"
           >
@@ -52,10 +52,10 @@ export default function CreateDealAction({ title, t, provider_id }: Props) {
             <span>
               {t?.provider_profile?.dashboard?.utilities?.scan_voucher}
             </span>
-          </button>
+          </button> */}
 
           {/* Solid "Add New Deal" Button */}
-          <button
+          {/* <button
             onClick={() => dispatch(setOpenDealModal(!openDealModal))}
             className="flex items-center justify-center gap-2 p-4 bg-[#2EC1CC] font-semibold rounded-full text-[15px] text-white hover:bg-[#26A6AF] transition-colors shadow-sm w-full sm:w-auto tracking-wide"
           >
@@ -63,7 +63,7 @@ export default function CreateDealAction({ title, t, provider_id }: Props) {
             <span>
               {t?.provider_profile?.dashboard?.utilities?.create_new_deal}
             </span>
-          </button>
+          </button> */}
         </div>
         <div>
           <ModalContainer

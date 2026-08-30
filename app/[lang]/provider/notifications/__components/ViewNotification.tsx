@@ -2,13 +2,22 @@
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { formatTimeAgo, getNotificationBadge } from "./notificationUtils";
 
-export default function ViewNotification() {
+interface ViewNotificationProps {
+  t?: any;
+  lang?: string;
+}
+
+export default function ViewNotification({
+  t,
+  lang = "en",
+}: ViewNotificationProps) {
   const selectedNotification = useAppSelector(
     (state) => state.notification.selectedNotification,
   );
 
   if (!selectedNotification) return null;
 
+  const nT = t?.provider_profile?.notifications_page;
   const badge = getNotificationBadge(selectedNotification.data.title);
 
   return (
@@ -23,7 +32,7 @@ export default function ViewNotification() {
             {selectedNotification.data.title}
           </h3>
           <p className="text-xs text-gray-400">
-            {formatTimeAgo(selectedNotification.created_at)}
+            {formatTimeAgo(selectedNotification.created_at, lang)}
           </p>
         </div>
       </div>
@@ -37,15 +46,21 @@ export default function ViewNotification() {
         {/* Metadata Card */}
         <div className="bg-gray-50 rounded-xl p-3 text-xs text-gray-500 space-y-1.5 border border-gray-100">
           <div className="flex justify-between">
-            <span className="text-gray-400">Notification ID</span>
+            <span className="text-gray-400">
+              {nT?.id_label || "Notification ID"}
+            </span>
             <span className="font-mono text-gray-700">
               {selectedNotification.id}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-400">Received</span>
+            <span className="text-gray-400">
+              {nT?.received_label || "Received"}
+            </span>
             <span className="text-gray-700">
-              {new Date(selectedNotification.created_at).toLocaleString()}
+              {new Date(selectedNotification.created_at).toLocaleString(
+                lang === "de" ? "de-DE" : "en-US",
+              )}
             </span>
           </div>
         </div>

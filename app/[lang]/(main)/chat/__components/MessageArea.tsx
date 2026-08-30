@@ -18,11 +18,13 @@ import Image from "next/image";
 import { useAppSelector } from "@/redux/hooks/globalhooks";
 import { getEchoInstance } from "@/lib/echo";
 import cookie from "js-cookie";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 interface Props {
   user: Conversation;
   messagesList?: Message[];
   onBack: () => void;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 function DoubleCheckIcon({ isRead = true }: { isRead?: boolean }) {
@@ -56,6 +58,7 @@ export default function MessageArea({
   user,
   messagesList = [],
   onBack,
+  t,
 }: Props) {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -320,7 +323,7 @@ export default function MessageArea({
           })
         ) : (
           <div className="text-center text-xs text-gray-400 py-12">
-            No messages yet.
+            {t?.chat?.no_messages}
           </div>
         )}
         <div ref={messagesEndRef} />
@@ -379,7 +382,7 @@ export default function MessageArea({
             value={messageText}
             onChange={(e) => setMessageText(e.target.value)}
             disabled={isLoading}
-            placeholder="Type your message here..."
+            placeholder={t?.chat?.write_message_placeholder}
             className="flex-1 px-4 py-2.5 md:py-3 border border-gray-200 rounded-full text-sm outline-none bg-white focus:border-teal-400"
           />
 

@@ -28,7 +28,7 @@ export default function CreateDealForm({ t }: Props) {
   const renderCurrentStep = () => {
     switch (currentStep) {
       case 1:
-        return <Media />;
+        return <Media t={t} />;
       case 2:
         return <Info />;
       case 3:
@@ -38,7 +38,7 @@ export default function CreateDealForm({ t }: Props) {
       case 5:
         return <Preview t={t} />;
       default:
-        return <Media />;
+        return <Media t={t} />;
     }
   };
 

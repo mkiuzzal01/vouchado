@@ -8,8 +8,12 @@ import {
   setStep,
   updateMedia,
 } from "@/redux/features/deal/deal.slice";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
-export default function Media() {
+interface MediaProps {
+  t: Awaited<ReturnType<typeof getDictionary>>;
+}
+export default function Media({ t }: MediaProps) {
   const dispatch = useAppDispatch();
 
   const { media } = useAppSelector((state) => state.deal);
@@ -29,6 +33,7 @@ export default function Media() {
         <AppForm defaultValues={media} onSubmit={onSubmit}>
           <div className="space-y-6">
             <FileInput
+              t={t}
               showAspectSelector={false}
               aspectRatio={16 / 9}
               imageFeatures={true}
@@ -39,6 +44,7 @@ export default function Media() {
             />
 
             <FileInput
+              t={t}
               imageFeatures={true}
               required
               multiple

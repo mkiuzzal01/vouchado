@@ -253,6 +253,7 @@ export default function ProviderUpdateForm({
           {/* File Uploads */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <FileInput
+              t={t}
               showAspectSelector={false}
               imageFeatures={true}
               imageFrameStyle="rounded"
@@ -265,6 +266,7 @@ export default function ProviderUpdateForm({
               aspectRatio={1}
             />
             <FileInput
+              t={t}
               imageFeatures={true}
               showAspectSelector={false}
               aspectRatio={16 / 9}
@@ -291,7 +293,9 @@ export default function ProviderUpdateForm({
                   typeof t
                 >["provider_profile"]["provider"]["opening_hours"]["days"];
                 const translatedDay =
-                  t?.provider_profile?.provider?.opening_hours?.days?.[dayKey] || day;
+                  t?.provider_profile?.provider?.opening_hours?.days?.[
+                    dayKey
+                  ] || day;
                 return (
                   <div
                     key={day}

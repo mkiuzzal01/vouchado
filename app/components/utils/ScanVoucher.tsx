@@ -5,10 +5,15 @@ import { Html5Qrcode } from "html5-qrcode";
 import {
   Loader2,
   QrCode,
-  Monitor,
   CheckCircle2,
   AlertCircle,
   Camera,
+  FileText,
+  Smartphone,
+  Barcode,
+  Info,
+  X,
+  NotebookPen,
 } from "lucide-react";
 import { useVoucherRedeemMutation } from "@/redux/features/deal/deal.api";
 import { cn } from "@/lib/utils";
@@ -85,7 +90,6 @@ export default function ScanVoucher({
         setNotes("");
         setErrorMsg("");
 
-        // Auto close modal after redemption is completed
         modalCloseTimerRef.current = setTimeout(() => {
           setScanModal(false);
         }, MODAL_CLOSE_DELAY_MS);
@@ -93,7 +97,6 @@ export default function ScanVoucher({
         toast.error(res?.message || "Redemption failed.");
       }
     } catch (err: any) {
-      // console.error("Mutation failed:", err);
       toast.error(err?.data?.message || "Failed to redeem voucher.");
     }
   };
@@ -103,7 +106,6 @@ export default function ScanVoucher({
       try {
         await html5QrcodeRef.current.stop();
         html5QrcodeRef.current.clear();
-        // console.log("Camera stopped successfully.");
       } catch (err) {
         console.error("Failed to stop camera:", err);
       } finally {
@@ -112,15 +114,10 @@ export default function ScanVoucher({
     }
   };
 
-  /**
-   * Initializes and starts the camera stream within a designated DOM element.
-   * Applies optimal video resolution and auto-focus constraints for crisp barcode scanning.
-   */
   const startCamera = async (elementId: string): Promise<void> => {
     try {
       setIsWebcamActive(true);
 
-      // Ensure target DOM element is rendered before binding Html5Qrcode
       let targetElement = document.getElementById(elementId);
       let attempts = 0;
 
@@ -136,7 +133,6 @@ export default function ScanVoucher({
         );
       }
 
-      // Safely stop and clear previous instance if one exists
       if (html5QrcodeRef.current) {
         if (html5QrcodeRef.current.isScanning) {
           await html5QrcodeRef.current.stop();
@@ -148,7 +144,6 @@ export default function ScanVoucher({
       const scannerInstance = new Html5Qrcode(elementId);
       html5QrcodeRef.current = scannerInstance;
 
-      // Optimized configuration for high-clarity scan capture
       const cameraConfig: MediaTrackConstraints = {
         facingMode: "environment",
         width: { min: 640, ideal: 1280, max: 1920 },
@@ -158,7 +153,7 @@ export default function ScanVoucher({
 
       const qrcodeConfig = {
         fps: 15,
-        qrbox: { width: 250, height: 250 },
+        qrbox: { width: 240, height: 240 },
         aspectRatio: 1.0,
         videoConstraints: cameraConfig,
       };
@@ -171,7 +166,7 @@ export default function ScanVoucher({
           stopCamera();
           handleRedeemPayload(decodedText);
         },
-        () => {}, // Suppress per-frame scan failure logs
+        () => {},
       );
     } catch (err: unknown) {
       console.error("[Scanner Error]: Failed to start camera:", err);
@@ -197,7 +192,6 @@ export default function ScanVoucher({
     }
   };
 
-  // 1. Detect Device Type on Mount
   useEffect(() => {
     const userAgent = navigator.userAgent || navigator.vendor || "";
     const mobileRegex =
@@ -206,7 +200,6 @@ export default function ScanVoucher({
     setIsMobile(mobileRegex.test(userAgent));
   }, []);
 
-  // 2. SCENARIO A: Mobile Camera Auto-Open Setup
   useEffect(() => {
     if (!isMobile) return;
 
@@ -220,27 +213,20 @@ export default function ScanVoucher({
     };
   }, [isMobile]);
 
-  // 3. SCENARIO B & C: Desktop Hardware Detection with Auto-Fallback to Webcam
   useEffect(() => {
     if (isMobile) return;
 
-    // Start UI visual countdown interval
     setCountdown(DESKTOP_AUTO_OPEN_SECONDS);
     countdownIntervalRef.current = setInterval(() => {
       setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
 
-    // Auto-open webcam after set delay if no scanner keystroke occurs
     scannerTimeoutRef.current = setTimeout(() => {
-      console.log(
-        "No hardware scanner input detected. Falling back to desktop webcam...",
-      );
       clearAutoOpenTimers();
       startCamera("desktop-reader");
     }, DESKTOP_AUTO_OPEN_SECONDS * 1000);
 
     const handleKeyPress = (e: KeyboardEvent) => {
-      // Ignore input when user is typing in form fields
       if (
         (e.target as HTMLElement).tagName === "INPUT" ||
         (e.target as HTMLElement).tagName === "TEXTAREA"
@@ -248,13 +234,11 @@ export default function ScanVoucher({
         return;
       }
 
-      // Hardware scanner activity detected -> Cancel webcam auto-fallback
       clearAutoOpenTimers();
 
       if (e.key === "Enter") {
         if (desktopScanBuffer.current.length > 0) {
           const finalValue = desktopScanBuffer.current;
-          console.log("Desktop Hardware Scan Value:", finalValue);
           setScannedValue(finalValue);
           desktopScanBuffer.current = "";
 
@@ -279,134 +263,152 @@ export default function ScanVoucher({
   }, [isMobile]);
 
   return (
-    <div className="w-full max-w-lg mx-auto p-5 text-center font-sans">
-      {/* Custom Note input field */}
-      <div className="mb-5 text-left space-y-1.5">
-        <label className="block text-sm font-semibold text-gray-700">
-          {t?.provider_profile?.dashboard?.promo_create_deals?.scan?.qr_title}
+    <div className="p-6 space-y-5">
+      {/* Note input field */}
+      <div className="space-y-2 text-left">
+        <label className="flex items-center space-x-1.5 text-xs font-semibold text-muted-foreground ">
+          <NotebookPen color="#0e7490" size={20} />
+          <span>Redemption Note (Optional)</span>
         </label>
-        <input
-          type="text"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder={
-            t?.provider_profile?.dashboard?.promo_create_deals?.scan
-              ?.input_placeholder
-          }
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm transition-colors focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 placeholder:text-muted-foreground text-sm"
-        />
+        <div className="relative">
+          <input
+            type="text"
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder={
+              t?.provider_profile?.dashboard?.promo_create_deals?.scan
+                ?.input_placeholder || "Add reference or transaction notes..."
+            }
+            className="w-full px-3.5 py-2.5 bg-muted/40 border border-input rounded-xl text-sm text-foreground placeholder:text-muted-foreground transition-all focus:bg-background focus:outline-none focus:border-primary focus:ring-2 focus:ring-ring/20"
+          />
+        </div>
       </div>
 
-      {/* Main scanning view area wrapper box */}
+      {/* Main scanning view area */}
       {isMobile ? (
         <div className="space-y-3">
           <div
             className={cn(
-              "flex items-center justify-center space-x-2 text-sm font-medium p-3 rounded-md transition-all",
+              "flex items-center space-x-2.5 text-xs font-medium px-3.5 py-2.5 rounded-xl border transition-all",
               errorMsg
-                ? "bg-red-50 text-red-600"
-                : "bg-emerald-50 text-emerald-700",
+                ? "bg-destructive/10 text-destructive border-destructive/20"
+                : "bg-primary/10 text-primary border-primary/20",
             )}
           >
             {errorMsg ? (
-              <AlertCircle size={18} />
+              <AlertCircle className="w-4 h-4 shrink-0 text-destructive" />
             ) : (
-              <QrCode className="animate-pulse" size={18} />
+              <Smartphone className="w-4 h-4 shrink-0 text-primary animate-pulse" />
             )}
-            <span>
-              {errorMsg
-                ? errorMsg
-                : "Mobile Device: Auto-starting camera stream..."}
+            <span className="truncate">
+              {errorMsg ? errorMsg : "Mobile Mode: Camera stream initialized."}
             </span>
           </div>
-          <div
-            id="mobile-reader"
-            className="w-full rounded-lg overflow-hidden border border-gray-200 bg-black aspect-square shadow-inner"
-          ></div>
+
+          <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-border bg-black shadow-inner">
+            <div id="mobile-reader" className="w-full h-full" />
+            {/* Overlay Scanner Brackets */}
+            <div className="absolute inset-0 pointer-events-none border-[24px] border-black/40 flex items-center justify-center">
+              <div className="w-48 h-48 border-2 border-dashed border-white/50 rounded-xl relative">
+                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary -mt-0.5 -ml-0.5" />
+                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary -mt-0.5 -mr-0.5" />
+                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary -mb-0.5 -ml-0.5" />
+                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary -mb-0.5 -mr-0.5" />
+              </div>
+            </div>
+          </div>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {!isWebcamActive ? (
-            <div className="border-2 border-dashed border-gray-300 p-8 rounded-xl bg-gray-50 flex flex-col items-center justify-center space-y-3 shadow-sm">
-              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
-                <Monitor size={24} />
+            <div className="relative border-2 border-dashed border-border hover:border-primary/50 p-8 rounded-2xl bg-muted/20 flex flex-col items-center justify-center text-center space-y-4 transition-all">
+              <div className="relative">
+                <div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center shadow-sm">
+                  <Barcode color="#0e7490" className="w-7 h-7" size={20} />
+                </div>
+                <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary/70 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-4 w-4 bg-primary" />
+                </span>
               </div>
-              <p className="text-blue-600 font-bold tracking-tight">
-                {
-                  t?.provider_profile?.dashboard?.promo_create_deals?.scan
-                    ?.input_placeholder
-                }
-              </p>
-              <p className="text-sm text-gray-500 max-w-xs leading-normal">
-                {
-                  t?.provider_profile?.dashboard?.promo_create_deals?.scan
-                    ?.qr_desc_1
-                }{" "}
-                <span className="font-semibold text-blue-600">{countdown}</span>{" "}
-                {
-                  t?.provider_profile?.dashboard?.promo_create_deals?.scan
-                    ?.qr_desc_1
-                }
-              </p>
+
+              <div className="space-y-1.5 max-w-xs">
+                <h4 className="text-sm font-semibold text-foreground">
+                  Listening for Barcode Scanner
+                </h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Scan with your barcode device or wait for the camera fallback
+                  in{" "}
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold bg-primary/10 text-primary">
+                    {countdown}s
+                  </span>
+                </p>
+              </div>
+
               <button
                 type="button"
                 onClick={() => {
                   clearAutoOpenTimers();
                   startCamera("desktop-reader");
                 }}
-                className="mt-2 inline-flex items-center space-x-2 text-xs font-semibold bg-white text-gray-700 border border-gray-300 hover:bg-gray-100 px-3 py-1.5 rounded-md shadow-sm transition-all cursor-pointer"
+                className="inline-flex items-center space-x-2 text-xs font-medium bg-card text-foreground border border-border hover:bg-muted px-4 py-2 rounded-xl shadow-sm transition-all cursor-pointer active:scale-95"
               >
-                <Camera size={14} />
-                <span>
-                  {
-                    t?.provider_profile?.dashboard?.promo_create_deals?.scan
-                      ?.btn
-                  }
-                </span>
+                <Camera color="#0e7490" size={20} />
+                <span>Use Webcam Directly</span>
               </button>
             </div>
           ) : (
-            <div className="space-y-2">
-              <div className="flex items-center justify-center space-x-2 text-sm font-medium p-3 rounded-md bg-blue-50 text-blue-700">
-                <Camera className="animate-pulse" size={18} />
-                <span>
-                  Webcam Scanner Active (Hardware scanner listen mode active)
+            <div className="space-y-3">
+              <div className="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
+                <div className="flex items-center space-x-2">
+                  <Camera color="#0e7490" size={20} />
+                  <span>Webcam Scanner Active</span>
+                </div>
+                <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-semibold">
+                  Hardware Listening
                 </span>
               </div>
-              <div
-                id="desktop-reader"
-                className="w-full rounded-lg overflow-hidden border border-gray-200 bg-black aspect-square shadow-inner"
-              ></div>
+
+              <div className="relative w-full aspect-square rounded-2xl overflow-hidden border border-border bg-black shadow-inner">
+                <div id="desktop-reader" className="w-full h-full" />
+                <div className="absolute inset-0 pointer-events-none border-[24px] border-black/40 flex items-center justify-center">
+                  <div className="w-48 h-48 border-2 border-dashed border-white/50 rounded-xl relative">
+                    <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-primary -mt-0.5 -ml-0.5" />
+                    <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-primary -mt-0.5 -mr-0.5" />
+                    <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-primary -mb-0.5 -ml-0.5" />
+                    <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-primary -mb-0.5 -mr-0.5" />
+                  </div>
+                </div>
+              </div>
             </div>
           )}
         </div>
       )}
 
-      {/* Mutation Status Alerts */}
+      {/* Mutation & Processing Feedback */}
       {isLoading && (
-        <div className="mt-5 flex items-center justify-center space-x-2 text-amber-600 font-semibold text-sm bg-amber-50 p-3 rounded-md border border-amber-200">
-          <Loader2 className="animate-spin" size={16} />
-          <span>Processing voucher transaction...</span>
+        <div className="flex items-center space-x-3 text-amber-600 dark:text-amber-400 text-xs font-medium bg-amber-500/10 border border-amber-500/20 px-4 py-3 rounded-xl animate-pulse">
+          <Loader2 className="w-4 h-4 animate-spin shrink-0 text-amber-500" />
+          <span>Processing voucher redemption...</span>
         </div>
       )}
 
       {isSuccess && (
-        <div className="mt-5 bg-emerald-50 border border-emerald-200 text-emerald-800 p-4 rounded-lg font-medium text-left shadow-sm space-y-2">
-          <div className="flex items-center space-x-2 text-emerald-700 font-bold">
-            <CheckCircle2 size={18} />
-            <span>Success! Voucher Redeemed. Closing modal...</span>
-          </div>
+        <div className="flex items-center space-x-3 bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-4 py-3 rounded-xl text-xs font-medium shadow-sm">
+          <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+          <span>Success! Voucher redeemed. Closing modal...</span>
         </div>
       )}
 
       {scannedValue && (
-        <div className="mt-5 bg-gray-100 border border-gray-200 text-gray-700 p-3 rounded-lg text-xs text-left leading-relaxed shadow-sm">
-          <strong className="text-gray-900 block mb-1">
-            Last Raw Scan Data:
-          </strong>
-          <span className="font-mono break-all selection:bg-gray-300">
+        <div className="p-3.5 bg-muted/30 border border-border rounded-xl text-left space-y-1.5">
+          <div className="flex items-center space-x-1.5 text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+            <Info className="w-3.5 h-3.5" />
+            <span>Scanned Raw Data</span>
+          </div>
+          <p className="font-mono text-xs text-foreground break-all bg-card p-2 rounded-lg border border-border">
             {scannedValue}
-          </span>
+          </p>
         </div>
       )}
     </div>

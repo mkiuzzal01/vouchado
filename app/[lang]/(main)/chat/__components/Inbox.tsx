@@ -9,13 +9,15 @@ import {
   ConversationResponse,
   MessageResponse,
 } from "@/redux/types/conversional";
+import { getDictionary } from "../../../dictionaries";
 
 interface Props {
   list?: ConversationResponse;
   message?: MessageResponse;
+  t: Awaited<ReturnType<typeof getDictionary>>;
 }
 
-export default function Inbox({ list, message }: Props) {
+export default function Inbox({ list, message, t }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -77,6 +79,7 @@ export default function Inbox({ list, message }: Props) {
       >
         <div className="flex-1 min-h-0 overflow-y-auto">
           <UserList
+            t={t}
             onSelectUser={handleSelectUser}
             list={conversations}
             selectedId={selectedConversationId ?? 0}
@@ -91,6 +94,7 @@ export default function Inbox({ list, message }: Props) {
         }`}
       >
         <MessageArea
+          t={t}
           user={activeConversation}
           messagesList={messagesList}
           onBack={() => setIsMobileMessageView(false)}

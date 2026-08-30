@@ -79,9 +79,7 @@ export default async function DealsPage({ searchParams, params }: IProps) {
     <Container className="py-6 space-y-8 bg-slate-50/50 min-h-screen">
       <CreateDealAction
         provider_id={provider_profile?.data?.id}
-        title={
-          t?.provider_profile?.dashboard?.deals_purchased?.purchase_deals?.title
-        }
+        title={t?.provider_profile?.dashboard?.stats_2?.title}
         t={t}
       />
       <MetricCards stat={metricsData} />

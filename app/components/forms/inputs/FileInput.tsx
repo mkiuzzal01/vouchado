@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { getDictionary } from "@/app/[lang]/dictionaries";
 
 // --- Types & Constants ---
 
@@ -48,6 +49,7 @@ export interface FileInputProps {
   aspectRatio?: number;
   aspectOptions?: AspectOption[];
   showAspectSelector?: boolean;
+  t?: Awaited<ReturnType<typeof getDictionary>>;
 }
 
 type FileValue = File | string;
@@ -112,6 +114,13 @@ async function getCroppedImg(
   });
 }
 
+// Map frame styles to Tailwind classes
+const FRAME_STYLES = {
+  rounded: "rounded-full aspect-square w-48 h-48 mx-auto",
+  square: "rounded-lg aspect-square w-36 h-36",
+  banner: "rounded-xl aspect-video w-full h-52",
+};
+
 // --- Main Component ---
 
 export default function FileInput({
@@ -128,6 +137,7 @@ export default function FileInput({
   aspectOptions = DEFAULT_ASPECT_OPTIONS,
   showAspectSelector = true,
   imageFrameStyle = "banner",
+  t,
 }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -224,7 +234,9 @@ export default function FileInput({
               setEditingFileIndex(null);
               setZoom(1);
               setCrop({ x: 0, y: 0 });
-              setSelectedAspect(aspectRatio);
+              setSelectedAspect(
+                aspectRatio ?? (imageFrameStyle === "rounded" ? 1 : undefined),
+              );
               setCropModalOpen(true);
             } else {
               if (multiple) {
@@ -253,7 +265,9 @@ export default function FileInput({
             setEditingFileIndex(index);
             setZoom(1);
             setCrop({ x: 0, y: 0 });
-            setSelectedAspect(aspectRatio);
+            setSelectedAspect(
+              aspectRatio ?? (imageFrameStyle === "rounded" ? 1 : undefined),
+            );
             setCropModalOpen(true);
           };
 
@@ -308,13 +322,12 @@ export default function FileInput({
                         inputRef.current?.click();
                     }}
                     className={cn(
-                      "relative overflow-hidden rounded-2xl border-2 border-dashed border-neutral-200 dark:border-neutral-800",
+                      "relative overflow-hidden border-2 border-dashed border-neutral-200 dark:border-neutral-800",
                       "bg-neutral-50 dark:bg-neutral-900/50 backdrop-blur-xl",
                       "hover:border-primary/50 transition duration-200 cursor-pointer",
                       "flex flex-col items-center justify-center focus:outline-none focus:ring-2 focus:ring-primary/20",
-                      multiple
-                        ? "w-32 h-32 p-2 text-center"
-                        : "w-full min-h-50 p-6",
+                      FRAME_STYLES[imageFrameStyle],
+                      multiple && "w-32 h-32 aspect-square rounded-2xl",
                     )}
                   >
                     <input
@@ -327,16 +340,22 @@ export default function FileInput({
                       onChange={handleFileChange}
                     />
 
-                    <div className="flex flex-col items-center text-center gap-2">
+                    <div className="flex flex-col items-center text-center gap-2 p-2">
                       <div
                         className={cn(
                           "flex items-center justify-center rounded-full bg-primary/10 border border-primary/20 text-primary",
-                          multiple ? "w-10 h-10" : "w-12 h-12 mb-2",
+                          multiple || imageFrameStyle !== "banner"
+                            ? "w-8 h-8"
+                            : "w-12 h-12 mb-1",
                         )}
                       >
-                        <ImagePlus size={multiple ? 18 : 24} />
+                        <ImagePlus
+                          size={
+                            multiple || imageFrameStyle !== "banner" ? 16 : 24
+                          }
+                        />
                       </div>
-                      {!multiple && (
+                      {!multiple && imageFrameStyle === "banner" && (
                         <p className="text-xs text-muted-foreground">
                           {ALLOWED_EXTENSIONS.map((ext) => ext)
                             .join(", ")
@@ -345,11 +364,13 @@ export default function FileInput({
                       )}
                       <span
                         className={cn(
-                          "font-medium text-primary px-3 py-1 bg-primary/10 rounded-md",
-                          multiple ? "text-xs" : "text-sm",
+                          "font-medium text-primary px-2.5 py-0.5 bg-primary/10 rounded-md",
+                          multiple || imageFrameStyle !== "banner"
+                            ? "text-xs"
+                            : "text-sm",
                         )}
                       >
-                        Browse File
+                        {t?.shared?.utility?.file_upload?.browse_file}
                       </span>
                     </div>
                   </div>
@@ -368,8 +389,9 @@ export default function FileInput({
                     <div
                       key={index}
                       className={cn(
-                        "relative rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-sm group bg-neutral-100 dark:bg-neutral-900",
-                        multiple ? "w-32 h-32" : "w-full h-55",
+                        "relative overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-sm group bg-neutral-100 dark:bg-neutral-900",
+                        FRAME_STYLES[imageFrameStyle],
+                        multiple && "w-32 h-32 aspect-square rounded-2xl",
                       )}
                     >
                       <Image
@@ -382,7 +404,7 @@ export default function FileInput({
                         }
                       />
 
-                      <div className="absolute top-2 right-2 z-10 flex gap-1.5 opacity-90 group-hover:opacity-100 transition-opacity">
+                      <div className="absolute inset-0 z-10 flex items-center justify-center gap-2 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                         {imageFeatures && !isSvg && (
                           <button
                             type="button"
@@ -390,10 +412,10 @@ export default function FileInput({
                               e.stopPropagation();
                               openCropperForExisting(index);
                             }}
-                            className="flex items-center justify-center h-7 w-7 rounded-full bg-black/60 text-white hover:bg-black/80 transition"
+                            className="flex items-center justify-center h-9 w-9 rounded-full bg-black/70 text-white hover:bg-black/90 hover:scale-105 transition shadow-md"
                             title="Crop & Edit"
                           >
-                            <Crop size={13} />
+                            <Crop size={16} />
                           </button>
                         )}
 
@@ -403,10 +425,10 @@ export default function FileInput({
                             e.stopPropagation();
                             removeImage(index);
                           }}
-                          className="flex items-center justify-center h-7 w-7 rounded-full bg-black/60 text-white hover:bg-red-500 transition"
+                          className="flex items-center justify-center h-9 w-9 rounded-full bg-black/70 text-white hover:bg-red-600 hover:scale-105 transition shadow-md"
                           title="Remove"
                         >
-                          <X size={14} />
+                          <X size={18} />
                         </button>
                       </div>
                     </div>
@@ -426,8 +448,8 @@ export default function FileInput({
                   <DialogContent className="min-w-xl bg-white">
                     <DialogHeader>
                       <DialogTitle className="flex items-center gap-2 text-base">
-                        <Crop size={18} className="text-primary" /> Crop &
-                        Adjust Image
+                        <Crop size={18} className="text-primary" />{" "}
+                        {t?.shared?.utility?.file_upload?.adjust_image}
                       </DialogTitle>
                     </DialogHeader>
 
@@ -493,14 +515,15 @@ export default function FileInput({
                         variant="outline"
                         onClick={() => setCropModalOpen(false)}
                       >
-                        Cancel
+                        {t?.shared?.utility?.file_upload?.cancel}
                       </Button>
                       <Button
                         type="button"
                         onClick={handleApplyCrop}
                         className="flex items-center gap-1.5"
                       >
-                        <Check size={16} /> Save & Crop
+                        <Check size={16} />{" "}
+                        {t?.shared?.utility?.file_upload?.save_crop}
                       </Button>
                     </DialogFooter>
                   </DialogContent>

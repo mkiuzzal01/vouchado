@@ -9,6 +9,7 @@ import {
 } from "../features/notifications/notification.slice";
 import { useGetNotificationsQuery } from "../features/notifications/notification.api";
 import { getEchoInstance } from "@/lib/echo";
+import { translateData } from "@/app/components/utils/translateText";
 import cookie from "js-cookie";
 
 function extractNotifications(data: any): any[] {
@@ -19,7 +20,7 @@ function extractNotifications(data: any): any[] {
   return [];
 }
 
-export function useUnreadNotificationCount() {
+export function useUnreadNotificationCount(lang: string = "en") {
   const dispatch = useAppDispatch();
   const reduxToken = useAppSelector((state: any) => state.auth?.vuchado_token);
   const user = useAppSelector((state: any) => state.auth?.user);
@@ -35,14 +36,15 @@ export function useUnreadNotificationCount() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       (window as any).testNewNotification = (
-        title = "Test Unread Notification"
+        title = "Test Unread Notification",
+        message = "This is a simulated unread notification test.",
       ) => {
         const testItem: NotificationItem = {
           id: `test_${Date.now()}`,
           type: "general",
           data: {
             title,
-            message: "This is a simulated unread notification test.",
+            message,
             url: null,
           },
           read_at: null,
@@ -50,7 +52,7 @@ export function useUnreadNotificationCount() {
         };
         dispatch(addNotification(testItem));
         console.log(
-          "🚀 [Test Trigger] Simulated unread notification dispatched to Redux!"
+          "🚀 [Test Trigger] Simulated unread notification dispatched to Redux!",
         );
       };
     }
@@ -61,10 +63,20 @@ export function useUnreadNotificationCount() {
     if (data) {
       const items = extractNotifications(data);
       if (items.length > 0) {
-        dispatch(setNotifications(items));
+        if (lang && lang !== "en") {
+          translateData(items, lang)
+            .then((translatedItems) => {
+              dispatch(setNotifications(translatedItems));
+            })
+            .catch(() => {
+              dispatch(setNotifications(items));
+            });
+        } else {
+          dispatch(setNotifications(items));
+        }
       }
     }
-  }, [data, dispatch]);
+  }, [data, lang, dispatch]);
 
   // Listen to Echo real-time events to push instant updates & refetch
   useEffect(() => {
@@ -73,27 +85,42 @@ export function useUnreadNotificationCount() {
     try {
       const echo = getEchoInstance(token);
 
-      const handleNotification = (notifData: any, source: string) => {
-        console.log(`🔔 [Echo Notification] Real-time event from (${source}):`, notifData);
+      const handleNotification = async (notifData: any, source: string) => {
+        console.log(
+          `🔔 [Echo Notification] Real-time event from (${source}):`,
+          notifData,
+        );
 
         const payload = notifData?.data || notifData;
         const newNotif: NotificationItem = {
           id: String(
             notifData.id ||
-              `notif_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`
+              `notif_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
           ),
           type: String(notifData.type || "general"),
           data: {
             title: payload?.title || notifData?.title || "New Notification",
-            message: payload?.message || notifData?.message || "You have a new update.",
+            message:
+              payload?.message ||
+              notifData?.message ||
+              "You have a new update.",
             url: payload?.url || notifData?.url || null,
           },
           read_at: null,
           created_at: new Date().toISOString(),
         };
 
-        // Instant Redux state update for zero latency
-        dispatch(addNotification(newNotif));
+        if (lang && lang !== "en") {
+          try {
+            const translatedNotif = await translateData(newNotif, lang);
+            dispatch(addNotification(translatedNotif));
+          } catch {
+            dispatch(addNotification(newNotif));
+          }
+        } else {
+          dispatch(addNotification(newNotif));
+        }
+
         refetch();
       };
 
@@ -103,13 +130,19 @@ export function useUnreadNotificationCount() {
       // 1. App.Models.User.{id} channel
       const ch1 = echo.channel(userChannelName);
       ch1.notification((d: any) => handleNotification(d, userChannelName));
-      ch1.listen("NotificationSent", (d: any) => handleNotification(d, userChannelName));
-      ch1.listen(".NotificationSent", (d: any) => handleNotification(d, userChannelName));
+      ch1.listen("NotificationSent", (d: any) =>
+        handleNotification(d, userChannelName),
+      );
+      ch1.listen(".NotificationSent", (d: any) =>
+        handleNotification(d, userChannelName),
+      );
 
       // 2. user.{id} channel
       const ch2 = echo.channel(generalUserChannel);
       ch2.notification((d: any) => handleNotification(d, generalUserChannel));
-      ch2.listen("NotificationSent", (d: any) => handleNotification(d, generalUserChannel));
+      ch2.listen("NotificationSent", (d: any) =>
+        handleNotification(d, generalUserChannel),
+      );
 
       return () => {
         echo.leave(userChannelName);
@@ -118,7 +151,7 @@ export function useUnreadNotificationCount() {
     } catch (err) {
       console.error("Echo notification listener error:", err);
     }
-  }, [token, user?.id, dispatch, refetch]);
+  }, [token, user?.id, lang, dispatch, refetch]);
 
   const list = extractNotifications(data);
 

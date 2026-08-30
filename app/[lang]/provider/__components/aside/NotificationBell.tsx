@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef, useTransition } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Bell, Check, ChevronRight, Inbox } from "lucide-react";
@@ -9,8 +9,13 @@ import {
   markAsRead,
   markAllAsRead,
   setSelectedNotification,
+  setNotifications,
   NotificationItem,
 } from "@/redux/features/notifications/notification.slice";
+import {
+  useMarkNotificationReadMutation,
+  useMarkAllNotificationsReadMutation,
+} from "@/redux/features/notifications/notification.api";
 import { useUnreadNotificationCount } from "@/redux/hooks/useUnreadNotificationCount";
 import {
   formatTimeAgo,
@@ -18,11 +23,13 @@ import {
 } from "@/app/[lang]/provider/notifications/__components/notificationUtils";
 
 interface NotificationBellProps {
+  t?: any;
   lang: string;
   initialNotifications?: NotificationItem[];
 }
 
 export const NotificationBell: React.FC<NotificationBellProps> = ({
+  t,
   lang,
   initialNotifications = [],
 }) => {
@@ -31,10 +38,34 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { notifications } = useAppSelector((state) => state.notification);
-  const unreadCount = useUnreadNotificationCount();
+  const [markReadApi] = useMarkNotificationReadMutation();
+  const [markAllReadApi] = useMarkAllNotificationsReadMutation();
 
-  // 3. Close dropdown when clicking outside or pressing ESC
+  const { notifications } = useAppSelector((state) => state.notification);
+  const unreadCount = useUnreadNotificationCount(lang);
+
+  const nT = t?.provider_profile?.notifications_page;
+
+  useEffect(() => {
+    if (
+      initialNotifications &&
+      initialNotifications.length > 0 &&
+      notifications.length === 0
+    ) {
+      const parsed = Array.isArray((initialNotifications as any)?.data?.data)
+        ? (initialNotifications as any).data.data
+        : Array.isArray((initialNotifications as any)?.data)
+          ? (initialNotifications as any).data
+          : Array.isArray(initialNotifications)
+            ? initialNotifications
+            : [];
+      if (parsed.length > 0) {
+        dispatch(setNotifications(parsed));
+      }
+    }
+  }, [initialNotifications, notifications.length, dispatch]);
+
+  // Close dropdown when clicking outside or pressing ESC
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -62,30 +93,48 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
     };
   }, [isOpen]);
 
-  const handleSelectNotification = (item: NotificationItem) => {
-    if (!item.read_at) {
+  const handleSelectNotification = async (item: NotificationItem) => {
+    const isUnread =
+      !item.read_at ||
+      item.read_at === "null" ||
+      item.read_at === null ||
+      (item as any).is_read === false ||
+      (item as any).status === "unread";
+
+    if (isUnread) {
       dispatch(markAsRead(item.id));
+      try {
+        await markReadApi(item.id).unwrap();
+      } catch (err) {
+        console.warn("Failed to mark notification as read on backend:", err);
+      }
     }
     dispatch(setSelectedNotification(item));
     setIsOpen(false);
     router.push(`/${lang}/provider/notifications`);
   };
 
-  const handleMarkAllRead = (e: React.MouseEvent) => {
+  const handleMarkAllRead = async (e: React.MouseEvent) => {
     e.stopPropagation();
     dispatch(markAllAsRead());
+    try {
+      await markAllReadApi().unwrap();
+    } catch (err) {
+      console.warn("Failed to mark all notifications as read on backend:", err);
+    }
   };
 
-  const rawList = notifications.length > 0 ? notifications : initialNotifications;
+  const rawList =
+    notifications.length > 0 ? notifications : initialNotifications;
   const activeNotifications: NotificationItem[] = Array.isArray(
     (rawList as any)?.data?.data,
   )
     ? (rawList as any).data.data
     : Array.isArray((rawList as any)?.data)
-    ? (rawList as any).data
-    : Array.isArray(rawList)
-    ? rawList
-    : [];
+      ? (rawList as any).data
+      : Array.isArray(rawList)
+        ? rawList
+        : [];
 
   const computedUnreadCount = activeNotifications.filter((item: any) => {
     return (
@@ -103,14 +152,6 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
   const displayUnreadCount =
     unreadCount > 0 ? unreadCount : computedUnreadCount;
 
-  console.log("🔔 [NotificationBell Debug]", {
-    unreadCountFromHook: unreadCount,
-    computedUnreadCount,
-    displayUnreadCount,
-    activeCount: activeNotifications.length,
-    firstItem: activeNotifications[0],
-  });
-
   const recentNotifications = activeNotifications.slice(0, 5);
 
   return (
@@ -120,7 +161,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-expanded={isOpen}
-        aria-label={`Notifications (${displayUnreadCount} unread)`}
+        aria-label={`${nT?.title || "Notifications"} (${displayUnreadCount} ${nT?.unread_badge || "unread"})`}
         className="relative flex items-center justify-center w-10 h-10 rounded-full bg-white border border-gray-200 text-gray-600 hover:text-teal-600 hover:border-teal-300 hover:bg-teal-50/30 transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 cursor-pointer shadow-2xs"
       >
         <Bell className="w-5 h-5 stroke-[1.75]" />
@@ -140,11 +181,11 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
           <div className="flex items-center justify-between px-4 py-3.5 bg-gray-50/70 border-b border-gray-100">
             <div className="flex items-center gap-2">
               <span className="font-semibold text-gray-900 text-sm">
-                Notifications
+                {nT?.title || "Notifications"}
               </span>
               {displayUnreadCount > 0 && (
                 <span className="px-2 py-0.5 text-[11px] font-semibold bg-teal-100 text-teal-800 rounded-full">
-                  {displayUnreadCount} new
+                  {displayUnreadCount} {nT?.new_badge || "new"}
                 </span>
               )}
             </div>
@@ -156,7 +197,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
                 className="inline-flex items-center gap-1 text-xs font-medium text-teal-600 hover:text-teal-700 transition-colors cursor-pointer"
               >
                 <Check className="w-3.5 h-3.5" />
-                Mark all read
+                {nT?.mark_all_read || "Mark all read"}
               </button>
             )}
           </div>
@@ -169,10 +210,11 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
                   <Inbox className="w-5 h-5" />
                 </div>
                 <p className="text-sm font-medium text-gray-700">
-                  No notifications yet
+                  {nT?.no_notifications_bell_title || "No notifications yet"}
                 </p>
                 <p className="text-xs text-gray-400 mt-0.5">
-                  We will notify you when updates arrive
+                  {nT?.no_notifications_bell_desc ||
+                    "We will notify you when updates arrive"}
                 </p>
               </div>
             ) : (
@@ -217,7 +259,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
                           {item.data.title}
                         </p>
                         <span className="text-[10px] text-gray-400 shrink-0">
-                          {formatTimeAgo(item.created_at)}
+                          {formatTimeAgo(item.created_at, lang)}
                         </span>
                       </div>
 
@@ -243,7 +285,7 @@ export const NotificationBell: React.FC<NotificationBellProps> = ({
               onClick={() => setIsOpen(false)}
               className="inline-flex items-center justify-center gap-1.5 text-xs font-semibold text-teal-600 hover:text-teal-700 w-full py-1.5 transition-colors"
             >
-              <span>View all notifications</span>
+              <span>{nT?.view_all || "View all notifications"}</span>
               <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>

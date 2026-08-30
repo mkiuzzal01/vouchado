@@ -21,7 +21,9 @@ export default async function page({ params }: Props) {
       <h2 className="text-xl font-bold text-gray-900 tracking-tight">
         {termsCondition?.data?.page_title}
       </h2>
-      <p className="text-gray-600 mt-4">{termsCondition?.data?.page_content}</p>
+      <div
+        dangerouslySetInnerHTML={{ __html: termsCondition?.data?.page_content }}
+      />
     </div>
   );
 }

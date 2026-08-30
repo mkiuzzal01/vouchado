@@ -206,7 +206,7 @@ export default function MyPurchases({
 
       <ModalContainer
         width="2xl"
-        title="Rate this product"
+        title={t?.review_form?.title}
         isOpen={showReviewModal}
         onClose={handleCloseModal}
       >
