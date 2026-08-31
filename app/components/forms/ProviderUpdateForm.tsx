@@ -250,34 +250,33 @@ export default function ProviderUpdateForm({
     <div className="w-full bg-transparent">
       <AppForm onSubmit={handleUpdate} defaultValues={formDefaultValues}>
         <div className="flex flex-col gap-6">
+          <FileInput
+            t={t}
+            aspectRatio={4 / 1}
+            imageFrameStyle="banner"
+            imageFeatures={true}
+            showAspectSelector={false}
+            defaultImage={data?.business_cover_image_full_url}
+            label={
+              t?.provider_profile?.provider?.form?.cover_image || "Cover Image"
+            }
+            name="business_cover_image"
+          />
+
           {/* File Uploads */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <FileInput
-              t={t}
-              showAspectSelector={false}
-              imageFeatures={true}
-              imageFrameStyle="rounded"
-              defaultImage={data?.business_logo_full_url}
-              label={
-                t?.provider_profile?.provider?.form?.business_logo ||
-                "Business Logo"
-              }
-              name="business_logo"
-              aspectRatio={1}
-            />
-            <FileInput
-              t={t}
-              imageFeatures={true}
-              showAspectSelector={false}
-              aspectRatio={16 / 9}
-              defaultImage={data?.business_cover_image_full_url}
-              label={
-                t?.provider_profile?.provider?.form?.cover_image ||
-                "Cover Image"
-              }
-              name="business_cover_image"
-            />
-          </div>
+          <FileInput
+            t={t}
+            showAspectSelector={false}
+            imageFeatures={true}
+            imageFrameStyle="rounded"
+            defaultImage={data?.business_logo_full_url}
+            label={
+              t?.provider_profile?.provider?.form?.business_logo ||
+              "Business Logo"
+            }
+            name="business_logo"
+            aspectRatio={1}
+          />
 
           <hr className="border-gray-100" />
 

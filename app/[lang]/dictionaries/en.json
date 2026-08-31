@@ -912,14 +912,14 @@
       },
 
       "stats_2": {
-        "title": "Umsatzstatistiken",
-        "total_revenue": "Gesamtumsatz",
-        "all_time": "insgesamt",
-        "active_vouchers": "Aktive Gutscheine (gesamt)",
-        "this_month": "diesen Monat",
-        "expired_vouchers": "Abgelaufene Gutscheine (gesamt)",
-        "of_sold": "der verkauften",
-        "redeemed_vouchers": "Bereits eingelöste Gutscheine"
+        "title": "Revenue Statistics",
+        "total_revenue": "Total Revenue",
+        "all_time": "all time",
+        "active_vouchers": "Active Vouchers (total)",
+        "this_month": "this month",
+        "expired_vouchers": "Expired Vouchers (total)",
+        "of_sold": "of sold",
+        "redeemed_vouchers": "Already Redeemed Vouchers"
       },
 
       "create_gift_voucher": {

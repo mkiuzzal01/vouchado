@@ -9,13 +9,14 @@ interface Props {
 
 export default function CoverImage({ coverImageUrl, t }: Props) {
   return (
-    <div className="relative w-full aspect-3/1 sm:aspect-4/1 md:aspect-5/1 rounded-3xl overflow-hidden shadow-sm bg-gray-100">
+    <div className="w-full rounded-3xl overflow-hidden shadow-sm bg-gray-100">
       <Image
         src={coverImageUrl || coverImage}
         alt={t?.provider_profile?.provider?.profile_banner || "Profile Banner"}
-        fill
+        width={0}
+        height={0}
         sizes="100vw"
-        className="object-cover"
+        className="w-full h-auto object-cover"
         priority
       />
     </div>
