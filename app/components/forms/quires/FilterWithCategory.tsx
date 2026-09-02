@@ -87,7 +87,7 @@ export default function FilterWithCategory({
                         alt={cat.name}
                         width={24}
                         height={24}
-                        className="object-contain grayscale"
+                        className="object-contain"
                       />
                     ) : (
                       <span
