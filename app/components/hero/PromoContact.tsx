@@ -30,7 +30,7 @@ export default function PromoContact({ lang, t }: Props) {
 
   return (
     <section className="w-full bg-white py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
-      <Container>
+      <div>
         <div className="flex flex-col gap-8 md:gap-10">
           {/* --- LIGHT TEAL PROMO BANNER POD --- */}
           <div className="w-full rounded-[24px] bg-[#EAF5F6] border border-[#2DE2EA]/60 p-6 sm:p-8 md:p-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 shadow-sm">
@@ -95,7 +95,7 @@ export default function PromoContact({ lang, t }: Props) {
           </div>
 
           {/* --- CONTACT ILLUSTRATION SHOWCASE POD --- */}
-          <div className="relative w-full rounded-[32px] border border-slate-100 p-4 sm:p-8 md:p-12 overflow-hidden flex items-center justify-center shadow-sm min-h-[380px] sm:min-h-[500px] lg:min-h-[580px]">
+          {/* <div className="relative w-full rounded-[32px] border border-slate-100 p-4 sm:p-8 md:p-12 overflow-hidden flex items-center justify-center shadow-sm min-h-[380px] sm:min-h-[500px] lg:min-h-[580px]">
             <div className="relative w-full h-full max-w-5xl min-h-[340px] sm:min-h-[460px] lg:min-h-[540px]">
               <Image
                 src={contactImage}
@@ -106,9 +106,9 @@ export default function PromoContact({ lang, t }: Props) {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
               />
             </div>
-          </div>
+          </div> */}
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

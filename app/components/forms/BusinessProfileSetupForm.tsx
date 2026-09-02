@@ -29,36 +29,34 @@ const getFile = (val: unknown): File | null => {
   return null;
 };
 
-// Map of display day names to backend day names (always English)
-const DAY_MAP = {
-  Sunday: "sunday",
-  Monday: "monday",
-  Tuesday: "tuesday",
-  Wednesday: "wednesday",
-  Thursday: "thursday",
-  Friday: "friday",
-  Saturday: "saturday",
-} as const;
+// Stable English keys mapped to backend enum values
+const DAYS_CONFIG = [
+  { key: "Sunday", backendName: "sunday" },
+  { key: "Monday", backendName: "monday" },
+  { key: "Tuesday", backendName: "tuesday" },
+  { key: "Wednesday", backendName: "wednesday" },
+  { key: "Thursday", backendName: "thursday" },
+  { key: "Friday", backendName: "friday" },
+  { key: "Saturday", backendName: "saturday" },
+] as const;
+
+type DayKey = (typeof DAYS_CONFIG)[number]["key"];
 
 export default function BusinessProfileSetupForm({ lang, t }: Props) {
   const router = useRouter();
 
-  // Get translated day names from dictionary
-  const translatedDays = useMemo(
-    () => [
-      t?.auth?.business_profile_setup?.days?.Sunday || "Sunday",
-      t?.auth?.business_profile_setup?.days?.Monday || "Monday",
-      t?.auth?.business_profile_setup?.days?.Tuesday || "Tuesday",
-      t?.auth?.business_profile_setup?.days?.Wednesday || "Wednesday",
-      t?.auth?.business_profile_setup?.days?.Thursday || "Thursday",
-      t?.auth?.business_profile_setup?.days?.Friday || "Friday",
-      t?.auth?.business_profile_setup?.days?.Saturday || "Saturday",
-    ],
+  // Map stable keys to dictionary translations
+  const daysList = useMemo(
+    () =>
+      DAYS_CONFIG.map((day) => ({
+        ...day,
+        label: t?.auth?.business_profile_setup?.days?.[day.key] || day.key,
+      })),
     [t],
   );
 
-  // Store selected day names in a Set
-  const [selectedDays, setSelectedDays] = useState<Set<string>>(new Set());
+  // Store stable English keys (e.g., "Sunday") instead of localized text
+  const [selectedDays, setSelectedDays] = useState<Set<DayKey>>(new Set());
 
   const {
     business_name,
@@ -73,25 +71,28 @@ export default function BusinessProfileSetupForm({ lang, t }: Props) {
   const [updateProviderProfile, { isLoading }] =
     useUpdateProviderProfileMutation();
 
-  const toggleDay = useCallback((day: string) => {
+  const toggleDay = useCallback((dayKey: DayKey) => {
     setSelectedDays((prev) => {
       const next = new Set(prev);
-      if (next.has(day)) {
-        next.delete(day);
+      if (next.has(dayKey)) {
+        next.delete(dayKey);
       } else {
-        next.add(day);
+        next.add(dayKey);
       }
       return next;
     });
   }, []);
 
   const handleSubmit = async (formData: FieldValues) => {
-    const formPayload = new FormData();
-
-    if (selectedDays?.size === 0) {
-      toast.error(t?.auth?.business_profile_setup?.no_days_selected);
+    if (selectedDays.size === 0) {
+      toast.error(
+        t?.auth?.business_profile_setup?.no_days_selected ||
+          "Please select at least one working day",
+      );
       return;
     }
+
+    const formPayload = new FormData();
 
     formPayload.append("phone", phone || "");
     formPayload.append("latitude", String(latitude ?? ""));
@@ -108,20 +109,15 @@ export default function BusinessProfileSetupForm({ lang, t }: Props) {
     const coverFile = getFile(formData?.business_cover_image);
     if (coverFile) formPayload.append("business_cover_image", coverFile);
 
-    // Build hours payload with English day names for backend
-    // Use the English day names from DAY_MAP as the source of truth
-    const englishDays = Object.keys(DAY_MAP) as (keyof typeof DAY_MAP)[];
+    // Build hours payload using stable keys
+    daysList.forEach((dayItem, index) => {
+      const isSelected = selectedDays.has(dayItem.key);
+      const dayHours = formData?.hours?.[dayItem.key];
 
-    englishDays.forEach((day, index) => {
-      const translatedDay = t?.auth?.business_profile_setup?.days?.[day] || day;
-      const isSelected = selectedDays.has(translatedDay);
-      const backendDayName = DAY_MAP[day];
+      const openTime = dayHours?.openingTime || "09:00";
+      const closeTime = dayHours?.closingTime || "17:00";
 
-      const openTime = formData?.hours?.[translatedDay]?.openingTime || "09:00";
-      const closeTime =
-        formData?.hours?.[translatedDay]?.closingTime || "17:00";
-
-      formPayload.append(`business_hours[${index}][day]`, backendDayName);
+      formPayload.append(`business_hours[${index}][day]`, dayItem.backendName);
       formPayload.append(`business_hours[${index}][open_time]`, openTime);
       formPayload.append(`business_hours[${index}][close_time]`, closeTime);
       formPayload.append(
@@ -131,8 +127,6 @@ export default function BusinessProfileSetupForm({ lang, t }: Props) {
     });
 
     try {
-      console.log(formPayload);
-
       const res = await updateProviderProfile(formPayload).unwrap();
       if (res?.message) {
         toast.success(res?.message);
@@ -146,9 +140,9 @@ export default function BusinessProfileSetupForm({ lang, t }: Props) {
   return (
     <Container className="py-4">
       <div className="flex items-center justify-center min-h-screen">
-        <div className="grid grid-cols-1 lg:grid-cols-2 w-full bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
+        <div className="flex flex-col lg:flex-row w-full bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-lg">
           {/* LEFT SIDE IMAGE */}
-          <div className="hidden lg:flex items-center justify-center bg-slate-50 relative min-h-[600px] h-full">
+          <div className="w-full lg:w-[60%] min-h-[300px] lg:min-h-full bg-slate-50 relative">
             <Image
               src={img}
               alt="Business assets promo"
@@ -159,7 +153,7 @@ export default function BusinessProfileSetupForm({ lang, t }: Props) {
           </div>
 
           {/* RIGHT SIDE FORM */}
-          <div className="p-6 md:p-10 flex flex-col justify-center">
+          <div className="w-full lg:w-[40%] p-6 md:p-10 flex flex-col justify-center">
             <div className="flex justify-center items-center flex-col gap-1 mb-8 text-center">
               <h2 className="font-semibold text-2xl md:text-3xl lg:text-4xl text-slate-900">
                 {t?.auth?.business_profile_setup?.title}
@@ -196,21 +190,22 @@ export default function BusinessProfileSetupForm({ lang, t }: Props) {
                   <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
                     {t?.auth?.business_profile_setup?.working_days_hours}
                   </label>
+
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {translatedDays.map((day) => {
-                      const isSelected = selectedDays.has(day);
+                    {daysList.map(({ key, label }) => {
+                      const isSelected = selectedDays.has(key);
                       return (
                         <button
-                          key={day}
+                          key={key}
                           type="button"
-                          onClick={() => toggleDay(day)}
-                          className={`px-3.5 py-1.5 rounded-xl text-xs md:text-sm font-medium border transition-colors duration-150 ${
+                          onClick={() => toggleDay(key)}
+                          className={`px-2 py-1 rounded-xl text-xs md:text-sm font-medium border transition-colors duration-150 ${
                             isSelected
                               ? "bg-primary text-white border-primary shadow-sm"
                               : "bg-gray-50/50 hover:bg-gray-100 text-gray-700 border-gray-200"
                           }`}
                         >
-                          {day}
+                          {label}
                         </button>
                       );
                     })}
@@ -226,15 +221,15 @@ export default function BusinessProfileSetupForm({ lang, t }: Props) {
                       </div>
                     ) : (
                       <div className="space-y-3">
-                        {translatedDays
-                          .filter((day) => selectedDays.has(day))
-                          .map((day) => (
+                        {daysList
+                          .filter(({ key }) => selectedDays.has(key))
+                          .map(({ key, label }) => (
                             <div
-                              key={day}
+                              key={key}
                               className="p-3 bg-white border border-slate-200/60 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs"
                             >
                               <span className="text-sm font-semibold text-slate-700 min-w-[90px]">
-                                {day}
+                                {label}
                               </span>
                               <div className="grid grid-cols-2 gap-3 flex-1">
                                 <div>
@@ -244,7 +239,7 @@ export default function BusinessProfileSetupForm({ lang, t }: Props) {
                                   <TimeInput
                                     required
                                     isCurrentDateValidation={false}
-                                    name={`hours.${day}.openingTime`}
+                                    name={`hours.${key}.openingTime`}
                                     label="00 : 00"
                                   />
                                 </div>
@@ -255,7 +250,7 @@ export default function BusinessProfileSetupForm({ lang, t }: Props) {
                                   <TimeInput
                                     required
                                     isCurrentDateValidation={false}
-                                    name={`hours.${day}.closingTime`}
+                                    name={`hours.${key}.closingTime`}
                                     label="00 : 00"
                                   />
                                 </div>

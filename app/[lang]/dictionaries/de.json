@@ -403,30 +403,37 @@
     },
 
     "for_customer": {
-      "sec_1": "Die besten Angebote gelten nicht ewig.",
-      "sec_2": "Gehören Sie zu den Ersten, die sich die heißesten Deals in Ihrer Stadt sichern.",
-      "sec_3": "Entdecken Sie neue Orte, sparen Sie Geld und genießen Sie exklusive Angebote.",
-      "sec_4": "Und haben Sie SPASS!"
+      "badge_start": "JETZT STARTEN",
+      "sec_1": "Die besten Angebote bleiben nicht ewig.",
+      "sec_2": "Sei einer der Ersten, der sich die heißesten Deals in Deiner Stadt sichert.",
+      "sec_3": "Entdecke neue Orte, spare Geld und genieße exklusive Angebote.",
+      "sec_4": "Und hab vor allem SPASS!"
     },
     "for_customer_left_section": {
-      "sec_1": "Melden Sie sich jetzt an und Starten",
-      "sec_2": "entdecken",
-      "sec_3": "die besten Angebote in Ihrer Stadt."
+      "sec_1": "Melde Dich jetzt an und entdecke",
+      "sec_2": "die besten Angebote",
+      "sec_3": "in Deiner Stadt."
     },
     "for_customer_right_section": {
-      "title": "Kundeninformation",
-      "description": "Erstellen Sie Ihr Kundenkonto, um lokale Angebote zu entdecken.",
-      "full_name": "Vollständiger Name",
-      "full_name_placeholder": "Geben Sie Ihren Namen ein",
+      "title": "Deine Informationen",
+      "description": "Erzähle uns ein bisschen über Dich, um loszulegen.",
+      "full_name": "Vor- und Nachname",
+      "full_name_placeholder": "Gib hier Deinen Namen ein",
       "phone_number": "Telefonnummer",
-      "phone_number_placeholder": "Geben Sie Ihre Telefonnummer ein",
-      "your_address": "Ihre Adresse",
-      "your_address_placeholder": "Geben Sie Ihre Adresse ein",
-      "city": "Stadt",
-      "city_placeholder": "Geben Sie Ihre Stadt ein",
+      "phone_number_placeholder": "Gib hier Deine Telefonnummer ein",
       "email": "E-Mail",
-      "email_placeholder": "Geben Sie Ihre E-Mail ein",
-      "submit": "Absenden"
+      "email_placeholder": "Gib hier Deine E-Mail ein",
+      "your_address": "Deine Adresse",
+      "your_address_placeholder": "Gib hier Deine Adresse ein",
+      "city": "Stadt",
+      "city_placeholder": "Gib hier Deine Stadt ein",
+      "agree_prefix": "Ich stimme den",
+      "terms_and_conditions": "Nutzungsbedingungen",
+      "and": "und",
+      "privacy_policy": "Datenschutzrichtlinien zu.",
+      "submit": "Registrieren — Kostenlos",
+      "already_account": "Bereits ein Konto?",
+      "login_link": "Anmelden"
     }
   },
   "for_business": {
@@ -637,7 +644,7 @@
     "empty_desc": "Speichern Sie Ihre Lieblingsartikel, um sie später hier zu sehen."
   },
   "vouchers": {
-    "title": "Noch nicht eingelöste Gutscheine",
+    "title": " Deine uneingelösten Gutscheine",
     "unredeemed_vouchers": "Nicht eingelöste Gutscheine",
     "voucher_id": "Gutschein-ID",
     "qty": "Anz.",
@@ -889,7 +896,7 @@
     },
     "dashboard": {
       "nav": {
-        "dashboard": "Amaturenbrett",
+        "dashboard": "Dashboard",
         "deals": "Deals",
         "messages": "Nachrichten",
         "settings": "Einstellungen"
@@ -1092,7 +1099,7 @@
     },
     "settings": {
       "sidebar": {
-        "analytics": "Auswertungen",
+        "analytics": "Performance",
         "payment_info": "Zahlungsinformationen",
         "notifications": "Benachrichtigungen",
         "change_password": "Passwort ändern",
@@ -1262,35 +1269,35 @@
     "submit_button": "Bewertung absenden"
   },
   "cookies_modal": {
-    "brand": "Vouchado",
-    "title": "We use cookies 🍪",
-    "description_1": "We use necessary technologies so that Vouchado works properly.",
-    "description_2": "With your consent, we also use technologies for analytics, marketing, and personalized content. You can change your selection at any time.",
-    "accept_all": "Accept all",
-    "necessary_only": "Necessary only",
-    "settings": "Settings",
-    "imprint": "Imprint",
-    "privacy_policy": "Privacy Policy",
-    "cookie_policy": "Cookie Policy",
-    "save": "Save",
+    "brand": "vouchado",
+    "title": "Wir verwenden Cookies 🍪",
+    "description_1": "Wir verwenden notwendige Technologien, damit Vouchado funktioniert.",
+    "description_2": "Mit deiner Zustimmung verwenden wir außerdem Technologien für Analyse, Marketing und personalisierte Inhalte. Du kannst deine Auswahl jederzeit ändern.",
+    "accept_all": "Alle akzeptieren",
+    "necessary_only": "Nur notwendige",
+    "settings": "Einstellungen",
+    "imprint": "Impressum",
+    "privacy_policy": "Datenschutz",
+    "cookie_policy": "Cookie-Richtlinie",
+    "save": "Speichern",
     "categories": {
       "necessary": {
-        "title": "Necessary",
-        "description": "These cookies and technologies are required for the website to function properly."
+        "title": "Notwendig",
+        "description": "Diese Cookies und Technologien sind erforderlich, damit die Website einwandfrei funktioniert."
       },
       "functional": {
-        "title": "Functional",
-        "description": "These technologies enable additional features and personalized usage."
+        "title": "Funktional",
+        "description": "Diese Technologien ermöglichen zusätzliche Funktionen und eine personalisierte Nutzung."
       },
       "analytics": {
-        "title": "Analytics",
-        "description": "These technologies help us understand how visitors interact with our website."
+        "title": "Statistik",
+        "description": "Diese Technologien helfen uns zu verstehen, wie Besucher unsere Website nutzen."
       },
       "marketing": {
         "title": "Marketing",
-        "description": "These technologies are used to show you relevant advertisements and measure campaign success."
+        "description": "Diese Technologien werden verwendet, um dir passende Werbung anzuzeigen und den Erfolg zu messen."
       }
     },
-    "accordion_details": "Additional information about the cookies and providers used here."
+    "accordion_details": "Zusätzliche Informationen zu den hier genutzten Cookies und Anbietern."
   }
 }
