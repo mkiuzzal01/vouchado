@@ -44,7 +44,7 @@ export default function Steps({ t }: Props) {
               </div>
 
               {/* Text Copy Section */}
-              <div className="flex-1 min-w-0">
+              <div className="flex-1">
                 <h4 className="text-2xl font-semibold text-slate-800 mb-1 tracking-tight">
                   {step?.title}
                 </h4>

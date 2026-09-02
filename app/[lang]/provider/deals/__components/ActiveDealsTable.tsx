@@ -313,7 +313,7 @@ export default function ActiveDealsTable({
                     <TableCell className="py-3 px-4">
                       <Badge
                         variant="secondary"
-                        className="font-normal text-slate-700 bg-slate-100/80 hover:bg-slate-100 rounded-md px-2 py-0.5"
+                        className="font-normal text-slate-700 bg-slate-200 hover:bg-slate-200 rounded-md px-2 py-0.5"
                       >
                         {deal.discount}
                       </Badge>
